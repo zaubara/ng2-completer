@@ -9,8 +9,8 @@ import "rxjs/Rx";
 @Component({
     selector: "seed-app",
     directives: [AutocompleteDirective, ROUTER_DIRECTIVES],
-    templateUrl: "./src/demo/app-cmp.html",
-    styleUrls: ["./src//demo/app-cmp.css"]
+    templateUrl: "./ng2-autocomplete/src/demo/app-cmp.html",
+    styleUrls: ["./ng2-autocomplete/src/demo/app-cmp.css"]
 })
 export class AppComponent  {
     public countryName = "";
