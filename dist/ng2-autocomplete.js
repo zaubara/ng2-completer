@@ -29847,6 +29847,12 @@ $__System.register("100", ["8", "ff"], function(exports_1, context_1) {
               } else {
                 _this.diplayList(res);
               }
+            }).catch(function(err) {
+              console.log("search error:", err);
+              _this.searchInProgress = false;
+              _this.searchRequired = false;
+              _this.listCmp.dispose();
+              _this.listCmp = undefined;
             });
           }
         };
@@ -41249,7 +41255,7 @@ $__System.register("1fa", ["8", "b2", "c2", "100", "1f9"], function(exports_1, c
               }).subscribe(function(countries) {
                 return resolve(countries);
               }, function(err) {
-                return console.log("Error", err);
+                return reject(err);
               });
             });
           };
