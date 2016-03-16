@@ -35,8 +35,7 @@ export class AutocompleteDirective {
         }
         this.term = event.target.value;
         if (this.term === "" && this.listCmp) {
-            this.listCmp.dispose();
-            this.listCmp = undefined;
+            this.removeList();
         }
     }
 
@@ -56,10 +55,7 @@ export class AutocompleteDirective {
             })
             .catch(err => {
                 console.log("search error:", err);
-                this.searchInProgress = false;
-                this.searchRequired = false;
-                this.listCmp.dispose();
-                this.listCmp = undefined;
+                this.removeList();
             });
         }
     }
@@ -72,10 +68,7 @@ export class AutocompleteDirective {
                 this.updateList(list);
                 (<AutocompleteList>(this.listCmp.instance)).selected
                     .subscribe(selectedItem => {
-                    if (this.listCmp) {
-                        this.listCmp.dispose();
-                        this.listCmp = undefined;
-                    }
+
                     this.selected.emit(selectedItem);
                 });
             });
@@ -90,4 +83,12 @@ export class AutocompleteDirective {
         }
     }
 
+    private removeList() {
+        this.searchInProgress = false;
+        this.searchRequired = false;
+        if (this.listCmp) {
+            this.listCmp.dispose();
+            this.listCmp = undefined;
+        }
+    }
 }
