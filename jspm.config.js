@@ -15,7 +15,7 @@ SystemJS.config({
         }
       }
     }
-  }
+ }
 });
 
 SystemJS.config({
