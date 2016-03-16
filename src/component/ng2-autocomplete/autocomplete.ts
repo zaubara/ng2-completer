@@ -53,6 +53,13 @@ export class AutocompleteDirective {
                 } else {
                     this.diplayList(res);
                 }
+            })
+            .catch(err => {
+                console.log("search error:", err);
+                this.searchInProgress = false;
+                this.searchRequired = false;
+                this.listCmp.dispose();
+                this.listCmp = undefined;
             });
         }
     }
