@@ -29830,8 +29830,7 @@ $__System.register("100", ["8", "ff"], function(exports_1, context_1) {
           }
           this.term = event.target.value;
           if (this.term === "" && this.listCmp) {
-            this.listCmp.dispose();
-            this.listCmp = undefined;
+            this.removeList();
           }
         };
         AutocompleteDirective.prototype.doSearch = function() {
@@ -29849,10 +29848,7 @@ $__System.register("100", ["8", "ff"], function(exports_1, context_1) {
               }
             }).catch(function(err) {
               console.log("search error:", err);
-              _this.searchInProgress = false;
-              _this.searchRequired = false;
-              _this.listCmp.dispose();
-              _this.listCmp = undefined;
+              _this.removeList();
             });
           }
         };
@@ -29863,10 +29859,6 @@ $__System.register("100", ["8", "ff"], function(exports_1, context_1) {
               _this.listCmp = cmp;
               _this.updateList(list);
               (_this.listCmp.instance).selected.subscribe(function(selectedItem) {
-                if (_this.listCmp) {
-                  _this.listCmp.dispose();
-                  _this.listCmp = undefined;
-                }
                 _this.selected.emit(selectedItem);
               });
             });
@@ -29877,6 +29869,14 @@ $__System.register("100", ["8", "ff"], function(exports_1, context_1) {
         AutocompleteDirective.prototype.updateList = function(list) {
           if (this.listCmp) {
             (this.listCmp.instance).list = list;
+          }
+        };
+        AutocompleteDirective.prototype.removeList = function() {
+          this.searchInProgress = false;
+          this.searchRequired = false;
+          if (this.listCmp) {
+            this.listCmp.dispose();
+            this.listCmp = undefined;
           }
         };
         __decorate([core_1.Input("ng2-autocomplete"), __metadata('design:type', Function)], AutocompleteDirective.prototype, "search", void 0);
