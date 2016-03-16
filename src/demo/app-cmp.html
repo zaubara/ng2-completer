@@ -1,0 +1,17 @@
+<nav class="navbar navbar-dark navbar-fixed-top bg-inverse">
+    <a class="navbar-brand" href="#">ng2-autocmplete demo</a>
+</nav>
+<div class="container main">
+    <div class="row">
+        <h1>Autocomplete </h1>
+    </div>
+    <div class="row">
+        <div class="col-md8 col-md-offset-1 p-a-1 autocomplete-wrapper">
+            <label for="autocomplete-countries">Country Name</label>
+            <input class="form-control" type="text" [ng2-autocomplete]="serachCountry()" (ng2AutocompleteOnSelect)="onCountrySelected($event)" [(ngModel)]="countryName" placeholder="Start typing the country name" type="text" autocomplete="off">
+        </div>
+    </div>
+    <div class="row m-t-3">
+        List of countries from <a href="https://restcountries.eu/">restcountries</a>
+    </div>
+</div>
