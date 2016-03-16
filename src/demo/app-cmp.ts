@@ -28,7 +28,7 @@ export class AppComponent  {
                 }))
                 .subscribe(
                     countries => resolve(countries),
-                    err => console.log("Error", err)
+                    err => reject(err)
                 );
             });
         };
