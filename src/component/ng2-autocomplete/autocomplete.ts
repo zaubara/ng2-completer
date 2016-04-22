@@ -1,5 +1,5 @@
 "use strict";
-import {Directive, ElementRef, DynamicComponentLoader, Input, ComponentRef, Output, EventEmitter} from "angular2/core";
+import {Directive, ElementRef, DynamicComponentLoader, Input, ComponentRef, Output, EventEmitter, OnInit} from "angular2/core";
 import {Promise} from "es6-promise";
 import {AutocompleteList} from "./autocomplete-list";
 
@@ -9,7 +9,7 @@ import {AutocompleteList} from "./autocomplete-list";
         "(keyup)": "onKey($event)"
     }
 })
-export class AutocompleteDirective {
+export class AutocompleteDirective implements OnInit {
     @Input("ng2-autocomplete") public search: (term: string) => Promise<Array<{ text: string, data: any }>>;
     @Output("ng2AutocompleteOnSelect") public selected = new EventEmitter();
 
@@ -37,6 +37,12 @@ export class AutocompleteDirective {
         if (this.term === "" && this.listCmp) {
             this.removeList();
         }
+    }
+
+    public ngOnInit() {
+        this.selected.subscribe(() => {
+            this.removeList();
+        });
     }
 
     private doSearch() {
