@@ -1,7 +1,7 @@
 "use strict";
-import {Component} from "angular2/core";
-import {RouteConfig, ROUTER_DIRECTIVES} from "angular2/router"
-import {Http, HTTP_PROVIDERS} from "angular2/http";
+import {Component} from "@angular/core";
+import {RouteConfig, ROUTER_DIRECTIVES} from "@angular/router-deprecated"
+import {Http, HTTP_PROVIDERS} from "@angular/http";
 
 import {AutocompleteDirective} from "../component/ng2-autocomplete/autocomplete";
 import "rxjs/Rx";
