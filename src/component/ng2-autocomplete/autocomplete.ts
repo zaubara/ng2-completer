@@ -1,5 +1,5 @@
 "use strict";
-import {Directive, ElementRef, DynamicComponentLoader, Input, ComponentRef, Output, EventEmitter, OnInit, ViewContainerRef} from "@angular/core";
+import {Directive, DynamicComponentLoader, Input, ComponentRef, Output, EventEmitter, OnInit, ViewContainerRef} from "@angular/core";
 import {Promise} from "es6-promise";
 import {AutocompleteList} from "./autocomplete-list";
 
