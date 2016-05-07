@@ -1,5 +1,5 @@
 "use strict";
-import {Directive, ElementRef, DynamicComponentLoader, Input, ComponentRef, Output, EventEmitter, OnInit} from "angular2/core";
+import {Directive, ElementRef, DynamicComponentLoader, Input, ComponentRef, Output, EventEmitter, OnInit, ViewContainerRef} from "@angular/core";
 import {Promise} from "es6-promise";
 import {AutocompleteList} from "./autocomplete-list";
 
@@ -14,12 +14,12 @@ export class AutocompleteDirective implements OnInit {
     @Output("ng2AutocompleteOnSelect") public selected = new EventEmitter();
 
     private term = "";
-    private listCmp: ComponentRef = undefined;
+    private listCmp: ComponentRef<AutocompleteList> = undefined;
     private refreshTimer: any = undefined;
     private searchInProgress = false;
     private searchRequired = false;
 
-    constructor(private el: ElementRef, private dcl: DynamicComponentLoader) { }
+    constructor( private viewRef: ViewContainerRef, private dcl: DynamicComponentLoader) { }
 
     public onKey(event: any) {
         if (!this.refreshTimer) {
@@ -68,7 +68,7 @@ export class AutocompleteDirective implements OnInit {
 
     private diplayList(list: Array<{ text: string, data: any }>) {
         if (!this.listCmp) {
-            this.dcl.loadNextToLocation(AutocompleteList, this.el)
+            this.dcl.loadNextToLocation(AutocompleteList, this.viewRef)
             .then(cmp => {
                 this.listCmp = cmp;
                 this.updateList(list);
@@ -93,7 +93,7 @@ export class AutocompleteDirective implements OnInit {
         this.searchInProgress = false;
         this.searchRequired = false;
         if (this.listCmp) {
-            this.listCmp.dispose();
+            this.listCmp.destroy();
             this.listCmp = undefined;
         }
     }
