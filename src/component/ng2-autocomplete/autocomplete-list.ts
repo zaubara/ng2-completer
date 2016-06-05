@@ -11,7 +11,7 @@ import {Component, Output, EventEmitter} from "@angular/core";
 export class AutocompleteList  {
     @Output() public selected = new EventEmitter();
 
-    public list;
+    public list: any;
 
     public onClick(item: {text: string, data: any}) {
         this.selected.emit(item);

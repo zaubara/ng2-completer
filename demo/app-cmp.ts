@@ -1,9 +1,9 @@
 "use strict";
 import {Component} from "@angular/core";
-import {RouteConfig, ROUTER_DIRECTIVES} from "@angular/router-deprecated"
+import {RouteConfig, ROUTER_DIRECTIVES} from "@angular/router-deprecated";
 import {Http, HTTP_PROVIDERS} from "@angular/http";
 
-import {AutocompleteDirective} from "../component/ng2-autocomplete/autocomplete";
+import {AutocompleteDirective} from "../src/component/ng2-autocomplete/autocomplete";
 import "rxjs/Rx";
 
 @Component({
@@ -23,7 +23,7 @@ export class AppComponent  {
             return new Promise<Array<{ text: string, data: any }>>((resolve, reject) => {
                 this.http.get("https://restcountries.eu/rest/v1/name/" + filter)
                 .map(res => res.json())
-                .map(countries => countries.map(country => {
+                .map(countries => countries.map((country: any) => {
                     return {text: country.name, data: country};
                 }))
                 .subscribe(

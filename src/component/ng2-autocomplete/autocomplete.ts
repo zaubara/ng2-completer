@@ -1,6 +1,5 @@
 "use strict";
 import {Directive, DynamicComponentLoader, Input, ComponentRef, Output, EventEmitter, OnInit, ViewContainerRef} from "@angular/core";
-import {Promise} from "es6-promise";
 import {AutocompleteList} from "./autocomplete-list";
 
 @Directive({
@@ -73,7 +72,7 @@ export class AutocompleteDirective implements OnInit {
                 this.listCmp = cmp;
                 this.updateList(list);
                 (<AutocompleteList>(this.listCmp.instance)).selected
-                    .subscribe(selectedItem => {
+                    .subscribe((selectedItem: any) => {
 
                     this.selected.emit(selectedItem);
                 });
