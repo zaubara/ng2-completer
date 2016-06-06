@@ -10,8 +10,7 @@
         "experimentalDecorators": true,
         "noImplicitAny": true,
         "listFiles": false,
-        "noLib": false,
-        "outDir": "./built"
+        "noLib": false
     },
     "exclude": [
         "node_modules"

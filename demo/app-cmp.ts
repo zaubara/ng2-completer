@@ -6,11 +6,14 @@ import {Http, HTTP_PROVIDERS} from "@angular/http";
 import {AutocompleteDirective} from "../src/component/ng2-autocomplete/autocomplete";
 import "rxjs/Rx";
 
+let template = require("./app-cmp.html");
+let style = require("./app-cmp.css");
+
 @Component({
     selector: "seed-app",
     directives: [AutocompleteDirective, ROUTER_DIRECTIVES],
-    templateUrl: "./src/demo/app-cmp.html",
-    styleUrls: ["./src//demo/app-cmp.css"]
+    template: template,
+    styles: [style]
 })
 export class AppComponent  {
     public countryName = "";

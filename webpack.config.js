@@ -6,15 +6,19 @@ const webpack = require('webpack');
 const CompressionPlugin = require('compression-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const DefinePlugin = require('webpack/lib/DefinePlugin');
 
+const ENV = process.env.NODE_ENV ? process.env.NODE_ENV : "development";
 const isProduction = (process.env.NODE_ENV || 'development') === 'production';
 const devtool = process.env.NODE_ENV === 'test' ? 'inline-source-map' : 'source-map';
-const dest = 'built';
+const dest = './bundle';
 const absDest = root(dest);
 
 const config = {
   devtool,
   debug: false,
+
+  metadata: { ENV: ENV },
 
   verbose: true,
   displayErrorDetails: true,
@@ -31,7 +35,7 @@ const config = {
   },
 
   entry: {
-    angular2: [
+    'angular2': [
       // Angular 2 Deps
       'es6-shim',
       'zone.js',
@@ -72,11 +76,11 @@ const config = {
       // Support for CSS as raw text
       {test: /\.css$/, loader: 'raw'},
       // support for .html as raw text
-      {test: /\.html$/, loader: 'raw'},
+      {test: /\.html$/, loader: 'raw', exclude: [root('demo/index.html')]},
       // Support for .ts files.
       {
         test: /\.ts$/,
-        loader: 'ts'
+        loader: 'awesome-typescript-loader'
       }
     ],
     noParse: [
@@ -87,7 +91,9 @@ const config = {
 
   plugins: [
     //new Clean([dest]),
-    new webpack.optimize.DedupePlugin(),
+    new DefinePlugin({
+        "ENV": JSON.stringify(ENV)
+    }),
     new webpack.optimize.OccurenceOrderPlugin(true),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'angular2',
