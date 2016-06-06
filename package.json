@@ -8,6 +8,7 @@
     "clean": "./node_modules/.bin/del bundles \"src/**/*.+(js|d.ts|js.map)\" \"demo/**/*.+(js|js.map)\"",
     "build:dev": "webpack --progress --color",
     "build:prod": "NODE_ENV=production webpack --progress --color",
+    "start": "typings install && webpack-dev-server --progress --color",
     "deploy:gh-pages": "npm run build:prod && ./node_modules/.bin/gh-pages -d bundles",
     "prepublish": "npm run clean && npm run build:prod",
     "postpublish": "npm run deploy:gh-pages"
@@ -50,6 +51,7 @@
     "typescript": "^1.8.10",
     "uglify-js": "^2.6.2",
     "webpack": "^1.13.1",
+    "webpack-dev-server": "^1.14.1",
     "zone.js": "^0.6.12"
   }
 }
