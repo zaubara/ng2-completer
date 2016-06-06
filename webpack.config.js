@@ -11,7 +11,7 @@ const DefinePlugin = require('webpack/lib/DefinePlugin');
 const ENV = process.env.NODE_ENV ? process.env.NODE_ENV : "development";
 const isProduction = (process.env.NODE_ENV || 'development') === 'production';
 const devtool = process.env.NODE_ENV === 'test' ? 'inline-source-map' : 'source-map';
-const dest = './bundle';
+const dest = './bundles';
 const absDest = root(dest);
 
 const config = {

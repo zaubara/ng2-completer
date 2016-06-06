@@ -1,0 +1,21 @@
+# typings
+typings
+
+# testing
+karma.conf.js
+test.bundle.js
+coverage
+
+# demo build
+demo
+bundle/demo
+bundle/ng2-autocomplete-demo.*
+bundle/index.html
+webpack.config.js
+
+#typescript sources
+*.ts
+*.js.map
+!*.d.ts
+/components/**/*.ts
+!/components/**/*.d.ts
