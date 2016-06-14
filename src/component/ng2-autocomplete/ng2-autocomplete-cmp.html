@@ -1,0 +1,17 @@
+<div class="ng2-autocomplete-holder">
+    <!--<input [id]="id + '_value'" [name]="inputName" [tabindex]="fieldTabindex" [ngClass]="{'angucomplete-input-not-empty': notEmpty}"
+        [(ngModel)]="searchStr" [disabled]="disableInput" [type]="inputType" [placeholder]="placeholder" [maxlength]="maxlength"
+        [class]="inputClass" autocapitalize="off" autocorrect="off" autocomplete="off" (blur)="hideResults($event)" (key)="inputChangeHandler($event)"
+    />-->
+    <input #term
+        [(ngModel)]="searchStr"
+        (keyup)="onKey($event)"
+        [class]="inputClass"
+        (blur)="hideResults($event)"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
+    />
+    <autocomplete-list *ngIf="showDropdown" [results]="results" (selected)="selectResult($event)"></autocomplete-list>
+
+</div>
