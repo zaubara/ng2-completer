@@ -5,9 +5,12 @@
     />-->
     <input #term
         [(ngModel)]="searchStr"
-        (keyup)="onKey($event)"
+        (keyup)="keyupHandler($event)"
+        (keydown)="keydownHandler($event)"
         [class]="inputClass"
         (blur)="hideResults($event)"
+        [placeholder]="placeholder"
+        [attr.maxlength]="maxlength"
         autocomplete="off"
         autocorrect="off"
         autocapitalize="off"

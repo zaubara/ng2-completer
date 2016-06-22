@@ -1,5 +1,8 @@
 "use strict";
-import {Component, Input, ComponentRef, Output, EventEmitter, OnInit, ViewContainerRef} from "@angular/core";
+import {Component, Input, Output, EventEmitter, OnInit, ViewChild} from "@angular/core";
+import {Http, Response} from '@angular/http';
+import {Subscription, Observable} from "rxjs";
+
 import {Ng2AutocompleteListCmp} from "./ng2-autocomplete-list-cmp";
 
 let template = require("./ng2-autocomplete-cmp.html");
@@ -16,7 +19,7 @@ const KEY_TAB = 9;
 
 const MIN_LENGTH = 3;
 const MAX_LENGTH = 524288;  // the default max length per the html maxlength attribute
-const PAUSE = 500;
+const PAUSE = 250;
 const BLUR_TIMEOUT = 200;
 
 @Component({
@@ -30,19 +33,31 @@ export class Ng2AutocompleteCmp implements OnInit {
     @Input() searchFields = "";
     @Input() titleField = "";
     @Input() inputClass = "";
+    @Input() pause = PAUSE;
+    @Input() minlength = MIN_LENGTH;
+    @Input() maxlength = MAX_LENGTH;
+    @Input() overrideSuggestions = false;
+    @Input() clearSelected = false;
+    @Input() placeholder = "";
+    @Input() remoteUrl: string = null;
+    @Input() remoteUrlDataField: string = null;
     @Output("ng2AutocompleteOnSelect") public selected = new EventEmitter();
+
+    @ViewChild(Ng2AutocompleteListCmp) listCmp: Ng2AutocompleteListCmp;
 
     private searchStr = "";
     private searching = false;
     private showDropdown = false;
-    private minlength = MIN_LENGTH;
     private searchTimer: number = null;
     private hideTimer: number = null;
-    private pause = PAUSE;
     private displaySearching = true;
     private results: any[] = [];
+    private selectedObject: any = null;
+    private remoteSearch: Subscription;
 
-    public onKey(event: any) {
+    constructor(private http: Http) { }
+
+    public keyupHandler(event: any) {
         if (event.keyCode === KEY_LF || event.keyCode === KEY_RT) {
             // do nothing
             return;
@@ -53,7 +68,7 @@ export class Ng2AutocompleteCmp implements OnInit {
         }
         else if (event.keyCode === KEY_DW) {
             event.preventDefault();
-            if (this.searchStr) {
+            if (!this.showDropdown && this.searchStr && this.searchStr.length >= this.minlength) {
                 this.initResults();
                 this.searching = true;
                 this.searchTimerComplete(this.searchStr);
@@ -66,7 +81,6 @@ export class Ng2AutocompleteCmp implements OnInit {
             if (!this.searchStr) {
                 return;
             }
-
             if (this.searchStr === '') {
                 this.showDropdown = false;
             }
@@ -85,6 +99,60 @@ export class Ng2AutocompleteCmp implements OnInit {
             }
         }
 
+    }
+
+    public keydownHandler(event: any) {
+
+        if (event.keyCode === KEY_EN && this.results) {
+            if (this.listCmp.currentIndex >= 0 && this.listCmp.currentIndex < this.results.length) {
+                event.preventDefault();
+                this.selectResult(this.results[this.listCmp.currentIndex]);
+            } else {
+                this.handleOverrideSuggestions(event);
+                this.clearResults();
+            }
+        } else if (event.keyCode === KEY_DW && this.results) {
+            event.preventDefault();
+            if (this.showDropdown && (this.listCmp.currentIndex + 1) < this.results.length) {
+                this.listCmp.incIndex();
+                this.searchStr = this.results[this.listCmp.currentIndex].title;
+            }
+        } else if (event.keyCode === KEY_UP && this.results) {
+            event.preventDefault();
+            if (this.showDropdown && this.listCmp.currentIndex >= 1) {
+                this.listCmp.decIndex();
+                this.searchStr = this.results[this.listCmp.currentIndex].title;
+            }
+            else if (this.showDropdown && this.listCmp.currentIndex === 0) {
+                this.listCmp.unselect();
+            }
+        } else if (event.keyCode === KEY_TAB) {
+            if (this.results && this.results.length > 0 && this.showDropdown) {
+                if (this.listCmp.currentIndex === -1 && this.overrideSuggestions) {
+                    // intentionally not sending event so that it does not
+                    // prevent default tab behavior
+                    this.handleOverrideSuggestions();
+                }
+                else {
+                    if (this.listCmp.currentIndex === -1) {
+                        this.listCmp.toTop();
+                    }
+                    this.selectResult(this.results[this.listCmp.currentIndex]);
+                }
+            }
+            else {
+                // no results
+                // intentionally not sending event so that it does not
+                // prevent default tab behavior
+                if (this.searchStr && this.searchStr.length > 0) {
+                    this.handleOverrideSuggestions();
+                }
+            }
+        } else if (event.keyCode === KEY_ES) {
+            // This is very specific to IE10/11 #272
+            // without this, IE clears the input text
+            event.preventDefault();
+        }
     }
 
     public ngOnInit() {
@@ -106,8 +174,7 @@ export class Ng2AutocompleteCmp implements OnInit {
         // else {
         this.searchStr = result.title;
         // }
-        this.selected.emit(result);
-        // this.callOrAssign(result);
+        this.callOrAssign(result);
         this.clearResults();
     };
 
@@ -127,11 +194,11 @@ export class Ng2AutocompleteCmp implements OnInit {
         //     scope.focusOut();
         //   }
 
-        //   if (scope.overrideSuggestions) {
-        //     if (scope.searchStr && scope.searchStr.length > 0 && scope.currentIndex === -1) {
-        //       handleOverrideSuggestions();
-        //     }
-        //   }
+        if (this.overrideSuggestions) {
+            if (this.searchStr && this.searchStr.length > 0 && this.listCmp.currentIndex === -1) {
+                this.handleOverrideSuggestions();
+            }
+        }
         // }
     };
 
@@ -154,13 +221,13 @@ export class Ng2AutocompleteCmp implements OnInit {
             // }
             this.searching = false;
             this.processResults(matches, str);
+            // }
+            // }
+            // else if (scope.remoteApiHandler) {
+            //   getRemoteResultsWithCustomHandler(str);
+        } else {
+            this.getRemoteResults(str);
         }
-        // }
-        // else if (scope.remoteApiHandler) {
-        //   getRemoteResultsWithCustomHandler(str);
-        // } else {
-        //   getRemoteResults(str);
-        // }
     }
 
     private getLocalResults(str: string) {
@@ -272,5 +339,79 @@ export class Ng2AutocompleteCmp implements OnInit {
     private clearResults() {
         this.results = [];
         this.showDropdown = false;
+    }
+
+    private handleOverrideSuggestions(event?: any) {
+        if (this.overrideSuggestions &&
+            !(this.selectedObject && this.selectedObject.originalObject === this.searchStr)) {
+            if (event) {
+                event.preventDefault();
+            }
+
+            // cancel search timer
+            clearTimeout(this.searchTimer);
+            // cancel http request
+            // cancelHttpRequest();
+            this.setInputString(this.searchStr);
+        }
+    }
+
+    private setInputString(str: string) {
+        this.callOrAssign({ originalObject: str });
+
+        if (this.clearSelected) {
+            this.searchStr = null;
+        }
+        this.clearResults();
+    }
+
+    private callOrAssign(value: any) {
+        this.selectedObject = value;
+        this.selected.emit(value);
+
+        // if (value) {
+        //   handleRequired(true);
+        // }
+        // else {
+        //   handleRequired(false);
+        // }
+    }
+
+
+    // TODO: do remote results in external service that can be replaced by a different provider
+    private getRemoteResults(str: string) {
+        var params = {},
+            url = this.remoteUrl + encodeURIComponent(str);
+        // if (scope.remoteUrlRequestFormatter) {
+        //   params = {params: scope.remoteUrlRequestFormatter(str)};
+        //   url = scope.remoteUrl;
+        // }
+        // if (!!scope.remoteUrlRequestWithCredentials) {
+        //   params.withCredentials = true;
+        // }
+        this.remoteSearch =
+            this.http.get(url)
+                .map((res: Response) => res.json())
+                .map((data: any) => this.extractValue(data, this.remoteUrlDataField))
+                .catch(this.handleError)
+                .subscribe((res: string[]) => {
+                    this.searching = false;
+                    this.processResults(res, str);
+                });
+    }
+
+    private cancelHttpRequest() {
+        this.remoteSearch.unsubscribe();
+    }
+
+    private handleError(error: any) {
+        this.searching = false;
+        let errMsg = (error.message) ? error.message :
+            error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+        if (console && console.error) {
+            console.error(errMsg); // log to console 
+        }
+
+        return Observable.throw(errMsg);
     }
 }
