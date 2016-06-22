@@ -15,6 +15,6 @@ run `npm start`
 
 open http://localhost:8080/
 
-## Create the demo jspm bundle
+## Create project bundle
 
-to create a bundle run `jspm bundle src/demo/boot.ts src/demo/app-bundle.js --inject` and run the demo
+to create a bundle run `npm run build:dev` or `npm run build:prod`
