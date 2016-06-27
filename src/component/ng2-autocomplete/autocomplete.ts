@@ -71,7 +71,7 @@ export class AutocompleteDirective implements OnInit {
             .then(cmp => {
                 this.listCmp = cmp;
                 this.updateList(list);
-                (<AutocompleteList>(this.listCmp.instance)).selected
+                this.listCmp.instance.selected
                     .subscribe((selectedItem: any) => {
 
                     this.selected.emit(selectedItem);
@@ -84,7 +84,7 @@ export class AutocompleteDirective implements OnInit {
 
     private updateList(list: Array<{ text: string, data: any }>) {
         if (this.listCmp) {
-            (<AutocompleteList>(this.listCmp.instance)).list = list;
+            this.listCmp.instance.list = list;
         }
     }
 
