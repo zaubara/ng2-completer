@@ -2,8 +2,8 @@
 import {Component, Output, Input, EventEmitter, ElementRef, AfterContentInit} from "@angular/core";
 
 
-let template = require("./ng2-autocomplete-list-cmp.html");
-let defaultStyles = require("./ng2-autocomplete-list-cmp.css");
+let template = require("./autocomplete-list-cmp.html");
+let defaultStyles = require("./autocomplete-list-cmp.css");
 
 
 @Component({
@@ -11,7 +11,7 @@ let defaultStyles = require("./ng2-autocomplete-list-cmp.css");
     template: template,
     styles: [defaultStyles]
 })
-export class Ng2AutocompleteListCmp implements AfterContentInit {
+export class AutocompleteListCmp implements AfterContentInit {
     @Input() public results: any[] = [];
     @Output() public selected = new EventEmitter();
 

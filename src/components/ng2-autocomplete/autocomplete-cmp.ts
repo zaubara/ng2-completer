@@ -3,10 +3,11 @@ import {Component, Input, Output, EventEmitter, OnInit, ViewChild} from "@angula
 import {Http, Response} from '@angular/http';
 import {Subscription, Observable} from "rxjs";
 
-import {Ng2AutocompleteListCmp} from "./ng2-autocomplete-list-cmp";
+import {AutocompleteListCmp} from "./autocomplete-list-cmp";
+import {AutocompleteData} from "./services/autocomplete-data";
 
-let template = require("./ng2-autocomplete-cmp.html");
-let defaultStyles = require("./ng2-autocomplete-cmp.css");
+let template = require("./autocomplete-cmp.html");
+let defaultStyles = require("./autocomplete-cmp.css");
 
 // keyboard events
 const KEY_DW = 40;
@@ -24,12 +25,12 @@ const BLUR_TIMEOUT = 200;
 
 @Component({
     selector: "ng2-autocomplete",
-    directives: [Ng2AutocompleteListCmp],
+    directives: [AutocompleteListCmp],
     template: template,
     styles: [defaultStyles]
 })
-export class Ng2AutocompleteCmp implements OnInit {
-    @Input() localData: any[];
+export class AutocompleteCmp implements OnInit {
+    @Input() dataService: AutocompleteData;
     @Input() searchFields = "";
     @Input() titleField = "";
     @Input() inputClass = "";
@@ -43,7 +44,7 @@ export class Ng2AutocompleteCmp implements OnInit {
     @Input() remoteUrlDataField: string = null;
     @Output("ng2AutocompleteOnSelect") public selected = new EventEmitter();
 
-    @ViewChild(Ng2AutocompleteListCmp) listCmp: Ng2AutocompleteListCmp;
+    @ViewChild(AutocompleteListCmp) listCmp: AutocompleteListCmp;
 
     private searchStr = "";
     private searching = false;
@@ -159,6 +160,10 @@ export class Ng2AutocompleteCmp implements OnInit {
         this.selected.subscribe(() => {
             this.clearResults();
         });
+        this.dataService.subscribe(results => {
+            this.results = results;
+            this.showDropdown = true;
+        });
     }
 
     public selectResult(result: any) {
@@ -212,48 +217,49 @@ export class Ng2AutocompleteCmp implements OnInit {
         if (!str || str.length < this.minlength) {
             return;
         }
-        if (this.localData) {
-            let matches: string[];
+        this.dataService.search(str);
+        // if (this.localData) {
+        //     let matches: string[];
             // if (typeof scope.localSearch() !== 'undefined') {
             //   matches = scope.localSearch()(str, scope.localData);
             // } else {
-            matches = this.getLocalResults(str);
-            // }
-            this.searching = false;
-            this.processResults(matches, str);
+            // matches = this.getLocalResults(str);
+            // // }
+            // this.searching = false;
+            // this.processResults(matches, str);
             // }
             // }
             // else if (scope.remoteApiHandler) {
             //   getRemoteResultsWithCustomHandler(str);
-        } else {
-            this.getRemoteResults(str);
-        }
-    }
-
-    private getLocalResults(str: string) {
-        let i: number;
-        let match: boolean;
-        let s: number;
-        let value: string;
-        let searchFields = this.searchFields.split(',');
-        let matches: string[] = [];
-        // if (typeof this.parseInput() !== 'undefined') {
-        //   str = scope.parseInput()(str);
+        // } else {
+        //     this.getRemoteResults(str);
         // }
-        for (i = 0; i < this.localData.length; i++) {
-            match = false;
-
-            for (s = 0; s < searchFields.length; s++) {
-                value = this.extractValue(this.localData[i], searchFields[s]) || '';
-                match = match || (value.toString().toLowerCase().indexOf(str.toString().toLowerCase()) >= 0);
-            }
-
-            if (match) {
-                matches[matches.length] = this.localData[i];
-            }
-        }
-        return matches;
     }
+
+    // private getLocalResults(str: string) {
+    //     let i: number;
+    //     let match: boolean;
+    //     let s: number;
+    //     let value: string;
+    //     let searchFields = this.searchFields.split(',');
+    //     let matches: string[] = [];
+    //     // if (typeof this.parseInput() !== 'undefined') {
+    //     //   str = scope.parseInput()(str);
+    //     // }
+    //     for (i = 0; i < this.localData.length; i++) {
+    //         match = false;
+
+    //         for (s = 0; s < searchFields.length; s++) {
+    //             value = this.extractValue(this.localData[i], searchFields[s]) || '';
+    //             match = match || (value.toString().toLowerCase().indexOf(str.toString().toLowerCase()) >= 0);
+    //         }
+
+    //         if (match) {
+    //             matches[matches.length] = this.localData[i];
+    //         }
+    //     }
+    //     return matches;
+    // }
 
     private processResults(responseData: string[], str: string) {
         let i: number;

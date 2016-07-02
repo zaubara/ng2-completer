@@ -48,7 +48,7 @@ const config = {
       '@angular/platform-browser-dynamic',
       '@angular/router-deprecated'
     ],
-    'ng2-autocomplete': ['src/component/ng2-autocomplete/ng2-autocomplete-cmp.ts', 'object.assign'],
+    'ng2-autocomplete': ['src/components/ng2-autocomplete/autocomplete-cmp.ts', 'object.assign'],
     'ng2-autocomplete-demo': 'demo/boot.ts'
   },
 
@@ -67,16 +67,16 @@ const config = {
     contentBase: dest,
     //publicPath: dest,
     outputPath: dest,
-    watchOptions: {aggregateTimeout: 300, poll: 1000}
+    watchOptions: { aggregateTimeout: 300, poll: 1000 }
   },
   module: {
     loaders: [
       // Support for *.json files.
-      {test: /\.json$/, loader: 'json'},
+      { test: /\.json$/, loader: 'json' },
       // Support for CSS as raw text
-      {test: /\.css$/, loader: 'raw'},
+      { test: /\.css$/, loader: 'raw' },
       // support for .html as raw text
-      {test: /\.html$/, loader: 'raw', exclude: [root('demo/index.html')]},
+      { test: /\.html$/, loader: 'raw', exclude: [root('demo/index.html')] },
       // Support for .ts files.
       {
         test: /\.ts$/,
@@ -92,7 +92,7 @@ const config = {
   plugins: [
     //new Clean([dest]),
     new DefinePlugin({
-        "ENV": JSON.stringify(ENV)
+      "ENV": JSON.stringify(ENV)
     }),
     new webpack.optimize.OccurenceOrderPlugin(true),
     new webpack.optimize.CommonsChunkPlugin({
@@ -101,10 +101,10 @@ const config = {
       filename: 'angular2.js'
     }),
     // static assets
-    new CopyWebpackPlugin([{from: 'demo/favicon.ico', to: 'favicon.ico'}]),
-    new CopyWebpackPlugin([{from: 'demo/assets', to: 'assets'}]),
+    new CopyWebpackPlugin([{ from: 'demo/favicon.ico', to: 'favicon.ico' }]),
+    new CopyWebpackPlugin([{ from: 'demo/assets', to: 'assets' }]),
     // generating html
-    new HtmlWebpackPlugin({template: 'demo/index.html'})
+    new HtmlWebpackPlugin({ template: 'demo/index.html' })
   ],
   pushPlugins() {
     if (!isProduction) {

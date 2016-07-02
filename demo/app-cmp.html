@@ -7,7 +7,7 @@
     </div>
     <div class="row">
         <div class="col-md8 col-md-offset-1 p-a-1 autocomplete-wrapper">
-            <ng2-autocomplete [localData]="countries" [searchFields]="'name'" [titleField]="'name'" (ng2AutocompleteOnSelect)="onCountrySelected($event)"
+            <ng2-autocomplete [dataService]="dataService" (ng2AutocompleteOnSelect)="onCountrySelected($event)"
                 [minlength]="0" [placeholder]="'search country'" [maxlength]="4">
             </ng2-autocomplete>
         </div>
