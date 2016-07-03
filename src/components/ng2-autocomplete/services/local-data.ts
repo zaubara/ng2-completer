@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable} from "@angular/core";
 
 import {AutocompleteDataBase} from "./autocomplete-data-base";
 
@@ -17,25 +17,10 @@ export class LocalData extends AutocompleteDataBase  {
     }
 
     public search(term: string): void {
-        let searchFields = this._searchFields.split(',');
-        let matches: any[] = [];
-
-        for (let i = 0; i < this._data.length; i++) {
-            let match = false;
-
-            for (let s = 0; s < searchFields.length; s++) {
-                let value = this.extractValue(this._data[i], searchFields[s]) || '';
-                match = match || (value.toString().toLowerCase().indexOf(term.toString().toLowerCase()) >= 0);
-            }
-
-            if (match) {
-                matches[matches.length] = this._data[i];
-            }
-        }
+        let searchFields = this._searchFields.split(",");
+        let matches: any[] = this.extractMatches(this._data, term);
 
         this.next(this.processResults(matches, term));
 
     }
-
-    
 }

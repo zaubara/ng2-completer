@@ -1,6 +1,6 @@
 "use strict";
 import {Component, Input, Output, EventEmitter, OnInit, ViewChild} from "@angular/core";
-import {Http, Response} from '@angular/http';
+// import {Http, Response} from '@angular/http';
 import {Subscription, Observable} from "rxjs";
 
 import {AutocompleteListCmp} from "./autocomplete-list-cmp";
@@ -30,21 +30,21 @@ const BLUR_TIMEOUT = 200;
     styles: [defaultStyles]
 })
 export class AutocompleteCmp implements OnInit {
-    @Input() dataService: AutocompleteData;
-    @Input() searchFields = "";
-    @Input() titleField = "";
-    @Input() inputClass = "";
-    @Input() pause = PAUSE;
-    @Input() minlength = MIN_LENGTH;
-    @Input() maxlength = MAX_LENGTH;
-    @Input() overrideSuggestions = false;
-    @Input() clearSelected = false;
-    @Input() placeholder = "";
-    @Input() remoteUrl: string = null;
-    @Input() remoteUrlDataField: string = null;
+    @Input() public dataService: AutocompleteData;
+    @Input() public searchFields = "";
+    @Input() public titleField = "";
+    @Input() public inputClass = "";
+    @Input() public pause = PAUSE;
+    @Input() public minlength = MIN_LENGTH;
+    @Input() public maxlength = MAX_LENGTH;
+    @Input() public overrideSuggestions = false;
+    @Input() public clearSelected = false;
+    @Input() public placeholder = "";
+    @Input() public remoteUrl: string = null;
+    @Input() public remoteUrlDataField: string = null;
     @Output("ng2AutocompleteOnSelect") public selected = new EventEmitter();
 
-    @ViewChild(AutocompleteListCmp) listCmp: AutocompleteListCmp;
+    @ViewChild(AutocompleteListCmp) private listCmp: AutocompleteListCmp;
 
     private searchStr = "";
     private searching = false;
@@ -56,7 +56,7 @@ export class AutocompleteCmp implements OnInit {
     private selectedObject: any = null;
     private remoteSearch: Subscription;
 
-    constructor(private http: Http) { }
+    constructor() { }
 
     public keyupHandler(event: any) {
         if (event.keyCode === KEY_LF || event.keyCode === KEY_RT) {
@@ -94,9 +94,12 @@ export class AutocompleteCmp implements OnInit {
 
                 this.searching = true;
 
-                this.searchTimer = setTimeout(() => {
-                    this.searchTimerComplete(this.searchStr);
-                }, this.pause);
+                this.searchTimer = setTimeout(
+                    () => {
+                        this.searchTimerComplete(this.searchStr);
+                    },
+                    this.pause
+                );
             }
         }
 
@@ -160,7 +163,10 @@ export class AutocompleteCmp implements OnInit {
         this.selected.subscribe(() => {
             this.clearResults();
         });
-        this.dataService.subscribe(results => {
+        this.dataService
+        .catch(err => this.handleError(err))
+        .subscribe(results => {
+            this.searching = false;
             this.results = results;
             this.showDropdown = true;
         });
@@ -193,7 +199,7 @@ export class AutocompleteCmp implements OnInit {
         this.hideTimer = setTimeout(() => {
             this.clearResults();
         }, BLUR_TIMEOUT);
-        //   cancelHttpRequest();
+        this.dataService.cancel();
 
         //   if (scope.focusOut) {
         //     scope.focusOut();
@@ -220,17 +226,17 @@ export class AutocompleteCmp implements OnInit {
         this.dataService.search(str);
         // if (this.localData) {
         //     let matches: string[];
-            // if (typeof scope.localSearch() !== 'undefined') {
-            //   matches = scope.localSearch()(str, scope.localData);
-            // } else {
-            // matches = this.getLocalResults(str);
-            // // }
-            // this.searching = false;
-            // this.processResults(matches, str);
-            // }
-            // }
-            // else if (scope.remoteApiHandler) {
-            //   getRemoteResultsWithCustomHandler(str);
+        // if (typeof scope.localSearch() !== 'undefined') {
+        //   matches = scope.localSearch()(str, scope.localData);
+        // } else {
+        // matches = this.getLocalResults(str);
+        // // }
+        // this.searching = false;
+        // this.processResults(matches, str);
+        // }
+        // }
+        // else if (scope.remoteApiHandler) {
+        //   getRemoteResultsWithCustomHandler(str);
         // } else {
         //     this.getRemoteResults(str);
         // }
@@ -261,85 +267,85 @@ export class AutocompleteCmp implements OnInit {
     //     return matches;
     // }
 
-    private processResults(responseData: string[], str: string) {
-        let i: number;
-        let description: string;
-        let image: string;
-        let text: string;
-        let formattedText: string;
-        let formattedDesc: string;
+    // private processResults(responseData: string[], str: string) {
+    //     let i: number;
+    //     let description: string;
+    //     let image: string;
+    //     let text: string;
+    //     let formattedText: string;
+    //     let formattedDesc: string;
 
-        if (responseData && responseData.length > 0) {
-            this.results = [];
+    //     if (responseData && responseData.length > 0) {
+    //         this.results = [];
 
-            for (i = 0; i < responseData.length; i++) {
-                if (this.titleField && this.titleField !== '') {
-                    text = formattedText = this.extractTitle(responseData[i]);
-                }
+    //         for (i = 0; i < responseData.length; i++) {
+    //             if (this.titleField && this.titleField !== '') {
+    //                 text = formattedText = this.extractTitle(responseData[i]);
+    //             }
 
-                // description = '';
-                // if (scope.descriptionField) {
-                //   description = formattedDesc = extractValue(responseData[i], scope.descriptionField);
-                // }
+    //             // description = '';
+    //             // if (scope.descriptionField) {
+    //             //   description = formattedDesc = extractValue(responseData[i], scope.descriptionField);
+    //             // }
 
-                // image = '';
-                // if (scope.imageField) {
-                //   image = extractValue(responseData[i], scope.imageField);
-                // }
+    //             // image = '';
+    //             // if (scope.imageField) {
+    //             //   image = extractValue(responseData[i], scope.imageField);
+    //             // }
 
-                // if (scope.matchClass) {
-                //   formattedText = findMatchString(text, str);
-                //   formattedDesc = findMatchString(description, str);
-                // }
+    //             // if (scope.matchClass) {
+    //             //   formattedText = findMatchString(text, str);
+    //             //   formattedDesc = findMatchString(description, str);
+    //             // }
 
-                this.results[this.results.length] = {
-                    title: formattedText,
-                    description: formattedDesc,
-                    image: image,
-                    originalObject: responseData[i]
-                };
-            }
+    //             this.results[this.results.length] = {
+    //                 title: formattedText,
+    //                 description: formattedDesc,
+    //                 image: image,
+    //                 originalObject: responseData[i]
+    //             };
+    //         }
 
-        } else {
-            this.results = [];
-        }
+    //     } else {
+    //         this.results = [];
+    //     }
 
-        // if (scope.autoMatch && scope.results.length === 1 &&
-        //     checkExactMatch(scope.results[0],
-        //       {title: text, desc: description || ''}, scope.searchStr)) {
-        //   scope.showDropdown = false;
-        // } else if (scope.results.length === 0 && !displayNoResults) {
-        //   scope.showDropdown = false;
-        // } else {
-        this.showDropdown = true;
-        // }
-    }
+    //     // if (scope.autoMatch && scope.results.length === 1 &&
+    //     //     checkExactMatch(scope.results[0],
+    //     //       {title: text, desc: description || ''}, scope.searchStr)) {
+    //     //   scope.showDropdown = false;
+    //     // } else if (scope.results.length === 0 && !displayNoResults) {
+    //     //   scope.showDropdown = false;
+    //     // } else {
+    //     this.showDropdown = true;
+    //     // }
+    // }
 
 
-    private extractValue(obj: any, key: string) {
-        let keys: string[];
-        let result: any;
-        if (key) {
-            keys = key.split('.');
-            result = obj;
-            for (var i = 0; i < keys.length; i++) {
-                result = result[keys[i]];
-            }
-        }
-        else {
-            result = obj;
-        }
-        return result;
-    }
+    // private extractValue(obj: any, key: string) {
+    //     let keys: string[];
+    //     let result: any;
+    //     if (key) {
+    //         keys = key.split('.');
+    //         result = obj;
+    //         for (var i = 0; i < keys.length; i++) {
+    //             result = result[keys[i]];
+    //         }
+    //     }
+    //     else {
+    //         result = obj;
+    //     }
+    //     return result;
+    // }
 
-    private extractTitle(data: any) {
-        // split title fields and run extractValue for each and join with ' '
-        return this.titleField.split(',')
-            .map((field) => {
-                return this.extractValue(data, field);
-            })
-            .join(' ');
-    }
+    // private extractTitle(data: any) {
+    //     // split title fields and run extractValue for each and join with ' '
+    //     return this.titleField.split(',')
+    //         .map((field) => {
+    //             return this.extractValue(data, field);
+    //         })
+    //         .join(' ');
+    // }
 
 
     private clearResults() {
@@ -357,7 +363,7 @@ export class AutocompleteCmp implements OnInit {
             // cancel search timer
             clearTimeout(this.searchTimer);
             // cancel http request
-            // cancelHttpRequest();
+            this.dataService.cancel();
             this.setInputString(this.searchStr);
         }
     }
@@ -385,30 +391,30 @@ export class AutocompleteCmp implements OnInit {
 
 
     // TODO: do remote results in external service that can be replaced by a different provider
-    private getRemoteResults(str: string) {
-        var params = {},
-            url = this.remoteUrl + encodeURIComponent(str);
-        // if (scope.remoteUrlRequestFormatter) {
-        //   params = {params: scope.remoteUrlRequestFormatter(str)};
-        //   url = scope.remoteUrl;
-        // }
-        // if (!!scope.remoteUrlRequestWithCredentials) {
-        //   params.withCredentials = true;
-        // }
-        this.remoteSearch =
-            this.http.get(url)
-                .map((res: Response) => res.json())
-                .map((data: any) => this.extractValue(data, this.remoteUrlDataField))
-                .catch(this.handleError)
-                .subscribe((res: string[]) => {
-                    this.searching = false;
-                    this.processResults(res, str);
-                });
-    }
+    // private getRemoteResults(str: string) {
+    //     var params = {},
+    //         url = this.remoteUrl + encodeURIComponent(str);
+    //     // if (scope.remoteUrlRequestFormatter) {
+    //     //   params = {params: scope.remoteUrlRequestFormatter(str)};
+    //     //   url = scope.remoteUrl;
+    //     // }
+    //     // if (!!scope.remoteUrlRequestWithCredentials) {
+    //     //   params.withCredentials = true;
+    //     // }
+    //     this.remoteSearch =
+    //         this.http.get(url)
+    //             .map((res: Response) => res.json())
+    //             .map((data: any) => this.extractValue(data, this.remoteUrlDataField))
+    //             .catch(this.handleError)
+    //             .subscribe((res: string[]) => {
+    //                 this.searching = false;
+    //                 this.processResults(res, str);
+    //             });
+    // }
 
-    private cancelHttpRequest() {
-        this.remoteSearch.unsubscribe();
-    }
+    // private cancelHttpRequest() {
+    //     this.remoteSearch.unsubscribe();
+    // }
 
     private handleError(error: any) {
         this.searching = false;

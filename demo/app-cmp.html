@@ -6,13 +6,31 @@
         <h1>Autocomplete </h1>
     </div>
     <div class="row">
+        <p>Local data of countries</p>
+    </div>
+    <div class="row">
         <div class="col-md8 col-md-offset-1 p-a-1 autocomplete-wrapper">
-            <ng2-autocomplete [dataService]="dataService" (ng2AutocompleteOnSelect)="onCountrySelected($event)"
-                [minlength]="0" [placeholder]="'search country'" [maxlength]="4">
+            <ng2-autocomplete [dataService]="dataService" (ng2AutocompleteOnSelect)="onCountrySelected($event)" [minlength]="0" [placeholder]="'search country'"
+                [maxlength]="4">
             </ng2-autocomplete>
         </div>
     </div>
-    <div class="row m-t-3">
-        List of countries from <a href="https://restcountries.eu/">restcountries</a>
+    <div class="row">
+        <p>Local data of names</p>
+    </div>
+    <div class="row">
+        <div class="col-md8 col-md-offset-1 p-a-1 autocomplete-wrapper">
+            <ng2-autocomplete [dataService]="dataService2" [minlength]="0" [placeholder]="'search name'" [maxlength]="4">
+            </ng2-autocomplete>
+        </div>
+    </div>
+    <div class="row">
+        <p>Remote data of countries</p>
+    </div>
+    <div class="row">
+        <div class="col-md8 col-md-offset-1 p-a-1 autocomplete-wrapper">
+            <ng2-autocomplete [dataService]="dataRemote" [minlength]="0" [placeholder]="'search country'" [maxlength]="4">
+            </ng2-autocomplete>
+        </div>
     </div>
 </div>
