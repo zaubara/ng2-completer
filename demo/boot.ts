@@ -1,6 +1,6 @@
 "use strict";
 import {bootstrap}    from "@angular/platform-browser-dynamic";
-import {ROUTER_PROVIDERS} from "@angular/router-deprecated";
+import {provideRouter, RouterConfig} from "@angular/router";
 import {HTTP_PROVIDERS} from "@angular/http";
 import { enableProdMode } from '@angular/core';
 
@@ -12,7 +12,14 @@ if ("production" === ENV) {
   enableProdMode();
 }
 
+const routes: RouterConfig = [
+  {
+    path: '/',
+    component: AppComponent
+  }
+];
+
 bootstrap(AppComponent, [
-    ROUTER_PROVIDERS,
+    provideRouter(routes),
     HTTP_PROVIDERS,
 ]);

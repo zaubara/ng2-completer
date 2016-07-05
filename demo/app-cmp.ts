@@ -1,6 +1,6 @@
 "use strict";
 import {Component, provide} from "@angular/core";
-import {RouteConfig, ROUTER_DIRECTIVES} from "@angular/router-deprecated";
+import {ROUTER_DIRECTIVES} from "@angular/router";
 import {HTTP_PROVIDERS} from "@angular/http";
 
 import {AutocompleteCmp} from "../src/components/ng2-autocomplete/autocomplete-cmp";

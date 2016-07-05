@@ -46,7 +46,7 @@ const config = {
       '@angular/http',
       '@angular/platform-browser',
       '@angular/platform-browser-dynamic',
-      '@angular/router-deprecated'
+      '@angular/router'
     ],
     'ng2-autocomplete': ['src/components/ng2-autocomplete/autocomplete-cmp.ts', 'object.assign'],
     'ng2-autocomplete-demo': 'demo/boot.ts'
