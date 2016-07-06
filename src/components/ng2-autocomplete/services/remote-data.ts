@@ -2,9 +2,9 @@ import {Http, Response} from "@angular/http";
 import {Subscription} from "rxjs";
 
 
-import {AutocompleteDataBase} from "./autocomplete-data-base";
+import {AutocompleteBaseData} from "./autocomplete-base-data";
 
-export class RemoteData extends AutocompleteDataBase {
+export class RemoteData extends AutocompleteBaseData {
     private _remoteUrl: string;
     private remoteSearch: Subscription;
 

@@ -3,19 +3,21 @@ import {Observable, Subject} from "rxjs";
 import {AutocompleteItem} from "../autocomplete-item";
 import {AutocompleteData} from "./autocomplete-data";
 
-export abstract class AutocompleteDataBase extends Subject<AutocompleteItem[]> implements AutocompleteData {
+export abstract class AutocompleteBaseData extends Subject<AutocompleteItem[]> implements AutocompleteData {
 
-    
+
     protected _searchFields: string;
     protected _titleField: string;
+    protected _descriptionField: string;
+    protected _imageField: string;
 
     constructor() {
-        super()
+        super();
     }
 
     public abstract search(term: string): void;
 
-    public cancel() {}
+    public cancel() { }
 
     public searchFieldss(searchFields: string) {
         this._searchFields = searchFields;
@@ -24,6 +26,16 @@ export abstract class AutocompleteDataBase extends Subject<AutocompleteItem[]> i
 
     public titleField(titleField: string) {
         this._titleField = titleField;
+        return this;
+    }
+
+    public descriptionField(descriptionField: string) {
+        this._descriptionField = descriptionField;
+        return this;
+    }
+
+    public imageField(imageField: string) {
+        this._imageField = imageField;
         return this;
     }
 
@@ -60,7 +72,7 @@ export abstract class AutocompleteDataBase extends Subject<AutocompleteItem[]> i
         if (key) {
             keys = key.split(".");
             result = obj;
-            for (var i = 0; i < keys.length; i++) {
+            for (let i = 0; i < keys.length; i++) {
                 result = result[keys[i]];
             }
         }
@@ -86,15 +98,15 @@ export abstract class AutocompleteDataBase extends Subject<AutocompleteItem[]> i
                     text = formattedText = this.extractTitle(matches[i]);
                 }
 
-                // description = '';
-                // if (scope.descriptionField) {
-                //   description = formattedDesc = extractValue(responseData[i], scope.descriptionField);
-                // }
+                description = "";
+                if (this._descriptionField) {
+                    description = formattedDesc = this.extractValue(matches[i], this._descriptionField);
+                }
 
-                // image = '';
-                // if (scope.imageField) {
-                //   image = extractValue(responseData[i], scope.imageField);
-                // }
+                image = "";
+                if (this._imageField) {
+                  image = this.extractValue(matches[i], this._imageField);
+                }
 
                 // if (scope.matchClass) {
                 //   formattedText = findMatchString(text, str);

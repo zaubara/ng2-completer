@@ -2,22 +2,18 @@
     <!--<div class="angucomplete-searching" ng-show="searching" ng-bind="textSearching"></div>-->
     <!--<div class="angucomplete-searching" ng-show="!searching && (!results || results.length == 0)" ng-bind="textNoResults"></div>-->
 
-   <!--<div class="angucomplete-row" *ngFor="let result of results; let i=index" ng-click="selectResult(result)" ng-mouseenter="hoverRow($index)" 
+    <!--<div class="angucomplete-row" *ngFor="let result of results; let i=index" ng-click="selectResult(result)" ng-mouseenter="hoverRow($index)" 
                 [ngClass]="{\'angucomplete-selected-row\': i == currentIndex}"> -->
 
-    <div class="ng2-autocomplete-row"
-        *ngFor="let result of results; let i=index"
-        (mouseenter)="hoverRow(i)" 
-        (click)="onClick(result)"
-        [ngClass]="{'ng2-autocomplete-selected-row': i == currentIndex}" >
-        <!--<div ng-if="imageField" class="angucomplete-image-holder">
-            <img ng-if="result.image && result.image != \'\'" ng-src="{{result.image}}" class="angucomplete-image" />
-            <div ng-if="!result.image && result.image != \'\'" class="angucomplete-image-default"></div>
-        </div>-->
+    <div class="ng2-autocomplete-row" *ngFor="let result of results; let i=index" (mouseenter)="hoverRow(i)" (click)="onClick(result)" [ngClass]="{'ng2-autocomplete-selected-row': i == currentIndex}">
+        <div *ngIf="result.image && result.image != ''" class="angucomplete-image-holder">
+            <img *ngIf="result.image && result.image != ''" src="{{result.image}}" class="angucomplete-image" />
+            <div *ngIf="!result.image && result.image != ''" class="angucomplete-image-default"></div>
+        </div>
         <!--<div class="angucomplete-title" ng-if="matchClass" ng-bind-html="result.title"></div>-->
         <!--<div class="angucomplete-title" ng-if="!matchClass">{{ result.title }}</div>-->
-         <div class="ng2-autocomplete-title">{{ result.title }}</div>
+        <div class="ng2-autocomplete-title">{{ result.title }}</div>
         <!--<div ng-if="matchClass && result.description && result.description != \'\'" class="angucomplete-description" ng-bind-html="result.description"></div>-->
-        <div ng-if="!matchClass && result.description && result.description != \'\'" class="ng2-autocomplete-description">{{result.description}}</div>
+        <div *ngIf="!matchClass && result.description && result.description != ''" class="ng2-autocomplete-description">{{result.description}}</div>
     </div>
 </div>

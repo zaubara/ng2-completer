@@ -1,4 +1,4 @@
-import {Injectable, Inject} from '@angular/core';
+import {Injectable, Inject} from "@angular/core";
 
 import {LocalData} from "./local-data";
 import {RemoteData} from "./remote-data";

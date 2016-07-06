@@ -1,9 +1,9 @@
 import {Injectable} from "@angular/core";
 
-import {AutocompleteDataBase} from "./autocomplete-data-base";
+import {AutocompleteBaseData} from "./autocomplete-base-data";
 
 @Injectable()
-export class LocalData extends AutocompleteDataBase  {
+export class LocalData extends AutocompleteBaseData  {
 
     private _data: any[];
 
