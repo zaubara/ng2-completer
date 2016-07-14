@@ -1,20 +1,37 @@
-<div class="ng2-autocomplete-holder">
+<div class="autocomplete-holder">
     <!--<input [id]="id + '_value'" [name]="inputName" [tabindex]="fieldTabindex" [ngClass]="{'angucomplete-input-not-empty': notEmpty}"
         [(ngModel)]="searchStr" [disabled]="disableInput" [type]="inputType" [placeholder]="placeholder" [maxlength]="maxlength"
         [class]="inputClass" autocapitalize="off" autocorrect="off" autocomplete="off" (blur)="hideResults($event)" (key)="inputChangeHandler($event)"
     />-->
-    <input #term
+    <!--<input #term
         [(ngModel)]="searchStr"
         (keyup)="keyupHandler($event)"
         (keydown)="keydownHandler($event)"
         [class]="inputClass"
+        [name]="inputName"
         (blur)="hideResults($event)"
         [placeholder]="placeholder"
         [attr.maxlength]="maxlength"
         autocomplete="off"
         autocorrect="off"
         autocapitalize="off"
+    />-->
+    <input 
+        [(ngModel)]="searchStr"
+        (keyup)="keyupHandler($event)"
+        (keydown)="keydownHandler($event)"
+        [attr.name]="inputName"
+        [placeholder]="placeholder"
+        [attr.maxlength]="maxChars"
+        (blur)="onTouched()"
+        [tabindex]="fieldTabindex"
+        [disabled]="disableInput"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
     />
-    <autocomplete-list *ngIf="showDropdown" [results]="results" (selected)="selectResult($event)"></autocomplete-list>
+    <autocomplete-list *ngIf="showDropdown" [results]="results"  [searchStr]="searchStr" (selected)="selectResult($event)" 
+       [matchClass]="matchClass" [textSearching]="textSearching" [searching]="searching" [textNoResults]="textNoResults" [displaySearching]="displaySearching">
+    </autocomplete-list>
 
 </div>

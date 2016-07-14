@@ -1,19 +1,27 @@
 "use strict";
 import {Component, Output, Input, EventEmitter, ElementRef, AfterContentInit} from "@angular/core";
+import {AutocompleteItem} from "./autocomplete-item";
+import {AutocompleteListItemCmp} from "./autocomplete-list-item-cmp";
+
 
 
 let template = require("./autocomplete-list-cmp.html");
 let defaultStyles = require("./autocomplete-list-cmp.css");
-
-
 @Component({
     selector: "autocomplete-list",
     template: template,
-    styles: [defaultStyles]
+    styles: [defaultStyles],
+    directives: [AutocompleteListItemCmp]
 })
 export class AutocompleteListCmp implements AfterContentInit {
-    @Input() public results: any[] = [];
-    @Output() public selected = new EventEmitter();
+    @Input() public results: AutocompleteItem[] = [];
+    @Input() public matchClass: string;
+    @Input() public searchStr = "";
+    @Input() public textSearching: string;
+    @Input() public searching: boolean;
+    @Input() public textNoResults: string;
+    @Input() public displaySearching: boolean;
+    @Output() public selected = new EventEmitter<AutocompleteItem>();
 
     public list: any;
     public currentIndex = -1;
@@ -24,12 +32,12 @@ export class AutocompleteListCmp implements AfterContentInit {
     constructor(private listElm: ElementRef) { }
 
     public ngAfterContentInit() {
-        this.dd = this.listElm.nativeElement.querySelector('.ng2-autocomplete-dropdown');
+        this.dd = this.listElm.nativeElement.querySelector(".autocomplete-dropdown");
         let css = getComputedStyle(this.dd);
-        this.isScrollOn = css.maxHeight && css.overflowY === 'auto';
+        this.isScrollOn = css.maxHeight && css.overflowY === "auto";
     }
 
-    public onClick(result: any) {
+    public onClick(result: AutocompleteItem) {
         this.selected.emit(result);
     }
 
@@ -66,7 +74,7 @@ export class AutocompleteListCmp implements AfterContentInit {
     }
 
     private dropdownRow() {
-        return this.listElm.nativeElement.querySelectorAll(".ng2-autocomplete-row")[this.currentIndex];
+        return this.listElm.nativeElement.querySelectorAll(".autocomplete-row")[this.currentIndex];
     }
 
     private dropdownHeight() {

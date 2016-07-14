@@ -7,6 +7,7 @@ import {AutocompleteBaseData} from "./autocomplete-base-data";
 export class RemoteData extends AutocompleteBaseData {
     private _remoteUrl: string;
     private remoteSearch: Subscription;
+    private _urlFormater: (term: string) => string = null;
 
     constructor(private http: Http) {
         super();
@@ -17,17 +18,20 @@ export class RemoteData extends AutocompleteBaseData {
         return this;
     }
 
+    public urlFormater(urlFormater: (term: string) => string) {
+        this._urlFormater = urlFormater;
+    }
+
     public search(term: string): void {
         this.cancel();
         // let params = {};
-        let url = this._remoteUrl + encodeURIComponent(term);
-        // if (scope.remoteUrlRequestFormatter) {
-        //   params = {params: scope.remoteUrlRequestFormatter(str)};
-        //   url = scope.remoteUrl;
-        // }
-        // if (!!scope.remoteUrlRequestWithCredentials) {
-        //   params.withCredentials = true;
-        // }
+        let url = "";
+        if (this._urlFormater) {
+            url = this._urlFormater(term);
+        } else {
+            url = this._remoteUrl + encodeURIComponent(term);
+        }
+
         this.remoteSearch = this.http.get(url)
             .map((res: Response) => res.json())
             .map((data: any) => {
@@ -39,7 +43,7 @@ export class RemoteData extends AutocompleteBaseData {
                 this.next(results);
                 return results;
             })
-            .catch((err) =>  {
+            .catch((err) => {
                 this.error(err);
                 return null;
             })

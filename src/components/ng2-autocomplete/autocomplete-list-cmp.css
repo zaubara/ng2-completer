@@ -1,4 +1,4 @@
-.ng2-autocomplete-dropdown {
+.autocomplete-dropdown {
     border-color: #ececec;
     border-width: 1px;
     border-style: solid;
@@ -15,18 +15,18 @@
     background-color: #ffffff;
 }
 
-.ng2-autocomplete-row {
+.autocomplete-row {
     padding: 5px;
     color: #000000;
     margin-bottom: 4px;
     clear: both;
 }
 
-.ng2-autocomplete-selected-row {
+.autocomplete-selected-row {
     background-color: lightblue;
     color: #ffffff;
 }
 
-.g2-autocomplete-description {
+.autocomplete-description {
     font-size: 14px;
 }

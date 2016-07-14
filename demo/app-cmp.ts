@@ -2,13 +2,9 @@
 import {Component, provide} from "@angular/core";
 import {ROUTER_DIRECTIVES} from "@angular/router";
 import {HTTP_PROVIDERS} from "@angular/http";
+import {FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, FormBuilder, FormGroup, AbstractControl, Validators} from "@angular/forms";
 
-import {AutocompleteCmp} from "../src/components/ng2-autocomplete/autocomplete-cmp";
-import {AutocompleteService} from "../src/components/ng2-autocomplete/services/autocomplete-service";
-import {AutocompleteData} from "../src/components/ng2-autocomplete/services/autocomplete-data";
-import {AUTOCOMPLET_DATA_PROVIDES} from "../src/components/ng2-autocomplete/services/autocomplete-data-factory";
-import {AutocompleteItem} from "../src/components/ng2-autocomplete/autocomplete-item";
-
+import {AutocompleteCmp, AutocompleteService, AutocompleteData, AUTOCOMPLET_DATA_PROVIDES, AutocompleteItem} from "../src/ng2-autocomplete";
 
 import "rxjs/Rx";
 
@@ -17,7 +13,7 @@ let style = require("./app-cmp.css");
 
 @Component({
     selector: "demo-app",
-    directives: [AutocompleteCmp, ROUTER_DIRECTIVES],
+    directives: [AutocompleteCmp, ROUTER_DIRECTIVES,FORM_DIRECTIVES,  REACTIVE_FORM_DIRECTIVES],
     template: template,
     styles: [style],
     providers: [AutocompleteService, AUTOCOMPLET_DATA_PROVIDES, HTTP_PROVIDERS]
@@ -70,20 +66,29 @@ export class AppComponent {
     private dataService: AutocompleteData;
     private countryName = "";
     private dataService2: AutocompleteData;
+    private countryName2 = "";
     private quote = "";
     private dataRemote: AutocompleteData;
+    private dataService3: AutocompleteData;
+    private countryName3 = "";
+    private dataService4: AutocompleteData;
+    private countryName4 = "";
+    private searchcb = false;
+    private countryCtrl: AbstractControl;
 
-    constructor(private autocompleteService: AutocompleteService) {
+    constructor(private fb: FormBuilder, private autocompleteService: AutocompleteService) {
         this.dataService = autocompleteService.local(this.countries, "name", "name").imageField("flag");
         this.dataService2 = autocompleteService.local(this.quotes, "nm", "nm").descriptionField("qt");
         this.dataRemote = autocompleteService.remote(
             "https://raw.githubusercontent.com/oferh/ng2-autocomplete/ver-0.2.0/demo/res/data/countries.json?",
             "name",
             "name");
+        this.dataService3 = autocompleteService.local(this.countries, "name", "name");
+        this.dataService4 = autocompleteService.local(this.countries, "name", "name");
     }
 
     public onCountrySelected(selected: AutocompleteItem) {
-        this.countryName = selected.title;
+        this.countryName2 = selected.title;
     }
 
     public onQuoteSelected(selected: AutocompleteItem) {

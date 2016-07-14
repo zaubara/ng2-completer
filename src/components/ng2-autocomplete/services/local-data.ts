@@ -11,16 +11,14 @@ export class LocalData extends AutocompleteBaseData  {
         super();
     }
 
-    public data(data: any[]){
+    public data(data: any[]) {
         this._data = data;
         return this;
     }
 
     public search(term: string): void {
-        let searchFields = this._searchFields.split(",");
         let matches: any[] = this.extractMatches(this._data, term);
 
         this.next(this.processResults(matches, term));
-
     }
 }

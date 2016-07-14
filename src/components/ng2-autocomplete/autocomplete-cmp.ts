@@ -1,10 +1,12 @@
 "use strict";
-import {Component, Input, Output, EventEmitter, OnInit, ViewChild} from "@angular/core";
-// import {Http, Response} from '@angular/http';
-import {Subscription, Observable} from "rxjs";
+import {Component, Input, Output, EventEmitter, OnInit, ViewChild, Provider, forwardRef} from "@angular/core";
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
+
+import {Observable} from "rxjs";
 
 import {AutocompleteListCmp} from "./autocomplete-list-cmp";
 import {AutocompleteData} from "./services/autocomplete-data";
+import {AutocompleteItem} from "./autocomplete-item";
 
 let template = require("./autocomplete-cmp.html");
 let defaultStyles = require("./autocomplete-cmp.css");
@@ -18,45 +20,89 @@ const KEY_ES = 27;
 const KEY_EN = 13;
 const KEY_TAB = 9;
 
-const MIN_LENGTH = 3;
-const MAX_LENGTH = 524288;  // the default max length per the html maxlength attribute
+const MIN_SEARCH_LENGTH = 3;
+const MAX_CHARS = 524288;  // the default max length per the html maxlength attribute
 const PAUSE = 250;
 const BLUR_TIMEOUT = 200;
+const TEXT_SEARCHING = "Searching...";
+const TEXT_NORESULTS = "No results found";
+
+const noop = () => { };
+
+const AUTOCOMPLETE_CONTROL_VALUE_ACCESSOR = new Provider(
+    NG_VALUE_ACCESSOR, {
+        useExisting: forwardRef(() => AutocompleteCmp),
+        multi: true
+    });
+
 
 @Component({
     selector: "ng2-autocomplete",
     directives: [AutocompleteListCmp],
     template: template,
-    styles: [defaultStyles]
+    styles: [defaultStyles],
+    providers: [AUTOCOMPLETE_CONTROL_VALUE_ACCESSOR]
 })
-export class AutocompleteCmp implements OnInit {
+export class AutocompleteCmp implements OnInit, ControlValueAccessor {
     @Input() public dataService: AutocompleteData;
     @Input() public searchFields = "";
     @Input() public titleField = "";
     @Input() public inputClass = "";
+    @Input() public inputName = "";
     @Input() public pause = PAUSE;
-    @Input() public minlength = MIN_LENGTH;
-    @Input() public maxlength = MAX_LENGTH;
-    @Input() public overrideSuggestions = false;
+    @Input() public minSearchLength = MIN_SEARCH_LENGTH;
+    @Input() public maxChars = MAX_CHARS;
+    @Input() public overrideSuggested = false;
     @Input() public clearSelected = false;
     @Input() public placeholder = "";
-    @Input() public remoteUrl: string = null;
-    @Input() public remoteUrlDataField: string = null;
-    @Output("ng2AutocompleteOnSelect") public selected = new EventEmitter();
+    @Input() public matchClass: string;
+    @Input() public textSearching = TEXT_SEARCHING;
+    @Input() public textNoResults = TEXT_NORESULTS;
+    @Input() public fieldTabindex: number;
+    @Input() public autoMatch = false;
+    @Input() public disableInput = false;
+    @Output() public selected = new EventEmitter<AutocompleteItem>();
 
     @ViewChild(AutocompleteListCmp) private listCmp: AutocompleteListCmp;
 
     private searchStr = "";
     private searching = false;
     private showDropdown = false;
+    private displayNoResults = true;
     private searchTimer: number = null;
     private hideTimer: number = null;
     private displaySearching = true;
-    private results: any[] = [];
-    private selectedObject: any = null;
-    private remoteSearch: Subscription;
+    private selectedObject: AutocompleteItem = null;
+    private results: AutocompleteItem[] = [];
+    private _onTouchedCallback: () => void = noop;
+    private _onChangeCallback: (_: any) => void = noop;
 
     constructor() { }
+
+    get value(): any { return this.searchStr; };
+
+    set value(v: any) {
+        if (v !== this.searchStr) {
+            this.searchStr = v;
+            this._onChangeCallback(v);
+        }
+    }
+
+    public onTouched() {
+        this._onTouchedCallback();
+    }
+
+    public writeValue(value: any) {
+        this.searchStr = value;
+    }
+
+    public registerOnChange(fn: any) {
+        this._onChangeCallback = fn;
+    }
+
+    public registerOnTouched(fn: any) {
+        this._onTouchedCallback = fn;
+    }
 
     public keyupHandler(event: any) {
         if (event.keyCode === KEY_LF || event.keyCode === KEY_RT) {
@@ -69,7 +115,7 @@ export class AutocompleteCmp implements OnInit {
         }
         else if (event.keyCode === KEY_DW) {
             event.preventDefault();
-            if (!this.showDropdown && this.searchStr && this.searchStr.length >= this.minlength) {
+            if (!this.showDropdown && this.searchStr && this.searchStr.length >= this.minSearchLength) {
                 this.initResults();
                 this.searching = true;
                 this.searchTimerComplete(this.searchStr);
@@ -79,13 +125,15 @@ export class AutocompleteCmp implements OnInit {
             this.clearResults();
         }
         else {
+            this._onChangeCallback(this.searchStr);
             if (!this.searchStr) {
+                this.showDropdown = false;
                 return;
             }
-            if (this.searchStr === '') {
+            if (this.searchStr === "") {
                 this.showDropdown = false;
             }
-            else if (this.searchStr.length >= this.minlength) {
+            else if (this.searchStr.length >= this.minSearchLength) {
                 this.initResults();
 
                 if (this.searchTimer) {
@@ -106,7 +154,6 @@ export class AutocompleteCmp implements OnInit {
     }
 
     public keydownHandler(event: any) {
-
         if (event.keyCode === KEY_EN && this.results) {
             if (this.listCmp.currentIndex >= 0 && this.listCmp.currentIndex < this.results.length) {
                 event.preventDefault();
@@ -132,7 +179,7 @@ export class AutocompleteCmp implements OnInit {
             }
         } else if (event.keyCode === KEY_TAB) {
             if (this.results && this.results.length > 0 && this.showDropdown) {
-                if (this.listCmp.currentIndex === -1 && this.overrideSuggestions) {
+                if (this.listCmp.currentIndex === -1 && this.overrideSuggested) {
                     // intentionally not sending event so that it does not
                     // prevent default tab behavior
                     this.handleOverrideSuggestions();
@@ -160,32 +207,40 @@ export class AutocompleteCmp implements OnInit {
     }
 
     public ngOnInit() {
+
+        if (this.textNoResults === "false") {
+            this.displayNoResults = false;
+        }
+        if (this.textSearching === "false") {
+            this.displaySearching = false;
+        }
         this.selected.subscribe(() => {
             this.clearResults();
         });
         this.dataService
-        .catch(err => this.handleError(err))
-        .subscribe(results => {
-            this.searching = false;
-            this.results = results;
-            this.showDropdown = true;
-        });
+            .catch(err => this.handleError(err))
+            .subscribe(results => {
+                this.searching = false;
+                this.results = results;
+                if (this.autoMatch && this.results.length === 1 &&
+                    this.results[0].title.toLocaleLowerCase() === this.searchStr.toLocaleLowerCase()) {
+                    this.showDropdown = false;
+                } else if (this.results.length === 0 && !this.displayNoResults) {
+                    this.showDropdown = false;
+                } else {
+                    this.showDropdown = true;
+                }
+            });
     }
 
     public selectResult(result: any) {
-        // Restore original values
-        // if (this.matchClass) {
-        //   result.title = extractTitle(result.originalObject);
-        //   result.description = extractValue(result.originalObject, this.descriptionField);
-        // }
-
-        // if (this.clearSelected) {
-        //   this.searchStr = null;
-        // }
-        // else {
         this.searchStr = result.title;
-        // }
+        this._onChangeCallback(this.searchStr);
         this.callOrAssign(result);
+        if (this.clearSelected) {
+            this.searchStr = null;
+        }
+
         this.clearResults();
     };
 
@@ -196,16 +251,18 @@ export class AutocompleteCmp implements OnInit {
         //   mousedownOn = null;
         // }
         // else {
-        this.hideTimer = setTimeout(() => {
-            this.clearResults();
-        }, BLUR_TIMEOUT);
+        this.hideTimer = setTimeout(
+            () => {
+                this.clearResults();
+            },
+            BLUR_TIMEOUT);
         this.dataService.cancel();
 
         //   if (scope.focusOut) {
         //     scope.focusOut();
         //   }
 
-        if (this.overrideSuggestions) {
+        if (this.overrideSuggested) {
             if (this.searchStr && this.searchStr.length > 0 && this.listCmp.currentIndex === -1) {
                 this.handleOverrideSuggestions();
             }
@@ -220,7 +277,7 @@ export class AutocompleteCmp implements OnInit {
 
     private searchTimerComplete(str: string) {
         // Begin the search
-        if (!str || str.length < this.minlength) {
+        if (!str || str.length < this.minSearchLength) {
             return;
         }
         this.dataService.search(str);
@@ -354,7 +411,7 @@ export class AutocompleteCmp implements OnInit {
     }
 
     private handleOverrideSuggestions(event?: any) {
-        if (this.overrideSuggestions &&
+        if (this.overrideSuggested &&
             !(this.selectedObject && this.selectedObject.originalObject === this.searchStr)) {
             if (event) {
                 event.preventDefault();
@@ -369,7 +426,10 @@ export class AutocompleteCmp implements OnInit {
     }
 
     private setInputString(str: string) {
-        this.callOrAssign({ originalObject: str });
+        this.callOrAssign({
+            title: null,
+            originalObject: str
+        });
 
         if (this.clearSelected) {
             this.searchStr = null;
@@ -377,7 +437,7 @@ export class AutocompleteCmp implements OnInit {
         this.clearResults();
     }
 
-    private callOrAssign(value: any) {
+    private callOrAssign(value: AutocompleteItem) {
         this.selectedObject = value;
         this.selected.emit(value);
 
@@ -390,7 +450,6 @@ export class AutocompleteCmp implements OnInit {
     }
 
 
-    // TODO: do remote results in external service that can be replaced by a different provider
     // private getRemoteResults(str: string) {
     //     var params = {},
     //         url = this.remoteUrl + encodeURIComponent(str);
@@ -419,7 +478,7 @@ export class AutocompleteCmp implements OnInit {
     private handleError(error: any) {
         this.searching = false;
         let errMsg = (error.message) ? error.message :
-            error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+            error.status ? `${error.status} - ${error.statusText}` : "Server error";
         if (console && console.error) {
             console.error(errMsg); // log to console 
         }

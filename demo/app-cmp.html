@@ -6,11 +6,12 @@
         <h1>Autocomplete </h1>
     </div>
     <div class="row">
-        <p>Local data of countries - using image</p>
+        <p>Local data of countries - using image, matchClass and maxLength</p>
     </div>
     <div class="row">
         <div class="col-md8 col-md-offset-1 p-a-1 autocomplete-wrapper">
-            <ng2-autocomplete [dataService]="dataService" (ng2AutocompleteOnSelect)="onCountrySelected($event)" [minlength]="0" [placeholder]="'search country'" [maxlength]="4">
+            <ng2-autocomplete [(ngModel)]="countryName" [dataService]="dataService" [minSearchLength]="0" [maxChars]="4" [placeholder]="'search country'"
+                [matchClass]="'match'">
             </ng2-autocomplete>
         </div>
     </div>
@@ -18,11 +19,12 @@
         <p>Selected country: {{countryName}}</p>
     </div>
     <div class="row">
-        <p>Local data of quotes - using desription</p>
+        <p>Local data of quotes - using desription, textNoResults, matchClass and selected event</p>
     </div>
     <div class="row">
         <div class="col-md8 col-md-offset-1 p-a-1 autocomplete-wrapper">
-            <ng2-autocomplete [dataService]="dataService2" (ng2AutocompleteOnSelect)="onQuoteSelected($event)" [minlength]="0" [placeholder]="'search quote by author name'" [maxlength]="4">
+            <ng2-autocomplete [dataService]="dataService2" (selected)="onQuoteSelected($event)" [minSearchLength]="0" 
+                [placeholder]="'search quote by author name'" [textNoResults]="'No quotes found'" [matchClass]="'match'">
             </ng2-autocomplete>
         </div>
     </div>
@@ -30,12 +32,53 @@
         <p>Quote: {{quote}}</p>
     </div>
     <div class="row">
-        <p>Remote data of countries</p>
+        <p>Remote data of countries with minSearchLength, textSearching and clearSelected</p>
     </div>
     <div class="row">
         <div class="col-md8 col-md-offset-1 p-a-1 autocomplete-wrapper">
-            <ng2-autocomplete [dataService]="dataRemote" [minlength]="0" [placeholder]="'search country'" [maxlength]="4">
+            <ng2-autocomplete [dataService]="dataRemote" [minSearchLength]="3" [placeholder]="'search country'" [clearSelected]="true"
+                (selected)="onCountrySelected($event)" [textSearching]="'Please wait...'">
             </ng2-autocomplete>
         </div>
     </div>
+    <div class="row">
+        <p>Selected country: {{countryName2}}</p>
+    </div>
+   
+    <div class="row">
+        <p>Local data of countries - overrideSuggested, inputDisabled and fieldTabindex</p>
+    </div>
+    <div class="row">
+        <div class="col-md8 col-md-offset-1 p-a-1 autocomplete-wrapper">
+            <ng2-autocomplete [(ngModel)]="countryName3" [dataService]="dataService3" [minSearchLength]="0" [placeholder]="'search country'"
+                [overrideSuggested]="true" [disableInput]="searchcb" [fieldTabindex]="-1">
+            </ng2-autocomplete>
+        </div>
+    </div>
+    <div class="row">
+        <p>Selected: {{countryName3}}</p>
+    </div>
+    <div class="row">
+        <label>Disable search</label>
+        <input type="checkbox" [(ngModel)]="searchcb" />
+    </div>
+
+    <form>
+        <div class="row">
+            <p>Local data of countries - autoMatch and required</p>
+        </div>
+        <div class="row">
+            <div class="col-md8 col-md-offset-1 p-a-1 autocomplete-wrapper">
+                <ng2-autocomplete name="countrRequired" [dataService]="dataService4" [(ngModel)]="countryName4" [minSearchLength]="0" [placeholder]="'search country'"
+                    #countrRequired="ngModel" [autoMatch]="true" required>
+                </ng2-autocomplete>
+            </div>
+            <div [hidden]="countrRequired.valid" class="alert alert-danger">
+                Country is required
+            </div>
+        </div>
+        <div class="row">
+            <p>Selected: {{countryName4}}</p>
+        </div>
+    </form>
 </div>
