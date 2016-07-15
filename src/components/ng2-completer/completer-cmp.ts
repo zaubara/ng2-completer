@@ -4,14 +4,14 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
 
 import {Observable} from "rxjs/Observable";
 
-import {AutocompleteListCmp} from "./autocomplete-list-cmp";
-import {AutocompleteData} from "./services/autocomplete-data";
-import {AutocompleteItem} from "./autocomplete-item";
+import {CompleterListCmp} from "./completer-list-cmp";
+import {CompleterData} from "./services/completer-data";
+import {CompleterItem} from "./completer-item";
 
 import "rxjs/add/operator/catch";
 
-let template = require("./autocomplete-cmp.html");
-let defaultStyles = require("./autocomplete-cmp.css");
+let template = require("./completer-cmp.html");
+let defaultStyles = require("./completer-cmp.css");
 
 // keyboard events
 const KEY_DW = 40;
@@ -33,20 +33,20 @@ const noop = () => { };
 
 const AUTOCOMPLETE_CONTROL_VALUE_ACCESSOR = new Provider(
     NG_VALUE_ACCESSOR, {
-        useExisting: forwardRef(() => AutocompleteCmp),
+        useExisting: forwardRef(() => CompleterCmp),
         multi: true
     });
 
 
 @Component({
-    selector: "ng2-autocomplete",
-    directives: [AutocompleteListCmp],
+    selector: "ng2-completer",
+    directives: [CompleterListCmp],
     template: template,
     styles: [defaultStyles],
     providers: [AUTOCOMPLETE_CONTROL_VALUE_ACCESSOR]
 })
-export class AutocompleteCmp implements OnInit, ControlValueAccessor {
-    @Input() public dataService: AutocompleteData;
+export class CompleterCmp implements OnInit, ControlValueAccessor {
+    @Input() public dataService: CompleterData;
     @Input() public searchFields = "";
     @Input() public titleField = "";
     @Input() public inputClass = "";
@@ -63,9 +63,9 @@ export class AutocompleteCmp implements OnInit, ControlValueAccessor {
     @Input() public fieldTabindex: number;
     @Input() public autoMatch = false;
     @Input() public disableInput = false;
-    @Output() public selected = new EventEmitter<AutocompleteItem>();
+    @Output() public selected = new EventEmitter<CompleterItem>();
 
-    @ViewChild(AutocompleteListCmp) private listCmp: AutocompleteListCmp;
+    @ViewChild(CompleterListCmp) private listCmp: CompleterListCmp;
 
     private searchStr = "";
     private searching = false;
@@ -74,8 +74,8 @@ export class AutocompleteCmp implements OnInit, ControlValueAccessor {
     private searchTimer: number = null;
     private hideTimer: number = null;
     private displaySearching = true;
-    private selectedObject: AutocompleteItem = null;
-    private results: AutocompleteItem[] = [];
+    private selectedObject: CompleterItem = null;
+    private results: CompleterItem[] = [];
     private _onTouchedCallback: () => void = noop;
     private _onChangeCallback: (_: any) => void = noop;
 
@@ -318,7 +318,7 @@ export class AutocompleteCmp implements OnInit, ControlValueAccessor {
         this.clearResults();
     }
 
-    private callOrAssign(value: AutocompleteItem) {
+    private callOrAssign(value: CompleterItem) {
         this.selectedObject = value;
         this.selected.emit(value);
     }

@@ -17,7 +17,7 @@ const devtool = process.env.NODE_ENV === 'test' ? 'inline-source-map' : 'source-
 const dest = './bundles';
 const absDest = root(dest);
 
-const entryLib = 'src/ng2-autocomplete.ts';
+const entryLib = 'src/ng2-completer.ts';
 const entryDemo = {
     'angular2': [
         // Angular 2 Deps
@@ -34,16 +34,16 @@ const entryDemo = {
         '@angular/forms',
         'rxjs'
     ],
-    'ng2-autocomplete': ['src/ng2-autocomplete.ts'],
-    'ng2-autocomplete-demo': 'demo/boot.ts'
+    'ng2-completer': ['src/ng2-completer.ts'],
+    'ng2-completer-demo': 'demo/boot.ts'
 };
 
 const outputLib = {
     path: absDest,
-    filename: isProduction ? 'ng2-autocomplete.min.js' : 'ng2-autocomplete.js',
-    sourceMapFilename: isProduction ? 'ng2-autocomplete.min.js.map' : 'ng2-autocomplete.js.map',
+    filename: isProduction ? 'ng2-completer.min.js' : 'ng2-completer.js',
+    sourceMapFilename: isProduction ? 'ng2-completer.min.js.map' : 'ng2-completer.js.map',
     chunkFilename: '[id].chunk.js',
-    library: 'ng2-autocomplete',
+    library: 'ng2-completer',
     libraryTarget: 'umd',
     umdNamedDefine: true
 };
@@ -79,7 +79,7 @@ const config = {
         extensions: ['', '.ts', '.js', '.json']
     },
 
-    // entry: 'src/ng2-autocomplete.ts',
+    // entry: 'src/ng2-completer.ts',
 
     entry: isBuildDemo ? entryDemo : entryLib,
 
@@ -201,8 +201,6 @@ const config = {
 };
 
 config.pushPlugins();
-
-console.log(config);
 
 module.exports = config;
 

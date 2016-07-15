@@ -1,9 +1,9 @@
 import {Subject} from "rxjs/Subject";
 
-import {AutocompleteItem} from "../autocomplete-item";
-import {AutocompleteData} from "./autocomplete-data";
+import {CompleterItem} from "../completer-item";
+import {CompleterData} from "./completer-data";
 
-export abstract class AutocompleteBaseData extends Subject<AutocompleteItem[]> implements AutocompleteData {
+export abstract class CompleterBaseData extends Subject<CompleterItem[]> implements CompleterData {
 
 
     protected _searchFields: string;
@@ -84,14 +84,14 @@ export abstract class AutocompleteBaseData extends Subject<AutocompleteItem[]> i
         return result;
     }
 
-    protected processResults(matches: string[], term: string): AutocompleteItem[] {
+    protected processResults(matches: string[], term: string): CompleterItem[] {
         let i: number;
         let description: string;
         let image: string;
         let text: string;
         let formattedText: string;
         let formattedDesc: string;
-        let results: AutocompleteItem[] = [];
+        let results: CompleterItem[] = [];
 
         if (matches && matches.length > 0) {
 

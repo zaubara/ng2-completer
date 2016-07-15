@@ -1,27 +1,27 @@
 "use strict";
 import {Component, Output, Input, EventEmitter, ElementRef, AfterContentInit} from "@angular/core";
-import {AutocompleteItem} from "./autocomplete-item";
-import {AutocompleteListItemCmp} from "./autocomplete-list-item-cmp";
+import {CompleterItem} from "./completer-item";
+import {CompleterListItemCmp} from "./completer-list-item-cmp";
 
 
 
-let template = require("./autocomplete-list-cmp.html");
-let defaultStyles = require("./autocomplete-list-cmp.css");
+let template = require("./completer-list-cmp.html");
+let defaultStyles = require("./completer-list-cmp.css");
 @Component({
-    selector: "autocomplete-list",
+    selector: "completer-list",
     template: template,
     styles: [defaultStyles],
-    directives: [AutocompleteListItemCmp]
+    directives: [CompleterListItemCmp]
 })
-export class AutocompleteListCmp implements AfterContentInit {
-    @Input() public results: AutocompleteItem[] = [];
+export class CompleterListCmp implements AfterContentInit {
+    @Input() public results: CompleterItem[] = [];
     @Input() public matchClass: string;
     @Input() public searchStr = "";
     @Input() public textSearching: string;
     @Input() public searching: boolean;
     @Input() public textNoResults: string;
     @Input() public displaySearching: boolean;
-    @Output() public selected = new EventEmitter<AutocompleteItem>();
+    @Output() public selected = new EventEmitter<CompleterItem>();
 
     public list: any;
     public currentIndex = -1;
@@ -32,12 +32,12 @@ export class AutocompleteListCmp implements AfterContentInit {
     constructor(private listElm: ElementRef) { }
 
     public ngAfterContentInit() {
-        this.dd = this.listElm.nativeElement.querySelector(".autocomplete-dropdown");
+        this.dd = this.listElm.nativeElement.querySelector(".completer-dropdown");
         let css = getComputedStyle(this.dd);
         this.isScrollOn = css.maxHeight && css.overflowY === "auto";
     }
 
-    public onClick(result: AutocompleteItem) {
+    public onClick(result: CompleterItem) {
         this.selected.emit(result);
     }
 
@@ -74,7 +74,7 @@ export class AutocompleteListCmp implements AfterContentInit {
     }
 
     private dropdownRow() {
-        return this.listElm.nativeElement.querySelectorAll(".autocomplete-row")[this.currentIndex];
+        return this.listElm.nativeElement.querySelectorAll(".completer-row")[this.currentIndex];
     }
 
     private dropdownHeight() {

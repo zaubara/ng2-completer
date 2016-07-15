@@ -3,16 +3,16 @@
 </nav>
 <div class="container main">
     <div class="row">
-        <h1>Autocomplete </h1>
+        <h1>Completer </h1>
     </div>
     <div class="row">
         <p>Local data of countries - using image, matchClass and maxLength</p>
     </div>
     <div class="row">
-        <div class="col-md8 col-md-offset-1 p-a-1 autocomplete-wrapper">
-            <ng2-autocomplete [(ngModel)]="countryName" [dataService]="dataService" [minSearchLength]="0" [maxChars]="4" [placeholder]="'search country'"
+        <div class="col-md8 col-md-offset-1 p-a-1 completer-wrapper">
+            <ng2-completer [(ngModel)]="countryName" [dataService]="dataService" [minSearchLength]="0" [maxChars]="4" [placeholder]="'search country'"
                 [matchClass]="'match'">
-            </ng2-autocomplete>
+            </ng2-completer>
         </div>
     </div>
     <div class="row">
@@ -22,10 +22,10 @@
         <p>Local data of quotes - using desription, textNoResults, matchClass and selected event</p>
     </div>
     <div class="row">
-        <div class="col-md8 col-md-offset-1 p-a-1 autocomplete-wrapper">
-            <ng2-autocomplete [dataService]="dataService2" (selected)="onQuoteSelected($event)" [minSearchLength]="0" 
+        <div class="col-md8 col-md-offset-1 p-a-1 completer-wrapper">
+            <ng2-completer [dataService]="dataService2" (selected)="onQuoteSelected($event)" [minSearchLength]="0" 
                 [placeholder]="'search quote by author name'" [textNoResults]="'No quotes found'" [matchClass]="'match'">
-            </ng2-autocomplete>
+            </ng2-completer>
         </div>
     </div>
     <div class="row">
@@ -35,10 +35,10 @@
         <p>Remote data of countries with minSearchLength, textSearching and clearSelected</p>
     </div>
     <div class="row">
-        <div class="col-md8 col-md-offset-1 p-a-1 autocomplete-wrapper">
-            <ng2-autocomplete [dataService]="dataRemote" [minSearchLength]="3" [placeholder]="'search country'" [clearSelected]="true"
+        <div class="col-md8 col-md-offset-1 p-a-1 completer-wrapper">
+            <ng2-completer [dataService]="dataRemote" [minSearchLength]="3" [placeholder]="'search country'" [clearSelected]="true"
                 (selected)="onCountrySelected($event)" [textSearching]="'Please wait...'">
-            </ng2-autocomplete>
+            </ng2-completer>
         </div>
     </div>
     <div class="row">
@@ -49,10 +49,10 @@
         <p>Local data of countries - overrideSuggested, inputDisabled and fieldTabindex</p>
     </div>
     <div class="row">
-        <div class="col-md8 col-md-offset-1 p-a-1 autocomplete-wrapper">
-            <ng2-autocomplete [(ngModel)]="countryName3" [dataService]="dataService3" [minSearchLength]="0" [placeholder]="'search country'"
+        <div class="col-md8 col-md-offset-1 p-a-1 completer-wrapper">
+            <ng2-completer [(ngModel)]="countryName3" [dataService]="dataService3" [minSearchLength]="0" [placeholder]="'search country'"
                 [overrideSuggested]="true" [disableInput]="searchcb" [fieldTabindex]="-1">
-            </ng2-autocomplete>
+            </ng2-completer>
         </div>
     </div>
     <div class="row">
@@ -68,10 +68,10 @@
             <p>Local data of countries - autoMatch and required</p>
         </div>
         <div class="row">
-            <div class="col-md8 col-md-offset-1 p-a-1 autocomplete-wrapper">
-                <ng2-autocomplete name="countrRequired" [dataService]="dataService4" [(ngModel)]="countryName4" [minSearchLength]="0" [placeholder]="'search country'"
+            <div class="col-md8 col-md-offset-1 p-a-1 completer-wrapper">
+                <ng2-completer name="countrRequired" [dataService]="dataService4" [(ngModel)]="countryName4" [minSearchLength]="0" [placeholder]="'search country'"
                     #countrRequired="ngModel" [autoMatch]="true" required>
-                </ng2-autocomplete>
+                </ng2-completer>
             </div>
             <div [hidden]="countrRequired.valid" class="alert alert-danger">
                 Country is required

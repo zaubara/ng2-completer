@@ -1,7 +1,7 @@
 "use strict";
 import {Component, Input, OnInit} from "@angular/core";
 
-let template = require("./autocomplete-list-item-cmp.html");
+let template = require("./completer-list-item-cmp.html");
 
 export interface MatchPart {
     isMatch: boolean;
@@ -9,10 +9,10 @@ export interface MatchPart {
 }
 
 @Component({
-    selector: "autocomplete-list-item",
+    selector: "completer-list-item",
     template: template
 })
-export class AutocompleteListItemCmp implements OnInit {
+export class CompleterListItemCmp implements OnInit {
     @Input() public text: string;
     @Input() public searchStr: string;
     @Input() public matchClass: string;

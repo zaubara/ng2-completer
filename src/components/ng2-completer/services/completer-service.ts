@@ -5,7 +5,7 @@ import {RemoteData} from "./remote-data";
 
 
 @Injectable()
-export class AutocompleteService {
+export class CompleterService {
     constructor(
         @Inject(LocalData) private localDataFactory: () => LocalData,
         @Inject(RemoteData) private remoteDataFactory: () => RemoteData

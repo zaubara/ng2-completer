@@ -1,7 +1,7 @@
-<div class="autocomplete-holder">
+<div class="completer-holder">
     <!--<input [id]="id + '_value'" [name]="inputName" [tabindex]="fieldTabindex" [ngClass]="{'angucomplete-input-not-empty': notEmpty}"
         [(ngModel)]="searchStr" [disabled]="disableInput" [type]="inputType" [placeholder]="placeholder" [maxlength]="maxlength"
-        [class]="inputClass" autocapitalize="off" autocorrect="off" autocomplete="off" (blur)="hideResults($event)" (key)="inputChangeHandler($event)"
+        [class]="inputClass" autocapitalize="off" autocorrect="off" completer="off" (blur)="hideResults($event)" (key)="inputChangeHandler($event)"
     />-->
     <!--<input #term
         [(ngModel)]="searchStr"
@@ -12,7 +12,7 @@
         (blur)="hideResults($event)"
         [placeholder]="placeholder"
         [attr.maxlength]="maxlength"
-        autocomplete="off"
+        completer="off"
         autocorrect="off"
         autocapitalize="off"
     />-->
@@ -26,12 +26,12 @@
         (blur)="onBlur()"
         [tabindex]="fieldTabindex"
         [disabled]="disableInput"
-        autocomplete="off"
+        completer="off"
         autocorrect="off"
         autocapitalize="off"
     />
-    <autocomplete-list *ngIf="showDropdown" [results]="results"  [searchStr]="searchStr" (selected)="selectResult($event)" 
+    <completer-list *ngIf="showDropdown" [results]="results"  [searchStr]="searchStr" (selected)="selectResult($event)" 
        [matchClass]="matchClass" [textSearching]="textSearching" [searching]="searching" [textNoResults]="textNoResults" [displaySearching]="displaySearching">
-    </autocomplete-list>
+    </completer-list>
 
 </div>

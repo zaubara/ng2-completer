@@ -3,9 +3,9 @@ import {Subscription} from "rxjs/Subscription";
 import "rxjs/add/operator/map";
 
 
-import {AutocompleteBaseData} from "./autocomplete-base-data";
+import {CompleterBaseData} from "./completer-base-data";
 
-export class RemoteData extends AutocompleteBaseData {
+export class RemoteData extends CompleterBaseData {
     private _remoteUrl: string;
     private remoteSearch: Subscription;
     private _urlFormater: (term: string) => string = null;

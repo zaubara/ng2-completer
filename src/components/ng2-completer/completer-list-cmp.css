@@ -1,4 +1,4 @@
-.autocomplete-dropdown {
+.completer-dropdown {
     border-color: #ececec;
     border-width: 1px;
     border-style: solid;
@@ -15,18 +15,18 @@
     background-color: #ffffff;
 }
 
-.autocomplete-row {
+.completer-row {
     padding: 5px;
     color: #000000;
     margin-bottom: 4px;
     clear: both;
 }
 
-.autocomplete-selected-row {
+.completer-selected-row {
     background-color: lightblue;
     color: #ffffff;
 }
 
-.autocomplete-description {
+.completer-description {
     font-size: 14px;
 }

@@ -1,8 +1,8 @@
 {
-  "name": "ng2-autocomplete",
+  "name": "ng2-completer",
   "version": "0.1.0",
   "description": "ng2 autocomplete directive",
-  "main": "bundles/ng2-autocomplete.js",
+  "main": "bundles/ng2-completer.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "./node_modules/.bin/del bundles \"src/**/*.+(js|d.ts|js.map)\" \"demo/**/*.+(js|js.map)\"",
@@ -17,11 +17,14 @@
   },
   "keywords": [
     "angular2",
-    "autcomplete"
+    "autcomplete",
+    "typeahead",
+    "word completion",
+    "ng2"
   ],
   "author": "Ofer Herman <oferhe@gmail.com>",
   "license": "Apache-2.0",
-  "typings": "./bundles/src/ng2-autocomplete.d.ts",
+  "typings": "./bundles/src/ng2-completer.d.ts",
   "peerDependencies": {
     "@angular/common": "^2.0.0-rc.4",
     "@angular/compiler": "^2.0.0-rc.4",
