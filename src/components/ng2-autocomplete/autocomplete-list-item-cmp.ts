@@ -24,7 +24,7 @@ export class AutocompleteListItemCmp implements OnInit {
         let matchPos = matchStr.indexOf(this.searchStr.toLowerCase());
         let startIndex = 0;
         while (matchPos >= 0) {
-            let matchText = this.text.slice(matchPos, this.searchStr.length);
+            let matchText = this.text.slice(matchPos, matchPos + this.searchStr.length);
             if (matchPos === 0) {
                 this.parts.push({ isMatch: true, text: matchText });
                 startIndex += this.searchStr.length;

@@ -1,4 +1,4 @@
-import {Observable, Subject} from "rxjs";
+import {Subject} from "rxjs/Subject";
 
 import {AutocompleteItem} from "../autocomplete-item";
 import {AutocompleteData} from "./autocomplete-data";

@@ -2,15 +2,17 @@
   "name": "ng2-autocomplete",
   "version": "0.1.0",
   "description": "ng2 autocomplete directive",
-  "main": "dist/ng2-autocomplete.js",
+  "main": "bundles/ng2-autocomplete.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "./node_modules/.bin/del bundles \"src/**/*.+(js|d.ts|js.map)\" \"demo/**/*.+(js|js.map)\"",
     "build:dev": "webpack --progress --color",
     "build:prod": "NODE_ENV=production webpack --progress --color",
-    "start": "typings install && webpack-dev-server --progress --color",
+    "build:demo:dev": "NG2_AUTOCOMPLETE_DEMO=y webpack --progress --color",
+    "build:demo:prod": "NG2_AUTOCOMPLETE_DEMO=y NODE_ENV=production webpack --progress --color",
+    "start": "typings install && NG2_AUTOCOMPLETE_DEMO=y webpack-dev-server --progress --color",
     "deploy:gh-pages": "npm run build:prod && ./node_modules/.bin/gh-pages -d bundles",
-    "prepublish": "npm run clean && npm run build:prod",
+    "prepublish": "npm run clean && npm run build:prod && npm run build:dev",
     "postpublish": "npm run deploy:gh-pages"
   },
   "keywords": [
@@ -19,15 +21,13 @@
   ],
   "author": "Ofer Herman <oferhe@gmail.com>",
   "license": "Apache-2.0",
+  "typings": "./bundles/src/ng2-autocomplete.d.ts",
   "peerDependencies": {
     "@angular/common": "^2.0.0-rc.4",
     "@angular/compiler": "^2.0.0-rc.4",
     "@angular/core": "^2.0.0-rc.4",
     "@angular/forms": "^0.2.0-rc.4",
-    "@angular/http": "^2.0.0-rc.4",
-    "@angular/platform-browser": "^2.0.0-rc.4",
-    "@angular/platform-browser-dynamic": "^2.0.0-rc.4",
-    "@angular/router": "^3.0.0-beta.1"
+    "@angular/http": "^2.0.0-rc.4"
   },
   "devDependencies": {
     "@angular/common": "^2.0.0-rc.4",
@@ -58,6 +58,7 @@
     "uglify-js": "^2.6.2",
     "webpack": "^1.13.1",
     "webpack-dev-server": "^1.14.1",
+    "webpack-node-externals": "^1.2.0",
     "zone.js": "^0.6.12"
   }
 }

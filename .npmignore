@@ -13,9 +13,6 @@ bundle/ng2-autocomplete-demo.*
 bundle/index.html
 webpack.config.js
 
-#typescript sources
-*.ts
-*.js.map
-!*.d.ts
-/components/**/*.ts
-!/components/**/*.d.ts
+#temporary files
+bundles/src/components
+

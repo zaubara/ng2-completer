@@ -2,11 +2,13 @@
 import {Component, Input, Output, EventEmitter, OnInit, ViewChild, Provider, forwardRef} from "@angular/core";
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
 
-import {Observable} from "rxjs";
+import {Observable} from "rxjs/Observable";
 
 import {AutocompleteListCmp} from "./autocomplete-list-cmp";
 import {AutocompleteData} from "./services/autocomplete-data";
 import {AutocompleteItem} from "./autocomplete-item";
+
+import "rxjs/add/operator/catch";
 
 let template = require("./autocomplete-cmp.html");
 let defaultStyles = require("./autocomplete-cmp.css");
@@ -233,7 +235,7 @@ export class AutocompleteCmp implements OnInit, ControlValueAccessor {
             });
     }
 
-    public selectResult(result: any) {
+    public selectResult(result: any) {        
         this.searchStr = result.title;
         this._onChangeCallback(this.searchStr);
         this.callOrAssign(result);
@@ -245,30 +247,30 @@ export class AutocompleteCmp implements OnInit, ControlValueAccessor {
     };
 
     public hideResults() {
-        // if (mousedownOn &&
-        //     (mousedownOn === scope.id + '_dropdown' ||
-        //      mousedownOn.indexOf('angucomplete') >= 0)) {
-        //   mousedownOn = null;
-        // }
-        // else {
+       
         this.hideTimer = setTimeout(
             () => {
                 this.clearResults();
             },
             BLUR_TIMEOUT);
-        this.dataService.cancel();
-
-        //   if (scope.focusOut) {
-        //     scope.focusOut();
-        //   }
 
         if (this.overrideSuggested) {
-            if (this.searchStr && this.searchStr.length > 0 && this.listCmp.currentIndex === -1) {
+            if (this.searchStr && this.searchStr.length > 0 && this.listCmp && this.listCmp.currentIndex === -1) {
                 this.handleOverrideSuggestions();
             }
+        } else {
+            if (this.listCmp && this.listCmp.currentIndex >= 0) {
+                this.selectResult(this.results[this.listCmp.currentIndex]);
+            }
         }
-        // }
+        this.dataService.cancel();
+
     };
+
+    public onBlur() {
+        this.onTouched();
+        this.hideResults();
+    }
 
     private initResults() {
         this.showDropdown = this.displaySearching;
@@ -281,128 +283,7 @@ export class AutocompleteCmp implements OnInit, ControlValueAccessor {
             return;
         }
         this.dataService.search(str);
-        // if (this.localData) {
-        //     let matches: string[];
-        // if (typeof scope.localSearch() !== 'undefined') {
-        //   matches = scope.localSearch()(str, scope.localData);
-        // } else {
-        // matches = this.getLocalResults(str);
-        // // }
-        // this.searching = false;
-        // this.processResults(matches, str);
-        // }
-        // }
-        // else if (scope.remoteApiHandler) {
-        //   getRemoteResultsWithCustomHandler(str);
-        // } else {
-        //     this.getRemoteResults(str);
-        // }
     }
-
-    // private getLocalResults(str: string) {
-    //     let i: number;
-    //     let match: boolean;
-    //     let s: number;
-    //     let value: string;
-    //     let searchFields = this.searchFields.split(',');
-    //     let matches: string[] = [];
-    //     // if (typeof this.parseInput() !== 'undefined') {
-    //     //   str = scope.parseInput()(str);
-    //     // }
-    //     for (i = 0; i < this.localData.length; i++) {
-    //         match = false;
-
-    //         for (s = 0; s < searchFields.length; s++) {
-    //             value = this.extractValue(this.localData[i], searchFields[s]) || '';
-    //             match = match || (value.toString().toLowerCase().indexOf(str.toString().toLowerCase()) >= 0);
-    //         }
-
-    //         if (match) {
-    //             matches[matches.length] = this.localData[i];
-    //         }
-    //     }
-    //     return matches;
-    // }
-
-    // private processResults(responseData: string[], str: string) {
-    //     let i: number;
-    //     let description: string;
-    //     let image: string;
-    //     let text: string;
-    //     let formattedText: string;
-    //     let formattedDesc: string;
-
-    //     if (responseData && responseData.length > 0) {
-    //         this.results = [];
-
-    //         for (i = 0; i < responseData.length; i++) {
-    //             if (this.titleField && this.titleField !== '') {
-    //                 text = formattedText = this.extractTitle(responseData[i]);
-    //             }
-
-    //             // description = '';
-    //             // if (scope.descriptionField) {
-    //             //   description = formattedDesc = extractValue(responseData[i], scope.descriptionField);
-    //             // }
-
-    //             // image = '';
-    //             // if (scope.imageField) {
-    //             //   image = extractValue(responseData[i], scope.imageField);
-    //             // }
-
-    //             // if (scope.matchClass) {
-    //             //   formattedText = findMatchString(text, str);
-    //             //   formattedDesc = findMatchString(description, str);
-    //             // }
-
-    //             this.results[this.results.length] = {
-    //                 title: formattedText,
-    //                 description: formattedDesc,
-    //                 image: image,
-    //                 originalObject: responseData[i]
-    //             };
-    //         }
-
-    //     } else {
-    //         this.results = [];
-    //     }
-
-    //     // if (scope.autoMatch && scope.results.length === 1 &&
-    //     //     checkExactMatch(scope.results[0],
-    //     //       {title: text, desc: description || ''}, scope.searchStr)) {
-    //     //   scope.showDropdown = false;
-    //     // } else if (scope.results.length === 0 && !displayNoResults) {
-    //     //   scope.showDropdown = false;
-    //     // } else {
-    //     this.showDropdown = true;
-    //     // }
-    // }
-
-
-    // private extractValue(obj: any, key: string) {
-    //     let keys: string[];
-    //     let result: any;
-    //     if (key) {
-    //         keys = key.split('.');
-    //         result = obj;
-    //         for (var i = 0; i < keys.length; i++) {
-    //             result = result[keys[i]];
-    //         }
-    //     }
-    //     else {
-    //         result = obj;
-    //     }
-    //     return result;
-    // }
-
-    // private extractTitle(data: any) {
-    //     // split title fields and run extractValue for each and join with ' '
-    //     return this.titleField.split(',')
-    //         .map((field) => {
-    //             return this.extractValue(data, field);
-    //         })
-    //         .join(' ');
-    // }
 
 
     private clearResults() {
@@ -440,40 +321,7 @@ export class AutocompleteCmp implements OnInit, ControlValueAccessor {
     private callOrAssign(value: AutocompleteItem) {
         this.selectedObject = value;
         this.selected.emit(value);
-
-        // if (value) {
-        //   handleRequired(true);
-        // }
-        // else {
-        //   handleRequired(false);
-        // }
     }
-
-
-    // private getRemoteResults(str: string) {
-    //     var params = {},
-    //         url = this.remoteUrl + encodeURIComponent(str);
-    //     // if (scope.remoteUrlRequestFormatter) {
-    //     //   params = {params: scope.remoteUrlRequestFormatter(str)};
-    //     //   url = scope.remoteUrl;
-    //     // }
-    //     // if (!!scope.remoteUrlRequestWithCredentials) {
-    //     //   params.withCredentials = true;
-    //     // }
-    //     this.remoteSearch =
-    //         this.http.get(url)
-    //             .map((res: Response) => res.json())
-    //             .map((data: any) => this.extractValue(data, this.remoteUrlDataField))
-    //             .catch(this.handleError)
-    //             .subscribe((res: string[]) => {
-    //                 this.searching = false;
-    //                 this.processResults(res, str);
-    //             });
-    // }
-
-    // private cancelHttpRequest() {
-    //     this.remoteSearch.unsubscribe();
-    // }
 
     private handleError(error: any) {
         this.searching = false;

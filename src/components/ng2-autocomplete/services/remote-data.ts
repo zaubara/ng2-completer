@@ -1,5 +1,6 @@
 import {Http, Response} from "@angular/http";
-import {Subscription} from "rxjs";
+import {Subscription} from "rxjs/Subscription";
+import "rxjs/add/operator/map";
 
 
 import {AutocompleteBaseData} from "./autocomplete-base-data";
