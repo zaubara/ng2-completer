@@ -48,8 +48,6 @@ const AUTOCOMPLETE_CONTROL_VALUE_ACCESSOR = new Provider(
 export class CompleterCmp implements OnInit, ControlValueAccessor {
     @Input() public dataService: CompleterData;
     @Input() public searchFields = "";
-    @Input() public titleField = "";
-    @Input() public inputClass = "";
     @Input() public inputName = "";
     @Input() public pause = PAUSE;
     @Input() public minSearchLength = MIN_SEARCH_LENGTH;
@@ -235,7 +233,7 @@ export class CompleterCmp implements OnInit, ControlValueAccessor {
             });
     }
 
-    public selectResult(result: any) {        
+    public selectResult(result: any) {
         this.searchStr = result.title;
         this._onChangeCallback(this.searchStr);
         this.callOrAssign(result);
@@ -247,7 +245,7 @@ export class CompleterCmp implements OnInit, ControlValueAccessor {
     };
 
     public hideResults() {
-       
+
         this.hideTimer = setTimeout(
             () => {
                 this.clearResults();

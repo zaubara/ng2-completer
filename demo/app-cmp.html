@@ -69,11 +69,11 @@
         </div>
         <div class="row">
             <div class="col-md8 col-md-offset-1 p-a-1 completer-wrapper">
-                <ng2-completer name="countrRequired" [dataService]="dataService4" [(ngModel)]="countryName4" [minSearchLength]="0" [placeholder]="'search country'"
-                    #countrRequired="ngModel" [autoMatch]="true" required>
+                <ng2-completer name="countryRequired" [dataService]="dataService4" [(ngModel)]="countryName4" [minSearchLength]="0" [placeholder]="'search country'"
+                    #countryRequired="ngModel" [autoMatch]="true" required>
                 </ng2-completer>
             </div>
-            <div [hidden]="countrRequired.valid" class="alert alert-danger">
+            <div [hidden]="countryRequired.valid" class="alert alert-danger">
                 Country is required
             </div>
         </div>
