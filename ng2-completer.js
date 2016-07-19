@@ -1,14 +1,82 @@
-webpackJsonp([2],{
-
-/***/ 0:
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory(require("@angular/core"), require("@angular/forms"), require("@angular/http"), require("rxjs/Observable"), require("rxjs/Subject"), require("rxjs/add/operator/catch"), require("rxjs/add/operator/map"));
+	else if(typeof define === 'function' && define.amd)
+		define("ng2-completer", ["@angular/core", "@angular/forms", "@angular/http", "rxjs/Observable", "rxjs/Subject", "rxjs/add/operator/catch", "rxjs/add/operator/map"], factory);
+	else if(typeof exports === 'object')
+		exports["ng2-completer"] = factory(require("@angular/core"), require("@angular/forms"), require("@angular/http"), require("rxjs/Observable"), require("rxjs/Subject"), require("rxjs/add/operator/catch"), require("rxjs/add/operator/map"));
+	else
+		root["ng2-completer"] = factory(root["@angular/core"], root["@angular/forms"], root["@angular/http"], root["rxjs/Observable"], root["rxjs/Subject"], root["rxjs/add/operator/catch"], root["rxjs/add/operator/map"]);
+})(this, function(__WEBPACK_EXTERNAL_MODULE_1__, __WEBPACK_EXTERNAL_MODULE_15__, __WEBPACK_EXTERNAL_MODULE_16__, __WEBPACK_EXTERNAL_MODULE_17__, __WEBPACK_EXTERNAL_MODULE_18__, __WEBPACK_EXTERNAL_MODULE_19__, __WEBPACK_EXTERNAL_MODULE_20__) {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId])
+/******/ 			return installedModules[moduleId].exports;
+/******/
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			exports: {},
+/******/ 			id: moduleId,
+/******/ 			loaded: false
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(221);
+	"use strict";
+	var completer_cmp_1 = __webpack_require__(6);
+	exports.CompleterCmp = completer_cmp_1.CompleterCmp;
+	var completer_data_factory_1 = __webpack_require__(9);
+	exports.AUTOCOMPLET_DATA_PROVIDES = completer_data_factory_1.AUTOCOMPLET_DATA_PROVIDES;
+	var completer_service_1 = __webpack_require__(5);
+	exports.CompleterService = completer_service_1.CompleterService;
+	var local_data_1 = __webpack_require__(3);
+	exports.LocalData = local_data_1.LocalData;
+	var remote_data_1 = __webpack_require__(4);
+	exports.RemoteData = remote_data_1.RemoteData;
+	var completer_base_data_1 = __webpack_require__(2);
+	exports.CompleterBaseData = completer_base_data_1.CompleterBaseData;
 
 
 /***/ },
+/* 1 */
+/***/ function(module, exports) {
 
-/***/ 61:
+	module.exports = require("@angular/core");
+
+/***/ },
+/* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -17,7 +85,7 @@ webpackJsonp([2],{
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var Subject_1 = __webpack_require__(9);
+	var Subject_1 = __webpack_require__(18);
 	var CompleterBaseData = (function (_super) {
 	    __extends(CompleterBaseData, _super);
 	    function CompleterBaseData() {
@@ -131,8 +199,7 @@ webpackJsonp([2],{
 
 
 /***/ },
-
-/***/ 62:
+/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -150,8 +217,8 @@ webpackJsonp([2],{
 	var __metadata = (this && this.__metadata) || function (k, v) {
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
-	var core_1 = __webpack_require__(2);
-	var completer_base_data_1 = __webpack_require__(61);
+	var core_1 = __webpack_require__(1);
+	var completer_base_data_1 = __webpack_require__(2);
 	var LocalData = (function (_super) {
 	    __extends(LocalData, _super);
 	    function LocalData() {
@@ -175,8 +242,7 @@ webpackJsonp([2],{
 
 
 /***/ },
-
-/***/ 63:
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -185,8 +251,8 @@ webpackJsonp([2],{
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	__webpack_require__(95);
-	var completer_base_data_1 = __webpack_require__(61);
+	__webpack_require__(20);
+	var completer_base_data_1 = __webpack_require__(2);
 	var RemoteData = (function (_super) {
 	    __extends(RemoteData, _super);
 	    function RemoteData(http) {
@@ -239,8 +305,7 @@ webpackJsonp([2],{
 
 
 /***/ },
-
-/***/ 93:
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -256,9 +321,9 @@ webpackJsonp([2],{
 	var __param = (this && this.__param) || function (paramIndex, decorator) {
 	    return function (target, key) { decorator(target, key, paramIndex); }
 	};
-	var core_1 = __webpack_require__(2);
-	var local_data_1 = __webpack_require__(62);
-	var remote_data_1 = __webpack_require__(63);
+	var core_1 = __webpack_require__(1);
+	var local_data_1 = __webpack_require__(3);
+	var remote_data_1 = __webpack_require__(4);
 	var CompleterService = (function () {
 	    function CompleterService(localDataFactory, remoteDataFactory) {
 	        this.localDataFactory = localDataFactory;
@@ -290,8 +355,7 @@ webpackJsonp([2],{
 
 
 /***/ },
-
-/***/ 217:
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -304,13 +368,13 @@ webpackJsonp([2],{
 	var __metadata = (this && this.__metadata) || function (k, v) {
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
-	var core_1 = __webpack_require__(2);
-	var forms_1 = __webpack_require__(84);
-	var Observable_1 = __webpack_require__(1);
-	var completer_list_cmp_1 = __webpack_require__(218);
-	__webpack_require__(228);
-	var template = __webpack_require__(224);
-	var defaultStyles = __webpack_require__(223);
+	var core_1 = __webpack_require__(1);
+	var forms_1 = __webpack_require__(15);
+	var Observable_1 = __webpack_require__(17);
+	var completer_list_cmp_1 = __webpack_require__(7);
+	__webpack_require__(19);
+	var template = __webpack_require__(11);
+	var defaultStyles = __webpack_require__(10);
 	// keyboard events
 	var KEY_DW = 40;
 	var KEY_RT = 39;
@@ -674,8 +738,7 @@ webpackJsonp([2],{
 
 
 /***/ },
-
-/***/ 218:
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -688,10 +751,10 @@ webpackJsonp([2],{
 	var __metadata = (this && this.__metadata) || function (k, v) {
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
-	var core_1 = __webpack_require__(2);
-	var completer_list_item_cmp_1 = __webpack_require__(219);
-	var template = __webpack_require__(226);
-	var defaultStyles = __webpack_require__(225);
+	var core_1 = __webpack_require__(1);
+	var completer_list_item_cmp_1 = __webpack_require__(8);
+	var template = __webpack_require__(13);
+	var defaultStyles = __webpack_require__(12);
 	var CompleterListCmp = (function () {
 	    function CompleterListCmp(listElm) {
 	        this.listElm = listElm;
@@ -804,8 +867,7 @@ webpackJsonp([2],{
 
 
 /***/ },
-
-/***/ 219:
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -818,8 +880,8 @@ webpackJsonp([2],{
 	var __metadata = (this && this.__metadata) || function (k, v) {
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
-	var core_1 = __webpack_require__(2);
-	var template = __webpack_require__(227);
+	var core_1 = __webpack_require__(1);
+	var template = __webpack_require__(14);
 	var CompleterListItemCmp = (function () {
 	    function CompleterListItemCmp() {
 	        this.parts = [];
@@ -875,16 +937,15 @@ webpackJsonp([2],{
 
 
 /***/ },
-
-/***/ 220:
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var core_1 = __webpack_require__(2);
-	var http_1 = __webpack_require__(85);
-	var local_data_1 = __webpack_require__(62);
-	var remote_data_1 = __webpack_require__(63);
-	var completer_service_1 = __webpack_require__(93);
+	var core_1 = __webpack_require__(1);
+	var http_1 = __webpack_require__(16);
+	var local_data_1 = __webpack_require__(3);
+	var remote_data_1 = __webpack_require__(4);
+	var completer_service_1 = __webpack_require__(5);
 	function localDataFactory() {
 	    return function () {
 	        return new local_data_1.LocalData();
@@ -905,61 +966,73 @@ webpackJsonp([2],{
 
 
 /***/ },
-
-/***/ 221:
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var completer_cmp_1 = __webpack_require__(217);
-	exports.CompleterCmp = completer_cmp_1.CompleterCmp;
-	var completer_data_factory_1 = __webpack_require__(220);
-	exports.AUTOCOMPLET_DATA_PROVIDES = completer_data_factory_1.AUTOCOMPLET_DATA_PROVIDES;
-	var completer_service_1 = __webpack_require__(93);
-	exports.CompleterService = completer_service_1.CompleterService;
-	var local_data_1 = __webpack_require__(62);
-	exports.LocalData = local_data_1.LocalData;
-	var remote_data_1 = __webpack_require__(63);
-	exports.RemoteData = remote_data_1.RemoteData;
-	var completer_base_data_1 = __webpack_require__(61);
-	exports.CompleterBaseData = completer_base_data_1.CompleterBaseData;
-
-
-/***/ },
-
-/***/ 223:
+/* 10 */
 /***/ function(module, exports) {
 
 	module.exports = ""
 
 /***/ },
-
-/***/ 224:
+/* 11 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"completer-holder\">\n    <input class=\"completer-input\"\n        [(ngModel)]=\"searchStr\"\n        (keyup)=\"keyupHandler($event)\"\n        (keydown)=\"keydownHandler($event)\"\n        [attr.name]=\"inputName\"\n        [placeholder]=\"placeholder\"\n        [attr.maxlength]=\"maxChars\"\n        (blur)=\"onBlur()\"\n        [tabindex]=\"fieldTabindex\"\n        [disabled]=\"disableInput\"\n        completer=\"off\"\n        autocorrect=\"off\"\n        autocapitalize=\"off\"\n    />\n    <completer-list *ngIf=\"showDropdown\" class=\"completer-dropdown-holder\" [results]=\"results\"  [searchStr]=\"searchStr\" (selected)=\"selectResult($event)\" \n       [matchClass]=\"matchClass\" [textSearching]=\"textSearching\" [searching]=\"searching\" [textNoResults]=\"textNoResults\" [displaySearching]=\"displaySearching\">\n    </completer-list>\n\n</div>"
 
 /***/ },
-
-/***/ 225:
+/* 12 */
 /***/ function(module, exports) {
 
 	module.exports = ".completer-dropdown {\n    border-color: #ececec;\n    border-width: 1px;\n    border-style: solid;\n    border-radius: 2px;\n    width: 250px;\n    padding: 6px;\n    cursor: pointer;\n    z-index: 9999;\n    position: absolute;\n    /*top: 32px;\n    left: 0px;\n    */\n    margin-top: -6px;\n    background-color: #ffffff;\n}\n\n.completer-row {\n    padding: 5px;\n    color: #000000;\n    margin-bottom: 4px;\n    clear: both;\n}\n\n.completer-selected-row {\n    background-color: lightblue;\n    color: #ffffff;\n}\n\n.completer-description {\n    font-size: 14px;\n}"
 
 /***/ },
-
-/***/ 226:
+/* 13 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"completer-dropdown\">\n    <div *ngIf=\"searching && displaySearching\" class=\"completer-searching\">{{textSearching}}</div>\n    <div *ngIf=\"!searching && (!results || results.length == 0)\" class=\"completer-no-results\">{{textNoResults}}</div>\n    <div class=\"completer-row\" *ngFor=\"let result of results; let i=index\" (mouseenter)=\"hoverRow(i)\" (click)=\"onClick(result)\" [ngClass]=\"{'completer-selected-row': i == currentIndex}\">\n        <div *ngIf=\"result.image && result.image != ''\" class=\"completer-image-holder\">\n            <img *ngIf=\"result.image && result.image != ''\" src=\"{{result.image}}\" class=\"completer-image\" />\n            <div *ngIf=\"!result.image && result.image != ''\" class=\"completer-image-default\"></div>\n        </div>\n        <completer-list-item class=\"completer-title\" [text]=\"result.title\" [matchClass]=\"matchClass\" [searchStr]=\"searchStr\" [type]=\"'title'\"></completer-list-item>\n        <completer-list-item *ngIf=\"result.description && result.description != ''\" class=\"completer-description\"\n            [text]=\"result.description\" [matchClass]=\"matchClass\" [searchStr]=\"searchStr\" [type]=\"'description'\">\n        </completer-list-item>\n\n        <!--<div ng-if=\"matchClass && result.description && result.description != \\'\\'\" class=\"angucomplete-description\" ng-bind-html=\"result.description\"></div>-->\n        <!--<div *ngIf=\"!matchClass && result.description && result.description != ''\" class=\"completer-description\">{{result.description}}</div>-->\n    </div>\n</div>"
 
 /***/ },
-
-/***/ 227:
+/* 14 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"completer-list-item-holder\" [ngClass]=\"{'completer-title': type === 'title', 'completer-description': type === 'description'}\" >\n    <span class=\"completer-list-item\" *ngFor=\"let part of parts\" [ngClass]=\"part.isMatch ? matchClass : null\">{{part.text}}</span>\n</div>"
 
-/***/ }
+/***/ },
+/* 15 */
+/***/ function(module, exports) {
 
+	module.exports = require("@angular/forms");
+
+/***/ },
+/* 16 */
+/***/ function(module, exports) {
+
+	module.exports = require("@angular/http");
+
+/***/ },
+/* 17 */
+/***/ function(module, exports) {
+
+	module.exports = require("rxjs/Observable");
+
+/***/ },
+/* 18 */
+/***/ function(module, exports) {
+
+	module.exports = require("rxjs/Subject");
+
+/***/ },
+/* 19 */
+/***/ function(module, exports) {
+
+	module.exports = require("rxjs/add/operator/catch");
+
+/***/ },
+/* 20 */
+/***/ function(module, exports) {
+
+	module.exports = require("rxjs/add/operator/map");
+
+/***/ }
+/******/ ])
 });
+;
 //# sourceMappingURL=ng2-completer.js.map
