@@ -11,7 +11,7 @@
     "build:demo:dev": "NG2_COMPLETER_DEMO=y webpack --progress --color",
     "build:demo:prod": "NG2_COMPLETER_DEMO=y NODE_ENV=production webpack --progress --color",
     "start": "typings install && NG2_COMPLETER_DEMO=y webpack-dev-server --progress --color",
-    "deploy:gh-pages": "npm run build:prod && ./node_modules/.bin/gh-pages -d bundles",
+    "deploy:gh-pages": "npm run build:demo:prod && ./node_modules/.bin/gh-pages -d bundles",
     "prepublish": "npm run clean && npm run build:prod && npm run build:dev",
     "postpublish": "npm run deploy:gh-pages"
   },

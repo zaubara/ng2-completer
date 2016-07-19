@@ -76,7 +76,7 @@ export class AppComponent {
         this.dataService = completerService.local(this.countries, "name", "name").imageField("flag");
         this.dataService2 = completerService.local(this.quotes, "nm", "nm").descriptionField("qt");
         this.dataRemote = completerService.remote(
-            "https://raw.githubusercontent.com/oferh/ng2-completer/ver-0.2.0/demo/res/data/countries.json?",
+            "https://raw.githubusercontent.com/oferh/ng2-completer/master/demo/res/data/countries.json?",
             "name",
             "name");
         this.dataService3 = completerService.local(this.countries, "name", "name");

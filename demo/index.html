@@ -1,7 +1,11 @@
 <html>
   <head>
     <title>Ng2-completer demo</title>
-     <base href="/">
+      <% if ( webpackConfig.metadata.ENV === "development") { %>
+      <base href="/">
+      <%} else { %>
+      <base href="/ng2-completer/">
+      <% } %>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.2/css/bootstrap.css">
 
   </head>
