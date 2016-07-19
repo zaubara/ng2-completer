@@ -31,7 +31,7 @@ const TEXT_NORESULTS = "No results found";
 
 const noop = () => { };
 
-const AUTOCOMPLETE_CONTROL_VALUE_ACCESSOR = new Provider(
+const COMPLETER_CONTROL_VALUE_ACCESSOR = new Provider(
     NG_VALUE_ACCESSOR, {
         useExisting: forwardRef(() => CompleterCmp),
         multi: true
@@ -43,7 +43,7 @@ const AUTOCOMPLETE_CONTROL_VALUE_ACCESSOR = new Provider(
     directives: [CompleterListCmp],
     template: template,
     styles: [defaultStyles],
-    providers: [AUTOCOMPLETE_CONTROL_VALUE_ACCESSOR]
+    providers: [COMPLETER_CONTROL_VALUE_ACCESSOR]
 })
 export class CompleterCmp implements OnInit, ControlValueAccessor {
     @Input() public dataService: CompleterData;

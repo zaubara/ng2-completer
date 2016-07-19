@@ -1,16 +1,16 @@
 {
   "name": "ng2-completer",
   "version": "0.1.0",
-  "description": "ng2 autocomplete directive",
+  "description": "ng2 autocomplete/typeahead component",
   "main": "bundles/ng2-completer.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "./node_modules/.bin/del bundles \"src/**/*.+(js|d.ts|js.map)\" \"demo/**/*.+(js|js.map)\"",
     "build:dev": "webpack --progress --color",
     "build:prod": "NODE_ENV=production webpack --progress --color",
-    "build:demo:dev": "NG2_AUTOCOMPLETE_DEMO=y webpack --progress --color",
-    "build:demo:prod": "NG2_AUTOCOMPLETE_DEMO=y NODE_ENV=production webpack --progress --color",
-    "start": "typings install && NG2_AUTOCOMPLETE_DEMO=y webpack-dev-server --progress --color",
+    "build:demo:dev": "NG2_COMPLETER_DEMO=y webpack --progress --color",
+    "build:demo:prod": "NG2_COMPLETER_DEMO=y NODE_ENV=production webpack --progress --color",
+    "start": "typings install && NG2_COMPLETER_DEMO=y webpack-dev-server --progress --color",
     "deploy:gh-pages": "npm run build:prod && ./node_modules/.bin/gh-pages -d bundles",
     "prepublish": "npm run clean && npm run build:prod && npm run build:dev",
     "postpublish": "npm run deploy:gh-pages"

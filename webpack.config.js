@@ -12,7 +12,7 @@ const nodeExternals = require('webpack-node-externals');
 
 const ENV = process.env.NODE_ENV ? process.env.NODE_ENV : "development";
 const isProduction = (process.env.NODE_ENV || 'development') === 'production';
-const isBuildDemo = ((process.env.NG2_AUTOCOMPLETE_DEMO || 'n') === 'y');
+const isBuildDemo = ((process.env.NG2_COMPLETER_DEMO || 'n') === 'y');
 const devtool = process.env.NODE_ENV === 'test' ? 'inline-source-map' : 'source-map';
 const dest = './bundles';
 const absDest = root(dest);
@@ -32,7 +32,7 @@ const entryDemo = {
         '@angular/platform-browser-dynamic',
         '@angular/router',
         '@angular/forms',
-        'rxjs'
+        'rxjs' 
     ],
     'ng2-completer': ['src/ng2-completer.ts'],
     'ng2-completer-demo': 'demo/boot.ts'
