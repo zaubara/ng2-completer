@@ -9,13 +9,10 @@ coverage
 # demo build
 demo
 bundle/demo
-bundle/ng2-autocomplete-demo.*
+bundle/ng2-completer-demo.*
 bundle/index.html
 webpack.config.js
 
-#typescript sources
-*.ts
-*.js.map
-!*.d.ts
-/components/**/*.ts
-!/components/**/*.d.ts
+#temporary files
+bundles/src/components
+

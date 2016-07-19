@@ -1,11 +1,16 @@
 <html>
   <head>
-    <title>Ng2-autocomplete demo</title>
+    <title>Ng2-completer demo</title>
+      <% if ( webpackConfig.metadata.ENV === "development") { %>
+      <base href="/">
+      <%} else { %>
+      <base href="/ng2-completer/">
+      <% } %>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.2/css/bootstrap.css">
 
   </head>
   <body>
-    <seed-app>Loading...</seed-app>
+    <demo-app>Loading...</demo-app>
 
     <% if ( webpackConfig.metadata.ENV === "development") { %>
     <!-- Webpack Dev Server reload -->
