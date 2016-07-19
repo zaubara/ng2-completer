@@ -4,6 +4,8 @@ Auto complete component for Angular 2.
 
 This component is based on [angucomplete-alt](https://github.com/ghiden/angucomplete-alt)
 
+Click for the [demo](http://oferh.github.io/ng2-completer/)
+
 **This version is a work in progress**
 
 ## Installation
