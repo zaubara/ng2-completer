@@ -10,11 +10,11 @@ Click for the [demo](http://oferh.github.io/ng2-completer/)
 
 ## Installation
 
-`npm install ng2-completer --sav`
+`npm install ng2-completer --save`
 
 ## Usage
 
-You should have `Http` and `forms` provided in your app: 
+`Http` and `forms` should be provided in the app: 
 ```
 import { bootstrap } from '@angular/platform-browser-dynamic';
 import { disableDeprecatedForms, provideForms } from '@angular/forms';
