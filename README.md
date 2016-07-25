@@ -33,14 +33,14 @@ Add ng2-completer to your component and create a data source:
 
 ```
 import { Component } from '@angular/core';
-import {AutocompCmp, AutocompService, AutocompData, AUTOCOMP_DATA_PROVIDES} from 'ng2-completer';
+import {CompleterCmp, CompleterService, CompleterData, COMPLETER_DATA_PROVIDERS} from 'ng2-completer';
 
 @Component({
   selector: 'my-component',
   template: `<h1>Search color</h1>
             <ng2-completer [(ngModel)]="searchStr" [dataService]="dataService" [minSearchLength]="0"></ng2-completer>`,
   directives: [CompleterCmp],
-  providers: [AUTOCOMPLET_DATA_PROVIDES, CompleterService]
+  providers: [COMPLETER_DATA_PROVIDERS, CompleterService]
 })
 export class MyComponent {
 
@@ -62,7 +62,7 @@ export class MyComponent {
 }
 ```
 
-ng2-autocomp uses [rxjs](https://github.com/Reactive-Extensions/RxJS) stream as data sources. 
+ng2-completer uses [rxjs](https://github.com/Reactive-Extensions/RxJS) stream as data sources. 
 There are 2 ready made data sources that can be used to fetch local and remote data but it's also possible to provide 
 a custome source that generates a stream of items.
 
@@ -72,7 +72,7 @@ a custome source that generates a stream of items.
 
 |Attribute|Description|Type|Required|Default|
 |:---    |:---        |:--- |:---      |:--- |
-|dataService|Autocoplete list data source.|CompleterData|Yes||
+|dataService|Autocomplete list data source.|CompleterData|Yes||
 |ngModel| see the angular [forms API](https://angular.io/docs/js/latest/guide/forms.html).|string|Yes||
 |autoMatch|Auto select an item if it is the only result and it is an exact match of the search text.|boolean|false|
 |clearSelected|Clear the input when a result is selected.|boolean|No|false|

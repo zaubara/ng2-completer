@@ -13,6 +13,4 @@ bundle/ng2-completer-demo.*
 bundle/index.html
 webpack.config.js
 
-#temporary files
-bundles/src/components
 

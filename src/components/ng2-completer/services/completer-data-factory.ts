@@ -18,7 +18,7 @@ export function remoteDataFactory (http: Http) {
     };
 }
 
-export let AUTOCOMPLET_DATA_PROVIDES: Provider[] = [
+export let COMPLETER_DATA_PROVIDERS: Provider[] = [
     provide(LocalData, {useFactory: localDataFactory}),
     provide(RemoteData, {useFactory: remoteDataFactory, deps: [Http]}),
     provide(CompleterService, {useClass: CompleterService})

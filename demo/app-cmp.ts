@@ -4,7 +4,7 @@ import {ROUTER_DIRECTIVES} from "@angular/router";
 import {HTTP_PROVIDERS} from "@angular/http";
 import {FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, FormBuilder} from "@angular/forms";
 
-import {CompleterCmp, CompleterService, CompleterData, AUTOCOMPLET_DATA_PROVIDES, CompleterItem} from "../src/ng2-completer";
+import {CompleterCmp, CompleterService, CompleterData, COMPLETER_DATA_PROVIDERS, CompleterItem} from "../src/ng2-completer";
 
 import "rxjs/Rx";
 
@@ -16,7 +16,7 @@ let style = require("./app-cmp.css");
     directives: [CompleterCmp, ROUTER_DIRECTIVES, FORM_DIRECTIVES,  REACTIVE_FORM_DIRECTIVES],
     template: template,
     styles: [style],
-    providers: [CompleterService, AUTOCOMPLET_DATA_PROVIDES, HTTP_PROVIDERS]
+    providers: [CompleterService, COMPLETER_DATA_PROVIDERS, HTTP_PROVIDERS]
 })
 export class AppComponent {
     public countries = require("./res/data/countries.json");
