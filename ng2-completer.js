@@ -58,7 +58,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var completer_cmp_1 = __webpack_require__(6);
 	exports.CompleterCmp = completer_cmp_1.CompleterCmp;
 	var completer_data_factory_1 = __webpack_require__(9);
-	exports.AUTOCOMPLET_DATA_PROVIDES = completer_data_factory_1.AUTOCOMPLET_DATA_PROVIDES;
+	exports.COMPLETER_DATA_PROVIDERS = completer_data_factory_1.COMPLETER_DATA_PROVIDERS;
 	var completer_service_1 = __webpack_require__(5);
 	exports.CompleterService = completer_service_1.CompleterService;
 	var local_data_1 = __webpack_require__(3);
@@ -958,7 +958,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	}
 	exports.remoteDataFactory = remoteDataFactory;
-	exports.AUTOCOMPLET_DATA_PROVIDES = [
+	exports.COMPLETER_DATA_PROVIDERS = [
 	    core_1.provide(local_data_1.LocalData, { useFactory: localDataFactory }),
 	    core_1.provide(remote_data_1.RemoteData, { useFactory: remoteDataFactory, deps: [http_1.Http] }),
 	    core_1.provide(completer_service_1.CompleterService, { useClass: completer_service_1.CompleterService })
