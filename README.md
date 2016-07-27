@@ -66,6 +66,24 @@ ng2-completer uses [rxjs](https://github.com/Reactive-Extensions/RxJS) stream as
 There are 2 ready made data sources that can be used to fetch local and remote data but it's also possible to provide 
 a custome source that generates a stream of items.
 
+###System.js configuration
+
+Add the following to `System.js` map configuration:
+```
+   var map = {
+       ...
+       'ng2-completer':              'node_modules/ng2-completer/bundles'
+   }
+```
+
+Add the following to `System.js` packages configuration:
+```
+   var packages = {
+       ...
+       'ng2-completer':              { main: 'ng2-completer.js', format: 'cjs' }
+   }
+```
+
 ## API
 
 ### ng2-completer directive
