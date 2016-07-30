@@ -154,8 +154,9 @@ export class CompleterCmp implements OnInit, ControlValueAccessor {
     }
 
     public keydownHandler(event: any) {
-        if(!this.listCmp)
+        if(!this.listCmp){
             return;
+        }
 
         if (event.keyCode === KEY_EN && this.results) {
             if (this.listCmp.currentIndex >= 0 && this.listCmp.currentIndex < this.results.length) {
