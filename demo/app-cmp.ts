@@ -4,7 +4,7 @@ import {ROUTER_DIRECTIVES} from "@angular/router";
 import {HTTP_PROVIDERS} from "@angular/http";
 import {FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, FormBuilder} from "@angular/forms";
 
-import {CompleterCmp, CompleterService, CompleterData, COMPLETER_DATA_PROVIDERS, CompleterItem} from "../src/ng2-completer";
+import {CompleterCmp, CompleterService, CompleterData, COMPLETER_DATA_PROVIDERS, CompleterItem, RemoteData} from "../src/ng2-completer";
 
 import "rxjs/Rx";
 
@@ -68,6 +68,7 @@ export class AppComponent {
     private countryName2 = "";
     private quote = "";
     private dataRemote: CompleterData;
+    private dataRemote2: RemoteData;
     private dataService3: CompleterData;
     private dataService4: CompleterData;
     private searchcb = false;
@@ -79,6 +80,13 @@ export class AppComponent {
             "https://raw.githubusercontent.com/oferh/ng2-completer/master/demo/res/data/countries.json?",
             "name",
             "name");
+        this.dataRemote2 = completerService.remote(
+            null,
+            "name",
+            "name");
+        this.dataRemote2.urlFormater(term => {
+            return  "https://raw.githubusercontent.com/oferh/ng2-completer/master/demo/res/data/countries.json?" + encodeURIComponent("q=" + term);
+        });
         this.dataService3 = completerService.local(this.countries, "name", "name");
         this.dataService4 = completerService.local(this.countries, "name", "name");
     }
