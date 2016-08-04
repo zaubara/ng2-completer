@@ -1,12 +1,13 @@
 "use strict";
 import {Component} from "@angular/core";
 import {ROUTER_DIRECTIVES} from "@angular/router";
-import {HTTP_PROVIDERS} from "@angular/http";
+import {Http, HTTP_PROVIDERS} from "@angular/http";
 import {FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, FormBuilder} from "@angular/forms";
 
-import {CompleterCmp, CompleterService, CompleterData, COMPLETER_DATA_PROVIDERS, CompleterItem, RemoteData} from "../src/ng2-completer";
-
 import "rxjs/Rx";
+
+import {CompleterCmp, CompleterService, CompleterData, COMPLETER_DATA_PROVIDERS, CompleterItem, RemoteData} from "../src/ng2-completer";
+import {CustomData} from "./custom-data";
 
 let template = require("./app-cmp.html");
 let style = require("./app-cmp.css");
@@ -71,9 +72,10 @@ export class AppComponent {
     private dataRemote2: RemoteData;
     private dataService3: CompleterData;
     private dataService4: CompleterData;
+    private customData: CustomData;
     private searchcb = false;
 
-    constructor(private fb: FormBuilder, private completerService: CompleterService) {
+    constructor(private fb: FormBuilder, private completerService: CompleterService, private http: Http) {
         this.dataService = completerService.local(this.countries, "name", "name").imageField("flag");
         this.dataService2 = completerService.local(this.quotes, "nm", "nm").descriptionField("qt");
         this.dataRemote = completerService.remote(
@@ -89,6 +91,7 @@ export class AppComponent {
         });
         this.dataService3 = completerService.local(this.countries, "name", "name");
         this.dataService4 = completerService.local(this.countries, "name", "name");
+        this.customData = new CustomData(http);
     }
 
     public onCountrySelected(selected: CompleterItem) {
