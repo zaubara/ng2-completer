@@ -487,6 +487,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    };
 	    CompleterCmp.prototype.keydownHandler = function (event) {
+	        if (!this.listCmp) {
+	            return;
+	        }
 	        if (event.keyCode === KEY_EN && this.results) {
 	            if (this.listCmp.currentIndex >= 0 && this.listCmp.currentIndex < this.results.length) {
 	                event.preventDefault();
