@@ -108,7 +108,7 @@ Add the following to `System.js` packages configuration:
 |textSearching|Text displayed while search is active.|string|No|Searching...|
 
 
-### Loacl data
+### Local data
 
 Create local data provider by calling `CompleterService.local`.
 
