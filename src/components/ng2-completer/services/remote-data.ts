@@ -9,6 +9,7 @@ export class RemoteData extends CompleterBaseData {
     private _remoteUrl: string;
     private remoteSearch: Subscription;
     private _urlFormater: (term: string) => string = null;
+    private _dataField: string = null;
 
     constructor(private http: Http) {
         super();
@@ -21,6 +22,10 @@ export class RemoteData extends CompleterBaseData {
 
     public urlFormater(urlFormater: (term: string) => string) {
         this._urlFormater = urlFormater;
+    }
+
+    public dataField(dataField: string) {
+        this._dataField = dataField;
     }
 
     public search(term: string): void {
@@ -36,7 +41,8 @@ export class RemoteData extends CompleterBaseData {
         this.remoteSearch = this.http.get(url)
             .map((res: Response) => res.json())
             .map((data: any) => {
-                return this.extractMatches(data, term);
+                let matchaes = this.extractValue(data, this._dataField);
+                return this.extractMatches(matchaes, term);
             })
             .map(
             (matches: any[]) => {
