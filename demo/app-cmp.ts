@@ -84,11 +84,12 @@ export class AppComponent {
             "name");
         this.dataRemote2 = completerService.remote(
             null,
-            "name",
-            "name");
+            "formatted_address",
+            "formatted_address");
         this.dataRemote2.urlFormater(term => {
-            return  "https://raw.githubusercontent.com/oferh/ng2-completer/master/demo/res/data/countries.json?" + encodeURIComponent("q=" + term);
+            return  `https://maps.googleapis.com/maps/api/geocode/json?address=${term}`;
         });
+        this.dataRemote2.dataField("results");
         this.dataService3 = completerService.local(this.countries, "name", "name");
         this.dataService4 = completerService.local(this.countries, "name", "name");
         this.customData = new CustomData(http);

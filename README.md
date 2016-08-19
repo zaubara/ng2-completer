@@ -145,6 +145,7 @@ Create remote data provider by calling `CompleterService.remote`.
 |descriptionField|string|Name of the field to use as description for the list item.|
 |imageField|string|Name of the field to use as image url for the list item.|
 |urlFormater|(term: string) => string|Function that get's the searchterm and returns the search url before each search.|
+|dataField|string|The field in the response that includes the data.|
 
 ### CSS classes
 
