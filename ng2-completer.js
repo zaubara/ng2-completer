@@ -259,6 +259,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        _super.call(this);
 	        this.http = http;
 	        this._urlFormater = null;
+	        this._dataField = null;
 	    }
 	    RemoteData.prototype.remoteUrl = function (remoteUrl) {
 	        this._remoteUrl = remoteUrl;
@@ -266,6 +267,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	    RemoteData.prototype.urlFormater = function (urlFormater) {
 	        this._urlFormater = urlFormater;
+	    };
+	    RemoteData.prototype.dataField = function (dataField) {
+	        this._dataField = dataField;
 	    };
 	    RemoteData.prototype.search = function (term) {
 	        var _this = this;
@@ -281,7 +285,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.remoteSearch = this.http.get(url)
 	            .map(function (res) { return res.json(); })
 	            .map(function (data) {
-	            return _this.extractMatches(data, term);
+	            var matchaes = _this.extractValue(data, _this._dataField);
+	            return _this.extractMatches(matchaes, term);
 	        })
 	            .map(function (matches) {
 	            var results = _this.processResults(matches, term);
