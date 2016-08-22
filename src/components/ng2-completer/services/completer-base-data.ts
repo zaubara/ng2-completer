@@ -1,7 +1,7 @@
-import {Subject} from "rxjs/Subject";
+import { Subject } from "rxjs/Subject";
 
-import {CompleterItem} from "../completer-item";
-import {CompleterData} from "./completer-data";
+import { CompleterItem } from "../completer-item";
+import { CompleterData } from "./completer-data";
 
 export abstract class CompleterBaseData extends Subject<CompleterItem[]> implements CompleterData {
 
@@ -41,18 +41,23 @@ export abstract class CompleterBaseData extends Subject<CompleterItem[]> impleme
 
     protected extractMatches(data: any[], term: string) {
         let matches: any[] = [];
-        let searchFields = this._searchFields.split(",");
-        for (let i = 0; i < data.length; i++) {
-            let match = false;
-            for (let s = 0; s < searchFields.length; s++) {
-                let value = this.extractValue(data[i], searchFields[s]) || "";
-                match = match || (value.toString().toLowerCase().indexOf(term.toString().toLowerCase()) >= 0);
-            }
+        if (this._searchFields && this._searchFields != "") {
+            let searchFields = this._searchFields.split(",");
+            for (let i = 0; i < data.length; i++) {
+                let match = false;
+                for (let s = 0; s < searchFields.length; s++) {
+                    let value = this.extractValue(data[i], searchFields[s]) || "";
+                    match = match || (value.toString().toLowerCase().indexOf(term.toString().toLowerCase()) >= 0);
+                }
 
-            if (match) {
-                matches[matches.length] = data[i];
+                if (match) {
+                    matches[matches.length] = data[i];
+                }
             }
+        } else {
+            matches = data;
         }
+
 
         return matches;
     }
@@ -107,7 +112,7 @@ export abstract class CompleterBaseData extends Subject<CompleterItem[]> impleme
 
                 image = "";
                 if (this._imageField) {
-                  image = this.extractValue(matches[i], this._imageField);
+                    image = this.extractValue(matches[i], this._imageField);
                 }
 
                 // if (scope.matchClass) {
