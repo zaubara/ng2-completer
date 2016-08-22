@@ -1,20 +1,12 @@
-<div class="completer-holder">
-    <input class="completer-input"
-        [(ngModel)]="searchStr"
-        (keyup)="keyupHandler($event)"
-        (keydown)="keydownHandler($event)"
-        [attr.name]="inputName"
-        [placeholder]="placeholder"
-        [attr.maxlength]="maxChars"
-        (blur)="onBlur()"
-        [tabindex]="fieldTabindex"
-        [disabled]="disableInput"
-        completer="off"
-        autocorrect="off"
-        autocapitalize="off"
-    />
-    <completer-list *ngIf="showDropdown" class="completer-dropdown-holder" [results]="results"  [searchStr]="searchStr" (selected)="selectResult($event)" 
-       [matchClass]="matchClass" [textSearching]="textSearching" [searching]="searching" [textNoResults]="textNoResults" [displaySearching]="displaySearching">
+<div class="completer-holder" ctr-completer="dataService">
+    <input class="completer-input" ctr-input [(ngModel)]="searchStr"
+        (keydown)="keydownHandler($event)" [attr.name]="inputName" [placeholder]="placeholder"
+        [attr.maxlength]="maxChars" (blur)="onBlur()" [tabindex]="fieldTabindex" [disabled]="disableInput"
+        autocomplete="off" autocorrect="off" autocapitalize="off" />
+    <completer-list *ngIf="showDropdown" class="completer-dropdown-holder" [results]="results"
+        [searchStr]="searchStr" (selected)="selectResult($event)" [matchClass]="matchClass"
+        [textSearching]="textSearching" [searching]="searching" [textNoResults]="textNoResults"
+        [displaySearching]="displaySearching">
     </completer-list>
 
 </div>

@@ -4,6 +4,9 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
 
 import {Observable} from "rxjs/Observable";
 
+import {CtrCompleter} from "../../directives/ctr-completer";
+import {CtrInput} from "../../directives/ctr-input";
+
 import {CompleterListCmp} from "./completer-list-cmp";
 import {CompleterData} from "./services/completer-data";
 import {CompleterItem} from "./completer-item";
@@ -40,14 +43,13 @@ const COMPLETER_CONTROL_VALUE_ACCESSOR = new Provider(
 
 @Component({
     selector: "ng2-completer",
-    directives: [CompleterListCmp],
+    directives: [CompleterListCmp, CtrCompleter, CtrInput],
     template: template,
     styles: [defaultStyles],
     providers: [COMPLETER_CONTROL_VALUE_ACCESSOR]
 })
 export class CompleterCmp implements OnInit, ControlValueAccessor {
     @Input() public dataService: CompleterData;
-    @Input() public searchFields = "";
     @Input() public inputName = "";
     @Input() public pause = PAUSE;
     @Input() public minSearchLength = MIN_SEARCH_LENGTH;
@@ -104,54 +106,54 @@ export class CompleterCmp implements OnInit, ControlValueAccessor {
         this._onTouchedCallback = fn;
     }
 
-    public keyupHandler(event: any) {
-        if (event.keyCode === KEY_LF || event.keyCode === KEY_RT) {
-            // do nothing
-            return;
-        }
+    // public keyupHandler(event: any) {
+    //     if (event.keyCode === KEY_LF || event.keyCode === KEY_RT) {
+    //         // do nothing
+    //         return;
+    //     }
 
-        if (event.keyCode === KEY_UP || event.keyCode === KEY_EN) {
-            event.preventDefault();
-        }
-        else if (event.keyCode === KEY_DW) {
-            event.preventDefault();
-            if (!this.showDropdown && this.searchStr && this.searchStr.length >= this.minSearchLength) {
-                this.initResults();
-                this.searching = true;
-                this.searchTimerComplete(this.searchStr);
-            }
-        }
-        else if (event.keyCode === KEY_ES) {
-            this.clearResults();
-        }
-        else {
-            this._onChangeCallback(this.searchStr);
-            if (!this.searchStr) {
-                this.showDropdown = false;
-                return;
-            }
-            if (this.searchStr === "") {
-                this.showDropdown = false;
-            }
-            else if (this.searchStr.length >= this.minSearchLength) {
-                this.initResults();
+    //     if (event.keyCode === KEY_UP || event.keyCode === KEY_EN) {
+    //         event.preventDefault();
+    //     }
+    //     else if (event.keyCode === KEY_DW) {
+    //         event.preventDefault();
+    //         if (!this.showDropdown && this.searchStr && this.searchStr.length >= this.minSearchLength) {
+    //             this.initResults();
+    //             this.searching = true;
+    //             this.searchTimerComplete(this.searchStr);
+    //         }
+    //     }
+    //     else if (event.keyCode === KEY_ES) {
+    //         this.clearResults();
+    //     }
+    //     else {
+    //         this._onChangeCallback(this.searchStr);
+    //         if (!this.searchStr) {
+    //             this.showDropdown = false;
+    //             return;
+    //         }
+    //         if (this.searchStr === "") {
+    //             this.showDropdown = false;
+    //         }
+    //         else if (this.searchStr.length >= this.minSearchLength) {
+    //             this.initResults();
 
-                if (this.searchTimer) {
-                    clearTimeout(this.searchTimer);
-                }
+    //             if (this.searchTimer) {
+    //                 clearTimeout(this.searchTimer);
+    //             }
 
-                this.searching = true;
+    //             this.searching = true;
 
-                this.searchTimer = setTimeout(
-                    () => {
-                        this.searchTimerComplete(this.searchStr);
-                    },
-                    this.pause
-                );
-            }
-        }
+    //             this.searchTimer = setTimeout(
+    //                 () => {
+    //                     this.searchTimerComplete(this.searchStr);
+    //                 },
+    //                 this.pause
+    //             );
+    //         }
+    //     }
 
-    }
+    // }
 
     public keydownHandler(event: any) {
         if(!this.listCmp){
