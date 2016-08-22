@@ -117,7 +117,7 @@ Create local data provider by calling `CompleterService.local`.
 |Name|Type|Description|Required|
 |:---|:---|:---       |:---    |
 |data|any[]|A JSON array with the data to use.|Yes|
-|searchFields|string|Comma separated list of fields to search on. Fields may contain dots for nested attributes.|Yes|
+|searchFields|string|Comma separated list of fields to search on. Fields may contain dots for nested attributes; if empty or null all data will be returned.|Yes|
 |titleField|string|Name of the field to use as title for the list item.|Yes|
 
 #### Attributes
@@ -135,7 +135,7 @@ Create remote data provider by calling `CompleterService.remote`.
 |Name|Type|Description|Required|
 |:---|:---|:---       |:---    |
 |url|string|Base url for the search|Yes|
-|searchFields|string|Comma separated list of fields to search on. Fields may contain dots for nested attributes.|Yes|
+|searchFields|string|Comma separated list of fields to search on. Fields may contain dots for nested attributes; if empty or null all data will be returned.|Yes|
 |titleField|string|Name of the field to use as title for the list item.|Yes|
 
 #### Attributes

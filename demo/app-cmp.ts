@@ -1,20 +1,20 @@
 "use strict";
-import {Component} from "@angular/core";
-import {ROUTER_DIRECTIVES} from "@angular/router";
-import {Http, HTTP_PROVIDERS} from "@angular/http";
-import {FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, FormBuilder} from "@angular/forms";
+import { Component } from "@angular/core";
+import { ROUTER_DIRECTIVES } from "@angular/router";
+import { Http, HTTP_PROVIDERS } from "@angular/http";
+import { FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, FormBuilder } from "@angular/forms";
 
 import "rxjs/Rx";
 
-import {CompleterCmp, CompleterService, CompleterData, COMPLETER_DATA_PROVIDERS, CompleterItem, RemoteData} from "../src/ng2-completer";
-import {CustomData} from "./custom-data";
+import { CompleterCmp, CompleterService, CompleterData, COMPLETER_DATA_PROVIDERS, CompleterItem, RemoteData } from "../src/ng2-completer";
+import { CustomData } from "./custom-data";
 
 let template = require("./app-cmp.html");
 let style = require("./app-cmp.css");
 
 @Component({
     selector: "demo-app",
-    directives: [CompleterCmp, ROUTER_DIRECTIVES, FORM_DIRECTIVES,  REACTIVE_FORM_DIRECTIVES],
+    directives: [CompleterCmp, ROUTER_DIRECTIVES, FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES],
     template: template,
     styles: [style],
     providers: [CompleterService, COMPLETER_DATA_PROVIDERS, HTTP_PROVIDERS]
@@ -84,10 +84,10 @@ export class AppComponent {
             "name");
         this.dataRemote2 = completerService.remote(
             null,
-            "formatted_address",
+            null,
             "formatted_address");
         this.dataRemote2.urlFormater(term => {
-            return  `https://maps.googleapis.com/maps/api/geocode/json?address=${term}`;
+            return `https://maps.googleapis.com/maps/api/geocode/json?address=${term}`;
         });
         this.dataRemote2.dataField("results");
         this.dataService3 = completerService.local(this.countries, "name", "name");
