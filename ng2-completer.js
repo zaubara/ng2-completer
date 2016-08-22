@@ -110,16 +110,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	    CompleterBaseData.prototype.extractMatches = function (data, term) {
 	        var matches = [];
-	        var searchFields = this._searchFields.split(",");
-	        for (var i = 0; i < data.length; i++) {
-	            var match = false;
-	            for (var s = 0; s < searchFields.length; s++) {
-	                var value = this.extractValue(data[i], searchFields[s]) || "";
-	                match = match || (value.toString().toLowerCase().indexOf(term.toString().toLowerCase()) >= 0);
+	        if (this._searchFields && this._searchFields != "") {
+	            var searchFields = this._searchFields.split(",");
+	            for (var i = 0; i < data.length; i++) {
+	                var match = false;
+	                for (var s = 0; s < searchFields.length; s++) {
+	                    var value = this.extractValue(data[i], searchFields[s]) || "";
+	                    match = match || (value.toString().toLowerCase().indexOf(term.toString().toLowerCase()) >= 0);
+	                }
+	                if (match) {
+	                    matches[matches.length] = data[i];
+	                }
 	            }
-	            if (match) {
-	                matches[matches.length] = data[i];
-	            }
+	        }
+	        else {
+	            matches = data;
 	        }
 	        return matches;
 	    };
