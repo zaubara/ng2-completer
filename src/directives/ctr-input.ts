@@ -1,7 +1,7 @@
-import { Directive, Host, HostListener, Input } from "@angular/core";
+import { Directive, EventEmitter, Host, HostListener, Input, Output } from "@angular/core";
 
-import {CompleterData} from "../components/ng2-completer/services/completer-data";
-import {CtrCompleter} from "./ctr-completer";
+import { CompleterData } from "../components/ng2-completer/services/completer-data";
+import { CtrCompleter } from "./ctr-completer";
 
 
 // keyboard events
@@ -13,7 +13,6 @@ const KEY_ES = 27;
 const KEY_EN = 13;
 const KEY_TAB = 9;
 
-const MIN_SEARCH_LENGTH = 3;
 const MAX_CHARS = 524288;  // the default max length per the html maxlength attribute
 const PAUSE = 250;
 
@@ -21,12 +20,20 @@ const PAUSE = 250;
     selector: "[ctr-input]",
 })
 export class CtrInput {
-     @Input() public minSearchLength = MIN_SEARCH_LENGTH;
-     @Input() public maxChars = MAX_CHARS;
+    @Input() public maxChars = MAX_CHARS;
+    @Output() ngModelChange:EventEmitter<any> = new EventEmitter()
 
-    constructor(@Host() private completer: CtrCompleter) {}
+
+    private searchStr = "";
+
+    constructor( @Host() private completer: CtrCompleter) { }
+
+    @HostListener("input", ["$event"]) public onInputChange(event: any) {
+        this.searchStr = event.target.value;
+    }
 
     @HostListener("keyup", ["$event"]) public keyupHandler(event: any) {
+
         if (event.keyCode === KEY_LF || event.keyCode === KEY_RT) {
             // do nothing
             return;
@@ -37,6 +44,9 @@ export class CtrInput {
         }
         else if (event.keyCode === KEY_DW) {
             event.preventDefault();
+
+            this.completer.search(this.searchStr);
+
             // if (!this.showDropdown && this.searchStr && this.searchStr.length >= this.minSearchLength) {
             //     this.initResults();
             //     this.searching = true;
@@ -44,9 +54,16 @@ export class CtrInput {
             // }
         }
         else if (event.keyCode === KEY_ES) {
-            // this.clearResults();
+            this.completer.clear();
         }
         else {
+            if (!this.searchStr) {
+                this.completer.clear();
+                return;
+            }
+
+            this.completer.search(this.searchStr);
+
             // this._onChangeCallback(this.searchStr);
             // if (!this.searchStr) {
             //     this.showDropdown = false;
@@ -73,5 +90,25 @@ export class CtrInput {
             // }
         }
 
+    }
+
+    @HostListener("keydown", ["$event"]) public keydownHandler(event: any) {
+
+        if (event.keyCode === KEY_EN) {
+            this.completer.selectCurrent();
+            this.ngModelChange.emit("working");
+        } else if (event.keyCode === KEY_DW) {
+            event.preventDefault();
+            this.completer.nextRow();
+        } else if (event.keyCode === KEY_UP) {
+            event.preventDefault();
+            this.completer.prevRow();
+        } else if (event.keyCode === KEY_TAB) {
+                this.completer.selectCurrent();
+        } else if (event.keyCode === KEY_ES) {
+            // This is very specific to IE10/11 #272
+            // without this, IE clears the input text
+            event.preventDefault();
+        }
     }
 }

@@ -1,6 +1,6 @@
-<div class="completer-holder" ctr-completer="dataService">
+<div class="completer-holder" [ctr-completer]="dataService" [minSearchLength]="minSearchLength" [pause]="pause" [autoMatch]="autoMatch">
     <input class="completer-input" ctr-input [(ngModel)]="searchStr"
-        (keydown)="keydownHandler($event)" [attr.name]="inputName" [placeholder]="placeholder"
+        [attr.name]="inputName" [placeholder]="placeholder"
         [attr.maxlength]="maxChars" (blur)="onBlur()" [tabindex]="fieldTabindex" [disabled]="disableInput"
         autocomplete="off" autocorrect="off" autocapitalize="off" />
     <completer-list *ngIf="showDropdown" class="completer-dropdown-holder" [results]="results"

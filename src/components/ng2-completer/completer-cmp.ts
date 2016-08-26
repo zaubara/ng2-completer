@@ -2,7 +2,7 @@
 import {Component, Input, Output, EventEmitter, OnInit, ViewChild, Provider, forwardRef} from "@angular/core";
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
 
-import {Observable} from "rxjs/Observable";
+// import {Observable} from "rxjs/Observable";
 
 import {CtrCompleter} from "../../directives/ctr-completer";
 import {CtrInput} from "../../directives/ctr-input";
@@ -10,6 +10,8 @@ import {CtrInput} from "../../directives/ctr-input";
 import {CompleterListCmp} from "./completer-list-cmp";
 import {CompleterData} from "./services/completer-data";
 import {CompleterItem} from "./completer-item";
+import { MIN_SEARCH_LENGTH, PAUSE } from "../../globals";
+
 
 import "rxjs/add/operator/catch";
 
@@ -25,9 +27,8 @@ const KEY_ES = 27;
 const KEY_EN = 13;
 const KEY_TAB = 9;
 
-const MIN_SEARCH_LENGTH = 3;
 const MAX_CHARS = 524288;  // the default max length per the html maxlength attribute
-const PAUSE = 250;
+// const PAUSE = 250;
 const BLUR_TIMEOUT = 200;
 const TEXT_SEARCHING = "Searching...";
 const TEXT_NORESULTS = "No results found";
@@ -68,14 +69,14 @@ export class CompleterCmp implements OnInit, ControlValueAccessor {
     @ViewChild(CompleterListCmp) private listCmp: CompleterListCmp;
 
     private searchStr = "";
-    private searching = false;
+    // private searching = false;
     private showDropdown = false;
     private displayNoResults = true;
     private searchTimer: number = null;
     private hideTimer: number = null;
     private displaySearching = true;
     private selectedObject: CompleterItem = null;
-    private results: CompleterItem[] = [];
+    // private results: CompleterItem[] = [];
     private _onTouchedCallback: () => void = noop;
     private _onChangeCallback: (_: any) => void = noop;
 
@@ -155,62 +156,62 @@ export class CompleterCmp implements OnInit, ControlValueAccessor {
 
     // }
 
-    public keydownHandler(event: any) {
-        if(!this.listCmp){
-            return;
-        }
+    // public keydownHandler(event: any) {
+    //     if(!this.listCmp){
+    //         return;
+    //     }
 
-        if (event.keyCode === KEY_EN && this.results) {
-            if (this.listCmp.currentIndex >= 0 && this.listCmp.currentIndex < this.results.length) {
-                event.preventDefault();
-                this.selectResult(this.results[this.listCmp.currentIndex]);
-            } else {
-                this.handleOverrideSuggestions(event);
-                this.clearResults();
-            }
-        } else if (event.keyCode === KEY_DW && this.results) {
-            event.preventDefault();
-            if (this.showDropdown && (this.listCmp.currentIndex + 1) < this.results.length) {
-                this.listCmp.incIndex();
-                this.searchStr = this.results[this.listCmp.currentIndex].title;
-            }
-        } else if (event.keyCode === KEY_UP && this.results) {
-            event.preventDefault();
-            if (this.showDropdown && this.listCmp.currentIndex >= 1) {
-                this.listCmp.decIndex();
-                this.searchStr = this.results[this.listCmp.currentIndex].title;
-            }
-            else if (this.showDropdown && this.listCmp.currentIndex === 0) {
-                this.listCmp.unselect();
-            }
-        } else if (event.keyCode === KEY_TAB) {
-            if (this.results && this.results.length > 0 && this.showDropdown) {
-                if (this.listCmp.currentIndex === -1 && this.overrideSuggested) {
-                    // intentionally not sending event so that it does not
-                    // prevent default tab behavior
-                    this.handleOverrideSuggestions();
-                }
-                else {
-                    if (this.listCmp.currentIndex === -1) {
-                        this.listCmp.toTop();
-                    }
-                    this.selectResult(this.results[this.listCmp.currentIndex]);
-                }
-            }
-            else {
-                // no results
-                // intentionally not sending event so that it does not
-                // prevent default tab behavior
-                if (this.searchStr && this.searchStr.length > 0) {
-                    this.handleOverrideSuggestions();
-                }
-            }
-        } else if (event.keyCode === KEY_ES) {
-            // This is very specific to IE10/11 #272
-            // without this, IE clears the input text
-            event.preventDefault();
-        }
-    }
+    //     if (event.keyCode === KEY_EN && this.results) {
+    //         if (this.listCmp.currentIndex >= 0 && this.listCmp.currentIndex < this.results.length) {
+    //             event.preventDefault();
+    //             this.selectResult(this.results[this.listCmp.currentIndex]);
+    //         } else {
+    //             this.handleOverrideSuggestions(event);
+    //             this.clearResults();
+    //         }
+    //     } else if (event.keyCode === KEY_DW && this.results) {
+    //         event.preventDefault();
+    //         if (this.showDropdown && (this.listCmp.currentIndex + 1) < this.results.length) {
+    //             this.listCmp.incIndex();
+    //             this.searchStr = this.results[this.listCmp.currentIndex].title;
+    //         }
+    //     } else if (event.keyCode === KEY_UP && this.results) {
+    //         event.preventDefault();
+    //         if (this.showDropdown && this.listCmp.currentIndex >= 1) {
+    //             this.listCmp.decIndex();
+    //             this.searchStr = this.results[this.listCmp.currentIndex].title;
+    //         }
+    //         else if (this.showDropdown && this.listCmp.currentIndex === 0) {
+    //             this.listCmp.unselect();
+    //         }
+    //     } else if (event.keyCode === KEY_TAB) {
+    //         if (this.results && this.results.length > 0 && this.showDropdown) {
+    //             if (this.listCmp.currentIndex === -1 && this.overrideSuggested) {
+    //                 // intentionally not sending event so that it does not
+    //                 // prevent default tab behavior
+    //                 this.handleOverrideSuggestions();
+    //             }
+    //             else {
+    //                 if (this.listCmp.currentIndex === -1) {
+    //                     this.listCmp.toTop();
+    //                 }
+    //                 this.selectResult(this.results[this.listCmp.currentIndex]);
+    //             }
+    //         }
+    //         else {
+    //             // no results
+    //             // intentionally not sending event so that it does not
+    //             // prevent default tab behavior
+    //             if (this.searchStr && this.searchStr.length > 0) {
+    //                 this.handleOverrideSuggestions();
+    //             }
+    //         }
+    //     } else if (event.keyCode === KEY_ES) {
+    //         // This is very specific to IE10/11 #272
+    //         // without this, IE clears the input text
+    //         event.preventDefault();
+    //     }
+    // }
 
     public ngOnInit() {
 
@@ -220,23 +221,23 @@ export class CompleterCmp implements OnInit, ControlValueAccessor {
         if (this.textSearching === "false") {
             this.displaySearching = false;
         }
-        this.selected.subscribe(() => {
-            this.clearResults();
-        });
-        this.dataService
-            .catch(err => this.handleError(err))
-            .subscribe(results => {
-                this.searching = false;
-                this.results = results;
-                if (this.autoMatch && this.results.length === 1 &&
-                    this.results[0].title.toLocaleLowerCase() === this.searchStr.toLocaleLowerCase()) {
-                    this.showDropdown = false;
-                } else if (this.results.length === 0 && !this.displayNoResults) {
-                    this.showDropdown = false;
-                } else {
-                    this.showDropdown = true;
-                }
-            });
+        // this.selected.subscribe(() => {
+        //     this.clearResults();
+        // });
+        // this.dataService
+        //     .catch(err => this.handleError(err))
+        //     .subscribe(results => {
+        //         this.searching = false;
+        //         this.results = results;
+        //         if (this.autoMatch && this.results.length === 1 &&
+        //             this.results[0].title.toLocaleLowerCase() === this.searchStr.toLocaleLowerCase()) {
+        //             this.showDropdown = false;
+        //         } else if (this.results.length === 0 && !this.displayNoResults) {
+        //             this.showDropdown = false;
+        //         } else {
+        //             this.showDropdown = true;
+        //         }
+        //     });
     }
 
     public selectResult(result: any) {
@@ -247,14 +248,14 @@ export class CompleterCmp implements OnInit, ControlValueAccessor {
             this.searchStr = null;
         }
 
-        this.clearResults();
+        // this.clearResults();
     };
 
     public hideResults() {
 
         this.hideTimer = setTimeout(
             () => {
-                this.clearResults();
+                // this.clearResults();
             },
             BLUR_TIMEOUT);
 
@@ -264,7 +265,7 @@ export class CompleterCmp implements OnInit, ControlValueAccessor {
             }
         } else {
             if (this.listCmp && this.listCmp.currentIndex >= 0) {
-                this.selectResult(this.results[this.listCmp.currentIndex]);
+                // this.selectResult(this.results[this.listCmp.currentIndex]);
             }
         }
         this.dataService.cancel();
@@ -276,24 +277,24 @@ export class CompleterCmp implements OnInit, ControlValueAccessor {
         this.hideResults();
     }
 
-    private initResults() {
-        this.showDropdown = this.displaySearching;
-        this.results = [];
-    }
+    // private initResults() {
+    //     this.showDropdown = this.displaySearching;
+    //     this.results = [];
+    // }
 
-    private searchTimerComplete(str: string) {
-        // Begin the search
-        if (!str || str.length < this.minSearchLength) {
-            return;
-        }
-        this.dataService.search(str);
-    }
+    // private searchTimerComplete(str: string) {
+    //     // Begin the search
+    //     if (!str || str.length < this.minSearchLength) {
+    //         return;
+    //     }
+    //     this.dataService.search(str);
+    // }
 
 
-    private clearResults() {
-        this.results = [];
-        this.showDropdown = false;
-    }
+    // private clearResults() {
+    //     this.results = [];
+    //     this.showDropdown = false;
+    // }
 
     private handleOverrideSuggestions(event?: any) {
         if (this.overrideSuggested &&
@@ -319,7 +320,7 @@ export class CompleterCmp implements OnInit, ControlValueAccessor {
         if (this.clearSelected) {
             this.searchStr = null;
         }
-        this.clearResults();
+        // this.clearResults();
     }
 
     private callOrAssign(value: CompleterItem) {
@@ -327,14 +328,14 @@ export class CompleterCmp implements OnInit, ControlValueAccessor {
         this.selected.emit(value);
     }
 
-    private handleError(error: any) {
-        this.searching = false;
-        let errMsg = (error.message) ? error.message :
-            error.status ? `${error.status} - ${error.statusText}` : "Server error";
-        if (console && console.error) {
-            console.error(errMsg); // log to console 
-        }
+    // private handleError(error: any) {
+    //     // this.searching = false;
+    //     let errMsg = (error.message) ? error.message :
+    //         error.status ? `${error.status} - ${error.statusText}` : "Server error";
+    //     if (console && console.error) {
+    //         console.error(errMsg); // log to console 
+    //     }
 
-        return Observable.throw(errMsg);
-    }
+    //     return Observable.throw(errMsg);
+    // }
 }
