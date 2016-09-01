@@ -1,4 +1,4 @@
-import {Http, Response} from "@angular/http";
+import { Http, Response, Headers } from "@angular/http";
 import {Subscription} from "rxjs/Subscription";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
@@ -11,6 +11,7 @@ export class RemoteData extends CompleterBaseData {
     private remoteSearch: Subscription;
     private _urlFormater: (term: string) => string = null;
     private _dataField: string = null;
+    private _headers: Headers = new Headers({});
 
     constructor(private http: Http) {
         super();
@@ -23,6 +24,10 @@ export class RemoteData extends CompleterBaseData {
 
     public urlFormater(urlFormater: (term: string) => string) {
         this._urlFormater = urlFormater;
+    }
+
+    public headers(headers:Headers) {
+        this._headers = headers;
     }
 
     public dataField(dataField: string) {
@@ -39,7 +44,7 @@ export class RemoteData extends CompleterBaseData {
             url = this._remoteUrl + encodeURIComponent(term);
         }
 
-        this.remoteSearch = this.http.get(url)
+        this.remoteSearch = this.http.get(url, {headers: this._headers})
             .map((res: Response) => res.json())
             .map((data: any) => {
                 let matchaes = this.extractValue(data, this._dataField);
