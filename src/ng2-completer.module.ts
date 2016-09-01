@@ -5,10 +5,12 @@ import { CompleterCmp } from "./components/ng2-completer/completer-cmp";
 import { CompleterListCmp } from "./components/ng2-completer/completer-list-cmp";
 import { CompleterListItemCmp } from "./components/ng2-completer/completer-list-item-cmp";
 import { CompleterService } from "./components/ng2-completer/services/completer-service";
-import { COMPLETER_DATA_PROVIDERS } from "./components/ng2-completer/services/completer-data-factory";
+import { LocalDataFactoryProvider, RemoteDataFactoryProvider } from "./components/ng2-completer/services/completer-data-factory";
+import { CommonModule } from "@angular/common";
 
 @NgModule({
     imports: [
+        CommonModule,
         FormsModule,
         ReactiveFormsModule,
         HttpModule
@@ -20,7 +22,8 @@ import { COMPLETER_DATA_PROVIDERS } from "./components/ng2-completer/services/co
     ],
     providers: [
         CompleterService,
-        COMPLETER_DATA_PROVIDERS
+        LocalDataFactoryProvider,
+        RemoteDataFactoryProvider
     ],
     exports: [
         CompleterCmp
