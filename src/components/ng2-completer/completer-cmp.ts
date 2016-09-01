@@ -1,5 +1,5 @@
 "use strict";
-import {Component, Input, Output, EventEmitter, OnInit, ViewChild, Provider, forwardRef} from "@angular/core";
+import {Component, Input, Output, EventEmitter, OnInit, ViewChild, forwardRef} from "@angular/core";
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
 
 import {Observable} from "rxjs/Observable";
@@ -31,16 +31,17 @@ const TEXT_NORESULTS = "No results found";
 
 const noop = () => { };
 
-const COMPLETER_CONTROL_VALUE_ACCESSOR = new Provider(
-    NG_VALUE_ACCESSOR, {
-        useExisting: forwardRef(() => CompleterCmp),
-        multi: true
-    });
+const COMPLETER_CONTROL_VALUE_ACCESSOR = {
+        provider: NG_VALUE_ACCESSOR,
+        toFactory: {
+            useExisting: forwardRef(() => CompleterCmp),
+            multi: true
+        }
+    };
 
 
 @Component({
     selector: "ng2-completer",
-    directives: [CompleterListCmp],
     template: template,
     styles: [defaultStyles],
     providers: [COMPLETER_CONTROL_VALUE_ACCESSOR]

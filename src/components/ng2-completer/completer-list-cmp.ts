@@ -10,8 +10,7 @@ let defaultStyles = require("./completer-list-cmp.css");
 @Component({
     selector: "completer-list",
     template: template,
-    styles: [defaultStyles],
-    directives: [CompleterListItemCmp]
+    styles: [defaultStyles]\
 })
 export class CompleterListCmp implements AfterContentInit {
     @Input() public results: CompleterItem[] = [];
