@@ -1,7 +1,6 @@
 "use strict";
 import {Component, Output, Input, EventEmitter, ElementRef, AfterContentInit} from "@angular/core";
 import {CompleterItem} from "./completer-item";
-import {CompleterListItemCmp} from "./completer-list-item-cmp";
 
 
 
@@ -10,7 +9,7 @@ let defaultStyles = require("./completer-list-cmp.css");
 @Component({
     selector: "completer-list",
     template: template,
-    styles: [defaultStyles]\
+    styles: [defaultStyles]
 })
 export class CompleterListCmp implements AfterContentInit {
     @Input() public results: CompleterItem[] = [];

@@ -32,12 +32,10 @@ const TEXT_NORESULTS = "No results found";
 const noop = () => { };
 
 const COMPLETER_CONTROL_VALUE_ACCESSOR = {
-        provider: NG_VALUE_ACCESSOR,
-        toFactory: {
-            useExisting: forwardRef(() => CompleterCmp),
-            multi: true
-        }
-    };
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(() => CompleterCmp),
+    multi: true
+};
 
 
 @Component({
