@@ -1,12 +1,30 @@
-<div class="completer-holder" [ctr-completer]="dataService" [minSearchLength]="minSearchLength" [pause]="pause" [autoMatch]="autoMatch">
-    <input class="completer-input" ctr-input [(ngModel)]="searchStr"
-        [attr.name]="inputName" [placeholder]="placeholder"
-        [attr.maxlength]="maxChars" (blur)="onBlur()" [tabindex]="fieldTabindex" [disabled]="disableInput"
-        autocomplete="off" autocorrect="off" autocapitalize="off" />
-    <completer-list *ngIf="showDropdown" class="completer-dropdown-holder" [results]="results"
+<div class="completer-holder" ctrCompleter>
+    <input class="completer-input" ctrInput [(ngModel)]="searchStr" [attr.name]="inputName"
+        [placeholder]="placeholder" [attr.maxlength]="maxChars" (blur)="onBlur()" [tabindex]="fieldTabindex"
+        [disabled]="disableInput" autocomplete="off" autocorrect="off" autocapitalize="off"
+    />
+    <!--<div ctr-list class="completer-dropdown-holder" [results]="results"
         [searchStr]="searchStr" (selected)="selectResult($event)" [matchClass]="matchClass"
         [textSearching]="textSearching" [searching]="searching" [textNoResults]="textNoResults"
         [displaySearching]="displaySearching">
-    </completer-list>
+    </completer-list>-->
 
+    <div *ctrList="dataService; minSearchLength: minSearchLength; pause: pause autoMatch: autoMatch; let items = results; let searchActive = searching">
+        <div class="completer-dropdown">
+            <div *ngIf="searchActive && displaySearching" class="completer-searching">{{textSearching}}</div>
+            <div *ngIf="!searchActive && (!items || items.length == 0)" class="completer-no-results">{{textNoResults}}</div>
+            <div class="completer-row" *ngFor="let item of items; let i=index">
+                <div *ngIf="item.image && item.image != ''" class="completer-image-holder">
+                    <img *ngIf="item.image && item.image != ''" src="{{item.image}}" class="completer-image"/>
+                    <div *ngIf="!item.image && item.image != ''" class="completer-image-default"></div>
+                </div>
+                <completer-list-item class="completer-title" [text]="item.title" [matchClass]="matchClass"
+                    [searchStr]="searchStr" [type]="'title'"></completer-list-item>
+                <completer-list-item *ngIf="item.description && item.description != ''" class="completer-description"
+                    [text]="item.description" [matchClass]="matchClass" [searchStr]="searchStr"
+                    [type]="'description'">
+                </completer-list-item>
+            </div>
+        </div>
+    </div>
 </div>

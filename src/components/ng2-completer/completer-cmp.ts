@@ -6,8 +6,10 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
 
 import {CtrCompleter} from "../../directives/ctr-completer";
 import {CtrInput} from "../../directives/ctr-input";
+import {CtrList} from "../../directives/ctr-list";
+import {CompleterListItemCmp} from "./completer-list-item-cmp";
 
-import {CompleterListCmp} from "./completer-list-cmp";
+
 import {CompleterData} from "./services/completer-data";
 import {CompleterItem} from "./completer-item";
 import { MIN_SEARCH_LENGTH, PAUSE } from "../../globals";
@@ -44,7 +46,7 @@ const COMPLETER_CONTROL_VALUE_ACCESSOR = new Provider(
 
 @Component({
     selector: "ng2-completer",
-    directives: [CompleterListCmp, CtrCompleter, CtrInput],
+    directives: [CompleterListItemCmp, CtrCompleter, CtrInput, CtrList],
     template: template,
     styles: [defaultStyles],
     providers: [COMPLETER_CONTROL_VALUE_ACCESSOR]
@@ -66,7 +68,7 @@ export class CompleterCmp implements OnInit, ControlValueAccessor {
     @Input() public disableInput = false;
     @Output() public selected = new EventEmitter<CompleterItem>();
 
-    @ViewChild(CompleterListCmp) private listCmp: CompleterListCmp;
+    // @ViewChild(CompleterListCmp) private listCmp: CompleterListCmp;
 
     private searchStr = "";
     // private searching = false;
@@ -259,15 +261,15 @@ export class CompleterCmp implements OnInit, ControlValueAccessor {
             },
             BLUR_TIMEOUT);
 
-        if (this.overrideSuggested) {
-            if (this.searchStr && this.searchStr.length > 0 && this.listCmp && this.listCmp.currentIndex === -1) {
-                this.handleOverrideSuggestions();
-            }
-        } else {
-            if (this.listCmp && this.listCmp.currentIndex >= 0) {
-                // this.selectResult(this.results[this.listCmp.currentIndex]);
-            }
-        }
+        // if (this.overrideSuggested) {
+        //     if (this.searchStr && this.searchStr.length > 0 && this.listCmp && this.listCmp.currentIndex === -1) {
+        //         this.handleOverrideSuggestions();
+        //     }
+        // } else {
+        //     if (this.listCmp && this.listCmp.currentIndex >= 0) {
+        //         // this.selectResult(this.results[this.listCmp.currentIndex]);
+        //     }
+        // }
         this.dataService.cancel();
 
     };

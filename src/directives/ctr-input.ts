@@ -17,7 +17,7 @@ const MAX_CHARS = 524288;  // the default max length per the html maxlength attr
 const PAUSE = 250;
 
 @Directive({
-    selector: "[ctr-input]",
+    selector: "[ctrInput]",
 })
 export class CtrInput {
     @Input() public maxChars = MAX_CHARS;
