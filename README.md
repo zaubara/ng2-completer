@@ -10,7 +10,9 @@ Click for the [demo](http://oferh.github.io/ng2-completer/)
 
 ## Installation
 
-`npm install ng2-completer --save`
+```sh
+npm install ng2-completer --save
+```
 
 ## Usage
 
@@ -20,7 +22,7 @@ import { bootstrap } from '@angular/platform-browser-dynamic';
 import { disableDeprecatedForms, provideForms } from '@angular/forms';
 
 import { AppComponent, environment } from './app/';
-import {HTTP_PROVIDERS} from '@angular/http';
+import { HTTP_PROVIDERS } from '@angular/http';
 
 bootstrap(AppComponent, [
   HTTP_PROVIDERS,
@@ -33,7 +35,7 @@ Add ng2-completer to your component and create a data source:
 
 ```ts
 import { Component } from '@angular/core';
-import {CompleterCmp, CompleterService, CompleterData, COMPLETER_DATA_PROVIDERS} from 'ng2-completer';
+import { CompleterCmp, CompleterService, CompleterData, COMPLETER_DATA_PROVIDERS } from 'ng2-completer';
 
 @Component({
   selector: 'my-component',
