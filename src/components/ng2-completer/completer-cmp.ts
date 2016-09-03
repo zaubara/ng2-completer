@@ -5,6 +5,7 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
 // import {Observable} from "rxjs/Observable";
 
 import {CtrCompleter} from "../../directives/ctr-completer";
+import {CtrDropdown} from "../../directives/ctr-dropdown";
 import {CtrInput} from "../../directives/ctr-input";
 import {CtrList} from "../../directives/ctr-list";
 import {CompleterListItemCmp} from "./completer-list-item-cmp";
@@ -46,7 +47,7 @@ const COMPLETER_CONTROL_VALUE_ACCESSOR = new Provider(
 
 @Component({
     selector: "ng2-completer",
-    directives: [CompleterListItemCmp, CtrCompleter, CtrInput, CtrList],
+    directives: [CompleterListItemCmp, CtrCompleter, CtrDropdown, CtrInput, CtrList],
     template: template,
     styles: [defaultStyles],
     providers: [COMPLETER_CONTROL_VALUE_ACCESSOR]

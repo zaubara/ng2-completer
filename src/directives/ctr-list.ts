@@ -40,6 +40,14 @@ export class CtrList implements OnInit, CompleterList {
         );
     }
 
+    @HostListener("click", ["$event"]) public onClick(event: any) {
+        console.log("click", event);
+    }
+
+    @HostListener("hover", ["$event"]) public onHover(event: any) {
+        console.log("hover", event);
+    }
+
     @Input("ctrList")
     set dataService(newService: CompleterData) {
         this._dataService = newService;
@@ -57,14 +65,6 @@ export class CtrList implements OnInit, CompleterList {
                     this.refreshTemplate();
                 });
         }
-    }
-
-    @HostListener("click", ["$event"]) public onInputChange(event: any) {
-        console.log("click", event);
-    }
-
-    @HostListener("hover", ["$event"]) public keyupHandler(event: any) {
-        console.log("hover", event);
     }
 
     public search(term: string) {
