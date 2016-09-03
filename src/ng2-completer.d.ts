@@ -1,5 +1,4 @@
-export { CompleterCmp } from "./components/ng2-completer/completer-cmp";
-export { COMPLETER_DATA_PROVIDERS } from "./components/ng2-completer/services/completer-data-factory";
+export { Ng2CompleterModule } from "./ng2-completer.module";
 export { CompleterService } from "./components/ng2-completer/services/completer-service";
 export { CompleterData } from "./components/ng2-completer/services/completer-data";
 export { CompleterItem } from "./components/ng2-completer/completer-item";

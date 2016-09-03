@@ -1,13 +1,13 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("@angular/core"), require("@angular/forms"), require("@angular/http"), require("rxjs/Observable"), require("rxjs/Subject"), require("rxjs/add/operator/catch"), require("rxjs/add/operator/map"));
+		module.exports = factory(require("@angular/core"), require("@angular/forms"), require("@angular/http"), require("rxjs/add/operator/catch"), require("@angular/common"), require("rxjs/Observable"), require("rxjs/Subject"), require("rxjs/add/operator/map"));
 	else if(typeof define === 'function' && define.amd)
-		define("ng2-completer", ["@angular/core", "@angular/forms", "@angular/http", "rxjs/Observable", "rxjs/Subject", "rxjs/add/operator/catch", "rxjs/add/operator/map"], factory);
+		define("ng2-completer", ["@angular/core", "@angular/forms", "@angular/http", "rxjs/add/operator/catch", "@angular/common", "rxjs/Observable", "rxjs/Subject", "rxjs/add/operator/map"], factory);
 	else if(typeof exports === 'object')
-		exports["ng2-completer"] = factory(require("@angular/core"), require("@angular/forms"), require("@angular/http"), require("rxjs/Observable"), require("rxjs/Subject"), require("rxjs/add/operator/catch"), require("rxjs/add/operator/map"));
+		exports["ng2-completer"] = factory(require("@angular/core"), require("@angular/forms"), require("@angular/http"), require("rxjs/add/operator/catch"), require("@angular/common"), require("rxjs/Observable"), require("rxjs/Subject"), require("rxjs/add/operator/map"));
 	else
-		root["ng2-completer"] = factory(root["@angular/core"], root["@angular/forms"], root["@angular/http"], root["rxjs/Observable"], root["rxjs/Subject"], root["rxjs/add/operator/catch"], root["rxjs/add/operator/map"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_1__, __WEBPACK_EXTERNAL_MODULE_15__, __WEBPACK_EXTERNAL_MODULE_16__, __WEBPACK_EXTERNAL_MODULE_17__, __WEBPACK_EXTERNAL_MODULE_18__, __WEBPACK_EXTERNAL_MODULE_19__, __WEBPACK_EXTERNAL_MODULE_20__) {
+		root["ng2-completer"] = factory(root["@angular/core"], root["@angular/forms"], root["@angular/http"], root["rxjs/add/operator/catch"], root["@angular/common"], root["rxjs/Observable"], root["rxjs/Subject"], root["rxjs/add/operator/map"]);
+})(this, function(__WEBPACK_EXTERNAL_MODULE_1__, __WEBPACK_EXTERNAL_MODULE_7__, __WEBPACK_EXTERNAL_MODULE_8__, __WEBPACK_EXTERNAL_MODULE_9__, __WEBPACK_EXTERNAL_MODULE_19__, __WEBPACK_EXTERNAL_MODULE_20__, __WEBPACK_EXTERNAL_MODULE_21__, __WEBPACK_EXTERNAL_MODULE_22__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -55,11 +55,9 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var completer_cmp_1 = __webpack_require__(6);
-	exports.CompleterCmp = completer_cmp_1.CompleterCmp;
-	var completer_data_factory_1 = __webpack_require__(9);
-	exports.COMPLETER_DATA_PROVIDERS = completer_data_factory_1.COMPLETER_DATA_PROVIDERS;
-	var completer_service_1 = __webpack_require__(5);
+	var ng2_completer_module_1 = __webpack_require__(13);
+	exports.Ng2CompleterModule = ng2_completer_module_1.Ng2CompleterModule;
+	var completer_service_1 = __webpack_require__(6);
 	exports.CompleterService = completer_service_1.CompleterService;
 	var local_data_1 = __webpack_require__(3);
 	exports.LocalData = local_data_1.LocalData;
@@ -85,7 +83,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var Subject_1 = __webpack_require__(18);
+	var Subject_1 = __webpack_require__(21);
 	var CompleterBaseData = (function (_super) {
 	    __extends(CompleterBaseData, _super);
 	    function CompleterBaseData() {
@@ -256,7 +254,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	__webpack_require__(20);
+	__webpack_require__(22);
+	__webpack_require__(9);
 	var completer_base_data_1 = __webpack_require__(2);
 	var RemoteData = (function (_super) {
 	    __extends(RemoteData, _super);
@@ -328,6 +327,133 @@ return /******/ (function(modules) { // webpackBootstrap
 	var __metadata = (this && this.__metadata) || function (k, v) {
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
+	var core_1 = __webpack_require__(1);
+	var template = __webpack_require__(17);
+	var defaultStyles = __webpack_require__(16);
+	var CompleterListCmp = (function () {
+	    function CompleterListCmp(listElm) {
+	        this.listElm = listElm;
+	        this.results = [];
+	        this.searchStr = "";
+	        this.selected = new core_1.EventEmitter();
+	        this.currentIndex = -1;
+	        this.isScrollOn = false;
+	    }
+	    CompleterListCmp.prototype.ngAfterContentInit = function () {
+	        this.dd = this.listElm.nativeElement.querySelector(".completer-dropdown");
+	        var css = getComputedStyle(this.dd);
+	        this.isScrollOn = css.maxHeight && css.overflowY === "auto";
+	    };
+	    CompleterListCmp.prototype.onClick = function (result) {
+	        this.selected.emit(result);
+	    };
+	    CompleterListCmp.prototype.hoverRow = function (index) {
+	        this.currentIndex = index;
+	    };
+	    ;
+	    CompleterListCmp.prototype.incIndex = function () {
+	        this.currentIndex++;
+	        if (this.isScrollOn) {
+	            var row = this.dropdownRow();
+	            if (this.dropdownHeight() < row.getBoundingClientRect().bottom) {
+	                this.dropdownScrollTopTo(this.dropdownRowOffsetHeight(row));
+	            }
+	        }
+	    };
+	    CompleterListCmp.prototype.decIndex = function () {
+	        this.currentIndex--;
+	        if (this.isScrollOn) {
+	            var rowTop = this.dropdownRowTop();
+	            if (rowTop < 0) {
+	                this.dropdownScrollTopTo(rowTop - 1);
+	            }
+	        }
+	    };
+	    CompleterListCmp.prototype.unselect = function () {
+	        this.currentIndex = -1;
+	    };
+	    CompleterListCmp.prototype.toTop = function () {
+	        this.currentIndex = 0;
+	    };
+	    CompleterListCmp.prototype.dropdownRow = function () {
+	        return this.listElm.nativeElement.querySelectorAll(".completer-row")[this.currentIndex];
+	    };
+	    CompleterListCmp.prototype.dropdownHeight = function () {
+	        return this.dd.getBoundingClientRect().top +
+	            parseInt(getComputedStyle(this.dd).maxHeight, 10);
+	    };
+	    CompleterListCmp.prototype.dropdownScrollTopTo = function (offset) {
+	        this.dd.scrollTop = this.dd.scrollTop + offset;
+	    };
+	    CompleterListCmp.prototype.dropdownRowOffsetHeight = function (row) {
+	        var css = getComputedStyle(row);
+	        return row.offsetHeight +
+	            parseInt(css.marginTop, 10) + parseInt(css.marginBottom, 10);
+	    };
+	    CompleterListCmp.prototype.dropdownRowTop = function () {
+	        return this.dropdownRow().getBoundingClientRect().top -
+	            (this.dd.getBoundingClientRect().top +
+	                parseInt(getComputedStyle(this.dd).paddingTop, 10));
+	    };
+	    __decorate([
+	        core_1.Input(), 
+	        __metadata('design:type', Array)
+	    ], CompleterListCmp.prototype, "results", void 0);
+	    __decorate([
+	        core_1.Input(), 
+	        __metadata('design:type', String)
+	    ], CompleterListCmp.prototype, "matchClass", void 0);
+	    __decorate([
+	        core_1.Input(), 
+	        __metadata('design:type', Object)
+	    ], CompleterListCmp.prototype, "searchStr", void 0);
+	    __decorate([
+	        core_1.Input(), 
+	        __metadata('design:type', String)
+	    ], CompleterListCmp.prototype, "textSearching", void 0);
+	    __decorate([
+	        core_1.Input(), 
+	        __metadata('design:type', Boolean)
+	    ], CompleterListCmp.prototype, "searching", void 0);
+	    __decorate([
+	        core_1.Input(), 
+	        __metadata('design:type', String)
+	    ], CompleterListCmp.prototype, "textNoResults", void 0);
+	    __decorate([
+	        core_1.Input(), 
+	        __metadata('design:type', Boolean)
+	    ], CompleterListCmp.prototype, "displaySearching", void 0);
+	    __decorate([
+	        core_1.Output(), 
+	        __metadata('design:type', Object)
+	    ], CompleterListCmp.prototype, "selected", void 0);
+	    CompleterListCmp = __decorate([
+	        core_1.Component({
+	            selector: "completer-list",
+	            template: template,
+	            styles: [defaultStyles]
+	        }), 
+	        __metadata('design:paramtypes', [core_1.ElementRef])
+	    ], CompleterListCmp);
+	    return CompleterListCmp;
+	}());
+	exports.CompleterListCmp = CompleterListCmp;
+
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
 	var __param = (this && this.__param) || function (paramIndex, decorator) {
 	    return function (target, key) { decorator(target, key, paramIndex); }
 	};
@@ -365,7 +491,25 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 6 */
+/* 7 */
+/***/ function(module, exports) {
+
+	module.exports = require("@angular/forms");
+
+/***/ },
+/* 8 */
+/***/ function(module, exports) {
+
+	module.exports = require("@angular/http");
+
+/***/ },
+/* 9 */
+/***/ function(module, exports) {
+
+	module.exports = require("rxjs/add/operator/catch");
+
+/***/ },
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -379,12 +523,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(1);
-	var forms_1 = __webpack_require__(15);
-	var Observable_1 = __webpack_require__(17);
-	var completer_list_cmp_1 = __webpack_require__(7);
-	__webpack_require__(19);
-	var template = __webpack_require__(11);
-	var defaultStyles = __webpack_require__(10);
+	var forms_1 = __webpack_require__(7);
+	var Observable_1 = __webpack_require__(20);
+	var completer_list_cmp_1 = __webpack_require__(5);
+	__webpack_require__(9);
+	var template = __webpack_require__(15);
+	var defaultStyles = __webpack_require__(14);
 	// keyboard events
 	var KEY_DW = 40;
 	var KEY_RT = 39;
@@ -400,10 +544,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	var TEXT_SEARCHING = "Searching...";
 	var TEXT_NORESULTS = "No results found";
 	var noop = function () { };
-	var COMPLETER_CONTROL_VALUE_ACCESSOR = new core_1.Provider(forms_1.NG_VALUE_ACCESSOR, {
+	var COMPLETER_CONTROL_VALUE_ACCESSOR = {
+	    provide: forms_1.NG_VALUE_ACCESSOR,
 	    useExisting: core_1.forwardRef(function () { return CompleterCmp; }),
 	    multi: true
-	});
+	};
 	var CompleterCmp = (function () {
 	    function CompleterCmp() {
 	        this.searchFields = "";
@@ -738,7 +883,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    CompleterCmp = __decorate([
 	        core_1.Component({
 	            selector: "ng2-completer",
-	            directives: [completer_list_cmp_1.CompleterListCmp],
 	            template: template,
 	            styles: [defaultStyles],
 	            providers: [COMPLETER_CONTROL_VALUE_ACCESSOR]
@@ -751,7 +895,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 7 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -765,136 +909,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(1);
-	var completer_list_item_cmp_1 = __webpack_require__(8);
-	var template = __webpack_require__(13);
-	var defaultStyles = __webpack_require__(12);
-	var CompleterListCmp = (function () {
-	    function CompleterListCmp(listElm) {
-	        this.listElm = listElm;
-	        this.results = [];
-	        this.searchStr = "";
-	        this.selected = new core_1.EventEmitter();
-	        this.currentIndex = -1;
-	        this.isScrollOn = false;
-	    }
-	    CompleterListCmp.prototype.ngAfterContentInit = function () {
-	        this.dd = this.listElm.nativeElement.querySelector(".completer-dropdown");
-	        var css = getComputedStyle(this.dd);
-	        this.isScrollOn = css.maxHeight && css.overflowY === "auto";
-	    };
-	    CompleterListCmp.prototype.onClick = function (result) {
-	        this.selected.emit(result);
-	    };
-	    CompleterListCmp.prototype.hoverRow = function (index) {
-	        this.currentIndex = index;
-	    };
-	    ;
-	    CompleterListCmp.prototype.incIndex = function () {
-	        this.currentIndex++;
-	        if (this.isScrollOn) {
-	            var row = this.dropdownRow();
-	            if (this.dropdownHeight() < row.getBoundingClientRect().bottom) {
-	                this.dropdownScrollTopTo(this.dropdownRowOffsetHeight(row));
-	            }
-	        }
-	    };
-	    CompleterListCmp.prototype.decIndex = function () {
-	        this.currentIndex--;
-	        if (this.isScrollOn) {
-	            var rowTop = this.dropdownRowTop();
-	            if (rowTop < 0) {
-	                this.dropdownScrollTopTo(rowTop - 1);
-	            }
-	        }
-	    };
-	    CompleterListCmp.prototype.unselect = function () {
-	        this.currentIndex = -1;
-	    };
-	    CompleterListCmp.prototype.toTop = function () {
-	        this.currentIndex = 0;
-	    };
-	    CompleterListCmp.prototype.dropdownRow = function () {
-	        return this.listElm.nativeElement.querySelectorAll(".completer-row")[this.currentIndex];
-	    };
-	    CompleterListCmp.prototype.dropdownHeight = function () {
-	        return this.dd.getBoundingClientRect().top +
-	            parseInt(getComputedStyle(this.dd).maxHeight, 10);
-	    };
-	    CompleterListCmp.prototype.dropdownScrollTopTo = function (offset) {
-	        this.dd.scrollTop = this.dd.scrollTop + offset;
-	    };
-	    CompleterListCmp.prototype.dropdownRowOffsetHeight = function (row) {
-	        var css = getComputedStyle(row);
-	        return row.offsetHeight +
-	            parseInt(css.marginTop, 10) + parseInt(css.marginBottom, 10);
-	    };
-	    CompleterListCmp.prototype.dropdownRowTop = function () {
-	        return this.dropdownRow().getBoundingClientRect().top -
-	            (this.dd.getBoundingClientRect().top +
-	                parseInt(getComputedStyle(this.dd).paddingTop, 10));
-	    };
-	    __decorate([
-	        core_1.Input(), 
-	        __metadata('design:type', Array)
-	    ], CompleterListCmp.prototype, "results", void 0);
-	    __decorate([
-	        core_1.Input(), 
-	        __metadata('design:type', String)
-	    ], CompleterListCmp.prototype, "matchClass", void 0);
-	    __decorate([
-	        core_1.Input(), 
-	        __metadata('design:type', Object)
-	    ], CompleterListCmp.prototype, "searchStr", void 0);
-	    __decorate([
-	        core_1.Input(), 
-	        __metadata('design:type', String)
-	    ], CompleterListCmp.prototype, "textSearching", void 0);
-	    __decorate([
-	        core_1.Input(), 
-	        __metadata('design:type', Boolean)
-	    ], CompleterListCmp.prototype, "searching", void 0);
-	    __decorate([
-	        core_1.Input(), 
-	        __metadata('design:type', String)
-	    ], CompleterListCmp.prototype, "textNoResults", void 0);
-	    __decorate([
-	        core_1.Input(), 
-	        __metadata('design:type', Boolean)
-	    ], CompleterListCmp.prototype, "displaySearching", void 0);
-	    __decorate([
-	        core_1.Output(), 
-	        __metadata('design:type', Object)
-	    ], CompleterListCmp.prototype, "selected", void 0);
-	    CompleterListCmp = __decorate([
-	        core_1.Component({
-	            selector: "completer-list",
-	            template: template,
-	            styles: [defaultStyles],
-	            directives: [completer_list_item_cmp_1.CompleterListItemCmp]
-	        }), 
-	        __metadata('design:paramtypes', [core_1.ElementRef])
-	    ], CompleterListCmp);
-	    return CompleterListCmp;
-	}());
-	exports.CompleterListCmp = CompleterListCmp;
-
-
-/***/ },
-/* 8 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-	    return c > 3 && r && Object.defineProperty(target, key, r), r;
-	};
-	var __metadata = (this && this.__metadata) || function (k, v) {
-	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-	};
-	var core_1 = __webpack_require__(1);
-	var template = __webpack_require__(14);
+	var template = __webpack_require__(18);
 	var CompleterListItemCmp = (function () {
 	    function CompleterListItemCmp() {
 	        this.parts = [];
@@ -950,15 +965,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 9 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var core_1 = __webpack_require__(1);
-	var http_1 = __webpack_require__(16);
+	var http_1 = __webpack_require__(8);
 	var local_data_1 = __webpack_require__(3);
 	var remote_data_1 = __webpack_require__(4);
-	var completer_service_1 = __webpack_require__(5);
 	function localDataFactory() {
 	    return function () {
 	        return new local_data_1.LocalData();
@@ -971,75 +984,115 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	}
 	exports.remoteDataFactory = remoteDataFactory;
-	exports.COMPLETER_DATA_PROVIDERS = [
-	    core_1.provide(local_data_1.LocalData, { useFactory: localDataFactory }),
-	    core_1.provide(remote_data_1.RemoteData, { useFactory: remoteDataFactory, deps: [http_1.Http] }),
-	    core_1.provide(completer_service_1.CompleterService, { useClass: completer_service_1.CompleterService })
-	];
+	exports.LocalDataFactoryProvider = { provide: local_data_1.LocalData, useFactory: localDataFactory };
+	exports.RemoteDataFactoryProvider = { provide: remote_data_1.RemoteData, useFactory: remoteDataFactory, deps: [http_1.Http] };
 
-
-/***/ },
-/* 10 */
-/***/ function(module, exports) {
-
-	module.exports = ""
-
-/***/ },
-/* 11 */
-/***/ function(module, exports) {
-
-	module.exports = "<div class=\"completer-holder\">\n    <input class=\"completer-input\"\n        [(ngModel)]=\"searchStr\"\n        (keyup)=\"keyupHandler($event)\"\n        (keydown)=\"keydownHandler($event)\"\n        [attr.name]=\"inputName\"\n        [placeholder]=\"placeholder\"\n        [attr.maxlength]=\"maxChars\"\n        (blur)=\"onBlur()\"\n        [tabindex]=\"fieldTabindex\"\n        [disabled]=\"disableInput\"\n        completer=\"off\"\n        autocorrect=\"off\"\n        autocapitalize=\"off\"\n    />\n    <completer-list *ngIf=\"showDropdown\" class=\"completer-dropdown-holder\" [results]=\"results\"  [searchStr]=\"searchStr\" (selected)=\"selectResult($event)\" \n       [matchClass]=\"matchClass\" [textSearching]=\"textSearching\" [searching]=\"searching\" [textNoResults]=\"textNoResults\" [displaySearching]=\"displaySearching\">\n    </completer-list>\n\n</div>"
-
-/***/ },
-/* 12 */
-/***/ function(module, exports) {
-
-	module.exports = ".completer-dropdown {\n    border-color: #ececec;\n    border-width: 1px;\n    border-style: solid;\n    border-radius: 2px;\n    width: 250px;\n    padding: 6px;\n    cursor: pointer;\n    z-index: 9999;\n    position: absolute;\n    /*top: 32px;\n    left: 0px;\n    */\n    margin-top: -6px;\n    background-color: #ffffff;\n}\n\n.completer-row {\n    padding: 5px;\n    color: #000000;\n    margin-bottom: 4px;\n    clear: both;\n}\n\n.completer-selected-row {\n    background-color: lightblue;\n    color: #ffffff;\n}\n\n.completer-description {\n    font-size: 14px;\n}"
 
 /***/ },
 /* 13 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	module.exports = "<div class=\"completer-dropdown\">\n    <div *ngIf=\"searching && displaySearching\" class=\"completer-searching\">{{textSearching}}</div>\n    <div *ngIf=\"!searching && (!results || results.length == 0)\" class=\"completer-no-results\">{{textNoResults}}</div>\n    <div class=\"completer-row\" *ngFor=\"let result of results; let i=index\" (mouseenter)=\"hoverRow(i)\" (click)=\"onClick(result)\" [ngClass]=\"{'completer-selected-row': i == currentIndex}\">\n        <div *ngIf=\"result.image && result.image != ''\" class=\"completer-image-holder\">\n            <img *ngIf=\"result.image && result.image != ''\" src=\"{{result.image}}\" class=\"completer-image\" />\n            <div *ngIf=\"!result.image && result.image != ''\" class=\"completer-image-default\"></div>\n        </div>\n        <completer-list-item class=\"completer-title\" [text]=\"result.title\" [matchClass]=\"matchClass\" [searchStr]=\"searchStr\" [type]=\"'title'\"></completer-list-item>\n        <completer-list-item *ngIf=\"result.description && result.description != ''\" class=\"completer-description\"\n            [text]=\"result.description\" [matchClass]=\"matchClass\" [searchStr]=\"searchStr\" [type]=\"'description'\">\n        </completer-list-item>\n\n        <!--<div ng-if=\"matchClass && result.description && result.description != \\'\\'\" class=\"angucomplete-description\" ng-bind-html=\"result.description\"></div>-->\n        <!--<div *ngIf=\"!matchClass && result.description && result.description != ''\" class=\"completer-description\">{{result.description}}</div>-->\n    </div>\n</div>"
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var core_1 = __webpack_require__(1);
+	var forms_1 = __webpack_require__(7);
+	var http_1 = __webpack_require__(8);
+	var completer_cmp_1 = __webpack_require__(10);
+	var completer_list_cmp_1 = __webpack_require__(5);
+	var completer_list_item_cmp_1 = __webpack_require__(11);
+	var completer_service_1 = __webpack_require__(6);
+	var completer_data_factory_1 = __webpack_require__(12);
+	var common_1 = __webpack_require__(19);
+	var Ng2CompleterModule = (function () {
+	    function Ng2CompleterModule() {
+	    }
+	    Ng2CompleterModule = __decorate([
+	        core_1.NgModule({
+	            imports: [
+	                common_1.CommonModule,
+	                forms_1.FormsModule,
+	                forms_1.ReactiveFormsModule,
+	                http_1.HttpModule
+	            ],
+	            declarations: [
+	                completer_cmp_1.CompleterCmp,
+	                completer_list_cmp_1.CompleterListCmp,
+	                completer_list_item_cmp_1.CompleterListItemCmp
+	            ],
+	            providers: [
+	                completer_service_1.CompleterService,
+	                completer_data_factory_1.LocalDataFactoryProvider,
+	                completer_data_factory_1.RemoteDataFactoryProvider
+	            ],
+	            exports: [
+	                completer_cmp_1.CompleterCmp
+	            ]
+	        }), 
+	        __metadata('design:paramtypes', [])
+	    ], Ng2CompleterModule);
+	    return Ng2CompleterModule;
+	}());
+	exports.Ng2CompleterModule = Ng2CompleterModule;
+
 
 /***/ },
 /* 14 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"completer-list-item-holder\" [ngClass]=\"{'completer-title': type === 'title', 'completer-description': type === 'description'}\" >\n    <span class=\"completer-list-item\" *ngFor=\"let part of parts\" [ngClass]=\"part.isMatch ? matchClass : null\">{{part.text}}</span>\n</div>"
+	module.exports = ""
 
 /***/ },
 /* 15 */
 /***/ function(module, exports) {
 
-	module.exports = require("@angular/forms");
+	module.exports = "<div class=\"completer-holder\">\n    <input class=\"completer-input\"\n        [(ngModel)]=\"searchStr\"\n        (keyup)=\"keyupHandler($event)\"\n        (keydown)=\"keydownHandler($event)\"\n        [attr.name]=\"inputName\"\n        [placeholder]=\"placeholder\"\n        [attr.maxlength]=\"maxChars\"\n        (blur)=\"onBlur()\"\n        [tabindex]=\"fieldTabindex\"\n        [disabled]=\"disableInput\"\n        completer=\"off\"\n        autocorrect=\"off\"\n        autocapitalize=\"off\"\n    />\n    <completer-list *ngIf=\"showDropdown\" class=\"completer-dropdown-holder\" [results]=\"results\"  [searchStr]=\"searchStr\" (selected)=\"selectResult($event)\" \n       [matchClass]=\"matchClass\" [textSearching]=\"textSearching\" [searching]=\"searching\" [textNoResults]=\"textNoResults\" [displaySearching]=\"displaySearching\">\n    </completer-list>\n\n</div>"
 
 /***/ },
 /* 16 */
 /***/ function(module, exports) {
 
-	module.exports = require("@angular/http");
+	module.exports = ".completer-dropdown {\n    border-color: #ececec;\n    border-width: 1px;\n    border-style: solid;\n    border-radius: 2px;\n    width: 250px;\n    padding: 6px;\n    cursor: pointer;\n    z-index: 9999;\n    position: absolute;\n    /*top: 32px;\n    left: 0px;\n    */\n    margin-top: -6px;\n    background-color: #ffffff;\n}\n\n.completer-row {\n    padding: 5px;\n    color: #000000;\n    margin-bottom: 4px;\n    clear: both;\n}\n\n.completer-selected-row {\n    background-color: lightblue;\n    color: #ffffff;\n}\n\n.completer-description {\n    font-size: 14px;\n}"
 
 /***/ },
 /* 17 */
 /***/ function(module, exports) {
 
-	module.exports = require("rxjs/Observable");
+	module.exports = "<div class=\"completer-dropdown\">\n    <div *ngIf=\"searching && displaySearching\" class=\"completer-searching\">{{textSearching}}</div>\n    <div *ngIf=\"!searching && (!results || results.length == 0)\" class=\"completer-no-results\">{{textNoResults}}</div>\n    <div class=\"completer-row\" *ngFor=\"let result of results; let i=index\" (mouseenter)=\"hoverRow(i)\" (click)=\"onClick(result)\" [ngClass]=\"{'completer-selected-row': i == currentIndex}\">\n        <div *ngIf=\"result.image && result.image != ''\" class=\"completer-image-holder\">\n            <img *ngIf=\"result.image && result.image != ''\" src=\"{{result.image}}\" class=\"completer-image\" />\n            <div *ngIf=\"!result.image && result.image != ''\" class=\"completer-image-default\"></div>\n        </div>\n        <completer-list-item class=\"completer-title\" [text]=\"result.title\" [matchClass]=\"matchClass\" [searchStr]=\"searchStr\" [type]=\"'title'\"></completer-list-item>\n        <completer-list-item *ngIf=\"result.description && result.description != ''\" class=\"completer-description\"\n            [text]=\"result.description\" [matchClass]=\"matchClass\" [searchStr]=\"searchStr\" [type]=\"'description'\">\n        </completer-list-item>\n\n        <!--<div ng-if=\"matchClass && result.description && result.description != \\'\\'\" class=\"angucomplete-description\" ng-bind-html=\"result.description\"></div>-->\n        <!--<div *ngIf=\"!matchClass && result.description && result.description != ''\" class=\"completer-description\">{{result.description}}</div>-->\n    </div>\n</div>"
 
 /***/ },
 /* 18 */
 /***/ function(module, exports) {
 
-	module.exports = require("rxjs/Subject");
+	module.exports = "<div class=\"completer-list-item-holder\" [ngClass]=\"{'completer-title': type === 'title', 'completer-description': type === 'description'}\" >\n    <span class=\"completer-list-item\" *ngFor=\"let part of parts\" [ngClass]=\"part.isMatch ? matchClass : null\">{{part.text}}</span>\n</div>"
 
 /***/ },
 /* 19 */
 /***/ function(module, exports) {
 
-	module.exports = require("rxjs/add/operator/catch");
+	module.exports = require("@angular/common");
 
 /***/ },
 /* 20 */
+/***/ function(module, exports) {
+
+	module.exports = require("rxjs/Observable");
+
+/***/ },
+/* 21 */
+/***/ function(module, exports) {
+
+	module.exports = require("rxjs/Subject");
+
+/***/ },
+/* 22 */
 /***/ function(module, exports) {
 
 	module.exports = require("rxjs/add/operator/map");

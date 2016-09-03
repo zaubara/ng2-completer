@@ -1,9 +1,7 @@
-import { Http } from "@angular/http";
-import { FormBuilder } from "@angular/forms";
 import "rxjs/Rx";
 import { CompleterService, CompleterItem } from "../src/ng2-completer";
+import { Http } from "@angular/http";
 export declare class AppComponent {
-    private fb;
     private completerService;
     private http;
     countries: any;
@@ -20,8 +18,7 @@ export declare class AppComponent {
     private dataService3;
     private dataService4;
     private customData;
-    private searchcb;
-    constructor(fb: FormBuilder, completerService: CompleterService, http: Http);
+    constructor(completerService: CompleterService, http: Http);
     onCountrySelected(selected: CompleterItem): void;
     onQuoteSelected(selected: CompleterItem): void;
 }

@@ -1,5 +1,6 @@
 import { Http } from "@angular/http";
 import "rxjs/add/operator/map";
+import "rxjs/add/operator/catch";
 import { CompleterBaseData } from "./completer-base-data";
 export declare class RemoteData extends CompleterBaseData {
     private http;
