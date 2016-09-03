@@ -10,7 +10,9 @@ Click for the [demo](http://oferh.github.io/ng2-completer/)
 
 ## Installation
 
-`npm install ng2-completer --save`
+```sh
+npm install ng2-completer --save
+```
 
 ## Usage
 
