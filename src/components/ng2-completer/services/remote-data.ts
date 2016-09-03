@@ -1,6 +1,7 @@
 import {Http, Response} from "@angular/http";
 import {Subscription} from "rxjs/Subscription";
 import "rxjs/add/operator/map";
+import "rxjs/add/operator/catch";
 
 
 import {CompleterBaseData} from "./completer-base-data";

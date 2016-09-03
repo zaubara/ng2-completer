@@ -1,23 +1,19 @@
 "use strict";
 import { Component } from "@angular/core";
-import { ROUTER_DIRECTIVES } from "@angular/router";
-import { Http, HTTP_PROVIDERS } from "@angular/http";
-import { FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, FormBuilder } from "@angular/forms";
 
 import "rxjs/Rx";
 
-import { CompleterCmp, CompleterService, CompleterData, COMPLETER_DATA_PROVIDERS, CompleterItem, RemoteData } from "../src/ng2-completer";
+import { CompleterService, CompleterData, CompleterItem, RemoteData } from "../src/ng2-completer";
 import { CustomData } from "./custom-data";
+import { Http } from "@angular/http";
 
 let template = require("./app-cmp.html");
 let style = require("./app-cmp.css");
 
 @Component({
     selector: "demo-app",
-    directives: [CompleterCmp, ROUTER_DIRECTIVES, FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES],
     template: template,
-    styles: [style],
-    providers: [CompleterService, COMPLETER_DATA_PROVIDERS, HTTP_PROVIDERS]
+    styles: [style]
 })
 export class AppComponent {
     public countries = require("./res/data/countries.json");
@@ -73,9 +69,8 @@ export class AppComponent {
     private dataService3: CompleterData;
     private dataService4: CompleterData;
     private customData: CustomData;
-    private searchcb = false;
 
-    constructor(private fb: FormBuilder, private completerService: CompleterService, private http: Http) {
+    constructor(private completerService: CompleterService, private http: Http) {
         this.dataService = completerService.local(this.countries, "name", "name").imageField("flag");
         this.dataService2 = completerService.local(this.quotes, "nm", "nm").descriptionField("qt");
         this.dataRemote = completerService.remote(
