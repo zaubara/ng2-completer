@@ -5,7 +5,7 @@ import "rxjs/Rx";
 
 import { CompleterService, CompleterData, CompleterItem, RemoteData } from "../src/ng2-completer";
 import { CustomData } from "./custom-data";
-import { Http } from "@angular/http";
+import { Http, Headers } from "@angular/http";
 
 let template = require("./app-cmp.html");
 let style = require("./app-cmp.css");
