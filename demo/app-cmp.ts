@@ -85,7 +85,7 @@ export class AppComponent {
             return `https://maps.googleapis.com/maps/api/geocode/json?address=${term}`;
         });
         this.dataRemote2.dataField("results");
-        this.dataRemote2.headers(new Headers({"X-User-Token":"Hello World!"}));
+        this.dataRemote2.headers(new Headers({"My-Header":"Hello World!"}));
         this.dataService3 = completerService.local(this.countries, "name", "name");
         this.dataService4 = completerService.local(this.countries, "name", "name");
         this.customData = new CustomData(http);
