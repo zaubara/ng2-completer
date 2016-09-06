@@ -1,13 +1,13 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("@angular/core"), require("@angular/forms"), require("@angular/http"), require("rxjs/add/operator/catch"), require("@angular/common"), require("rxjs/Observable"), require("rxjs/Subject"), require("rxjs/add/operator/map"));
+		module.exports = factory(require("@angular/core"), require("@angular/http"), require("@angular/forms"), require("rxjs/add/operator/catch"), require("@angular/common"), require("rxjs/Observable"), require("rxjs/Subject"), require("rxjs/add/operator/map"));
 	else if(typeof define === 'function' && define.amd)
-		define("ng2-completer", ["@angular/core", "@angular/forms", "@angular/http", "rxjs/add/operator/catch", "@angular/common", "rxjs/Observable", "rxjs/Subject", "rxjs/add/operator/map"], factory);
+		define("ng2-completer", ["@angular/core", "@angular/http", "@angular/forms", "rxjs/add/operator/catch", "@angular/common", "rxjs/Observable", "rxjs/Subject", "rxjs/add/operator/map"], factory);
 	else if(typeof exports === 'object')
-		exports["ng2-completer"] = factory(require("@angular/core"), require("@angular/forms"), require("@angular/http"), require("rxjs/add/operator/catch"), require("@angular/common"), require("rxjs/Observable"), require("rxjs/Subject"), require("rxjs/add/operator/map"));
+		exports["ng2-completer"] = factory(require("@angular/core"), require("@angular/http"), require("@angular/forms"), require("rxjs/add/operator/catch"), require("@angular/common"), require("rxjs/Observable"), require("rxjs/Subject"), require("rxjs/add/operator/map"));
 	else
-		root["ng2-completer"] = factory(root["@angular/core"], root["@angular/forms"], root["@angular/http"], root["rxjs/add/operator/catch"], root["@angular/common"], root["rxjs/Observable"], root["rxjs/Subject"], root["rxjs/add/operator/map"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_1__, __WEBPACK_EXTERNAL_MODULE_7__, __WEBPACK_EXTERNAL_MODULE_8__, __WEBPACK_EXTERNAL_MODULE_9__, __WEBPACK_EXTERNAL_MODULE_19__, __WEBPACK_EXTERNAL_MODULE_20__, __WEBPACK_EXTERNAL_MODULE_21__, __WEBPACK_EXTERNAL_MODULE_22__) {
+		root["ng2-completer"] = factory(root["@angular/core"], root["@angular/http"], root["@angular/forms"], root["rxjs/add/operator/catch"], root["@angular/common"], root["rxjs/Observable"], root["rxjs/Subject"], root["rxjs/add/operator/map"]);
+})(this, function(__WEBPACK_EXTERNAL_MODULE_1__, __WEBPACK_EXTERNAL_MODULE_5__, __WEBPACK_EXTERNAL_MODULE_8__, __WEBPACK_EXTERNAL_MODULE_9__, __WEBPACK_EXTERNAL_MODULE_19__, __WEBPACK_EXTERNAL_MODULE_20__, __WEBPACK_EXTERNAL_MODULE_21__, __WEBPACK_EXTERNAL_MODULE_22__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -57,7 +57,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	"use strict";
 	var ng2_completer_module_1 = __webpack_require__(13);
 	exports.Ng2CompleterModule = ng2_completer_module_1.Ng2CompleterModule;
-	var completer_service_1 = __webpack_require__(6);
+	var completer_service_1 = __webpack_require__(7);
 	exports.CompleterService = completer_service_1.CompleterService;
 	var local_data_1 = __webpack_require__(3);
 	exports.LocalData = local_data_1.LocalData;
@@ -254,6 +254,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
+	var http_1 = __webpack_require__(5);
 	__webpack_require__(22);
 	__webpack_require__(9);
 	var completer_base_data_1 = __webpack_require__(2);
@@ -275,6 +276,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    RemoteData.prototype.dataField = function (dataField) {
 	        this._dataField = dataField;
 	    };
+	    RemoteData.prototype.headers = function (headers) {
+	        this._headers = headers;
+	    };
 	    RemoteData.prototype.search = function (term) {
 	        var _this = this;
 	        this.cancel();
@@ -286,7 +290,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        else {
 	            url = this._remoteUrl + encodeURIComponent(term);
 	        }
-	        this.remoteSearch = this.http.get(url)
+	        this.remoteSearch = this.http.get(url, { headers: this._headers || new http_1.Headers() })
 	            .map(function (res) { return res.json(); })
 	            .map(function (data) {
 	            var matchaes = _this.extractValue(data, _this._dataField);
@@ -315,6 +319,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 5 */
+/***/ function(module, exports) {
+
+	module.exports = require("@angular/http");
+
+/***/ },
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -441,7 +451,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -491,16 +501,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 7 */
-/***/ function(module, exports) {
-
-	module.exports = require("@angular/forms");
-
-/***/ },
 /* 8 */
 /***/ function(module, exports) {
 
-	module.exports = require("@angular/http");
+	module.exports = require("@angular/forms");
 
 /***/ },
 /* 9 */
@@ -523,9 +527,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(1);
-	var forms_1 = __webpack_require__(7);
+	var forms_1 = __webpack_require__(8);
 	var Observable_1 = __webpack_require__(20);
-	var completer_list_cmp_1 = __webpack_require__(5);
+	var completer_list_cmp_1 = __webpack_require__(6);
 	__webpack_require__(9);
 	var template = __webpack_require__(15);
 	var defaultStyles = __webpack_require__(14);
@@ -969,7 +973,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var http_1 = __webpack_require__(8);
+	var http_1 = __webpack_require__(5);
 	var local_data_1 = __webpack_require__(3);
 	var remote_data_1 = __webpack_require__(4);
 	function localDataFactory() {
@@ -1003,12 +1007,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(1);
-	var forms_1 = __webpack_require__(7);
-	var http_1 = __webpack_require__(8);
+	var forms_1 = __webpack_require__(8);
+	var http_1 = __webpack_require__(5);
 	var completer_cmp_1 = __webpack_require__(10);
-	var completer_list_cmp_1 = __webpack_require__(5);
+	var completer_list_cmp_1 = __webpack_require__(6);
 	var completer_list_item_cmp_1 = __webpack_require__(11);
-	var completer_service_1 = __webpack_require__(6);
+	var completer_service_1 = __webpack_require__(7);
 	var completer_data_factory_1 = __webpack_require__(12);
 	var common_1 = __webpack_require__(19);
 	var Ng2CompleterModule = (function () {
