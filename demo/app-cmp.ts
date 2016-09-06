@@ -5,7 +5,7 @@ import "rxjs/Rx";
 
 import { CompleterService, CompleterData, CompleterItem, RemoteData } from "../src/ng2-completer";
 import { CustomData } from "./custom-data";
-import { Http } from "@angular/http";
+import { Http, Headers } from "@angular/http";
 
 let template = require("./app-cmp.html");
 let style = require("./app-cmp.css");
@@ -85,6 +85,7 @@ export class AppComponent {
             return `https://maps.googleapis.com/maps/api/geocode/json?address=${term}`;
         });
         this.dataRemote2.dataField("results");
+        this.dataRemote2.headers(new Headers({"My-Header":"Hello World!"}));
         this.dataService3 = completerService.local(this.countries, "name", "name");
         this.dataService4 = completerService.local(this.countries, "name", "name");
         this.customData = new CustomData(http);
