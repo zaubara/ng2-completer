@@ -12,8 +12,8 @@
     <div class="completer-dropdown-holder" *ctrList="dataService; minSearchLength: minSearchLength; pause: pause autoMatch: autoMatch; let items = results; let searchActive = searching">
         <div class="completer-dropdown" ctrDropdown>
             <div *ngIf="searchActive && displaySearching" class="completer-searching">{{textSearching}}</div>
-            <div *ngIf="!searchActive && (!items || items.length == 0)" class="completer-no-results">{{textNoResults}}</div>
-            <div class="completer-row" *ngFor="let item of items; let i=index">
+            <div *ngIf="!searchActive && (!items || items.length === 0)" class="completer-no-results">{{textNoResults}}</div>
+            <div class="completer-row" *ngFor="let item of items; let i=index" ctrRow>
                 <div *ngIf="item.image && item.image != ''" class="completer-image-holder">
                     <img *ngIf="item.image && item.image != ''" src="{{item.image}}" class="completer-image"/>
                     <div *ngIf="!item.image && item.image != ''" class="completer-image-default"></div>

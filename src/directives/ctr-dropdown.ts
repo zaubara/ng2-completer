@@ -1,6 +1,7 @@
-import { Directive, EventEmitter, Host, HostListener, Input, Output } from "@angular/core";
+import { ContentChildren, Directive, EventEmitter, Host, HostListener, Input, Output, QueryList } from "@angular/core";
 
 import { CtrCompleter } from "./ctr-completer";
+import { CtrRow } from "./ctr-row";
 
 
 @Directive({
@@ -8,15 +9,15 @@ import { CtrCompleter } from "./ctr-completer";
 })
 export class CtrDropdown {
 
-
-    constructor( @Host() private completer: CtrCompleter) { }
+     @ContentChildren(CtrRow) children:QueryList<CtrRow>;
+    // constructor( @Host() private completer: CtrCompleter) { }
 
 
     @HostListener("click", ["$event"]) public onClick(event: any) {
-        console.log("click", event);
+        this.children.toArray()[0].setSelected(true);
     }
 
-    @HostListener("mouseenter", ["$event"]) public onMouseEnter(event: any) {
-        console.log("mouseenter", event);
-    }
+    // @HostListener("mouseenter", ["$event"]) public onMouseEnter(event: any) {
+    //     console.log("mouseenter", event);
+    // }
 }

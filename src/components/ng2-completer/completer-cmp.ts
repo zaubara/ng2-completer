@@ -8,6 +8,7 @@ import {CtrCompleter} from "../../directives/ctr-completer";
 import {CtrDropdown} from "../../directives/ctr-dropdown";
 import {CtrInput} from "../../directives/ctr-input";
 import {CtrList} from "../../directives/ctr-list";
+import {CtrRow} from "../../directives/ctr-row";
 import {CompleterListItemCmp} from "./completer-list-item-cmp";
 
 
@@ -47,7 +48,7 @@ const COMPLETER_CONTROL_VALUE_ACCESSOR = new Provider(
 
 @Component({
     selector: "ng2-completer",
-    directives: [CompleterListItemCmp, CtrCompleter, CtrDropdown, CtrInput, CtrList],
+    directives: [CompleterListItemCmp, CtrCompleter, CtrDropdown, CtrInput, CtrList, CtrRow],
     template: template,
     styles: [defaultStyles],
     providers: [COMPLETER_CONTROL_VALUE_ACCESSOR]
