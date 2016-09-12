@@ -1,14 +1,17 @@
 import { ContentChildren, Directive, ElementRef, EventEmitter, Host, Input, OnDestroy, OnInit, Output, Renderer } from "@angular/core";
 
+import {CompleterItem} from "../components/ng2-completer/completer-item";
 import { CtrCompleter, CompleterDropdown } from "./ctr-completer";
 
-export interface CtrRowHighlight {
+
+export interface CtrRowElement {
     setHighlited(selected: boolean): void;
     getNativeElement(): any;
+    getDataItem(): CompleterItem;
 }
 
 export class CtrRowItem {
-    constructor(public row: CtrRowHighlight, public index: number) { }
+    constructor(public row: CtrRowElement, public index: number) { }
 }
 
 @Directive({
@@ -66,7 +69,7 @@ export class CtrDropdown implements CompleterDropdown, OnDestroy, OnInit {
     }
 
     public selectCurrent() {
-        // select current row
+        console.log("select", this.currHighlited.row.getDataItem());
     }
 
     public nextRow() {
