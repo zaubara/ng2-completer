@@ -9,7 +9,11 @@ import { MIN_SEARCH_LENGTH, PAUSE } from "../globals";
 
 
 export class CtrListContext {
-    constructor(public results: CompleterItem[], public searching: boolean) { }
+    constructor(
+        public results: CompleterItem[],
+        public searching: boolean,
+        public searchInitialized: boolean
+    ) { }
 }
 
 @Directive({
@@ -22,10 +26,10 @@ export class CtrList implements OnInit, CompleterList {
 
     private _dataService: CompleterData;
     // private results: CompleterItem[] = [];
-    private term = "";
+    private term: string = null;
     // private searching = false;
     private searchTimer: number = null;
-    private ctx = new CtrListContext([], false);
+    private ctx = new CtrListContext([], false, false);
 
     constructor(
         @Host() private completer: CtrCompleter,
@@ -36,16 +40,8 @@ export class CtrList implements OnInit, CompleterList {
         this.completer.registerList(this);
         this.viewContainer.createEmbeddedView(
             this.templateRef,
-            new CtrListContext([], false)
+            new CtrListContext([], false, false)
         );
-    }
-
-    @HostListener("click", ["$event"]) public onClick(event: any) {
-        console.log("click", event);
-    }
-
-    @HostListener("hover", ["$event"]) public onHover(event: any) {
-        console.log("hover", event);
     }
 
     @Input("ctrList")
@@ -55,6 +51,7 @@ export class CtrList implements OnInit, CompleterList {
             this._dataService
                 .catch(err => this.handleError(err))
                 .subscribe(results => {
+                    this.ctx.searchInitialized = true;
                     this.ctx.searching = false;
                     this.ctx.results = results;
                     console.log("results", this.ctx.results);
@@ -68,8 +65,8 @@ export class CtrList implements OnInit, CompleterList {
     }
 
     public search(term: string) {
-        console.log("search", term);
-        if (term.length >= this.ctrListMinSearchLength) {
+        console.log("search", term, this.term);
+        if (term && term.length >= this.ctrListMinSearchLength && this.term !== term) {
             if (this.searchTimer) {
                 clearTimeout(this.searchTimer);
             }
@@ -88,6 +85,7 @@ export class CtrList implements OnInit, CompleterList {
     }
 
     public clear() {
+        console.log("clear");
         if (this.searchTimer) {
             clearTimeout(this.searchTimer);
         }
@@ -95,25 +93,19 @@ export class CtrList implements OnInit, CompleterList {
             this.dataService.cancel();
         }
         this.ctx.results = [];
+        this.ctx.searchInitialized = false;
+        this.term = null;
         this.viewContainer.clear();
     }
 
-    public selectCurrent() {
-    }
-
-    public nextRow() {
-    }
-
-    public prevRow() {
-    }
-
-
-    private searchTimerComplete(str: string) {
+    private searchTimerComplete(term: string) {
         // Begin the search
-        if (!str || str.length < this.ctrListMinSearchLength) {
+        if (!term || term.length < this.ctrListMinSearchLength) {
+            this.ctx.searching = false;
             return;
         }
-        this._dataService.search(str);
+        this.term = term;
+        this._dataService.search(term);
     }
 
     private handleError(error: any) {

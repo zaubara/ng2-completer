@@ -8,6 +8,10 @@ import { CompleterItem } from "../components/ng2-completer/completer-item";
 export interface CompleterList {
     search(term: string): void;
     clear(): void;
+}
+
+export interface CompleterDropdown {
+    clear(): void;
     selectCurrent(): void;
     nextRow(): void;
     prevRow(): void;
@@ -22,6 +26,7 @@ export class CtrCompleter implements OnInit {
     // private results: CompleterItem[] = [];
     // private term = "";
     private list: CompleterList;
+    private dropdown: CompleterDropdown;
 
     constructor() {}
 
@@ -33,7 +38,12 @@ export class CtrCompleter implements OnInit {
         this.list = list;
     }
 
+    public registerDropdown(dropdown: CompleterDropdown) {
+        this.dropdown = dropdown;
+    }
+
     public search(term: string) {
+        console.log("CtrCompleter search");
         if (this.list) {
             this.list.search(term);
         }
@@ -41,6 +51,9 @@ export class CtrCompleter implements OnInit {
 
     public clear() {
         console.log(`clear`);
+        if (this.dropdown) {
+            this.dropdown.clear();
+        }
         if (this.list) {
             this.list.clear();
         }
@@ -52,22 +65,22 @@ export class CtrCompleter implements OnInit {
 
     public selectCurrent() {
         console.log(`selectCurrent`);
-        if (this.list) {
-            this.list.selectCurrent();
+        if (this.dropdown) {
+            this.dropdown.selectCurrent();
         }
     }
 
     public nextRow() {
         console.log(`nextRow`);
-        if (this.list) {
-            this.list.nextRow();
+        if (this.dropdown) {
+            this.dropdown.nextRow();
         }
     }
 
     public prevRow() {
         console.log(`prevRow`);
-        if (this.list) {
-            this.list.prevRow();
+        if (this.dropdown) {
+            this.dropdown.prevRow();
         }
     }
 
