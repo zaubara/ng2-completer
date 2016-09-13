@@ -1,4 +1,4 @@
-import { Directive, Input, OnInit } from "@angular/core";
+import { Directive, EventEmitter, Input, OnInit, Output } from "@angular/core";
 // import { Observable } from "rxjs/Observable";
 
 
@@ -21,12 +21,15 @@ export interface CompleterDropdown {
     selector: "[ctrCompleter]",
 })
 export class CtrCompleter implements OnInit {
+     @Output() public selected = new EventEmitter<CompleterItem>();
+     @Output() public highlighted = new EventEmitter<CompleterItem>();
     // private searchTimer: number = null;
     // private searching = false;
     // private results: CompleterItem[] = [];
     // private term = "";
     private list: CompleterList;
     private dropdown: CompleterDropdown;
+   
 
     constructor() {}
 
@@ -40,6 +43,15 @@ export class CtrCompleter implements OnInit {
 
     public registerDropdown(dropdown: CompleterDropdown) {
         this.dropdown = dropdown;
+    }
+
+    public onHighlighted(item: CompleterItem) {
+        this.highlighted.emit(item);
+    }
+
+    public onSelected(item: CompleterItem) {
+        this.selected.emit(item);
+        this.clear();
     }
 
     public search(term: string) {

@@ -29,7 +29,7 @@ export class CtrRow implements CtrRowElement, OnInit {
     }
 
     @HostListener("click", ["$event"]) public onClick(event: any) {
-        console.log("click", event);
+        this.dropdown.onSelected(this._item);
     }
 
     @HostListener("mouseenter", ["$event"]) public onMouseEnter(event: any) {

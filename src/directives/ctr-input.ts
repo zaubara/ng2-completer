@@ -1,6 +1,7 @@
 import { Directive, EventEmitter, Host, HostListener, Input, Output } from "@angular/core";
 
 import { CompleterData } from "../components/ng2-completer/services/completer-data";
+import { CompleterItem } from "../components/ng2-completer/completer-item";
 import { CtrCompleter } from "./ctr-completer";
 
 
@@ -21,12 +22,21 @@ const PAUSE = 250;
 })
 export class CtrInput {
     @Input() public maxChars = MAX_CHARS;
-    @Output() ngModelChange:EventEmitter<any> = new EventEmitter()
+    @Output() public ngModelChange: EventEmitter<any> = new EventEmitter()
 
+    private _searchStr = "";
+    private _displayStr = "";
 
-    private searchStr = "";
-
-    constructor( @Host() private completer: CtrCompleter) { }
+    constructor( @Host() private completer: CtrCompleter) {
+        this.completer.selected.subscribe((item: CompleterItem) => {
+            this.searchStr = item.title;
+            this.ngModelChange.emit(item.title);
+        });
+        this.completer.highlighted.subscribe((item: CompleterItem) => {
+            this._displayStr = item.title;
+            this.ngModelChange.emit(item.title);
+        });
+    }
 
     @HostListener("input", ["$event"]) public onInputChange(event: any) {
         this.searchStr = event.target.value;
@@ -54,6 +64,7 @@ export class CtrInput {
             // }
         }
         else if (event.keyCode === KEY_ES) {
+            this._searchStr = this._displayStr;
             this.completer.clear();
         }
         else {
@@ -96,7 +107,6 @@ export class CtrInput {
 
         if (event.keyCode === KEY_EN) {
             this.completer.selectCurrent();
-            this.ngModelChange.emit("working");
         } else if (event.keyCode === KEY_DW) {
             event.preventDefault();
             this.completer.nextRow();
@@ -104,11 +114,21 @@ export class CtrInput {
             event.preventDefault();
             this.completer.prevRow();
         } else if (event.keyCode === KEY_TAB) {
-                this.completer.selectCurrent();
+            this.completer.selectCurrent();
         } else if (event.keyCode === KEY_ES) {
             // This is very specific to IE10/11 #272
             // without this, IE clears the input text
             event.preventDefault();
         }
     }
+
+    public get searchStr() {
+        return this._searchStr;
+    }
+
+    public set searchStr(term: string) {
+        this._searchStr = term;
+        this._displayStr = term;
+    }
+
 }

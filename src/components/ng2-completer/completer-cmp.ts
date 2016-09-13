@@ -69,8 +69,10 @@ export class CompleterCmp implements OnInit, ControlValueAccessor {
     @Input() public autoMatch = false;
     @Input() public disableInput = false;
     @Output() public selected = new EventEmitter<CompleterItem>();
+    @Output() public highlighted = new EventEmitter<CompleterItem>();
 
-    // @ViewChild(CompleterListCmp) private listCmp: CompleterListCmp;
+
+    @ViewChild(CtrCompleter) private completer: CtrCompleter;
 
     private searchStr = "";
     // private searching = false;
@@ -93,6 +95,7 @@ export class CompleterCmp implements OnInit, ControlValueAccessor {
             this.searchStr = v;
             this._onChangeCallback(v);
         }
+        console.log("value", v);
     }
 
     public onTouched() {
@@ -101,6 +104,7 @@ export class CompleterCmp implements OnInit, ControlValueAccessor {
 
     public writeValue(value: any) {
         this.searchStr = value;
+        console.log("writeValue", value);
     }
 
     public registerOnChange(fn: any) {
@@ -225,9 +229,14 @@ export class CompleterCmp implements OnInit, ControlValueAccessor {
         if (this.textSearching === "false") {
             this.displaySearching = false;
         }
-        // this.selected.subscribe(() => {
-        //     this.clearResults();
-        // });
+        this.completer.selected.subscribe((item: CompleterItem) => {
+             this.selected.emit(item);
+             this.searchStr = item.title;
+             this._onChangeCallback(item.title);
+        });
+        this.completer.highlighted.subscribe((item: CompleterItem) => {
+             this.highlighted.emit(item);
+        });
         // this.dataService
         //     .catch(err => this.handleError(err))
         //     .subscribe(results => {
