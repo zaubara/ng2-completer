@@ -115,11 +115,6 @@ export abstract class CompleterBaseData extends Subject<CompleterItem[]> impleme
                     image = this.extractValue(matches[i], this._imageField);
                 }
 
-                // if (scope.matchClass) {
-                //   formattedText = findMatchString(text, str);
-                //   formattedDesc = findMatchString(description, str);
-                // }
-
                 results.push({
                     title: formattedText,
                     description: formattedDesc,
@@ -129,17 +124,6 @@ export abstract class CompleterBaseData extends Subject<CompleterItem[]> impleme
             }
 
         }
-
-        // if (scope.autoMatch && scope.results.length === 1 &&
-        //     checkExactMatch(scope.results[0],
-        //       {title: text, desc: description || ''}, scope.searchStr)) {
-        //   scope.showDropdown = false;
-        // } else if (scope.results.length === 0 && !displayNoResults) {
-        //   scope.showDropdown = false;
-        // } else {
-        //  this.showDropdown = true;
-        // }
-
         return results;
     }
 }

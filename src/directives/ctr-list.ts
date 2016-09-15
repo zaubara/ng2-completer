@@ -51,7 +51,6 @@ export class CtrList implements OnInit, CompleterList {
             this._dataService
                 .catch(err => this.handleError(err))
                 .subscribe(results => {
-                    console.log("results", results);
                     this.ctx.searchInitialized = true;
                     this.ctx.searching = false;
                     this.ctx.results = results;
@@ -85,7 +84,6 @@ export class CtrList implements OnInit, CompleterList {
     }
 
     public clear() {
-        console.log("clear");
         if (this.searchTimer) {
             clearTimeout(this.searchTimer);
         }

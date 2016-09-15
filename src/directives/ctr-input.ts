@@ -43,11 +43,13 @@ export class CtrInput {
         });
     }
 
-    @HostListener("input", ["$event"]) public onInputChange(event: any) {
+    @HostListener("input", ["$event"])
+    public onInputChange(event: any) {
         this.searchStr = event.target.value;
     }
 
-    @HostListener("keyup", ["$event"]) public keyupHandler(event: any) {
+    @HostListener("keyup", ["$event"])
+    public keyupHandler(event: any) {
 
         if (event.keyCode === KEY_LF || event.keyCode === KEY_RT || event.keyCode === KEY_TAB) {
             // do nothing
@@ -61,12 +63,6 @@ export class CtrInput {
             event.preventDefault();
 
             this.completer.search(this.searchStr);
-
-            // if (!this.showDropdown && this.searchStr && this.searchStr.length >= this.minSearchLength) {
-            //     this.initResults();
-            //     this.searching = true;
-            //     this.searchTimerComplete(this.searchStr);
-            // }
         }
         else if (event.keyCode === KEY_ES) {
             this._searchStr = this._displayStr;
@@ -79,36 +75,12 @@ export class CtrInput {
             }
 
             this.completer.search(this.searchStr);
-
-            // this._onChangeCallback(this.searchStr);
-            // if (!this.searchStr) {
-            //     this.showDropdown = false;
-            //     return;
-            // }
-            // if (this.searchStr === "") {
-            //     this.showDropdown = false;
-            // }
-            // else if (this.searchStr.length >= this.minSearchLength) {
-            //     this.initResults();
-
-            //     if (this.searchTimer) {
-            //         clearTimeout(this.searchTimer);
-            //     }
-
-            //     this.searching = true;
-
-            //     this.searchTimer = setTimeout(
-            //         () => {
-            //             this.searchTimerComplete(this.searchStr);
-            //         },
-            //         this.pause
-            //     );
-            // }
         }
 
     }
 
-    @HostListener("keydown", ["$event"]) public keydownHandler(event: any) {
+    @HostListener("keydown", ["$event"])
+    public keydownHandler(event: any) {
 
         if (event.keyCode === KEY_EN) {
             this.completer.selectCurrent();
@@ -120,7 +92,7 @@ export class CtrInput {
             this.completer.prevRow();
         } else if (event.keyCode === KEY_TAB) {
             if (this.overrideSuggested) {
-                this.completer.onSelected({title: this.searchStr, originalObject: null});
+                this.completer.onSelected({ title: this.searchStr, originalObject: null });
             } else {
                 this.completer.selectCurrent();
             }
@@ -128,6 +100,15 @@ export class CtrInput {
             // This is very specific to IE10/11 #272
             // without this, IE clears the input text
             event.preventDefault();
+        }
+    }
+
+    @HostListener("blur", ["$event"])
+    public onBlur() {
+        if (this.overrideSuggested) {
+            this.completer.onSelected({ title: this.searchStr, originalObject: null });
+        } else {
+            this.completer.clear();
         }
     }
 
@@ -139,5 +120,4 @@ export class CtrInput {
         this._searchStr = term;
         this._displayStr = term;
     }
-
 }
