@@ -21,7 +21,8 @@ const PAUSE = 250;
     selector: "[ctrInput]",
 })
 export class CtrInput {
-    @Input() public maxChars = MAX_CHARS;
+    @Input("clearSelected") public clearSelected = false;
+    @Input("overrideSuggested") public overrideSuggested = false;
     @Output() public ngModelChange: EventEmitter<any> = new EventEmitter()
 
     private _searchStr = "";
@@ -29,8 +30,12 @@ export class CtrInput {
 
     constructor( @Host() private completer: CtrCompleter) {
         this.completer.selected.subscribe((item: CompleterItem) => {
-            this.searchStr = item.title;
-            this.ngModelChange.emit(item.title);
+            if (this.clearSelected) {
+                this.searchStr = "";
+            } else {
+                this.searchStr = item.title;
+            }
+            this.ngModelChange.emit(this.searchStr);
         });
         this.completer.highlighted.subscribe((item: CompleterItem) => {
             this._displayStr = item.title;
@@ -44,7 +49,7 @@ export class CtrInput {
 
     @HostListener("keyup", ["$event"]) public keyupHandler(event: any) {
 
-        if (event.keyCode === KEY_LF || event.keyCode === KEY_RT) {
+        if (event.keyCode === KEY_LF || event.keyCode === KEY_RT || event.keyCode === KEY_TAB) {
             // do nothing
             return;
         }
@@ -114,7 +119,11 @@ export class CtrInput {
             event.preventDefault();
             this.completer.prevRow();
         } else if (event.keyCode === KEY_TAB) {
-            this.completer.selectCurrent();
+            if (this.overrideSuggested) {
+                this.completer.onSelected({title: this.searchStr, originalObject: null});
+            } else {
+                this.completer.selectCurrent();
+            }
         } else if (event.keyCode === KEY_ES) {
             // This is very specific to IE10/11 #272
             // without this, IE clears the input text

@@ -51,13 +51,14 @@ export class CtrList implements OnInit, CompleterList {
             this._dataService
                 .catch(err => this.handleError(err))
                 .subscribe(results => {
+                    console.log("results", results);
                     this.ctx.searchInitialized = true;
                     this.ctx.searching = false;
                     this.ctx.results = results;
-                    console.log("results", this.ctx.results);
-                    if (this.ctrListAutoMatch && this.ctx.results.length === 1 &&
-                        this.ctx.results[0].title.toLocaleLowerCase() === this.term.toLocaleLowerCase()) {
+                    if (this.ctrListAutoMatch && results.length === 1 &&
+                        results[0].title.toLocaleLowerCase() === this.term.toLocaleLowerCase()) {
                         // Do automatch
+                        this.completer.onSelected(results[0]);
                     }
                     this.refreshTemplate();
                 });
@@ -65,7 +66,6 @@ export class CtrList implements OnInit, CompleterList {
     }
 
     public search(term: string) {
-        console.log("search", term, this.term);
         if (term && term.length >= this.ctrListMinSearchLength && this.term !== term) {
             if (this.searchTimer) {
                 clearTimeout(this.searchTimer);

@@ -230,7 +230,7 @@ export class CompleterCmp implements OnInit, ControlValueAccessor {
         }
         this.completer.selected.subscribe((item: CompleterItem) => {
              this.selected.emit(item);
-             this.searchStr = item.title;
+            //  this.searchStr = item.title;
              this._onChangeCallback(item.title);
         });
         this.completer.highlighted.subscribe((item: CompleterItem) => {

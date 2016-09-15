@@ -8,9 +8,6 @@
     cursor: pointer;
     z-index: 9999;
     position: absolute;
-    /*top: 32px;
-    left: 0px;
-    */
     margin-top: -6px;
     background-color: #ffffff;
 }
@@ -29,4 +26,10 @@
 
 .completer-description {
     font-size: 14px;
+}
+
+.completer-image-default {
+    width: 16px; 
+    height: 16px;
+    background-image: url("demo/res/img/default.png");
 }

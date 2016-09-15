@@ -110,7 +110,7 @@ export abstract class CompleterBaseData extends Subject<CompleterItem[]> impleme
                     description = formattedDesc = this.extractValue(matches[i], this._descriptionField);
                 }
 
-                image = "";
+                image = null;
                 if (this._imageField) {
                     image = this.extractValue(matches[i], this._imageField);
                 }
