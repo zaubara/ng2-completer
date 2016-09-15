@@ -10,37 +10,44 @@ Click for the [demo](http://oferh.github.io/ng2-completer/)
 
 ## Installation
 
-`npm install ng2-completer --save`
+```sh
+npm install ng2-completer --save
+```
 
 ## Usage
 
-`Http` and `forms` should be provided in the app: 
-```
-import { bootstrap } from '@angular/platform-browser-dynamic';
-import { disableDeprecatedForms, provideForms } from '@angular/forms';
-
-import { AppComponent, environment } from './app/';
-import {HTTP_PROVIDERS} from '@angular/http';
-
-bootstrap(AppComponent, [
-  HTTP_PROVIDERS,
-  disableDeprecatedForms(),
-  provideForms()
-]);
+The module you want to use ng2-completer in must import `Ng2CompleterModule` and `FormsModule` (to use the ngModel 
+directive on ng2-completer).  `Ng2CompleterModule` provides the `CompleterService`, and declares the `ng2-completer` 
+directive.
+```ts
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from "@angular/forms";
+import { AppComponent } from './app.component';
+import { Ng2CompleterModule } from "ng2-completer";
+ 
+@NgModule({
+  imports: [
+      BrowserModule,
+      Ng2CompleterModule,
+      FormsModule,
+  ],
+  declarations: [ AppComponent ],
+  bootstrap: [ AppComponent ]
+})
+export class AppModule { }
 ```
 
 Add ng2-completer to your component and create a data source:
 
-```
+```ts
 import { Component } from '@angular/core';
-import {CompleterCmp, CompleterService, CompleterData, COMPLETER_DATA_PROVIDERS} from 'ng2-completer';
+import { CompleterService, CompleterData } from 'ng2-completer';
 
 @Component({
   selector: 'my-component',
   template: `<h1>Search color</h1>
-            <ng2-completer [(ngModel)]="searchStr" [dataService]="dataService" [minSearchLength]="0"></ng2-completer>`,
-  directives: [CompleterCmp],
-  providers: [COMPLETER_DATA_PROVIDERS, CompleterService]
+            <ng2-completer [(ngModel)]="searchStr" [dataService]="dataService" [minSearchLength]="0"></ng2-completer>`
 })
 export class MyComponent {
 
@@ -69,7 +76,7 @@ a custome source that generates a stream of items.
 ###System.js configuration
 
 Add the following to `System.js` map configuration:
-```
+```ts
    var map = {
        ...
        'ng2-completer':              'node_modules/ng2-completer/bundles'
@@ -77,7 +84,7 @@ Add the following to `System.js` map configuration:
 ```
 
 Add the following to `System.js` packages configuration:
-```
+```ts
    var packages = {
        ...
        'ng2-completer':              { main: 'ng2-completer.js', format: 'cjs' }

@@ -1,14 +1,18 @@
 import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { provideForms } from '@angular/forms';
-import {HTTP_PROVIDERS} from "@angular/http";
-
+import { HttpModule } from "@angular/http";
+import { FormsModule } from "@angular/forms";
 import { AppComponent }  from './app-cmp';
+import { Ng2CompleterModule } from "../src/ng2-completer";
 
 @NgModule({
-  imports:      [ BrowserModule ],
+  imports: [
+      BrowserModule,
+      Ng2CompleterModule,
+      FormsModule,
+      HttpModule
+  ],
   declarations: [ AppComponent ],
-  providers:    [HTTP_PROVIDERS, provideForms()],
-  bootstrap:    [ AppComponent ]
+  bootstrap: [ AppComponent ]
 })
 export class AppModule { }
