@@ -28,7 +28,7 @@ export class CtrList implements OnInit, CompleterList {
     // private results: CompleterItem[] = [];
     private term: string = null;
     // private searching = false;
-    private searchTimer: number = null;
+    private searchTimer: NodeJS.Timer = null;
     private ctx = new CtrListContext([], false, false);
 
     constructor(
