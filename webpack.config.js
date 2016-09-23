@@ -20,7 +20,7 @@ const entryLib = 'src/ng2-completer.ts';
 const entryDemo = {
     'angular2': [
         // Angular 2 Deps
-        'es6-shim',
+        'core-js',
         'zone.js',
         'reflect-metadata',
         '@angular/core',
@@ -31,7 +31,8 @@ const entryDemo = {
         '@angular/platform-browser-dynamic',
         '@angular/router',
         '@angular/forms',
-        'rxjs'
+        'rxjs',
+        'object.assign'
     ],
     'ng2-completer': ['src/ng2-completer.ts'],
     'ng2-completer-demo': 'demo/boot.ts'
@@ -43,7 +44,7 @@ const outputLib = {
     sourceMapFilename: isProduction ? 'ng2-completer.min.js.map' : 'ng2-completer.js.map',
     chunkFilename: '[id].chunk.js',
     library: 'ng2-completer',
-    libraryTarget: 'umd',
+    libraryTarget: 'commonjs2',
     umdNamedDefine: true
 };
 
@@ -99,6 +100,7 @@ const config = {
         }
     },
     module: {
+        exprContextCritical: false,
         loaders: [
             // Support for *.json files.
             {
@@ -144,12 +146,7 @@ const config = {
         }, {
             from: 'demo/favicon.ico',
             to: 'favicon.ico'
-        }]),
-        new webpack.LoaderOptionsPlugin({
-            metadata: {
-                ENV: ENV
-            },
-        })
+        }])
     ]
 };
 
@@ -162,7 +159,7 @@ function pushPlugins() {
         plugins.push(
             // generating html
             new HtmlWebpackPlugin({
-                template: 'demo/index.html'
+                template: `demo/index.html?ENV=${ENV}`
             }),
             new webpack.optimize.CommonsChunkPlugin({
                 name: 'angular2',
