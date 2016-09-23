@@ -16,7 +16,7 @@ const devtool = process.env.NODE_ENV === 'test' ? 'inline-source-map' : 'source-
 const dest = './bundles';
 const absDest = root(dest);
 
-const entryLib = 'src/ng2-completer.ts';
+const entryLib = 'src/index.ts';
 const entryDemo = {
     'angular2': [
         // Angular 2 Deps
@@ -34,7 +34,7 @@ const entryDemo = {
         'rxjs',
         'object.assign'
     ],
-    'ng2-completer': ['src/ng2-completer.ts'],
+    'ng2-completer': ['src/index.ts'],
     'ng2-completer-demo': 'demo/boot.ts'
 };
 

@@ -7,11 +7,11 @@ import {RemoteData} from "./remote-data";
 @Injectable()
 export class CompleterService {
     constructor(
-        @Inject(LocalData) private localDataFactory: () => LocalData,
-        @Inject(RemoteData) private remoteDataFactory: () => RemoteData
+        @Inject(LocalData) private localDataFactory: any, // Using any instead of () => LocalData because on AoT errors
+        @Inject(RemoteData) private remoteDataFactory: any // Using any instead of () => LocalData because on AoT errors
     ) { }
 
-    public local(data: any[], searchFields: string, titleField: string) {
+    public local(data: any[], searchFields: string, titleField: string): LocalData {
 
         let localData = this.localDataFactory();
         return localData
@@ -20,7 +20,7 @@ export class CompleterService {
             .titleField(titleField);
     }
 
-    public remote(url: string, searchFields: string, titleField: string) {
+    public remote(url: string, searchFields: string, titleField: string): RemoteData {
 
         let remoteData = this.remoteDataFactory();
         return remoteData
