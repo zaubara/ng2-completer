@@ -9,6 +9,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const DefinePlugin = require('webpack/lib/DefinePlugin');
 const nodeExternals = require('webpack-node-externals');
 
+
 const ENV = process.env.NODE_ENV ? process.env.NODE_ENV : "development";
 const isProduction = (process.env.NODE_ENV || 'development') === 'production';
 const isBuildDemo = ((process.env.NG2_COMPLETER_DEMO || 'n') === 'y');
@@ -31,7 +32,7 @@ const entryDemo = {
         '@angular/platform-browser-dynamic',
         '@angular/router',
         '@angular/forms',
-        'rxjs'
+        'rxjs' 
     ],
     'ng2-completer': ['src/ng2-completer.ts'],
     'ng2-completer-demo': 'demo/boot.ts'
@@ -58,8 +59,14 @@ console.log("build demo", isBuildDemo);
 
 const config = {
     devtool,
+    debug: false,
 
-    // verbose: true,
+    metadata: {
+        ENV: ENV
+    },
+
+    verbose: true,
+    displayErrorDetails: true,
     context: __dirname,
     stats: {
         colors: true,
@@ -67,13 +74,9 @@ const config = {
     },
 
     resolve: {
-        // cache: false,
-        // root: __dirname,
-        modules: [
-            '.',
-            'node_modules'
-        ],
-        extensions: ['.ts', '.js', '.json']
+        cache: false,
+        root: __dirname,
+        extensions: ['', '.ts', '.js', '.json']
     },
 
     // entry: 'src/ng2-completer.ts',
@@ -117,7 +120,7 @@ const config = {
                 test: /\.html$/,
                 loader: 'raw',
                 exclude: [root('demo/index.html')]
-                    // exclude: [root('demo/index.html'), /(node_modules|demo)/]
+                // exclude: [root('demo/index.html'), /(node_modules|demo)/]
             },
             // Support for .ts files.
             {
@@ -137,77 +140,70 @@ const config = {
         new DefinePlugin({
             "ENV": JSON.stringify(ENV)
         }),
-        // new webpack.optimize.OccurenceOrderPlugin(true),
+        new webpack.optimize.OccurenceOrderPlugin(true),
         // static assets
         new CopyWebpackPlugin([{
             from: "demo/res/**/*"
         }, {
-            from: 'demo/favicon.ico',
-            to: 'favicon.ico'
-        }]),
-        new webpack.LoaderOptionsPlugin({
-            metadata: {
-                ENV: ENV
-            },
-        })
-    ]
-};
-
-function pushPlugins() {
-    if (!isProduction && !isBuildDemo) {
-        return;
-    }
-    const plugins = [];
-    if (isBuildDemo) {
-        plugins.push(
-            // generating html
-            new HtmlWebpackPlugin({
-                template: 'demo/index.html'
-            }),
-            new webpack.optimize.CommonsChunkPlugin({
-                name: 'angular2',
-                minChunks: Infinity,
-                filename: 'angular2.js'
-            })
-        );
-    }
-    if (isProduction) {
-        console.log("build production");
-        //production only
-        plugins.push(
-            new webpack.optimize.UglifyJsPlugin({
-                beautify: false,
-                mangle: false,
-                comments: false,
-                compress: {
-                    screw_ie8: true
+                from: 'demo/favicon.ico',
+                to: 'favicon.ico'
+            }])
+    ],
+    pushPlugins() {
+        if (!isProduction && !isBuildDemo) {
+            return;
+        }
+        const plugins = [];
+        if (isBuildDemo) {
+            plugins.push(
+                // generating html
+                new HtmlWebpackPlugin({
+                    template: 'demo/index.html'
+                }),
+                new webpack.optimize.CommonsChunkPlugin({
+                    name: 'angular2',
+                    minChunks: Infinity,
+                    filename: 'angular2.js'
+                })
+            );
+        }
+        if (isProduction) {
+            console.log("build production");
+            //production only
+            plugins.push(
+                new webpack.optimize.UglifyJsPlugin({
+                    beautify: false,
+                    mangle: false,
+                    comments: false,
+                    compress: {
+                        screw_ie8: true
                         //warnings: false,
                         //drop_debugger: false
-                }
-                //verbose: true,
-                //beautify: false,
-                //quote_style: 3
-            }),
-            new CompressionPlugin({
-                asset: '[file].gz',
-                algorithm: 'gzip',
-                regExp: /\.js$|\.html|\.css|.map$/,
-                threshold: 10240,
-                minRatio: 0.8
-            })
-        );
+                    }
+                    //verbose: true,
+                    //beautify: false,
+                    //quote_style: 3
+                }),
+                new CompressionPlugin({
+                    asset: '[file].gz',
+                    algorithm: 'gzip',
+                    regExp: /\.js$|\.html|\.css|.map$/,
+                    threshold: 10240,
+                    minRatio: 0.8
+                })
+            );
+        }
+        this
+            .plugins
+            .push
+            .apply(this.plugins, plugins);
     }
-    config
-        .plugins
-        .push
-        .apply(config.plugins, plugins);
-}
+};
 
-pushPlugins();
+config.pushPlugins();
 
 module.exports = config;
 
 function root(partialPath) {
-    console.log(__dirname);
     return path.join(__dirname, partialPath);
 }
