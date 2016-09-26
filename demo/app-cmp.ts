@@ -3,7 +3,7 @@ import { Component } from "@angular/core";
 
 import "rxjs/Rx";
 
-import { CompleterService, CompleterData, CompleterItem, RemoteData } from "../src/ng2-completer";
+import { CompleterService, CompleterData, CompleterItem, RemoteData } from "../src";
 import { CustomData } from "./custom-data";
 import { Http } from "@angular/http";
 

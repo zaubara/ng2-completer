@@ -124,7 +124,7 @@ const config = {
             // Support for .ts files.
             {
                 test: /\.ts$/,
-                loader: 'awesome-typescript-loader',
+                loaders: ['angular2-template-loader', 'awesome-typescript-loader'],
                 // exclude: /(node_modules|demo)/
             }
         ],
