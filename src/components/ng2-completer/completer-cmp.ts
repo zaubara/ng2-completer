@@ -10,9 +10,6 @@ import { MIN_SEARCH_LENGTH, PAUSE } from "../../globals";
 
 import "rxjs/add/operator/catch";
 
-let template = require("./completer-cmp.html");
-let defaultStyles = require("./completer-cmp.css");
-
 const MAX_CHARS = 524288;  // the default max length per the html maxlength attribute
 const TEXT_SEARCHING = "Searching...";
 const TEXT_NORESULTS = "No results found";
@@ -28,8 +25,8 @@ const COMPLETER_CONTROL_VALUE_ACCESSOR = {
 
 @Component({
     selector: "ng2-completer",
-    template: template,
-    styles: [defaultStyles],
+    templateUrl: "./completer-cmp.html",
+    styleUrls: ["./completer-cmp.css"],
     providers: [COMPLETER_CONTROL_VALUE_ACCESSOR]
 })
 export class CompleterCmp implements OnInit, ControlValueAccessor {
