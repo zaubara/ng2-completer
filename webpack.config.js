@@ -31,12 +31,9 @@ const entryDemo = {
         '@angular/platform-browser',
         '@angular/platform-browser-dynamic',
         '@angular/router',
-        '@angular/forms', <<
-        << << < HEAD 'rxjs' ===
-        === =
+        '@angular/forms',
         'rxjs',
-        'object.assign' >>>
-        >>> > build - aot
+        'object.assign' 
     ],
     'ng2-completer': ['src/index.ts'],
     'ng2-completer-demo': 'demo/boot.ts'
@@ -63,14 +60,6 @@ console.log("build demo", isBuildDemo);
 
 const config = {
     devtool,
-    debug: false,
-
-    metadata: {
-        ENV: ENV
-    },
-
-    verbose: true,
-    displayErrorDetails: true,
     context: __dirname,
     stats: {
         colors: true,
@@ -78,9 +67,11 @@ const config = {
     },
 
     resolve: {
-        cache: false,
-        root: __dirname,
-        extensions: ['', '.ts', '.js', '.json']
+       modules: [
+            '.',
+            'node_modules'
+        ],
+        extensions: ['.ts', '.js', '.json']
     },
 
     // entry: 'src/ng2-completer.ts',
@@ -145,7 +136,6 @@ const config = {
         new DefinePlugin({
             "ENV": JSON.stringify(ENV)
         }),
-        new webpack.optimize.OccurenceOrderPlugin(true),
         // static assets
         new CopyWebpackPlugin([{
             from: "demo/res/**/*"
@@ -195,14 +185,13 @@ function pushPlugins() {
             })
         );
     }
-    this
+    config
         .plugins
         .push
-        .apply(this.plugins, plugins);
-}
+        .apply(config.plugins, plugins);
 };
 
-config.pushPlugins();
+pushPlugins();
 
 module.exports = config;
 
