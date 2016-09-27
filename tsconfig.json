@@ -16,8 +16,9 @@
     },
     "exclude": [
         "node_modules"
-    ],
-    "awesomeTypescriptLoaderOptions": {
-        "useCache": true
-    }
+    ] 
+    //,
+    // "awesomeTypescriptLoaderOptions": {
+    //     "useCache": true,
+    // }
 }

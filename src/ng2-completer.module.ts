@@ -20,13 +20,13 @@ import { CommonModule } from "@angular/common";
         HttpModule
     ],
     declarations: [
-        CompleterCmp,
         CompleterListItemCmp,
         CtrCompleter,
         CtrDropdown,
         CtrInput,
         CtrList,
-        CtrRow
+        CtrRow,
+        CompleterCmp
     ],
     providers: [
         CompleterService,

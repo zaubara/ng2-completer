@@ -6,8 +6,10 @@ const webpack = require('webpack');
 const CompressionPlugin = require('compression-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const UnminifiedWebpackPlugin = require('unminified-webpack-plugin');
 const DefinePlugin = require('webpack/lib/DefinePlugin');
 const nodeExternals = require('webpack-node-externals');
+
 
 
 const ENV = process.env.NODE_ENV ? process.env.NODE_ENV : "development";
@@ -33,7 +35,7 @@ const entryDemo = {
         '@angular/router',
         '@angular/forms',
         'rxjs',
-        'object.assign' 
+        'object.assign'
     ],
     'ng2-completer': ['src/index.ts'],
     'ng2-completer-demo': 'demo/boot.ts'
@@ -67,7 +69,7 @@ const config = {
     },
 
     resolve: {
-       modules: [
+        modules: [
             '.',
             'node_modules'
         ],
@@ -135,14 +137,7 @@ const config = {
         //new Clean([dest]),
         new DefinePlugin({
             "ENV": JSON.stringify(ENV)
-        }),
-        // static assets
-        new CopyWebpackPlugin([{
-            from: "demo/res/**/*"
-        }, {
-            from: 'demo/favicon.ico',
-            to: 'favicon.ico'
-        }])
+        })
     ]
 };
 
@@ -161,7 +156,14 @@ function pushPlugins() {
                 name: 'angular2',
                 minChunks: Infinity,
                 filename: 'angular2.js'
-            })
+            }),
+            // static assets
+            new CopyWebpackPlugin([{
+                from: "demo/res/**/*"
+            }, {
+                from: 'demo/favicon.ico',
+                to: 'favicon.ico'
+            }])
         );
     }
     if (isProduction) {
@@ -176,6 +178,7 @@ function pushPlugins() {
                     screw_ie8: true
                 }
             }),
+            new UnminifiedWebpackPlugin(),
             new CompressionPlugin({
                 asset: '[file].gz',
                 algorithm: 'gzip',
