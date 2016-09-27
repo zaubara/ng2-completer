@@ -10,7 +10,9 @@
         "experimentalDecorators": true,
         "noImplicitAny": true,
         "listFiles": false,
-        "noLib": false
+        "noLib": false,
+        "forceConsistentCasingInFileName": true,
+        "noUnusedLocals": true
     },
     "exclude": [
         "node_modules"

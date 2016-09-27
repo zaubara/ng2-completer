@@ -1,4 +1,4 @@
-import { Directive, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { Directive, EventEmitter, OnInit, Output } from "@angular/core";
 // import { Observable } from "rxjs/Observable";
 
 

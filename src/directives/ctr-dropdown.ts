@@ -1,4 +1,4 @@
-import { ContentChildren, Directive, ElementRef, EventEmitter, Host, Input, OnDestroy, OnInit, Output, Renderer } from "@angular/core";
+import { Directive, ElementRef, Host, OnDestroy, OnInit } from "@angular/core";
 
 import { CompleterItem } from "../components/ng2-completer/completer-item";
 import { CtrCompleter, CompleterDropdown } from "./ctr-completer";
@@ -23,7 +23,7 @@ export class CtrDropdown implements CompleterDropdown, OnDestroy, OnInit {
     private currHighlited: CtrRowItem;
     private isScrollOn: boolean;
 
-    constructor( @Host() private completer: CtrCompleter, private el: ElementRef, private renderer: Renderer) {
+    constructor( @Host() private completer: CtrCompleter, private el: ElementRef ) {
         this.completer.registerDropdown(this);
     }
 

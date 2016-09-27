@@ -1,6 +1,5 @@
 import { Directive, EventEmitter, Host, HostListener, Input, Output } from "@angular/core";
 
-import { CompleterData } from "../components/ng2-completer/services/completer-data";
 import { CompleterItem } from "../components/ng2-completer/completer-item";
 import { CtrCompleter } from "./ctr-completer";
 
@@ -13,9 +12,6 @@ const KEY_LF = 37;
 const KEY_ES = 27;
 const KEY_EN = 13;
 const KEY_TAB = 9;
-
-const MAX_CHARS = 524288;  // the default max length per the html maxlength attribute
-const PAUSE = 250;
 
 @Directive({
     selector: "[ctrInput]",

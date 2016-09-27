@@ -1,4 +1,4 @@
-import { Directive, ElementRef, EventEmitter, Host, HostListener, Input, Renderer, OnInit, Optional, Output } from "@angular/core";
+import { Directive, ElementRef, Host, HostListener, Input, Renderer, OnInit } from "@angular/core";
 
 import { CompleterItem } from "../components/ng2-completer/completer-item";
 import { CtrDropdown, CtrRowElement, CtrRowItem } from "./ctr-dropdown";
