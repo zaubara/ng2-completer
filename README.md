@@ -99,7 +99,7 @@ Add the following to `System.js` packages configuration:
 |:---    |:---        |:--- |:---      |:--- |
 |dataService|Autocomplete list data source.|CompleterData|Yes||
 |ngModel| see the angular [forms API](https://angular.io/docs/js/latest/guide/forms.html).|string|Yes||
-|autoMatch|Auto select an item if it is the only result and it is an exact match of the search text.|boolean|false|
+|autoMatch|Auto select an item if it is the only result and it is an exact match of the search text.|boolean|No|false
 |clearSelected|Clear the input when a result is selected.|boolean|No|false|
 |disableInput|If true disable the input field.|boolean|No|false|
 |fieldTabindex|Set the `tabIndex` of the input.|number|No||
