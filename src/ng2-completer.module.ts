@@ -34,7 +34,13 @@ import { CommonModule } from "@angular/common";
         RemoteDataFactoryProvider
     ],
     exports: [
-        CompleterCmp
+        CompleterCmp,
+        CompleterListItemCmp,
+        CtrCompleter,
+        CtrDropdown,
+        CtrInput,
+        CtrList,
+        CtrRow
     ]
 })
 export class Ng2CompleterModule {}
