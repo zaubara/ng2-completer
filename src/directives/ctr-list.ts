@@ -69,7 +69,7 @@ export class CtrList implements OnInit, CompleterList {
             if (this.searchTimer) {
                 clearTimeout(this.searchTimer);
             }
-
+            this.ctx.results = [];
             this.ctx.searching = true;
 
             this.searchTimer = setTimeout(

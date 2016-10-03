@@ -1,10 +1,10 @@
 "use strict";
-import {Component, Input, Output, EventEmitter, OnInit, ViewChild, forwardRef} from "@angular/core";
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
+import { Component, Input, Output, EventEmitter, OnInit, ViewChild, forwardRef } from "@angular/core";
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
-import {CtrCompleter} from "../../directives/ctr-completer";
-import {CompleterData} from "./services/completer-data";
-import {CompleterItem} from "./completer-item";
+import { CtrCompleter } from "../../directives/ctr-completer";
+import { CompleterData } from "./services/completer-data";
+import { CompleterItem } from "./completer-item";
 import { MIN_SEARCH_LENGTH, PAUSE } from "../../globals";
 
 
@@ -49,6 +49,7 @@ export class CompleterCmp implements OnInit, ControlValueAccessor {
 
     @ViewChild(CtrCompleter) private completer: CtrCompleter;
 
+    private displaySearching = true;
     private searchStr = "";
     private _onTouchedCallback: () => void = noop;
     private _onChangeCallback: (_: any) => void = noop;
@@ -82,12 +83,15 @@ export class CompleterCmp implements OnInit, ControlValueAccessor {
 
     public ngOnInit() {
         this.completer.selected.subscribe((item: CompleterItem) => {
-             this.selected.emit(item);
-             this._onChangeCallback(item.title);
+            this.selected.emit(item);
+            this._onChangeCallback(item.title);
         });
         this.completer.highlighted.subscribe((item: CompleterItem) => {
-             this.highlighted.emit(item);
+            this.highlighted.emit(item);
         });
 
+        if (this.textSearching === "false") {
+            this.displaySearching = false;
+        }
     }
 }

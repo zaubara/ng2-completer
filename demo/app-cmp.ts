@@ -70,7 +70,7 @@ export class AppComponent {
     private dataService4: CompleterData;
     private customData: CustomData;
 
-    constructor(private completerService: CompleterService, private http: Http) {
+    constructor(completerService: CompleterService, http: Http) {
         this.dataService = completerService.local(this.countries, "name", "name").imageField("flag");
         this.dataService2 = completerService.local(this.quotes, "nm", "nm").descriptionField("qt");
         this.dataRemote = completerService.remote(
