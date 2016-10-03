@@ -99,7 +99,7 @@ Add the following to `System.js` packages configuration:
 |:---    |:---        |:--- |:---      |:--- |
 |dataService|Autocomplete list data source.|CompleterData|Yes||
 |ngModel| see the angular [forms API](https://angular.io/docs/js/latest/guide/forms.html).|string|Yes||
-|autoMatch|Auto select an item if it is the only result and it is an exact match of the search text.|boolean|false|
+|autoMatch|Auto select an item if it is the only result and it is an exact match of the search text.|boolean|No|false
 |clearSelected|Clear the input when a result is selected.|boolean|No|false|
 |disableInput|If true disable the input field.|boolean|No|false|
 |fieldTabindex|Set the `tabIndex` of the input.|number|No||
@@ -154,6 +154,7 @@ Create remote data provider by calling `CompleterService.remote`.
 |imageField|string|Name of the field to use as image url for the list item.|
 |urlFormater|(term: string) => string|Function that get's the searchterm and returns the search url before each search.|
 |dataField|string|The field in the response that includes the data.|
+|headers|Headers (@angular/http)|HTTP request headers that should be sent with the search request.
 
 ### CSS classes
 
