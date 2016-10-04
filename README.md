@@ -107,10 +107,11 @@ Add the following to `System.js` packages configuration:
 |matchClass|CSS class to apply for matching part of the title and description.|string|No||
 |maxChars|Maximal number of characters that the user can type in the component.|number|No|524288|
 |minSearchLength|Minimal number of characters required for searching.|number|No|3|
-|overrideSuggested|If true will ovveride suggested and set the model with the value in the input field.|boolean|No|false|
+|overrideSuggested|If true will override suggested and set the model with the value in the input field.|boolean|No|false|
 |pause|Number of msec. to wait before searching.|number|No|250|
 |placeholder|Placeholder text for the search field.|string|No||
 |selected|Event handler that is called when an item is selected.|(selected: CompleterItem): void|No||
+|highlighted|Event handler that is called when an item is highlited.|(highlighted: CompleterItem): void|No||
 |textNoResults|Text displayed when the search returned no results.|string|No|
 |textSearching|Text displayed while search is active.|string|No|Searching...|
 
@@ -164,14 +165,10 @@ Create remote data provider by calling `CompleterService.remote`.
 * `.completer-searching`
 * `.completer-no-results`
 * `.completer-row`
-* `.completer-row`
-* `.completer-image-holder`
 * `.completer-image-holder`
 * `.completer-image`
 * `.completer-image-default`
-* `.completer-image-default`
 * `.completer-title`
-* `.completer-description`
 * `.completer-description`
 * `.completer-list-item-holder`
 * `.completer-list-item`

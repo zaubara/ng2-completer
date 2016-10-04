@@ -5,7 +5,7 @@
 }, {
     "name": "Aland Islands",
     "code": "AX",
-    "flag": "demo/res/img/ax.png"
+    "flag": ""
 }, {
     "name": "Albania",
     "code": "AL",
@@ -21,7 +21,7 @@
 }, {
     "name": "AndorrA",
     "code": "AD",
-    "flag": "demo/res/img/ad.png"
+    "flag": ""
 }, {
     "name": "Angola",
     "code": "AO",
@@ -117,7 +117,7 @@
 }, {
     "name": "Bouvet Island",
     "code": "BV",
-    "flag": "demo/res/img/bv.png"
+    "flag": ""
 }, {
     "name": "Brazil",
     "code": "BR",
@@ -125,7 +125,7 @@
 }, {
     "name": "British Indian Ocean Territory",
     "code": "IO",
-    "flag": "demo/res/img/io.png"
+    "flag": ""
 }, {
     "name": "Brunei Darussalam",
     "code": "BN",
@@ -181,11 +181,11 @@
 }, {
     "name": "Christmas Island",
     "code": "CX",
-    "flag": "demo/res/img/cx.png"
+    "flag": ""
 }, {
     "name": "Cocos (Keeling) Islands",
     "code": "CC",
-    "flag": "demo/res/img/cc.png"
+    "flag": ""
 }, {
     "name": "Colombia",
     "code": "CO",
@@ -277,7 +277,7 @@
 }, {
     "name": "Falkland Islands (Malvinas)",
     "code": "FK",
-    "flag": "demo/res/img/fk.png"
+    "flag": ""
 }, {
     "name": "Faroe Islands",
     "code": "FO",
@@ -297,7 +297,7 @@
 }, {
     "name": "French Guiana",
     "code": "GF",
-    "flag": "demo/res/img/gf.png"
+    "flag": ""
 }, {
     "name": "French Polynesia",
     "code": "PF",
@@ -305,7 +305,7 @@
 }, {
     "name": "French Southern Territories",
     "code": "TF",
-    "flag": "demo/res/img/tf.png"
+    "flag": ""
 }, {
     "name": "Gabon",
     "code": "GA",
@@ -377,7 +377,7 @@
 }, {
     "name": "Heard Island and Mcdonald Islands",
     "code": "HM",
-    "flag": "demo/res/img/hm.png"
+    "flag": ""
 }, {
     "name": "Holy See (Vatican City State)",
     "code": "VA",
@@ -561,7 +561,7 @@
 }, {
     "name": "Mayotte",
     "code": "YT",
-    "flag": "demo/res/img/yt.png"
+    "flag": ""
 }, {
     "name": "Mexico",
     "code": "MX",
@@ -641,15 +641,15 @@
 }, {
     "name": "Niue",
     "code": "NU",
-    "flag": "demo/res/img/nu.png"
+    "flag": ""
 }, {
     "name": "Norfolk Island",
     "code": "NF",
-    "flag": "demo/res/img/nf.png"
+    "flag": ""
 }, {
     "name": "Northern Mariana Islands",
     "code": "MP",
-    "flag": "demo/res/img/mp.png"
+    "flag": ""
 }, {
     "name": "Norway",
     "code": "NO",
@@ -693,7 +693,7 @@
 }, {
     "name": "Pitcairn",
     "code": "PN",
-    "flag": "demo/res/img/pn.png"
+    "flag": ""
 }, {
     "name": "Poland",
     "code": "PL",
@@ -729,7 +729,7 @@
 }, {
     "name": "Saint Helena",
     "code": "SH",
-    "flag": "demo/res/img/sh.png"
+    "flag": ""
 }, {
     "name": "Saint Kitts and Nevis",
     "code": "KN",
@@ -741,7 +741,7 @@
 }, {
     "name": "Saint Pierre and Miquelon",
     "code": "PM",
-    "flag": "demo/res/img/pm.png"
+    "flag": ""
 }, {
     "name": "Saint Vincent and the Grenadines",
     "code": "VC",
@@ -769,7 +769,7 @@
 }, {
     "name": "Serbia and Montenegro",
     "code": "CS",
-    "flag": "demo/res/img/cs.png"
+    "flag": ""
 }, {
     "name": "Seychelles",
     "code": "SC",
@@ -805,7 +805,7 @@
 }, {
     "name": "South Georgia and the South Sandwich Islands",
     "code": "GS",
-    "flag": "demo/res/img/gs.png"
+    "flag": ""
 }, {
     "name": "Spain",
     "code": "ES",
@@ -825,7 +825,7 @@
 }, {
     "name": "Svalbard and Jan Mayen",
     "code": "SJ",
-    "flag": "demo/res/img/sj.png"
+    "flag": ""
 }, {
     "name": "Swaziland",
     "code": "SZ",
@@ -869,7 +869,7 @@
 }, {
     "name": "Tokelau",
     "code": "TK",
-    "flag": "demo/res/img/tk.png"
+    "flag": ""
 }, {
     "name": "Tonga",
     "code": "TO",
@@ -921,7 +921,7 @@
 }, {
     "name": "United States Minor Outlying Islands",
     "code": "UM",
-    "flag": "demo/res/img/um.png"
+    "flag": ""
 }, {
     "name": "Uruguay",
     "code": "UY",
@@ -953,7 +953,7 @@
 }, {
     "name": "Wallis and Futuna",
     "code": "WF",
-    "flag": "demo/res/img/wf.png"
+    "flag": ""
 }, {
     "name": "Western Sahara",
     "code": "EH",
