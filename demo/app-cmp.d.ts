@@ -1,9 +1,7 @@
 import "rxjs/Rx";
-import { CompleterService, CompleterItem } from "../src/ng2-completer";
+import { CompleterService, CompleterItem } from "../src";
 import { Http } from "@angular/http";
 export declare class AppComponent {
-    private completerService;
-    private http;
     countries: any;
     quotes: {
         qt: string;

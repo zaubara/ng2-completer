@@ -5,7 +5,6 @@ import { CompleterItem } from "./completer-item";
 import "rxjs/add/operator/catch";
 export declare class CompleterCmp implements OnInit, ControlValueAccessor {
     dataService: CompleterData;
-    searchFields: string;
     inputName: string;
     pause: number;
     minSearchLength: number;
@@ -20,16 +19,10 @@ export declare class CompleterCmp implements OnInit, ControlValueAccessor {
     autoMatch: boolean;
     disableInput: boolean;
     selected: EventEmitter<CompleterItem>;
-    private listCmp;
-    private searchStr;
-    private searching;
-    private showDropdown;
-    private displayNoResults;
-    private searchTimer;
-    private hideTimer;
+    highlighted: EventEmitter<CompleterItem>;
+    private completer;
     private displaySearching;
-    private selectedObject;
-    private results;
+    private searchStr;
     private _onTouchedCallback;
     private _onChangeCallback;
     constructor();
@@ -38,17 +31,5 @@ export declare class CompleterCmp implements OnInit, ControlValueAccessor {
     writeValue(value: any): void;
     registerOnChange(fn: any): void;
     registerOnTouched(fn: any): void;
-    keyupHandler(event: any): void;
-    keydownHandler(event: any): void;
     ngOnInit(): void;
-    selectResult(result: any): void;
-    hideResults(): void;
-    onBlur(): void;
-    private initResults();
-    private searchTimerComplete(str);
-    private clearResults();
-    private handleOverrideSuggestions(event?);
-    private setInputString(str);
-    private callOrAssign(value);
-    private handleError(error);
 }
