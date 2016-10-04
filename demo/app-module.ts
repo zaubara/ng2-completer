@@ -5,6 +5,7 @@ import { MaterialModule } from "@angular/material";
 import { BrowserModule } from "@angular/platform-browser";
 
 import { AppComponent }  from "./app-cmp";
+import { MaterialCmp } from "./material-cmp";
 import { NativeCmp } from "./native-cmp";
 import { routing } from "./app.routing";
 import { Ng2CompleterModule } from "../src";
@@ -21,7 +22,7 @@ import { Ng2CompleterMdModule } from "../src";
       HttpModule,
       routing
   ],
-  declarations: [ AppComponent, NativeCmp],
+  declarations: [ AppComponent, NativeCmp, MaterialCmp],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

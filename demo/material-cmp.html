@@ -1,0 +1,19 @@
+<div class="row">
+    <h1>Completer Material</h1>
+</div>
+<h2>Local data with image</h2>
+<div class="row completer-wrapper m-a-1">
+    <div class="col-md-offset-1">
+        <div class="row">
+            <p>Local data of countries - using image, matchClass and maxLength</p>
+        </div>
+        <div class="row">
+            <ng2-completer-md [(ngModel)]="countryName" [dataService]="dataService" [minSearchLength]="0" [maxChars]="4" [placeholder]="'search country'"
+                [matchClass]="'match'">
+            </ng2-completer-md>
+        </div>
+        <div class="row">
+            <p>Selected country: {{countryName}}</p>
+        </div>
+    </div>
+</div>

@@ -17,6 +17,8 @@
     color: #000000;
     margin-bottom: 4px;
     clear: both;
+    display: inline-block;
+    width: 103%;
 }
 
 .completer-selected-row {
@@ -32,4 +34,13 @@
     width: 16px; 
     height: 16px;
     background-image: url("demo/res/img/default.png");
+}
+
+.completer-image-holder {
+    float: left;
+    width: 10%;
+}
+.completer-item-text-image {
+    float: right;
+    width: 90%;
 }

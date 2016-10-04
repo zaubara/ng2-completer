@@ -1,6 +1,7 @@
 import { ModuleWithProviders } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 
+import { MaterialCmp } from "./material-cmp";
 import { NativeCmp } from "./native-cmp";
 
 const appRoutes: Routes = [
@@ -12,6 +13,10 @@ const appRoutes: Routes = [
     {
         path: "native",
         component: NativeCmp
+    },
+    {
+        path: "material",
+        component: MaterialCmp
     }
 ];
 

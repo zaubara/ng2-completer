@@ -10,10 +10,10 @@
             <md-list-item *ngIf="!searchActive && (!items || items.length === 0)" class="completer-no-results">{{textNoResults}}</md-list-item>
             <md-list-item class="completer-row-wrapper" *ngFor="let item of items; let rowIndex=index">
                 <div class="completer-row" [ctrRow]="rowIndex" [dataItem]="item">
-                    <div *ngIf="item.image || item.image === ''" class="completer-image-holder">
+                    <span *ngIf="item.image || item.image === ''" class="completer-image-holder">
                         <img md-list-avatar *ngIf="item.image != ''" src="{{item.image}}" class="completer-image" />
-                        <div *ngIf="item.image === ''" class="completer-image-default"></div>
-                    </div>
+                        <span md-list-avatar *ngIf="item.image === ''" class="completer-image-default"></span>
+                    </span>
                     <p md-line>
                         <completer-list-item class="completer-title" [text]="item.title" [matchClass]="matchClass" [searchStr]="searchStr" [type]="'title'"></completer-list-item>
                         <completer-list-item *ngIf="item.description && item.description != ''" class="completer-description" [text]="item.description"
