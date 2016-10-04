@@ -12,8 +12,8 @@ export class CtrRow implements CtrRowElement, OnInit {
     private _rowIndex: number;
     private _item: CompleterItem;
 
-    constructor( private el: ElementRef, private renderer: Renderer, @Host() private dropdown: CtrDropdown) {}
-    
+    constructor(private el: ElementRef, private renderer: Renderer, @Host() private dropdown: CtrDropdown) { }
+
     public ngOnInit() {
         this.dropdown.registerRow(new CtrRowItem(this, this._rowIndex));
     }

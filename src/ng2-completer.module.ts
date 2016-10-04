@@ -1,5 +1,5 @@
 import { NgModule } from "@angular/core";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { FormsModule } from "@angular/forms";
 import { HttpModule } from "@angular/http";
 import { CompleterCmp } from "./components/ng2-completer/completer-cmp";
 import { CompleterListItemCmp } from "./components/ng2-completer/completer-list-item-cmp";
@@ -16,7 +16,6 @@ import { CommonModule } from "@angular/common";
     imports: [
         CommonModule,
         FormsModule,
-        ReactiveFormsModule,
         HttpModule
     ],
     declarations: [
@@ -26,12 +25,7 @@ import { CommonModule } from "@angular/common";
         CtrInput,
         CtrList,
         CtrRow,
-        CompleterCmp
-    ],
-    providers: [
-        CompleterService,
-        LocalDataFactoryProvider,
-        RemoteDataFactoryProvider
+        CompleterCmp,
     ],
     exports: [
         CompleterCmp,
@@ -41,6 +35,11 @@ import { CommonModule } from "@angular/common";
         CtrInput,
         CtrList,
         CtrRow
+    ],
+    providers: [
+        CompleterService,
+        LocalDataFactoryProvider,
+        RemoteDataFactoryProvider
     ]
 })
-export class Ng2CompleterModule {}
+export class Ng2CompleterModule { }
