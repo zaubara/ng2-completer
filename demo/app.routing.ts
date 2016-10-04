@@ -7,7 +7,7 @@ import { NativeCmp } from "./native-cmp";
 const appRoutes: Routes = [
     {
         path: "",
-        redirectTo: "native",
+        redirectTo: "/native",
         pathMatch: "full"
     },
     {
@@ -20,4 +20,4 @@ const appRoutes: Routes = [
     }
 ];
 
-export const routing: ModuleWithProviders = RouterModule.forRoot(appRoutes);
+export const routing: ModuleWithProviders = RouterModule.forRoot(appRoutes, {useHash: true});
