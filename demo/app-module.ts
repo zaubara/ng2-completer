@@ -9,7 +9,7 @@ import { MaterialCmp } from "./material-cmp";
 import { NativeCmp } from "./native-cmp";
 import { routing } from "./app.routing";
 import { Ng2CompleterModule } from "../src";
-import { Ng2CompleterMdModule } from "../src";
+import { CompleterCmpMd } from "./completer-cmp-md";
 
 
 @NgModule({
@@ -17,12 +17,11 @@ import { Ng2CompleterMdModule } from "../src";
       BrowserModule,
       Ng2CompleterModule,
       MaterialModule,
-      Ng2CompleterMdModule,
       FormsModule,
       HttpModule,
       routing
   ],
-  declarations: [ AppComponent, NativeCmp, MaterialCmp],
+  declarations: [ AppComponent, CompleterCmpMd, NativeCmp, MaterialCmp],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }
