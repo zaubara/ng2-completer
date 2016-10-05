@@ -31,7 +31,7 @@ export class RemoteData extends CompleterBaseData {
         this._dataField = dataField;
     }
 
-    public headers(headers:Headers) {
+    public headers(headers: Headers) {
         this._headers = headers;
     }
 

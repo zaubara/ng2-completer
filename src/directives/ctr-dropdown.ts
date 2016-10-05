@@ -23,7 +23,7 @@ export class CtrDropdown implements CompleterDropdown, OnDestroy, OnInit {
     private currHighlited: CtrRowItem;
     private isScrollOn: boolean;
 
-    constructor( @Host() private completer: CtrCompleter, private el: ElementRef ) {
+    constructor( @Host() private completer: CtrCompleter, private el: ElementRef) {
         this.completer.registerDropdown(this);
     }
 

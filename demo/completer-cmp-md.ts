@@ -2,30 +2,29 @@
 import { Component, Input, Output, EventEmitter, OnInit, ViewChild, forwardRef } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
-import { CtrCompleter } from "../../directives/ctr-completer";
-import { CompleterData } from "./services/completer-data";
-import { CompleterItem } from "./completer-item";
-import { MAX_CHARS, MIN_SEARCH_LENGTH, PAUSE, TEXT_SEARCHING, TEXT_NORESULTS } from "../../globals";
+import { CtrCompleter, CompleterData, CompleterItem } from "../src";
+import { MAX_CHARS, MIN_SEARCH_LENGTH, PAUSE, TEXT_SEARCHING, TEXT_NORESULTS } from "../src/globals";
 
 
 import "rxjs/add/operator/catch";
+
 
 const noop = () => { };
 
 const COMPLETER_CONTROL_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => CompleterCmp),
+    useExisting: forwardRef(() => CompleterCmpMd),
     multi: true
 };
 
 
 @Component({
-    selector: "ng2-completer",
-    templateUrl: "./completer-cmp.html",
-    styleUrls: ["./completer-cmp.css"],
+    selector: "ng2-completer-md",
+    templateUrl: "./completer-cmp-md.html",
+    styleUrls: ["./completer-cmp-md.css"],
     providers: [COMPLETER_CONTROL_VALUE_ACCESSOR]
 })
-export class CompleterCmp implements OnInit, ControlValueAccessor {
+export class CompleterCmpMd implements OnInit, ControlValueAccessor {
     @Input() public dataService: CompleterData;
     @Input() public inputName = "";
     @Input() public pause = PAUSE;
@@ -79,11 +78,11 @@ export class CompleterCmp implements OnInit, ControlValueAccessor {
 
     public ngOnInit() {
         this.completer.selected.subscribe((item: CompleterItem) => {
-            this.selected.emit(item);
-            this._onChangeCallback(item.title);
+             this.selected.emit(item);
+             this._onChangeCallback(item.title);
         });
         this.completer.highlighted.subscribe((item: CompleterItem) => {
-            this.highlighted.emit(item);
+             this.highlighted.emit(item);
         });
 
         if (this.textSearching === "false") {

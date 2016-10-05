@@ -100,11 +100,17 @@ export class CtrInput {
     }
 
     @HostListener("blur", ["$event"])
-    public onBlur() {
+    public onBlur(event: any) {
         if (this.overrideSuggested) {
             this.completer.onSelected({ title: this.searchStr, originalObject: null });
         } else {
-            this.completer.clear();
+            setTimeout(
+                () => {
+                    this.completer.clear();
+                },
+                200
+            );
+
         }
     }
 

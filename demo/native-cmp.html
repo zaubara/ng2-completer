@@ -1,0 +1,129 @@
+<div class="row">
+    <h1>Completer Native</h1>
+</div>
+<h2>Local data with image</h2>
+<div class="row completer-wrapper m-a-1">
+    <div class="col-md-offset-1">
+        <div class="row">
+            <p>Local data of countries - using image, matchClass and maxLength</p>
+        </div>
+        <div class="row">
+            <ng2-completer [(ngModel)]="countryName" [dataService]="dataService" [minSearchLength]="0" [maxChars]="4" [placeholder]="'search country'"
+                [matchClass]="'match'">
+            </ng2-completer>
+        </div>
+        <div class="row">
+            <p>Selected country: {{countryName}}</p>
+        </div>
+    </div>
+</div>
+<h2>Local data with description</h2>
+<div class="row completer-wrapper m-a-1">
+    <div class="col-md-offset-1">
+        <div class="row">
+            <p>Local data of quotes - using desription, textNoResults, matchClass and selected event</p>
+        </div>
+        <div class="row">
+            <ng2-completer [dataService]="dataService2" (selected)="onQuoteSelected($event)" [minSearchLength]="0" [placeholder]="'search quote by author name'"
+                [textNoResults]="'No quotes found'" [matchClass]="'match'">
+            </ng2-completer>
+        </div>
+        <div class="row">
+            <p>Quote: {{quote}}</p>
+        </div>
+    </div>
+</div>
+
+<h2>Remote data</h2>
+<div class="row completer-wrapper m-a-1">
+    <div class="col-md-offset-1">
+        <div class="row">
+            <p>Remote data of countries with minSearchLength, textSearching and clearSelected</p>
+        </div>
+        <div class="row">
+            <ng2-completer [dataService]="dataRemote" [minSearchLength]="3" [placeholder]="'search country'" [clearSelected]="true" (selected)="onCountrySelected($event)"
+                [textSearching]="'Please wait...'">
+            </ng2-completer>
+        </div>
+        <div class="row">
+            <p>Selected country: {{countryName2}}</p>
+        </div>
+    </div>
+</div>
+
+<h2>Input disabled</h2>
+<div class="row completer-wrapper m-a-1">
+    <div class="col-md-offset-1">
+        <div class="row">
+            <p>Local data of countries - overrideSuggested, inputDisabled and fieldTabindex</p>
+        </div>
+        <div class="row">
+            <ng2-completer [(ngModel)]="countryName3" [dataService]="dataService3" [minSearchLength]="0" [placeholder]="'search country'"
+                [overrideSuggested]="true" [disableInput]="searchcb" [fieldTabindex]="-1">
+            </ng2-completer>
+        </div>
+        <div class="row">
+            <p>Selected: {{countryName3}}</p>
+        </div>
+        <div class="row">
+            <label>Disable search</label>
+            <input type="checkbox" [(ngModel)]="searchcb" />
+        </div>
+    </div>
+</div>
+
+<h2>Automatch</h2>
+<div class="row completer-wrapper m-a-1">
+    <div class="col-md-offset-1">
+        <form>
+            <div class="row">
+                <p>Local data of countries - autoMatch and required</p>
+            </div>
+            <div class="row">
+                <ng2-completer name="countryRequired" [dataService]="dataService4" [(ngModel)]="countryName4" [minSearchLength]="0" [placeholder]="'search country'"
+                    #countryRequired="ngModel" [autoMatch]="true" required>
+                </ng2-completer>
+                <div [hidden]="countryRequired.valid" class="col-md-6 alert alert-danger">
+                    Country is required
+                </div>
+            </div>
+            <div class="row">
+                <p>Selected: {{countryName4}}</p>
+            </div>
+        </form>
+    </div>
+</div>
+
+<h2>Remote data with URL Formater and Headers</h2>
+<div class="row completer-wrapper m-a-1">
+    <div class="col-md-offset-1">
+        <div class="row">
+            <p>Remote data from <a href="https://developers.google.com/maps/documentation/geocoding/start">Google Maps API</a>                - urlFormater, dataField, and headers</p>
+        </div>
+        <div class="row">
+            <ng2-completer [(ngModel)]="countryName5" [dataService]="dataRemote2" [minSearchLength]="3" [placeholder]="'search country'"
+                [textSearching]="'Please wait...'">
+            </ng2-completer>
+        </div>
+        <div class="row">
+            <p>Selected country: {{countryName5}}</p>
+        </div>
+    </div>
+</div>
+
+<h2>Custom data provider</h2>
+<div class="row completer-wrapper m-a-1">
+    <div class="col-md-offset-1">
+        <div class="row">
+            <p>Custom data provider. Seinfeld episodes data from <a href="https://mysafeinfo.com/">mysafeinfo.com</a></p>
+        </div>
+        <div class="row">
+            <ng2-completer [(ngModel)]="seinfeldEpisode" [dataService]="customData" [minSearchLength]="3" [placeholder]="'search Seinfeld episode'"
+                [textSearching]="'Please wait...'">
+            </ng2-completer>
+        </div>
+        <div class="row">
+            <p>Selected episode: {{seinfeldEpisode}}</p>
+        </div>
+    </div>
+</div>

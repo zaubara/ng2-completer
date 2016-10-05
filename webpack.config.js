@@ -30,6 +30,7 @@ const entryDemo = {
         '@angular/common',
         '@angular/compiler',
         '@angular/http',
+        '@angular/material',
         '@angular/platform-browser',
         '@angular/platform-browser-dynamic',
         '@angular/router',
