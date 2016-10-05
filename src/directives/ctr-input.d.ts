@@ -11,6 +11,6 @@ export declare class CtrInput {
     onInputChange(event: any): void;
     keyupHandler(event: any): void;
     keydownHandler(event: any): void;
-    onBlur(): void;
+    onBlur(event: any): void;
     searchStr: string;
 }
