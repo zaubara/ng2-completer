@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 ### Implemented enhancments
 - Added material2 component to demo
 
-## Fixed bugs:
+### Fixed bugs:
 - Mouse click doesn't select the item, Enter Key does! #46
 
 
@@ -14,6 +14,6 @@ This is a rewrite of the completer component using directives that implement mos
 ### Implemented enhancments
 - Support for custom HTML and CSS #13 #21
 
-## Fixed bugs:
+### Fixed bugs:
 - Bump version dependency to angular 2.0.0 #39
 
