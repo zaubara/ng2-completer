@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 0.2.2 
+### Implemented enhancments
+- Added support for async local data
+
 ## 0.2.1 (2016-10-05)
 ### Implemented enhancments
 - Added material2 component to demo

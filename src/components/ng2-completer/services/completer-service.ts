@@ -1,4 +1,5 @@
 import {Injectable, Inject} from "@angular/core";
+import { Observable } from "rxjs/Observable";
 
 import {LocalData} from "./local-data";
 import {RemoteData} from "./remote-data";
@@ -11,7 +12,7 @@ export class CompleterService {
         @Inject(RemoteData) private remoteDataFactory: any // Using any instead of () => LocalData because on AoT errors
     ) { }
 
-    public local(data: any[], searchFields: string, titleField: string): LocalData {
+    public local(data: any[] | Observable<any>, searchFields: string, titleField: string): LocalData {
 
         let localData = this.localDataFactory();
         return localData

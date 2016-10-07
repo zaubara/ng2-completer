@@ -1,7 +1,7 @@
 "use strict";
 import { Component } from "@angular/core";
 
-import "rxjs/Rx";
+import { Observable } from "rxjs/Rx";
 
 import { CompleterService, CompleterData, CompleterItem, RemoteData } from "../src";
 import { CustomData } from "./custom-data";
@@ -86,7 +86,8 @@ export class NativeCmp {
         });
         this.dataRemote2.dataField("results");
         this.dataRemote2.headers(new Headers({"My-Header": "Hello World!"}));
-        this.dataService3 = completerService.local(this.countries, "name", "name");
+        let source = Observable.from([this.countries]).delay(5000);
+        this.dataService3 = completerService.local(<Observable<any[]>>source, "name", "name");
         this.dataService4 = completerService.local(this.countries, "name", "name");
         this.customData = new CustomData(http);
     }
