@@ -69,8 +69,12 @@ export class CtrList implements OnInit, CompleterList {
             if (this.searchTimer) {
                 clearTimeout(this.searchTimer);
             }
-            this.ctx.results = [];
-            this.ctx.searching = true;
+            if (!this.ctx.searching) {
+                this.ctx.results = [];
+                this.ctx.searching = true;
+                this.ctx.searchInitialized = true;
+                this.refreshTemplate();
+            }
 
             this.searchTimer = setTimeout(
                 () => {
@@ -78,7 +82,7 @@ export class CtrList implements OnInit, CompleterList {
                 },
                 this.ctrListPause
             );
-            this.refreshTemplate();
+
 
         }
     }
