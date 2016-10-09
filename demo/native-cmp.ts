@@ -86,7 +86,9 @@ export class NativeCmp {
         });
         this.dataRemote2.dataField("results");
         this.dataRemote2.headers(new Headers({"My-Header": "Hello World!"}));
-        let source = Observable.from([this.countries]).delay(5000);
+        // For async local the source can also be HTTP request
+        // let source = http.get("https://raw.githubusercontent.com/oferh/ng2-completer/master/demo/res/data/countries.json?").map((res: any) => res.json());
+        let source = Observable.from([this.countries]).delay(3000);
         this.dataService3 = completerService.local(<Observable<any[]>>source, "name", "name");
         this.dataService4 = completerService.local(this.countries, "name", "name");
         this.customData = new CustomData(http);

@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 ### Implemented enhancments
 - Added support for async local data
 
+### Fixed bugs:
+- Not able to capture blur event #50
+- textSearching not display in first search #55
+
 ## 0.2.1 (2016-10-05)
 ### Implemented enhancments
 - Added material2 component to demo
