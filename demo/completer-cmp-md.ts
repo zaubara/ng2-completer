@@ -41,6 +41,7 @@ export class CompleterCmpMd implements OnInit, ControlValueAccessor {
     @Input() public disableInput = false;
     @Output() public selected = new EventEmitter<CompleterItem>();
     @Output() public highlighted = new EventEmitter<CompleterItem>();
+    @Output() public blur = new EventEmitter<void>();
 
     @ViewChild(CtrCompleter) private completer: CtrCompleter;
 
@@ -78,15 +79,20 @@ export class CompleterCmpMd implements OnInit, ControlValueAccessor {
 
     public ngOnInit() {
         this.completer.selected.subscribe((item: CompleterItem) => {
-             this.selected.emit(item);
-             this._onChangeCallback(item.title);
+            this.selected.emit(item);
+            this._onChangeCallback(item.title);
         });
         this.completer.highlighted.subscribe((item: CompleterItem) => {
-             this.highlighted.emit(item);
+            this.highlighted.emit(item);
         });
 
         if (this.textSearching === "false") {
             this.displaySearching = false;
         }
+    }
+
+    public onBlur() {
+        this.blur.emit();
+        this.onTouched();
     }
 }

@@ -42,6 +42,7 @@ export class CompleterCmp implements OnInit, ControlValueAccessor {
     @Input() public disableInput = false;
     @Output() public selected = new EventEmitter<CompleterItem>();
     @Output() public highlighted = new EventEmitter<CompleterItem>();
+    @Output() public blur = new EventEmitter<void>();
 
     @ViewChild(CtrCompleter) private completer: CtrCompleter;
 
@@ -89,5 +90,10 @@ export class CompleterCmp implements OnInit, ControlValueAccessor {
         if (this.textSearching === "false") {
             this.displaySearching = false;
         }
+    }
+
+    public onBlur() {
+        this.blur.emit();
+        this.onTouched();
     }
 }
