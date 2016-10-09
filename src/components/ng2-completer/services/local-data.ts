@@ -32,6 +32,7 @@ export class LocalData extends CompleterBaseData {
         if (!this._data) {
             this.savedTerm = term;
         } else {
+            this.savedTerm = null;
             let matches: any[] = this.extractMatches(this._data, term);
             this.next(this.processResults(matches, term));
         }
