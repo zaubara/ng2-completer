@@ -358,12 +358,15 @@ var CtrList = (function () {
             if (this.searchTimer) {
                 clearTimeout(this.searchTimer);
             }
-            this.ctx.results = [];
-            this.ctx.searching = true;
+            if (!this.ctx.searching) {
+                this.ctx.results = [];
+                this.ctx.searching = true;
+                this.ctx.searchInitialized = true;
+                this.refreshTemplate();
+            }
             this.searchTimer = setTimeout(function () {
                 _this.searchTimerComplete(term);
             }, this.ctrListPause);
-            this.refreshTemplate();
         }
     };
     CtrList.prototype.clear = function () {
@@ -568,6 +571,7 @@ var CompleterCmp = (function () {
         this.disableInput = false;
         this.selected = new core_1.EventEmitter();
         this.highlighted = new core_1.EventEmitter();
+        this.blur = new core_1.EventEmitter();
         this.displaySearching = true;
         this.searchStr = "";
         this._onTouchedCallback = noop;
@@ -609,6 +613,10 @@ var CompleterCmp = (function () {
         if (this.textSearching === "false") {
             this.displaySearching = false;
         }
+    };
+    CompleterCmp.prototype.onBlur = function () {
+        this.blur.emit();
+        this.onTouched();
     };
     __decorate([
         core_1.Input(), 
@@ -674,6 +682,10 @@ var CompleterCmp = (function () {
         core_1.Output(), 
         __metadata('design:type', Object)
     ], CompleterCmp.prototype, "highlighted", void 0);
+    __decorate([
+        core_1.Output(), 
+        __metadata('design:type', Object)
+    ], CompleterCmp.prototype, "blur", void 0);
     __decorate([
         core_1.ViewChild(ctr_completer_1.CtrCompleter), 
         __metadata('design:type', ctr_completer_1.CtrCompleter)
@@ -871,7 +883,7 @@ module.exports = ".completer-dropdown {\n    border-color: #ececec;\n    border-
 /***/ 303:
 /***/ function(module, exports) {
 
-module.exports = "<div class=\"completer-holder\" ctrCompleter>\n    <input class=\"completer-input\" ctrInput [(ngModel)]=\"searchStr\" [attr.name]=\"inputName\" [placeholder]=\"placeholder\" [attr.maxlength]=\"maxChars\"\n        [tabindex]=\"fieldTabindex\" [disabled]=\"disableInput\" [clearSelected]=\"clearSelected\" [overrideSuggested]=\"overrideSuggested\"\n        autocomplete=\"off\" autocorrect=\"off\" autocapitalize=\"off\" />\n\n    <div class=\"completer-dropdown-holder\" *ctrList=\"dataService; minSearchLength: minSearchLength; pause: pause; autoMatch: autoMatch; let items = results; let searchActive = searching; let isInitialized = searchInitialized;\">\n        <div class=\"completer-dropdown\" ctrDropdown *ngIf=\"isInitialized\">\n            <div *ngIf=\"searchActive && displaySearching\" class=\"completer-searching\">{{textSearching}}</div>\n            <div *ngIf=\"!searchActive && (!items || items.length === 0)\" class=\"completer-no-results\">{{textNoResults}}</div>\n            <div class=\"completer-row-wrapper\" *ngFor=\"let item of items; let rowIndex=index\">\n                <div class=\"completer-row\" [ctrRow]=\"rowIndex\" [dataItem]=\"item\">\n                    <div *ngIf=\"item.image || item.image === ''\" class=\"completer-image-holder\">\n                        <img *ngIf=\"item.image != ''\" src=\"{{item.image}}\" class=\"completer-image\" />\n                        <div *ngIf=\"item.image === ''\" class=\"completer-image-default\"></div>\n                    </div>\n                    <div class=\"completer-item-text\" [ngClass]=\"{'completer-item-text-image': item.image || item.image === '' }\">\n                        <completer-list-item class=\"completer-title\" [text]=\"item.title\" [matchClass]=\"matchClass\" [searchStr]=\"searchStr\" [type]=\"'title'\"></completer-list-item>\n                        <completer-list-item *ngIf=\"item.description && item.description != ''\" class=\"completer-description\" [text]=\"item.description\"\n                            [matchClass]=\"matchClass\" [searchStr]=\"searchStr\" [type]=\"'description'\">\n                        </completer-list-item>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>"
+module.exports = "<div class=\"completer-holder\" ctrCompleter>\n    <input class=\"completer-input\" ctrInput [(ngModel)]=\"searchStr\" [attr.name]=\"inputName\" [placeholder]=\"placeholder\" [attr.maxlength]=\"maxChars\"\n        [tabindex]=\"fieldTabindex\" [disabled]=\"disableInput\" [clearSelected]=\"clearSelected\" [overrideSuggested]=\"overrideSuggested\" (blur)=\"onBlur()\"\n        autocomplete=\"off\" autocorrect=\"off\" autocapitalize=\"off\" />\n\n    <div class=\"completer-dropdown-holder\" *ctrList=\"dataService; minSearchLength: minSearchLength; pause: pause; autoMatch: autoMatch; let items = results; let searchActive = searching; let isInitialized = searchInitialized;\">\n        <div class=\"completer-dropdown\" ctrDropdown *ngIf=\"isInitialized\">\n            <div *ngIf=\"searchActive && displaySearching\" class=\"completer-searching\">{{textSearching}}</div>\n            <div *ngIf=\"!searchActive && (!items || items.length === 0)\" class=\"completer-no-results\">{{textNoResults}}</div>\n            <div class=\"completer-row-wrapper\" *ngFor=\"let item of items; let rowIndex=index\">\n                <div class=\"completer-row\" [ctrRow]=\"rowIndex\" [dataItem]=\"item\">\n                    <div *ngIf=\"item.image || item.image === ''\" class=\"completer-image-holder\">\n                        <img *ngIf=\"item.image != ''\" src=\"{{item.image}}\" class=\"completer-image\" />\n                        <div *ngIf=\"item.image === ''\" class=\"completer-image-default\"></div>\n                    </div>\n                    <div class=\"completer-item-text\" [ngClass]=\"{'completer-item-text-image': item.image || item.image === '' }\">\n                        <completer-list-item class=\"completer-title\" [text]=\"item.title\" [matchClass]=\"matchClass\" [searchStr]=\"searchStr\" [type]=\"'title'\"></completer-list-item>\n                        <completer-list-item *ngIf=\"item.description && item.description != ''\" class=\"completer-description\" [text]=\"item.description\"\n                            [matchClass]=\"matchClass\" [searchStr]=\"searchStr\" [type]=\"'description'\">\n                        </completer-list-item>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>"
 
 /***/ },
 
@@ -1104,6 +1116,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = __webpack_require__(0);
+var Observable_1 = __webpack_require__(1);
 var completer_base_data_1 = __webpack_require__(86);
 var LocalData = (function (_super) {
     __extends(LocalData, _super);
@@ -1111,12 +1124,29 @@ var LocalData = (function (_super) {
         _super.call(this);
     }
     LocalData.prototype.data = function (data) {
-        this._data = data;
+        var _this = this;
+        if (data instanceof Observable_1.Observable) {
+            data.subscribe(function (res) {
+                _this._data = res;
+                if (_this.savedTerm) {
+                    _this.search(_this.savedTerm);
+                }
+            });
+        }
+        else {
+            this._data = data;
+        }
         return this;
     };
     LocalData.prototype.search = function (term) {
-        var matches = this.extractMatches(this._data, term);
-        this.next(this.processResults(matches, term));
+        if (!this._data) {
+            this.savedTerm = term;
+        }
+        else {
+            this.savedTerm = null;
+            var matches = this.extractMatches(this._data, term);
+            this.next(this.processResults(matches, term));
+        }
     };
     LocalData = __decorate([
         core_1.Injectable(), 

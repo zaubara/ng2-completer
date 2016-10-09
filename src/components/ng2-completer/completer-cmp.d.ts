@@ -20,6 +20,7 @@ export declare class CompleterCmp implements OnInit, ControlValueAccessor {
     disableInput: boolean;
     selected: EventEmitter<CompleterItem>;
     highlighted: EventEmitter<CompleterItem>;
+    blur: EventEmitter<void>;
     private completer;
     private displaySearching;
     private searchStr;
@@ -32,4 +33,5 @@ export declare class CompleterCmp implements OnInit, ControlValueAccessor {
     registerOnChange(fn: any): void;
     registerOnTouched(fn: any): void;
     ngOnInit(): void;
+    onBlur(): void;
 }

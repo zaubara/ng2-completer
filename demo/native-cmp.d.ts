@@ -1,4 +1,3 @@
-import "rxjs/Rx";
 import { CompleterService, CompleterItem } from "../src";
 import { Http } from "@angular/http";
 export declare class NativeCmp {
