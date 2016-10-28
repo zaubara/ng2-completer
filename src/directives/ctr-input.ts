@@ -26,6 +26,9 @@ export class CtrInput {
 
     constructor( @Host() private completer: CtrCompleter) {
         this.completer.selected.subscribe((item: CompleterItem) => {
+            if (!item) {
+                return;
+            }
             if (this.clearSelected) {
                 this.searchStr = "";
             } else {

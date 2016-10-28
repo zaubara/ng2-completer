@@ -65,6 +65,10 @@ export class CtrList implements OnInit, CompleterList {
     }
 
     public search(term: string) {
+        if (this.term != term) {
+            // Clear selected value
+            this.completer.onSelected(null);
+        }
         if (term && term.length >= this.ctrListMinSearchLength && this.term !== term) {
             if (this.searchTimer) {
                 clearTimeout(this.searchTimer);
