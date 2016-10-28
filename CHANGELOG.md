@@ -5,6 +5,9 @@ All notable changes to this project will be documented in this file.
 ### Implemented enhancments
 - Clear selection when search changes #45
 
+### Fixed bugs:
+- fix for overrideSuggested
+
 ## 0.2.2 
 ### Implemented enhancments
 - Added support for async local data
