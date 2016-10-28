@@ -80,7 +80,7 @@ export class CompleterCmp implements OnInit, ControlValueAccessor {
 
     public ngOnInit() {
         this.completer.selected.subscribe((item: CompleterItem) => {
-            let title = item ? item.title : null; 
+            let title = item ? item.title : "";
             this.selected.emit(item);
             this._onChangeCallback(title);
         });

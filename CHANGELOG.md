@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 0.2.3
+### Implemented enhancments
+- Clear selection when search changes #45
+
 ## 0.2.2 
 ### Implemented enhancments
 - Added support for async local data

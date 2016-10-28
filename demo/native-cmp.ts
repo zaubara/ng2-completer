@@ -95,11 +95,19 @@ export class NativeCmp {
     }
 
     public onCountrySelected(selected: CompleterItem) {
-        this.countryName2 = selected.title;
+        if (selected) {
+            this.countryName2 = selected.title;
+        } else {
+            this.countryName2 = "";
+        }
     }
 
     public onQuoteSelected(selected: CompleterItem) {
-        this.quote = selected.description;
+        if (selected) {
+            this.quote = selected.description;
+        } else {
+            this.quote = "";
+        }
     }
 
 }
