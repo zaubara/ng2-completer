@@ -23,9 +23,11 @@ export class CtrInput {
 
     private _searchStr = "";
     private _displayStr = "";
+    private _selectedItem: CompleterItem = null;
 
     constructor( @Host() private completer: CtrCompleter) {
         this.completer.selected.subscribe((item: CompleterItem) => {
+            this._selectedItem = item;
             if (!item) {
                 return;
             }
@@ -90,7 +92,7 @@ export class CtrInput {
             event.preventDefault();
             this.completer.prevRow();
         } else if (event.keyCode === KEY_TAB) {
-            if (this.overrideSuggested) {
+            if (this.overrideSuggested && this._selectedItem) {
                 this.completer.onSelected({ title: this.searchStr, originalObject: null });
             } else {
                 this.completer.selectCurrent();
@@ -104,17 +106,15 @@ export class CtrInput {
 
     @HostListener("blur", ["$event"])
     public onBlur(event: any) {
-        if (this.overrideSuggested) {
-            this.completer.onSelected({ title: this.searchStr, originalObject: null });
-        } else {
-            setTimeout(
-                () => {
-                    this.completer.clear();
-                },
-                200
-            );
-
-        }
+        setTimeout(
+            () => {
+                if (this.overrideSuggested) {
+                    this.completer.onSelected({ title: this.searchStr, originalObject: null });
+                }
+                this.completer.clear();
+            },
+            200
+        );
     }
 
     public get searchStr() {
