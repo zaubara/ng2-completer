@@ -1,35 +1,35 @@
 webpackJsonp([1],{
 
-/***/ 102:
+/***/ 106:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 "use strict";
-var ng2_completer_module_1 = __webpack_require__(272);
+var ng2_completer_module_1 = __webpack_require__(276);
 exports.Ng2CompleterModule = ng2_completer_module_1.Ng2CompleterModule;
-var completer_service_1 = __webpack_require__(131);
+var completer_service_1 = __webpack_require__(135);
 exports.CompleterService = completer_service_1.CompleterService;
-var local_data_1 = __webpack_require__(87);
+var local_data_1 = __webpack_require__(89);
 exports.LocalData = local_data_1.LocalData;
-var remote_data_1 = __webpack_require__(88);
+var remote_data_1 = __webpack_require__(90);
 exports.RemoteData = remote_data_1.RemoteData;
-var completer_base_data_1 = __webpack_require__(86);
+var completer_base_data_1 = __webpack_require__(88);
 exports.CompleterBaseData = completer_base_data_1.CompleterBaseData;
-var ctr_completer_1 = __webpack_require__(40);
+var ctr_completer_1 = __webpack_require__(35);
 exports.CtrCompleter = ctr_completer_1.CtrCompleter;
-var ctr_dropdown_1 = __webpack_require__(89);
+var ctr_dropdown_1 = __webpack_require__(91);
 exports.CtrDropdown = ctr_dropdown_1.CtrDropdown;
-var ctr_input_1 = __webpack_require__(132);
+var ctr_input_1 = __webpack_require__(136);
 exports.CtrInput = ctr_input_1.CtrInput;
-var ctr_list_1 = __webpack_require__(133);
+var ctr_list_1 = __webpack_require__(137);
 exports.CtrList = ctr_list_1.CtrList;
-var ctr_row_1 = __webpack_require__(134);
+var ctr_row_1 = __webpack_require__(138);
 exports.CtrRow = ctr_row_1.CtrRow;
 
 
 /***/ },
 
-/***/ 111:
+/***/ 113:
 /***/ function(module, exports) {
 
 "use strict";
@@ -43,15 +43,15 @@ exports.TEXT_NORESULTS = "No results found";
 
 /***/ },
 
-/***/ 1134:
+/***/ 1135:
 /***/ function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(102);
+module.exports = __webpack_require__(106);
 
 
 /***/ },
 
-/***/ 131:
+/***/ 135:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -69,8 +69,8 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 var core_1 = __webpack_require__(0);
-var local_data_1 = __webpack_require__(87);
-var remote_data_1 = __webpack_require__(88);
+var local_data_1 = __webpack_require__(89);
+var remote_data_1 = __webpack_require__(90);
 var CompleterService = (function () {
     function CompleterService(localDataFactory, // Using any instead of () => LocalData because on AoT errors
         remoteDataFactory // Using any instead of () => LocalData because on AoT errors
@@ -106,7 +106,7 @@ exports.CompleterService = CompleterService;
 
 /***/ },
 
-/***/ 132:
+/***/ 136:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -124,7 +124,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 var core_1 = __webpack_require__(0);
-var ctr_completer_1 = __webpack_require__(40);
+var ctr_completer_1 = __webpack_require__(35);
 // keyboard events
 var KEY_DW = 40;
 var KEY_RT = 39;
@@ -142,7 +142,12 @@ var CtrInput = (function () {
         this.ngModelChange = new core_1.EventEmitter();
         this._searchStr = "";
         this._displayStr = "";
+        this._selectedItem = null;
         this.completer.selected.subscribe(function (item) {
+            _this._selectedItem = item;
+            if (!item) {
+                return;
+            }
             if (_this.clearSelected) {
                 _this.searchStr = "";
             }
@@ -196,7 +201,7 @@ var CtrInput = (function () {
             this.completer.prevRow();
         }
         else if (event.keyCode === KEY_TAB) {
-            if (this.overrideSuggested) {
+            if (this.overrideSuggested && this._selectedItem) {
                 this.completer.onSelected({ title: this.searchStr, originalObject: null });
             }
             else {
@@ -211,14 +216,12 @@ var CtrInput = (function () {
     };
     CtrInput.prototype.onBlur = function (event) {
         var _this = this;
-        if (this.overrideSuggested) {
-            this.completer.onSelected({ title: this.searchStr, originalObject: null });
-        }
-        else {
-            setTimeout(function () {
-                _this.completer.clear();
-            }, 200);
-        }
+        setTimeout(function () {
+            if (_this.overrideSuggested) {
+                _this.completer.onSelected({ title: _this.searchStr, originalObject: null });
+            }
+            _this.completer.clear();
+        }, 200);
     };
     Object.defineProperty(CtrInput.prototype, "searchStr", {
         get: function () {
@@ -281,7 +284,7 @@ exports.CtrInput = CtrInput;
 
 /***/ },
 
-/***/ 133:
+/***/ 137:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -300,8 +303,8 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 var core_1 = __webpack_require__(0);
 var Observable_1 = __webpack_require__(1);
-var ctr_completer_1 = __webpack_require__(40);
-var globals_1 = __webpack_require__(111);
+var ctr_completer_1 = __webpack_require__(35);
+var globals_1 = __webpack_require__(113);
 var CtrListContext = (function () {
     function CtrListContext(results, searching, searchInitialized) {
         this.results = results;
@@ -354,6 +357,10 @@ var CtrList = (function () {
     });
     CtrList.prototype.search = function (term) {
         var _this = this;
+        if (this.term != term) {
+            // Clear selected value
+            this.completer.onSelected(null);
+        }
         if (term && term.length >= this.ctrListMinSearchLength && this.term !== term) {
             if (this.searchTimer) {
                 clearTimeout(this.searchTimer);
@@ -436,7 +443,7 @@ exports.CtrList = CtrList;
 
 /***/ },
 
-/***/ 134:
+/***/ 138:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -454,7 +461,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 var core_1 = __webpack_require__(0);
-var ctr_dropdown_1 = __webpack_require__(89);
+var ctr_dropdown_1 = __webpack_require__(91);
 var CtrRow = (function () {
     function CtrRow(el, renderer, dropdown) {
         this.el = el;
@@ -531,7 +538,7 @@ exports.CtrRow = CtrRow;
 
 /***/ },
 
-/***/ 269:
+/***/ 273:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -546,10 +553,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = __webpack_require__(0);
-var forms_1 = __webpack_require__(39);
-var ctr_completer_1 = __webpack_require__(40);
-var globals_1 = __webpack_require__(111);
-__webpack_require__(100);
+var forms_1 = __webpack_require__(33);
+var ctr_completer_1 = __webpack_require__(35);
+var globals_1 = __webpack_require__(113);
+__webpack_require__(102);
 var noop = function () { };
 var COMPLETER_CONTROL_VALUE_ACCESSOR = {
     provide: forms_1.NG_VALUE_ACCESSOR,
@@ -604,8 +611,9 @@ var CompleterCmp = (function () {
     CompleterCmp.prototype.ngOnInit = function () {
         var _this = this;
         this.completer.selected.subscribe(function (item) {
+            var title = item ? item.title : "";
             _this.selected.emit(item);
-            _this._onChangeCallback(item.title);
+            _this._onChangeCallback(title);
         });
         this.completer.highlighted.subscribe(function (item) {
             _this.highlighted.emit(item);
@@ -693,8 +701,8 @@ var CompleterCmp = (function () {
     CompleterCmp = __decorate([
         core_1.Component({
             selector: "ng2-completer",
-            template: __webpack_require__(303),
-            styles: [__webpack_require__(302)],
+            template: __webpack_require__(307),
+            styles: [__webpack_require__(306)],
             providers: [COMPLETER_CONTROL_VALUE_ACCESSOR]
         }), 
         __metadata('design:paramtypes', [])
@@ -706,7 +714,7 @@ exports.CompleterCmp = CompleterCmp;
 
 /***/ },
 
-/***/ 270:
+/***/ 274:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -766,7 +774,7 @@ var CompleterListItemCmp = (function () {
     CompleterListItemCmp = __decorate([
         core_1.Component({
             selector: "completer-list-item",
-            template: __webpack_require__(304)
+            template: __webpack_require__(308)
         }), 
         __metadata('design:paramtypes', [])
     ], CompleterListItemCmp);
@@ -777,14 +785,14 @@ exports.CompleterListItemCmp = CompleterListItemCmp;
 
 /***/ },
 
-/***/ 271:
+/***/ 275:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 "use strict";
-var http_1 = __webpack_require__(49);
-var local_data_1 = __webpack_require__(87);
-var remote_data_1 = __webpack_require__(88);
+var http_1 = __webpack_require__(45);
+var local_data_1 = __webpack_require__(89);
+var remote_data_1 = __webpack_require__(90);
 function localDataFactory() {
     return function () {
         return new local_data_1.LocalData();
@@ -803,7 +811,7 @@ exports.RemoteDataFactoryProvider = { provide: remote_data_1.RemoteData, useFact
 
 /***/ },
 
-/***/ 272:
+/***/ 276:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -818,18 +826,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = __webpack_require__(0);
-var forms_1 = __webpack_require__(39);
-var http_1 = __webpack_require__(49);
-var completer_cmp_1 = __webpack_require__(269);
-var completer_list_item_cmp_1 = __webpack_require__(270);
-var completer_service_1 = __webpack_require__(131);
-var completer_data_factory_1 = __webpack_require__(271);
-var ctr_completer_1 = __webpack_require__(40);
-var ctr_dropdown_1 = __webpack_require__(89);
-var ctr_input_1 = __webpack_require__(132);
-var ctr_list_1 = __webpack_require__(133);
-var ctr_row_1 = __webpack_require__(134);
-var common_1 = __webpack_require__(32);
+var forms_1 = __webpack_require__(33);
+var http_1 = __webpack_require__(45);
+var completer_cmp_1 = __webpack_require__(273);
+var completer_list_item_cmp_1 = __webpack_require__(274);
+var completer_service_1 = __webpack_require__(135);
+var completer_data_factory_1 = __webpack_require__(275);
+var ctr_completer_1 = __webpack_require__(35);
+var ctr_dropdown_1 = __webpack_require__(91);
+var ctr_input_1 = __webpack_require__(136);
+var ctr_list_1 = __webpack_require__(137);
+var ctr_row_1 = __webpack_require__(138);
+var common_1 = __webpack_require__(30);
 var Ng2CompleterModule = (function () {
     function Ng2CompleterModule() {
     }
@@ -873,28 +881,28 @@ exports.Ng2CompleterModule = Ng2CompleterModule;
 
 /***/ },
 
-/***/ 302:
+/***/ 306:
 /***/ function(module, exports) {
 
 module.exports = ".completer-dropdown {\n    border-color: #ececec;\n    border-width: 1px;\n    border-style: solid;\n    border-radius: 2px;\n    width: 250px;\n    padding: 6px;\n    cursor: pointer;\n    z-index: 9999;\n    position: absolute;\n    margin-top: -6px;\n    background-color: #ffffff;\n}\n\n.completer-row {\n    padding: 5px;\n    color: #000000;\n    margin-bottom: 4px;\n    clear: both;\n    display: inline-block;\n    width: 103%;\n}\n\n.completer-selected-row {\n    background-color: lightblue;\n    color: #ffffff;\n}\n\n.completer-description {\n    font-size: 14px;\n}\n\n.completer-image-default {\n    width: 16px; \n    height: 16px;\n    background-image: url(\"demo/res/img/default.png\");\n}\n\n.completer-image-holder {\n    float: left;\n    width: 10%;\n}\n.completer-item-text-image {\n    float: right;\n    width: 90%;\n}"
 
 /***/ },
 
-/***/ 303:
+/***/ 307:
 /***/ function(module, exports) {
 
 module.exports = "<div class=\"completer-holder\" ctrCompleter>\n    <input class=\"completer-input\" ctrInput [(ngModel)]=\"searchStr\" [attr.name]=\"inputName\" [placeholder]=\"placeholder\" [attr.maxlength]=\"maxChars\"\n        [tabindex]=\"fieldTabindex\" [disabled]=\"disableInput\" [clearSelected]=\"clearSelected\" [overrideSuggested]=\"overrideSuggested\" (blur)=\"onBlur()\"\n        autocomplete=\"off\" autocorrect=\"off\" autocapitalize=\"off\" />\n\n    <div class=\"completer-dropdown-holder\" *ctrList=\"dataService; minSearchLength: minSearchLength; pause: pause; autoMatch: autoMatch; let items = results; let searchActive = searching; let isInitialized = searchInitialized;\">\n        <div class=\"completer-dropdown\" ctrDropdown *ngIf=\"isInitialized\">\n            <div *ngIf=\"searchActive && displaySearching\" class=\"completer-searching\">{{textSearching}}</div>\n            <div *ngIf=\"!searchActive && (!items || items.length === 0)\" class=\"completer-no-results\">{{textNoResults}}</div>\n            <div class=\"completer-row-wrapper\" *ngFor=\"let item of items; let rowIndex=index\">\n                <div class=\"completer-row\" [ctrRow]=\"rowIndex\" [dataItem]=\"item\">\n                    <div *ngIf=\"item.image || item.image === ''\" class=\"completer-image-holder\">\n                        <img *ngIf=\"item.image != ''\" src=\"{{item.image}}\" class=\"completer-image\" />\n                        <div *ngIf=\"item.image === ''\" class=\"completer-image-default\"></div>\n                    </div>\n                    <div class=\"completer-item-text\" [ngClass]=\"{'completer-item-text-image': item.image || item.image === '' }\">\n                        <completer-list-item class=\"completer-title\" [text]=\"item.title\" [matchClass]=\"matchClass\" [searchStr]=\"searchStr\" [type]=\"'title'\"></completer-list-item>\n                        <completer-list-item *ngIf=\"item.description && item.description != ''\" class=\"completer-description\" [text]=\"item.description\"\n                            [matchClass]=\"matchClass\" [searchStr]=\"searchStr\" [type]=\"'description'\">\n                        </completer-list-item>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>"
 
 /***/ },
 
-/***/ 304:
+/***/ 308:
 /***/ function(module, exports) {
 
 module.exports = "<span class=\"completer-list-item-holder\" [ngClass]=\"{'completer-title': type === 'title', 'completer-description': type === 'description'}\" >\n    <span class=\"completer-list-item\" *ngFor=\"let part of parts\" [ngClass]=\"part.isMatch ? matchClass : null\">{{part.text}}</span>\n</span>"
 
 /***/ },
 
-/***/ 40:
+/***/ 35:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -979,7 +987,7 @@ exports.CtrCompleter = CtrCompleter;
 
 /***/ },
 
-/***/ 86:
+/***/ 88:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1096,7 +1104,7 @@ exports.CompleterBaseData = CompleterBaseData;
 
 /***/ },
 
-/***/ 87:
+/***/ 89:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1117,7 +1125,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = __webpack_require__(0);
 var Observable_1 = __webpack_require__(1);
-var completer_base_data_1 = __webpack_require__(86);
+var completer_base_data_1 = __webpack_require__(88);
 var LocalData = (function (_super) {
     __extends(LocalData, _super);
     function LocalData() {
@@ -1159,7 +1167,7 @@ exports.LocalData = LocalData;
 
 /***/ },
 
-/***/ 88:
+/***/ 90:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1169,10 +1177,10 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var http_1 = __webpack_require__(49);
-__webpack_require__(139);
-__webpack_require__(100);
-var completer_base_data_1 = __webpack_require__(86);
+var http_1 = __webpack_require__(45);
+__webpack_require__(143);
+__webpack_require__(102);
+var completer_base_data_1 = __webpack_require__(88);
 var RemoteData = (function (_super) {
     __extends(RemoteData, _super);
     function RemoteData(http) {
@@ -1234,7 +1242,7 @@ exports.RemoteData = RemoteData;
 
 /***/ },
 
-/***/ 89:
+/***/ 91:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1252,7 +1260,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 var core_1 = __webpack_require__(0);
-var ctr_completer_1 = __webpack_require__(40);
+var ctr_completer_1 = __webpack_require__(35);
 var CtrRowItem = (function () {
     function CtrRowItem(row, index) {
         this.row = row;
@@ -1368,4 +1376,4 @@ exports.CtrDropdown = CtrDropdown;
 
 /***/ }
 
-},[1134]);
+},[1135]);

@@ -7,6 +7,7 @@ export declare class CtrInput {
     ngModelChange: EventEmitter<any>;
     private _searchStr;
     private _displayStr;
+    private _selectedItem;
     constructor(completer: CtrCompleter);
     onInputChange(event: any): void;
     keyupHandler(event: any): void;
