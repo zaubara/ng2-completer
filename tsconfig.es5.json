@@ -1,0 +1,35 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es5",
+        "noImplicitAny": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "outDir": ".tmp/es5",
+        "rootDir": ".",
+        "sourceMap": true,
+        "removeComments": false,
+        "moduleResolution": "node",
+        "declaration": true,
+        "lib": [
+            "es5",
+            "dom"
+        ],
+        "types": [
+            "core-js"
+        ]
+    },
+    "angularCompilerOptions": {
+        "genDir": ".tmp",
+        "debug": false,
+        "skipMetadataEmit": false
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "node_modules/@types/core-js/index.d.ts",
+        "dist"
+    ]
+}
