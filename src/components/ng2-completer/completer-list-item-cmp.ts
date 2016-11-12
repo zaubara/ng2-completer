@@ -8,7 +8,11 @@ export interface MatchPart {
 
 @Component({
     selector: "completer-list-item",
-    templateUrl: "./completer-list-item-cmp.html"
+    template: `
+    <span class="completer-list-item-holder" [ngClass]="{'completer-title': type === 'title', 'completer-description': type === 'description'}" >
+        <span class="completer-list-item" *ngFor="let part of parts" [ngClass]="part.isMatch ? matchClass : null">{{part.text}}</span>
+    </span>
+    `
 })
 export class CompleterListItemCmp implements OnInit {
     @Input() public text: string;
