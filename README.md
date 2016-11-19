@@ -172,3 +172,4 @@ Create remote data provider by calling `CompleterService.remote`.
 * `.completer-description`
 * `.completer-list-item-holder`
 * `.completer-list-item`
+* `.completer-selected-row`
