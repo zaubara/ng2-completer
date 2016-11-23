@@ -89,11 +89,9 @@ const config = {
     // our Development Server configs
     devServer: {
         inline: true,
-        colors: true,
+        //colors: true,
         historyApiFallback: true,
         contentBase: dest,
-        //publicPath: dest,
-        outputPath: dest,
         watchOptions: {
             aggregateTimeout: 300,
             poll: 1000
@@ -105,19 +103,19 @@ const config = {
             // Support for *.json files.
             {
                 test: /\.json$/,
-                loader: 'json',
+                loader: 'json-loader',
                 // exclude: /(node_modules|demo)/
             },
             // Support for CSS as raw text
             {
                 test: /\.css$/,
-                loader: 'raw',
+                loader: 'raw-loader',
                 // exclude: /(node_modules|demo)/
             },
             // support for .html as raw text
             {
                 test: /\.html$/,
-                loader: 'raw',
+                loader: 'raw-loader',
                 exclude: [root('demo/index.html')]
                     // exclude: [root('demo/index.html'), /(node_modules|demo)/]
             },
