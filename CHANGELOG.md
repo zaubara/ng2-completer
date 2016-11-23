@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed bugs:
 - TS5023 Build:Unknown compiler option 'forceConsistentCasingInFileName' #74
 - .completer-selected-row is missing in the description #78
+- originalObject is null for CompleterService in version 0.2.3 #81
 
 ## 0.2.3
 ### Implemented enhancments
