@@ -1,70 +1,89 @@
 webpackJsonp([0],{
 
-/***/ 106:
+/***/ 105:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
-var ng2_completer_module_1 = __webpack_require__(276);
-exports.Ng2CompleterModule = ng2_completer_module_1.Ng2CompleterModule;
-var completer_service_1 = __webpack_require__(135);
-exports.CompleterService = completer_service_1.CompleterService;
-var local_data_1 = __webpack_require__(89);
-exports.LocalData = local_data_1.LocalData;
-var remote_data_1 = __webpack_require__(90);
-exports.RemoteData = remote_data_1.RemoteData;
-var completer_base_data_1 = __webpack_require__(88);
-exports.CompleterBaseData = completer_base_data_1.CompleterBaseData;
-var ctr_completer_1 = __webpack_require__(35);
-exports.CtrCompleter = ctr_completer_1.CtrCompleter;
-var ctr_dropdown_1 = __webpack_require__(91);
-exports.CtrDropdown = ctr_dropdown_1.CtrDropdown;
-var ctr_input_1 = __webpack_require__(136);
-exports.CtrInput = ctr_input_1.CtrInput;
-var ctr_list_1 = __webpack_require__(137);
-exports.CtrList = ctr_list_1.CtrList;
-var ctr_row_1 = __webpack_require__(138);
-exports.CtrRow = ctr_row_1.CtrRow;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ng2_completer_module__ = __webpack_require__(288);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_ng2_completer_services_completer_service__ = __webpack_require__(145);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_ng2_completer_services_local_data__ = __webpack_require__(89);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_ng2_completer_services_remote_data__ = __webpack_require__(90);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_ng2_completer_services_completer_base_data__ = __webpack_require__(88);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__directives_ctr_completer__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__directives_ctr_dropdown__ = __webpack_require__(91);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__directives_ctr_input__ = __webpack_require__(146);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__directives_ctr_list__ = __webpack_require__(147);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__directives_ctr_row__ = __webpack_require__(148);
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "Ng2CompleterModule", function() { return __WEBPACK_IMPORTED_MODULE_0__ng2_completer_module__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "CompleterService", function() { return __WEBPACK_IMPORTED_MODULE_1__components_ng2_completer_services_completer_service__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "LocalData", function() { return __WEBPACK_IMPORTED_MODULE_2__components_ng2_completer_services_local_data__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "RemoteData", function() { return __WEBPACK_IMPORTED_MODULE_3__components_ng2_completer_services_remote_data__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "CompleterBaseData", function() { return __WEBPACK_IMPORTED_MODULE_4__components_ng2_completer_services_completer_base_data__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "CtrCompleter", function() { return __WEBPACK_IMPORTED_MODULE_5__directives_ctr_completer__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "CtrDropdown", function() { return __WEBPACK_IMPORTED_MODULE_6__directives_ctr_dropdown__["b"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "CtrInput", function() { return __WEBPACK_IMPORTED_MODULE_7__directives_ctr_input__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "CtrList", function() { return __WEBPACK_IMPORTED_MODULE_8__directives_ctr_list__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "CtrRow", function() { return __WEBPACK_IMPORTED_MODULE_9__directives_ctr_row__["a"]; });
+
+
+
+
+
+
+
+
+
+
 
 
 /***/ },
 
-/***/ 113:
-/***/ function(module, exports) {
-
-"use strict";
-"use strict";
-exports.MAX_CHARS = 524288; // the default max length per the html maxlength attribute
-exports.MIN_SEARCH_LENGTH = 3;
-exports.PAUSE = 250;
-exports.TEXT_SEARCHING = "Searching...";
-exports.TEXT_NORESULTS = "No results found";
-
-
-/***/ },
-
-/***/ 1133:
+/***/ 1144:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__ = __webpack_require__(216);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__app_module__ = __webpack_require__(527);
 "use strict";
-var core_1 = __webpack_require__(0);
-var platform_browser_dynamic_1 = __webpack_require__(207);
-var app_module_1 = __webpack_require__(526);
+
+
+
 if (true) {
     // Production
-    core_1.enableProdMode();
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["enableProdMode"])();
 }
-platform_browser_dynamic_1.platformBrowserDynamic().bootstrapModule(app_module_1.AppModule);
+__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__["platformBrowserDynamic"])().bootstrapModule(__WEBPACK_IMPORTED_MODULE_2__app_module__["a" /* AppModule */]);
 
 
 /***/ },
 
-/***/ 135:
+/***/ 116:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(exports, "c", function() { return MAX_CHARS; });
+/* harmony export (binding) */ __webpack_require__.d(exports, "b", function() { return MIN_SEARCH_LENGTH; });
+/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return PAUSE; });
+/* harmony export (binding) */ __webpack_require__.d(exports, "d", function() { return TEXT_SEARCHING; });
+/* harmony export (binding) */ __webpack_require__.d(exports, "e", function() { return TEXT_NORESULTS; });
+var MAX_CHARS = 524288; // the default max length per the html maxlength attribute
+var MIN_SEARCH_LENGTH = 3;
+var PAUSE = 250;
+var TEXT_SEARCHING = "Searching...";
+var TEXT_NORESULTS = "No results found";
+
+
+/***/ },
+
+/***/ 145:
+/***/ function(module, exports, __webpack_require__) {
+
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__local_data__ = __webpack_require__(89);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__remote_data__ = __webpack_require__(90);
+/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return CompleterService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -77,9 +96,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var core_1 = __webpack_require__(0);
-var local_data_1 = __webpack_require__(89);
-var remote_data_1 = __webpack_require__(90);
+
+
+
 var CompleterService = (function () {
     function CompleterService(localDataFactory, // Using any instead of () => LocalData because on AoT errors
         remoteDataFactory // Using any instead of () => LocalData because on AoT errors
@@ -102,24 +121,25 @@ var CompleterService = (function () {
             .titleField(titleField);
     };
     CompleterService = __decorate([
-        core_1.Injectable(),
-        __param(0, core_1.Inject(local_data_1.LocalData)),
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
+        __param(0, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Inject"])(__WEBPACK_IMPORTED_MODULE_1__local_data__["a" /* LocalData */])),
         // Using any instead of () => LocalData because on AoT errors
-        __param(1, core_1.Inject(remote_data_1.RemoteData)), 
+        __param(1, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Inject"])(__WEBPACK_IMPORTED_MODULE_2__remote_data__["a" /* RemoteData */])), 
         __metadata('design:paramtypes', [Object, Object])
     ], CompleterService);
     return CompleterService;
 }());
-exports.CompleterService = CompleterService;
 
 
 /***/ },
 
-/***/ 136:
+/***/ 146:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ctr_completer__ = __webpack_require__(34);
+/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return CtrInput; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -132,8 +152,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var core_1 = __webpack_require__(0);
-var ctr_completer_1 = __webpack_require__(35);
+
+
 // keyboard events
 var KEY_DW = 40;
 var KEY_RT = 39;
@@ -148,7 +168,7 @@ var CtrInput = (function () {
         this.completer = completer;
         this.clearSelected = false;
         this.overrideSuggested = false;
-        this.ngModelChange = new core_1.EventEmitter();
+        this.ngModelChange = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
         this._searchStr = "";
         this._displayStr = "";
         this._selectedItem = null;
@@ -244,60 +264,65 @@ var CtrInput = (function () {
         configurable: true
     });
     __decorate([
-        core_1.Input("clearSelected"), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])("clearSelected"), 
         __metadata('design:type', Object)
     ], CtrInput.prototype, "clearSelected", void 0);
     __decorate([
-        core_1.Input("overrideSuggested"), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])("overrideSuggested"), 
         __metadata('design:type', Object)
     ], CtrInput.prototype, "overrideSuggested", void 0);
     __decorate([
-        core_1.Output(), 
-        __metadata('design:type', core_1.EventEmitter)
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(), 
+        __metadata('design:type', __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"])
     ], CtrInput.prototype, "ngModelChange", void 0);
     __decorate([
-        core_1.HostListener("input", ["$event"]), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostListener"])("input", ["$event"]), 
         __metadata('design:type', Function), 
         __metadata('design:paramtypes', [Object]), 
         __metadata('design:returntype', void 0)
     ], CtrInput.prototype, "onInputChange", null);
     __decorate([
-        core_1.HostListener("keyup", ["$event"]), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostListener"])("keyup", ["$event"]), 
         __metadata('design:type', Function), 
         __metadata('design:paramtypes', [Object]), 
         __metadata('design:returntype', void 0)
     ], CtrInput.prototype, "keyupHandler", null);
     __decorate([
-        core_1.HostListener("keydown", ["$event"]), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostListener"])("keydown", ["$event"]), 
         __metadata('design:type', Function), 
         __metadata('design:paramtypes', [Object]), 
         __metadata('design:returntype', void 0)
     ], CtrInput.prototype, "keydownHandler", null);
     __decorate([
-        core_1.HostListener("blur", ["$event"]), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostListener"])("blur", ["$event"]), 
         __metadata('design:type', Function), 
         __metadata('design:paramtypes', [Object]), 
         __metadata('design:returntype', void 0)
     ], CtrInput.prototype, "onBlur", null);
     CtrInput = __decorate([
-        core_1.Directive({
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Directive"])({
             selector: "[ctrInput]",
         }),
-        __param(0, core_1.Host()), 
-        __metadata('design:paramtypes', [ctr_completer_1.CtrCompleter])
+        __param(0, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Host"])()), 
+        __metadata('design:paramtypes', [__WEBPACK_IMPORTED_MODULE_1__ctr_completer__["a" /* CtrCompleter */]])
     ], CtrInput);
     return CtrInput;
 }());
-exports.CtrInput = CtrInput;
 
 
 /***/ },
 
-/***/ 137:
+/***/ 147:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__ = __webpack_require__(106);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ctr_completer__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__globals__ = __webpack_require__(116);
+/* unused harmony export CtrListContext */
+/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return CtrList; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -310,10 +335,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var core_1 = __webpack_require__(0);
-var Observable_1 = __webpack_require__(1);
-var ctr_completer_1 = __webpack_require__(35);
-var globals_1 = __webpack_require__(113);
+
+
+
+
 var CtrListContext = (function () {
     function CtrListContext(results, searching, searchInitialized) {
         this.results = results;
@@ -322,14 +347,13 @@ var CtrListContext = (function () {
     }
     return CtrListContext;
 }());
-exports.CtrListContext = CtrListContext;
 var CtrList = (function () {
     function CtrList(completer, templateRef, viewContainer) {
         this.completer = completer;
         this.templateRef = templateRef;
         this.viewContainer = viewContainer;
-        this.ctrListMinSearchLength = globals_1.MIN_SEARCH_LENGTH;
-        this.ctrListPause = globals_1.PAUSE;
+        this.ctrListMinSearchLength = __WEBPACK_IMPORTED_MODULE_3__globals__["b" /* MIN_SEARCH_LENGTH */];
+        this.ctrListPause = __WEBPACK_IMPORTED_MODULE_3__globals__["a" /* PAUSE */];
         this.ctrListAutoMatch = false;
         // private results: CompleterItem[] = [];
         this.term = null;
@@ -352,7 +376,7 @@ var CtrList = (function () {
                     _this.ctx.searchInitialized = true;
                     _this.ctx.searching = false;
                     _this.ctx.results = results;
-                    if (_this.ctrListAutoMatch && results.length === 1 &&
+                    if (_this.ctrListAutoMatch && results.length === 1 && results[0].title && _this.term &&
                         results[0].title.toLocaleLowerCase() === _this.term.toLocaleLowerCase()) {
                         // Do automatch
                         _this.completer.onSelected(results[0]);
@@ -368,11 +392,12 @@ var CtrList = (function () {
         var _this = this;
         if (this.term != term) {
             // Clear selected value
-            this.completer.onSelected(null);
+            this.completer.clear();
         }
         if (term && term.length >= this.ctrListMinSearchLength && this.term !== term) {
             if (this.searchTimer) {
-                clearTimeout(this.searchTimer);
+                this.searchTimer.unsubscribe();
+                this.searchTimer = null;
             }
             if (!this.ctx.searching) {
                 this.ctx.results = [];
@@ -380,14 +405,15 @@ var CtrList = (function () {
                 this.ctx.searchInitialized = true;
                 this.refreshTemplate();
             }
-            this.searchTimer = setTimeout(function () {
+            this.searchTimer = __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__["Observable"].timer(this.ctrListPause).subscribe(function () {
                 _this.searchTimerComplete(term);
-            }, this.ctrListPause);
+            });
         }
     };
     CtrList.prototype.clear = function () {
         if (this.searchTimer) {
-            clearTimeout(this.searchTimer);
+            this.searchTimer.unsubscribe();
+            this.searchTimer = null;
         }
         if (this.dataService) {
             this.dataService.cancel();
@@ -414,7 +440,7 @@ var CtrList = (function () {
             console.error(errMsg); // log to console 
         }
         this.refreshTemplate();
-        return Observable_1.Observable.throw(errMsg);
+        return __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__["Observable"].throw(errMsg);
     };
     CtrList.prototype.refreshTemplate = function () {
         // Recreate the template
@@ -422,41 +448,42 @@ var CtrList = (function () {
         this.viewContainer.createEmbeddedView(this.templateRef, this.ctx);
     };
     __decorate([
-        core_1.Input(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Object)
     ], CtrList.prototype, "ctrListMinSearchLength", void 0);
     __decorate([
-        core_1.Input(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Object)
     ], CtrList.prototype, "ctrListPause", void 0);
     __decorate([
-        core_1.Input(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Object)
     ], CtrList.prototype, "ctrListAutoMatch", void 0);
     __decorate([
-        core_1.Input("ctrList"), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])("ctrList"), 
         __metadata('design:type', Object), 
         __metadata('design:paramtypes', [Object])
     ], CtrList.prototype, "dataService", null);
     CtrList = __decorate([
-        core_1.Directive({
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Directive"])({
             selector: "[ctrList]",
         }),
-        __param(0, core_1.Host()), 
-        __metadata('design:paramtypes', [ctr_completer_1.CtrCompleter, core_1.TemplateRef, core_1.ViewContainerRef])
+        __param(0, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Host"])()), 
+        __metadata('design:paramtypes', [__WEBPACK_IMPORTED_MODULE_2__ctr_completer__["a" /* CtrCompleter */], __WEBPACK_IMPORTED_MODULE_0__angular_core__["TemplateRef"], __WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewContainerRef"]])
     ], CtrList);
     return CtrList;
 }());
-exports.CtrList = CtrList;
 
 
 /***/ },
 
-/***/ 138:
+/***/ 148:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ctr_dropdown__ = __webpack_require__(91);
+/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return CtrRow; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -469,8 +496,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var core_1 = __webpack_require__(0);
-var ctr_dropdown_1 = __webpack_require__(91);
+
+
 var CtrRow = (function () {
     function CtrRow(el, renderer, dropdown) {
         this.el = el;
@@ -479,7 +506,7 @@ var CtrRow = (function () {
         this.selected = false;
     }
     CtrRow.prototype.ngOnInit = function () {
-        this.dropdown.registerRow(new ctr_dropdown_1.CtrRowItem(this, this._rowIndex));
+        this.dropdown.registerRow(new __WEBPACK_IMPORTED_MODULE_1__ctr_dropdown__["a" /* CtrRowItem */](this, this._rowIndex));
     };
     Object.defineProperty(CtrRow.prototype, "ctrRow", {
         set: function (index) {
@@ -512,45 +539,51 @@ var CtrRow = (function () {
         return this._item;
     };
     __decorate([
-        core_1.Input(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Number), 
         __metadata('design:paramtypes', [Number])
     ], CtrRow.prototype, "ctrRow", null);
     __decorate([
-        core_1.Input(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Object), 
         __metadata('design:paramtypes', [Object])
     ], CtrRow.prototype, "dataItem", null);
     __decorate([
-        core_1.HostListener("click", ["$event"]), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostListener"])("click", ["$event"]), 
         __metadata('design:type', Function), 
         __metadata('design:paramtypes', [Object]), 
         __metadata('design:returntype', void 0)
     ], CtrRow.prototype, "onClick", null);
     __decorate([
-        core_1.HostListener("mouseenter", ["$event"]), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostListener"])("mouseenter", ["$event"]), 
         __metadata('design:type', Function), 
         __metadata('design:paramtypes', [Object]), 
         __metadata('design:returntype', void 0)
     ], CtrRow.prototype, "onMouseEnter", null);
     CtrRow = __decorate([
-        core_1.Directive({
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Directive"])({
             selector: "[ctrRow]",
         }),
-        __param(2, core_1.Host()), 
-        __metadata('design:paramtypes', [core_1.ElementRef, core_1.Renderer, ctr_dropdown_1.CtrDropdown])
+        __param(2, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Host"])()), 
+        __metadata('design:paramtypes', [__WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"], __WEBPACK_IMPORTED_MODULE_0__angular_core__["Renderer"], __WEBPACK_IMPORTED_MODULE_1__ctr_dropdown__["b" /* CtrDropdown */]])
     ], CtrRow);
     return CtrRow;
 }());
-exports.CtrRow = CtrRow;
 
 
 /***/ },
 
-/***/ 273:
+/***/ 285:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__directives_ctr_completer__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__globals__ = __webpack_require__(116);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch__ = __webpack_require__(102);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch__);
+/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return CompleterCmp; });
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -561,35 +594,35 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = __webpack_require__(0);
-var forms_1 = __webpack_require__(33);
-var ctr_completer_1 = __webpack_require__(35);
-var globals_1 = __webpack_require__(113);
-__webpack_require__(102);
+
+
+
+
+
 var noop = function () { };
 var COMPLETER_CONTROL_VALUE_ACCESSOR = {
-    provide: forms_1.NG_VALUE_ACCESSOR,
-    useExisting: core_1.forwardRef(function () { return CompleterCmp; }),
+    provide: __WEBPACK_IMPORTED_MODULE_1__angular_forms__["NG_VALUE_ACCESSOR"],
+    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["forwardRef"])(function () { return CompleterCmp; }),
     multi: true
 };
 var CompleterCmp = (function () {
     function CompleterCmp() {
         this.inputName = "";
-        this.pause = globals_1.PAUSE;
-        this.minSearchLength = globals_1.MIN_SEARCH_LENGTH;
-        this.maxChars = globals_1.MAX_CHARS;
+        this.pause = __WEBPACK_IMPORTED_MODULE_3__globals__["a" /* PAUSE */];
+        this.minSearchLength = __WEBPACK_IMPORTED_MODULE_3__globals__["b" /* MIN_SEARCH_LENGTH */];
+        this.maxChars = __WEBPACK_IMPORTED_MODULE_3__globals__["c" /* MAX_CHARS */];
         this.overrideSuggested = false;
         this.clearSelected = false;
         this.placeholder = "";
-        this.textSearching = globals_1.TEXT_SEARCHING;
-        this.textNoResults = globals_1.TEXT_NORESULTS;
+        this.textSearching = __WEBPACK_IMPORTED_MODULE_3__globals__["d" /* TEXT_SEARCHING */];
+        this.textNoResults = __WEBPACK_IMPORTED_MODULE_3__globals__["e" /* TEXT_NORESULTS */];
         this.autoMatch = false;
         this.disableInput = false;
-        this.selected = new core_1.EventEmitter();
-        this.highlighted = new core_1.EventEmitter();
-        this.blur = new core_1.EventEmitter();
-        this.displaySearching = true;
+        this.selected = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
+        this.highlighted = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
+        this.blur = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
         this.searchStr = "";
+        this.displaySearching = true;
         this._onTouchedCallback = noop;
         this._onChangeCallback = noop;
     }
@@ -636,97 +669,98 @@ var CompleterCmp = (function () {
         this.onTouched();
     };
     __decorate([
-        core_1.Input(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Object)
     ], CompleterCmp.prototype, "dataService", void 0);
     __decorate([
-        core_1.Input(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Object)
     ], CompleterCmp.prototype, "inputName", void 0);
     __decorate([
-        core_1.Input(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Object)
     ], CompleterCmp.prototype, "pause", void 0);
     __decorate([
-        core_1.Input(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Object)
     ], CompleterCmp.prototype, "minSearchLength", void 0);
     __decorate([
-        core_1.Input(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Object)
     ], CompleterCmp.prototype, "maxChars", void 0);
     __decorate([
-        core_1.Input(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Object)
     ], CompleterCmp.prototype, "overrideSuggested", void 0);
     __decorate([
-        core_1.Input(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Object)
     ], CompleterCmp.prototype, "clearSelected", void 0);
     __decorate([
-        core_1.Input(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Object)
     ], CompleterCmp.prototype, "placeholder", void 0);
     __decorate([
-        core_1.Input(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', String)
     ], CompleterCmp.prototype, "matchClass", void 0);
     __decorate([
-        core_1.Input(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Object)
     ], CompleterCmp.prototype, "textSearching", void 0);
     __decorate([
-        core_1.Input(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Object)
     ], CompleterCmp.prototype, "textNoResults", void 0);
     __decorate([
-        core_1.Input(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Number)
     ], CompleterCmp.prototype, "fieldTabindex", void 0);
     __decorate([
-        core_1.Input(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Object)
     ], CompleterCmp.prototype, "autoMatch", void 0);
     __decorate([
-        core_1.Input(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Object)
     ], CompleterCmp.prototype, "disableInput", void 0);
     __decorate([
-        core_1.Output(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(), 
         __metadata('design:type', Object)
     ], CompleterCmp.prototype, "selected", void 0);
     __decorate([
-        core_1.Output(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(), 
         __metadata('design:type', Object)
     ], CompleterCmp.prototype, "highlighted", void 0);
     __decorate([
-        core_1.Output(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(), 
         __metadata('design:type', Object)
     ], CompleterCmp.prototype, "blur", void 0);
     __decorate([
-        core_1.ViewChild(ctr_completer_1.CtrCompleter), 
-        __metadata('design:type', ctr_completer_1.CtrCompleter)
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])(__WEBPACK_IMPORTED_MODULE_2__directives_ctr_completer__["a" /* CtrCompleter */]), 
+        __metadata('design:type', __WEBPACK_IMPORTED_MODULE_2__directives_ctr_completer__["a" /* CtrCompleter */])
     ], CompleterCmp.prototype, "completer", void 0);
     CompleterCmp = __decorate([
-        core_1.Component({
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: "ng2-completer",
-            template: __webpack_require__(307),
-            styles: [__webpack_require__(306)],
+            template: "\n        <div class=\"completer-holder\" ctrCompleter>\n            <input class=\"completer-input\" ctrInput [(ngModel)]=\"searchStr\" [attr.name]=\"inputName\" [placeholder]=\"placeholder\" [attr.maxlength]=\"maxChars\"\n                [tabindex]=\"fieldTabindex\" [disabled]=\"disableInput\" [clearSelected]=\"clearSelected\" [overrideSuggested]=\"overrideSuggested\" (blur)=\"onBlur()\"\n                autocomplete=\"off\" autocorrect=\"off\" autocapitalize=\"off\" />\n\n            <div class=\"completer-dropdown-holder\" *ctrList=\"dataService; minSearchLength: minSearchLength; pause: pause; autoMatch: autoMatch; let items = results; let searchActive = searching; let isInitialized = searchInitialized;\">\n                <div class=\"completer-dropdown\" ctrDropdown *ngIf=\"isInitialized\">\n                    <div *ngIf=\"searchActive && displaySearching\" class=\"completer-searching\">{{textSearching}}</div>\n                    <div *ngIf=\"!searchActive && (!items || items.length === 0)\" class=\"completer-no-results\">{{textNoResults}}</div>\n                    <div class=\"completer-row-wrapper\" *ngFor=\"let item of items; let rowIndex=index\">\n                        <div class=\"completer-row\" [ctrRow]=\"rowIndex\" [dataItem]=\"item\">\n                            <div *ngIf=\"item.image || item.image === ''\" class=\"completer-image-holder\">\n                                <img *ngIf=\"item.image != ''\" src=\"{{item.image}}\" class=\"completer-image\" />\n                                <div *ngIf=\"item.image === ''\" class=\"completer-image-default\"></div>\n                            </div>\n                            <div class=\"completer-item-text\" [ngClass]=\"{'completer-item-text-image': item.image || item.image === '' }\">\n                                <completer-list-item class=\"completer-title\" [text]=\"item.title\" [matchClass]=\"matchClass\" [searchStr]=\"searchStr\" [type]=\"'title'\"></completer-list-item>\n                                <completer-list-item *ngIf=\"item.description && item.description != ''\" class=\"completer-description\" [text]=\"item.description\"\n                                    [matchClass]=\"matchClass\" [searchStr]=\"searchStr\" [type]=\"'description'\">\n                                </completer-list-item>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    ",
+            styles: ["\n    .completer-dropdown {\n        border-color: #ececec;\n        border-width: 1px;\n        border-style: solid;\n        border-radius: 2px;\n        width: 250px;\n        padding: 6px;\n        cursor: pointer;\n        z-index: 9999;\n        position: absolute;\n        margin-top: -6px;\n        background-color: #ffffff;\n    }\n\n    .completer-row {\n        padding: 5px;\n        color: #000000;\n        margin-bottom: 4px;\n        clear: both;\n        display: inline-block;\n        width: 103%;\n    }\n\n    .completer-selected-row {\n        background-color: lightblue;\n        color: #ffffff;\n    }\n\n    .completer-description {\n        font-size: 14px;\n    }\n\n    .completer-image-default {\n        width: 16px; \n        height: 16px;\n        background-image: url(\"demo/res/img/default.png\");\n    }\n\n    .completer-image-holder {\n        float: left;\n        width: 10%;\n    }\n    .completer-item-text-image {\n        float: right;\n        width: 90%;\n    }\n    "],
             providers: [COMPLETER_CONTROL_VALUE_ACCESSOR]
         }), 
         __metadata('design:paramtypes', [])
     ], CompleterCmp);
     return CompleterCmp;
 }());
-exports.CompleterCmp = CompleterCmp;
 
 
 /***/ },
 
-/***/ 274:
+/***/ 286:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return CompleterListItemCmp; });
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -737,7 +771,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = __webpack_require__(0);
+
 var CompleterListItemCmp = (function () {
     function CompleterListItemCmp() {
         this.parts = [];
@@ -765,66 +799,82 @@ var CompleterListItemCmp = (function () {
         }
     };
     __decorate([
-        core_1.Input(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', String)
     ], CompleterListItemCmp.prototype, "text", void 0);
     __decorate([
-        core_1.Input(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', String)
     ], CompleterListItemCmp.prototype, "searchStr", void 0);
     __decorate([
-        core_1.Input(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', String)
     ], CompleterListItemCmp.prototype, "matchClass", void 0);
     __decorate([
-        core_1.Input(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', String)
     ], CompleterListItemCmp.prototype, "type", void 0);
     CompleterListItemCmp = __decorate([
-        core_1.Component({
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: "completer-list-item",
-            template: __webpack_require__(308)
+            template: "\n    <span class=\"completer-list-item-holder\" [ngClass]=\"{'completer-title': type === 'title', 'completer-description': type === 'description'}\" >\n        <span class=\"completer-list-item\" *ngFor=\"let part of parts\" [ngClass]=\"part.isMatch ? matchClass : null\">{{part.text}}</span>\n    </span>\n    "
         }), 
         __metadata('design:paramtypes', [])
     ], CompleterListItemCmp);
     return CompleterListItemCmp;
 }());
-exports.CompleterListItemCmp = CompleterListItemCmp;
 
 
 /***/ },
 
-/***/ 275:
+/***/ 287:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
-var http_1 = __webpack_require__(45);
-var local_data_1 = __webpack_require__(89);
-var remote_data_1 = __webpack_require__(90);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__local_data__ = __webpack_require__(89);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__remote_data__ = __webpack_require__(90);
+/* unused harmony export localDataFactory */
+/* unused harmony export remoteDataFactory */
+/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return LocalDataFactoryProvider; });
+/* harmony export (binding) */ __webpack_require__.d(exports, "b", function() { return RemoteDataFactoryProvider; });
+
+
+
 function localDataFactory() {
     return function () {
-        return new local_data_1.LocalData();
+        return new __WEBPACK_IMPORTED_MODULE_1__local_data__["a" /* LocalData */]();
     };
 }
-exports.localDataFactory = localDataFactory;
 function remoteDataFactory(http) {
     return function () {
-        return new remote_data_1.RemoteData(http);
+        return new __WEBPACK_IMPORTED_MODULE_2__remote_data__["a" /* RemoteData */](http);
     };
 }
-exports.remoteDataFactory = remoteDataFactory;
-exports.LocalDataFactoryProvider = { provide: local_data_1.LocalData, useFactory: localDataFactory };
-exports.RemoteDataFactoryProvider = { provide: remote_data_1.RemoteData, useFactory: remoteDataFactory, deps: [http_1.Http] };
+var LocalDataFactoryProvider = { provide: __WEBPACK_IMPORTED_MODULE_1__local_data__["a" /* LocalData */], useFactory: localDataFactory };
+var RemoteDataFactoryProvider = { provide: __WEBPACK_IMPORTED_MODULE_2__remote_data__["a" /* RemoteData */], useFactory: remoteDataFactory, deps: [__WEBPACK_IMPORTED_MODULE_0__angular_http__["Http"]] };
 
 
 /***/ },
 
-/***/ 276:
+/***/ 288:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_http__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_ng2_completer_completer_cmp__ = __webpack_require__(285);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_ng2_completer_completer_list_item_cmp__ = __webpack_require__(286);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_ng2_completer_services_completer_service__ = __webpack_require__(145);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_ng2_completer_services_completer_data_factory__ = __webpack_require__(287);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__directives_ctr_completer__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__directives_ctr_dropdown__ = __webpack_require__(91);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__directives_ctr_input__ = __webpack_require__(146);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__directives_ctr_list__ = __webpack_require__(147);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__directives_ctr_row__ = __webpack_require__(148);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__angular_common__ = __webpack_require__(23);
+/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return Ng2CompleterModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -834,88 +884,67 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = __webpack_require__(0);
-var forms_1 = __webpack_require__(33);
-var http_1 = __webpack_require__(45);
-var completer_cmp_1 = __webpack_require__(273);
-var completer_list_item_cmp_1 = __webpack_require__(274);
-var completer_service_1 = __webpack_require__(135);
-var completer_data_factory_1 = __webpack_require__(275);
-var ctr_completer_1 = __webpack_require__(35);
-var ctr_dropdown_1 = __webpack_require__(91);
-var ctr_input_1 = __webpack_require__(136);
-var ctr_list_1 = __webpack_require__(137);
-var ctr_row_1 = __webpack_require__(138);
-var common_1 = __webpack_require__(30);
+
+
+
+
+
+
+
+
+
+
+
+
+
 var Ng2CompleterModule = (function () {
     function Ng2CompleterModule() {
     }
     Ng2CompleterModule = __decorate([
-        core_1.NgModule({
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
             imports: [
-                common_1.CommonModule,
-                forms_1.FormsModule,
-                http_1.HttpModule
+                __WEBPACK_IMPORTED_MODULE_12__angular_common__["CommonModule"],
+                __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormsModule"],
+                __WEBPACK_IMPORTED_MODULE_2__angular_http__["HttpModule"]
             ],
             declarations: [
-                completer_list_item_cmp_1.CompleterListItemCmp,
-                ctr_completer_1.CtrCompleter,
-                ctr_dropdown_1.CtrDropdown,
-                ctr_input_1.CtrInput,
-                ctr_list_1.CtrList,
-                ctr_row_1.CtrRow,
-                completer_cmp_1.CompleterCmp,
+                __WEBPACK_IMPORTED_MODULE_4__components_ng2_completer_completer_list_item_cmp__["a" /* CompleterListItemCmp */],
+                __WEBPACK_IMPORTED_MODULE_7__directives_ctr_completer__["a" /* CtrCompleter */],
+                __WEBPACK_IMPORTED_MODULE_8__directives_ctr_dropdown__["b" /* CtrDropdown */],
+                __WEBPACK_IMPORTED_MODULE_9__directives_ctr_input__["a" /* CtrInput */],
+                __WEBPACK_IMPORTED_MODULE_10__directives_ctr_list__["a" /* CtrList */],
+                __WEBPACK_IMPORTED_MODULE_11__directives_ctr_row__["a" /* CtrRow */],
+                __WEBPACK_IMPORTED_MODULE_3__components_ng2_completer_completer_cmp__["a" /* CompleterCmp */]
             ],
             exports: [
-                completer_cmp_1.CompleterCmp,
-                completer_list_item_cmp_1.CompleterListItemCmp,
-                ctr_completer_1.CtrCompleter,
-                ctr_dropdown_1.CtrDropdown,
-                ctr_input_1.CtrInput,
-                ctr_list_1.CtrList,
-                ctr_row_1.CtrRow
+                __WEBPACK_IMPORTED_MODULE_3__components_ng2_completer_completer_cmp__["a" /* CompleterCmp */],
+                __WEBPACK_IMPORTED_MODULE_4__components_ng2_completer_completer_list_item_cmp__["a" /* CompleterListItemCmp */],
+                __WEBPACK_IMPORTED_MODULE_7__directives_ctr_completer__["a" /* CtrCompleter */],
+                __WEBPACK_IMPORTED_MODULE_8__directives_ctr_dropdown__["b" /* CtrDropdown */],
+                __WEBPACK_IMPORTED_MODULE_9__directives_ctr_input__["a" /* CtrInput */],
+                __WEBPACK_IMPORTED_MODULE_10__directives_ctr_list__["a" /* CtrList */],
+                __WEBPACK_IMPORTED_MODULE_11__directives_ctr_row__["a" /* CtrRow */]
             ],
             providers: [
-                completer_service_1.CompleterService,
-                completer_data_factory_1.LocalDataFactoryProvider,
-                completer_data_factory_1.RemoteDataFactoryProvider
+                __WEBPACK_IMPORTED_MODULE_5__components_ng2_completer_services_completer_service__["a" /* CompleterService */],
+                __WEBPACK_IMPORTED_MODULE_6__components_ng2_completer_services_completer_data_factory__["a" /* LocalDataFactoryProvider */],
+                __WEBPACK_IMPORTED_MODULE_6__components_ng2_completer_services_completer_data_factory__["b" /* RemoteDataFactoryProvider */]
             ]
         }), 
         __metadata('design:paramtypes', [])
     ], Ng2CompleterModule);
     return Ng2CompleterModule;
 }());
-exports.Ng2CompleterModule = Ng2CompleterModule;
 
 
 /***/ },
 
-/***/ 306:
-/***/ function(module, exports) {
-
-module.exports = ".completer-dropdown {\n    border-color: #ececec;\n    border-width: 1px;\n    border-style: solid;\n    border-radius: 2px;\n    width: 250px;\n    padding: 6px;\n    cursor: pointer;\n    z-index: 9999;\n    position: absolute;\n    margin-top: -6px;\n    background-color: #ffffff;\n}\n\n.completer-row {\n    padding: 5px;\n    color: #000000;\n    margin-bottom: 4px;\n    clear: both;\n    display: inline-block;\n    width: 103%;\n}\n\n.completer-selected-row {\n    background-color: lightblue;\n    color: #ffffff;\n}\n\n.completer-description {\n    font-size: 14px;\n}\n\n.completer-image-default {\n    width: 16px; \n    height: 16px;\n    background-image: url(\"demo/res/img/default.png\");\n}\n\n.completer-image-holder {\n    float: left;\n    width: 10%;\n}\n.completer-item-text-image {\n    float: right;\n    width: 90%;\n}"
-
-/***/ },
-
-/***/ 307:
-/***/ function(module, exports) {
-
-module.exports = "<div class=\"completer-holder\" ctrCompleter>\n    <input class=\"completer-input\" ctrInput [(ngModel)]=\"searchStr\" [attr.name]=\"inputName\" [placeholder]=\"placeholder\" [attr.maxlength]=\"maxChars\"\n        [tabindex]=\"fieldTabindex\" [disabled]=\"disableInput\" [clearSelected]=\"clearSelected\" [overrideSuggested]=\"overrideSuggested\" (blur)=\"onBlur()\"\n        autocomplete=\"off\" autocorrect=\"off\" autocapitalize=\"off\" />\n\n    <div class=\"completer-dropdown-holder\" *ctrList=\"dataService; minSearchLength: minSearchLength; pause: pause; autoMatch: autoMatch; let items = results; let searchActive = searching; let isInitialized = searchInitialized;\">\n        <div class=\"completer-dropdown\" ctrDropdown *ngIf=\"isInitialized\">\n            <div *ngIf=\"searchActive && displaySearching\" class=\"completer-searching\">{{textSearching}}</div>\n            <div *ngIf=\"!searchActive && (!items || items.length === 0)\" class=\"completer-no-results\">{{textNoResults}}</div>\n            <div class=\"completer-row-wrapper\" *ngFor=\"let item of items; let rowIndex=index\">\n                <div class=\"completer-row\" [ctrRow]=\"rowIndex\" [dataItem]=\"item\">\n                    <div *ngIf=\"item.image || item.image === ''\" class=\"completer-image-holder\">\n                        <img *ngIf=\"item.image != ''\" src=\"{{item.image}}\" class=\"completer-image\" />\n                        <div *ngIf=\"item.image === ''\" class=\"completer-image-default\"></div>\n                    </div>\n                    <div class=\"completer-item-text\" [ngClass]=\"{'completer-item-text-image': item.image || item.image === '' }\">\n                        <completer-list-item class=\"completer-title\" [text]=\"item.title\" [matchClass]=\"matchClass\" [searchStr]=\"searchStr\" [type]=\"'title'\"></completer-list-item>\n                        <completer-list-item *ngIf=\"item.description && item.description != ''\" class=\"completer-description\" [text]=\"item.description\"\n                            [matchClass]=\"matchClass\" [searchStr]=\"searchStr\" [type]=\"'description'\">\n                        </completer-list-item>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>"
-
-/***/ },
-
-/***/ 308:
-/***/ function(module, exports) {
-
-module.exports = "<span class=\"completer-list-item-holder\" [ngClass]=\"{'completer-title': type === 'title', 'completer-description': type === 'description'}\" >\n    <span class=\"completer-list-item\" *ngFor=\"let part of parts\" [ngClass]=\"part.isMatch ? matchClass : null\">{{part.text}}</span>\n</span>"
-
-/***/ },
-
-/***/ 35:
+/***/ 34:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return CtrCompleter; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -925,11 +954,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = __webpack_require__(0);
+
 var CtrCompleter = (function () {
     function CtrCompleter() {
-        this.selected = new core_1.EventEmitter();
-        this.highlighted = new core_1.EventEmitter();
+        this.selected = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
+        this.highlighted = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
     }
     CtrCompleter.prototype.ngOnInit = function () {
         //
@@ -976,30 +1005,34 @@ var CtrCompleter = (function () {
         }
     };
     __decorate([
-        core_1.Output(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(), 
         __metadata('design:type', Object)
     ], CtrCompleter.prototype, "selected", void 0);
     __decorate([
-        core_1.Output(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(), 
         __metadata('design:type', Object)
     ], CtrCompleter.prototype, "highlighted", void 0);
     CtrCompleter = __decorate([
-        core_1.Directive({
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Directive"])({
             selector: "[ctrCompleter]",
         }), 
         __metadata('design:paramtypes', [])
     ], CtrCompleter);
     return CtrCompleter;
 }());
-exports.CtrCompleter = CtrCompleter;
 
 
 /***/ },
 
-/***/ 456:
+/***/ 460:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__ = __webpack_require__(106);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src__ = __webpack_require__(105);
+/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return MaterialCmp; });
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1010,34 +1043,40 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = __webpack_require__(0);
-__webpack_require__(148);
-var src_1 = __webpack_require__(106);
-var template = __webpack_require__(873);
+
+
+
+var template = __webpack_require__(880);
 // let style = require("./native-cmp.css");
 var MaterialCmp = (function () {
     function MaterialCmp(completerService) {
-        this.countries = __webpack_require__(488);
+        this.countries = __webpack_require__(492);
         this.dataService = completerService.local(this.countries, "name", "name").imageField("flag");
     }
     MaterialCmp = __decorate([
-        core_1.Component({
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: "material-cmp",
             template: template,
         }), 
-        __metadata('design:paramtypes', [src_1.CompleterService])
+        __metadata('design:paramtypes', [__WEBPACK_IMPORTED_MODULE_2__src__["CompleterService"]])
     ], MaterialCmp);
     return MaterialCmp;
 }());
-exports.MaterialCmp = MaterialCmp;
 
 
 /***/ },
 
-/***/ 457:
+/***/ 461:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__ = __webpack_require__(106);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src__ = __webpack_require__(105);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__custom_data__ = __webpack_require__(683);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_http__ = __webpack_require__(43);
+/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return NativeCmp; });
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1048,16 +1087,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = __webpack_require__(0);
-var Rx_1 = __webpack_require__(148);
-var src_1 = __webpack_require__(106);
-var custom_data_1 = __webpack_require__(676);
-var http_1 = __webpack_require__(45);
-var template = __webpack_require__(875);
-var style = __webpack_require__(874);
+
+
+
+
+
+var template = __webpack_require__(882);
+var style = __webpack_require__(881);
 var NativeCmp = (function () {
     function NativeCmp(completerService, http) {
-        this.countries = __webpack_require__(488);
+        this.countries = __webpack_require__(492);
         this.quotes = [
             {
                 qt: "Always forgive your enemies; nothing annoys them so much.",
@@ -1110,13 +1149,13 @@ var NativeCmp = (function () {
             return "https://maps.googleapis.com/maps/api/geocode/json?address=" + term;
         });
         this.dataRemote2.dataField("results");
-        this.dataRemote2.headers(new http_1.Headers({ "My-Header": "Hello World!" }));
+        this.dataRemote2.headers(new __WEBPACK_IMPORTED_MODULE_4__angular_http__["Headers"]({ "My-Header": "Hello World!" }));
         // For async local the source can also be HTTP request
         // let source = http.get("https://raw.githubusercontent.com/oferh/ng2-completer/master/demo/res/data/countries.json?").map((res: any) => res.json());
-        var source = Rx_1.Observable.from([this.countries]).delay(3000);
+        var source = __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__["Observable"].from([this.countries]).delay(3000);
         this.dataService3 = completerService.local(source, "name", "name");
         this.dataService4 = completerService.local(this.countries, "name", "name");
-        this.customData = new custom_data_1.CustomData(http);
+        this.customData = new __WEBPACK_IMPORTED_MODULE_3__custom_data__["a" /* CustomData */](http);
     }
     NativeCmp.prototype.onCountrySelected = function (selected) {
         if (selected) {
@@ -1135,21 +1174,20 @@ var NativeCmp = (function () {
         }
     };
     NativeCmp = __decorate([
-        core_1.Component({
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: "native-cmp",
             template: template,
             styles: [style]
         }), 
-        __metadata('design:paramtypes', [src_1.CompleterService, http_1.Http])
+        __metadata('design:paramtypes', [__WEBPACK_IMPORTED_MODULE_2__src__["CompleterService"], __WEBPACK_IMPORTED_MODULE_4__angular_http__["Http"]])
     ], NativeCmp);
     return NativeCmp;
 }());
-exports.NativeCmp = NativeCmp;
 
 
 /***/ },
 
-/***/ 488:
+/***/ 492:
 /***/ function(module, exports) {
 
 module.exports = [
@@ -2372,11 +2410,22 @@ module.exports = [
 
 /***/ },
 
-/***/ 526:
+/***/ 527:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_material__ = __webpack_require__(333);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_platform_browser__ = __webpack_require__(70);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__app_cmp__ = __webpack_require__(680);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__material_cmp__ = __webpack_require__(460);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__native_cmp__ = __webpack_require__(461);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__app_routing__ = __webpack_require__(681);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__src__ = __webpack_require__(105);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__completer_cmp_md__ = __webpack_require__(682);
+/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return AppModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2386,46 +2435,49 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = __webpack_require__(0);
-var http_1 = __webpack_require__(45);
-var forms_1 = __webpack_require__(33);
-var material_1 = __webpack_require__(323);
-var platform_browser_1 = __webpack_require__(83);
-var app_cmp_1 = __webpack_require__(673);
-var material_cmp_1 = __webpack_require__(456);
-var native_cmp_1 = __webpack_require__(457);
-var app_routing_1 = __webpack_require__(674);
-var src_1 = __webpack_require__(106);
-var completer_cmp_md_1 = __webpack_require__(675);
+
+
+
+
+
+
+
+
+
+
+
 var AppModule = (function () {
     function AppModule() {
     }
     AppModule = __decorate([
-        core_1.NgModule({
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
             imports: [
-                platform_browser_1.BrowserModule,
-                src_1.Ng2CompleterModule,
-                material_1.MaterialModule,
-                forms_1.FormsModule,
-                http_1.HttpModule,
-                app_routing_1.routing
+                __WEBPACK_IMPORTED_MODULE_4__angular_platform_browser__["BrowserModule"],
+                __WEBPACK_IMPORTED_MODULE_9__src__["Ng2CompleterModule"],
+                __WEBPACK_IMPORTED_MODULE_3__angular_material__["MaterialModule"],
+                __WEBPACK_IMPORTED_MODULE_2__angular_forms__["FormsModule"],
+                __WEBPACK_IMPORTED_MODULE_1__angular_http__["HttpModule"],
+                __WEBPACK_IMPORTED_MODULE_8__app_routing__["a" /* routing */]
             ],
-            declarations: [app_cmp_1.AppComponent, completer_cmp_md_1.CompleterCmpMd, native_cmp_1.NativeCmp, material_cmp_1.MaterialCmp],
-            bootstrap: [app_cmp_1.AppComponent]
+            declarations: [__WEBPACK_IMPORTED_MODULE_5__app_cmp__["a" /* AppComponent */], __WEBPACK_IMPORTED_MODULE_10__completer_cmp_md__["a" /* CompleterCmpMd */], __WEBPACK_IMPORTED_MODULE_7__native_cmp__["a" /* NativeCmp */], __WEBPACK_IMPORTED_MODULE_6__material_cmp__["a" /* MaterialCmp */]],
+            bootstrap: [__WEBPACK_IMPORTED_MODULE_5__app_cmp__["a" /* AppComponent */]]
         }), 
         __metadata('design:paramtypes', [])
     ], AppModule);
     return AppModule;
 }());
-exports.AppModule = AppModule;
 
 
 /***/ },
 
-/***/ 673:
+/***/ 680:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__ = __webpack_require__(106);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__);
+/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return AppComponent; });
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -2436,14 +2488,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = __webpack_require__(0);
-__webpack_require__(148);
-var template = __webpack_require__(870);
+
+
+var template = __webpack_require__(877);
 var AppComponent = (function () {
     function AppComponent() {
     }
     AppComponent = __decorate([
-        core_1.Component({
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: "demo-app",
             template: template
         }), 
@@ -2451,19 +2503,21 @@ var AppComponent = (function () {
     ], AppComponent);
     return AppComponent;
 }());
-exports.AppComponent = AppComponent;
 
 
 /***/ },
 
-/***/ 674:
+/***/ 681:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
-var router_1 = __webpack_require__(324);
-var material_cmp_1 = __webpack_require__(456);
-var native_cmp_1 = __webpack_require__(457);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_router__ = __webpack_require__(334);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__material_cmp__ = __webpack_require__(460);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__native_cmp__ = __webpack_require__(461);
+/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return routing; });
+
+
+
 var appRoutes = [
     {
         path: "",
@@ -2472,22 +2526,29 @@ var appRoutes = [
     },
     {
         path: "native",
-        component: native_cmp_1.NativeCmp
+        component: __WEBPACK_IMPORTED_MODULE_2__native_cmp__["a" /* NativeCmp */]
     },
     {
         path: "material",
-        component: material_cmp_1.MaterialCmp
+        component: __WEBPACK_IMPORTED_MODULE_1__material_cmp__["a" /* MaterialCmp */]
     }
 ];
-exports.routing = router_1.RouterModule.forRoot(appRoutes, { useHash: true });
+var routing = __WEBPACK_IMPORTED_MODULE_0__angular_router__["RouterModule"].forRoot(appRoutes, { useHash: true });
 
 
 /***/ },
 
-/***/ 675:
+/***/ 682:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src__ = __webpack_require__(105);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__src_globals__ = __webpack_require__(116);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch__ = __webpack_require__(102);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch__);
+/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return CompleterCmpMd; });
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -2498,33 +2559,33 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = __webpack_require__(0);
-var forms_1 = __webpack_require__(33);
-var src_1 = __webpack_require__(106);
-var globals_1 = __webpack_require__(113);
-__webpack_require__(102);
+
+
+
+
+
 var noop = function () { };
 var COMPLETER_CONTROL_VALUE_ACCESSOR = {
-    provide: forms_1.NG_VALUE_ACCESSOR,
-    useExisting: core_1.forwardRef(function () { return CompleterCmpMd; }),
+    provide: __WEBPACK_IMPORTED_MODULE_1__angular_forms__["NG_VALUE_ACCESSOR"],
+    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["forwardRef"])(function () { return CompleterCmpMd; }),
     multi: true
 };
 var CompleterCmpMd = (function () {
     function CompleterCmpMd() {
         this.inputName = "";
-        this.pause = globals_1.PAUSE;
-        this.minSearchLength = globals_1.MIN_SEARCH_LENGTH;
-        this.maxChars = globals_1.MAX_CHARS;
+        this.pause = __WEBPACK_IMPORTED_MODULE_3__src_globals__["a" /* PAUSE */];
+        this.minSearchLength = __WEBPACK_IMPORTED_MODULE_3__src_globals__["b" /* MIN_SEARCH_LENGTH */];
+        this.maxChars = __WEBPACK_IMPORTED_MODULE_3__src_globals__["c" /* MAX_CHARS */];
         this.overrideSuggested = false;
         this.clearSelected = false;
         this.placeholder = "";
-        this.textSearching = globals_1.TEXT_SEARCHING;
-        this.textNoResults = globals_1.TEXT_NORESULTS;
+        this.textSearching = __WEBPACK_IMPORTED_MODULE_3__src_globals__["d" /* TEXT_SEARCHING */];
+        this.textNoResults = __WEBPACK_IMPORTED_MODULE_3__src_globals__["e" /* TEXT_NORESULTS */];
         this.autoMatch = false;
         this.disableInput = false;
-        this.selected = new core_1.EventEmitter();
-        this.highlighted = new core_1.EventEmitter();
-        this.blur = new core_1.EventEmitter();
+        this.selected = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
+        this.highlighted = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
+        this.blur = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
         this.displaySearching = true;
         this.searchStr = "";
         this._onTouchedCallback = noop;
@@ -2572,104 +2633,105 @@ var CompleterCmpMd = (function () {
         this.onTouched();
     };
     __decorate([
-        core_1.Input(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Object)
     ], CompleterCmpMd.prototype, "dataService", void 0);
     __decorate([
-        core_1.Input(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Object)
     ], CompleterCmpMd.prototype, "inputName", void 0);
     __decorate([
-        core_1.Input(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Object)
     ], CompleterCmpMd.prototype, "pause", void 0);
     __decorate([
-        core_1.Input(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Object)
     ], CompleterCmpMd.prototype, "minSearchLength", void 0);
     __decorate([
-        core_1.Input(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Object)
     ], CompleterCmpMd.prototype, "maxChars", void 0);
     __decorate([
-        core_1.Input(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Object)
     ], CompleterCmpMd.prototype, "overrideSuggested", void 0);
     __decorate([
-        core_1.Input(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Object)
     ], CompleterCmpMd.prototype, "clearSelected", void 0);
     __decorate([
-        core_1.Input(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Object)
     ], CompleterCmpMd.prototype, "placeholder", void 0);
     __decorate([
-        core_1.Input(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', String)
     ], CompleterCmpMd.prototype, "matchClass", void 0);
     __decorate([
-        core_1.Input(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Object)
     ], CompleterCmpMd.prototype, "textSearching", void 0);
     __decorate([
-        core_1.Input(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Object)
     ], CompleterCmpMd.prototype, "textNoResults", void 0);
     __decorate([
-        core_1.Input(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Number)
     ], CompleterCmpMd.prototype, "fieldTabindex", void 0);
     __decorate([
-        core_1.Input(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Object)
     ], CompleterCmpMd.prototype, "autoMatch", void 0);
     __decorate([
-        core_1.Input(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Object)
     ], CompleterCmpMd.prototype, "disableInput", void 0);
     __decorate([
-        core_1.Output(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(), 
         __metadata('design:type', Object)
     ], CompleterCmpMd.prototype, "selected", void 0);
     __decorate([
-        core_1.Output(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(), 
         __metadata('design:type', Object)
     ], CompleterCmpMd.prototype, "highlighted", void 0);
     __decorate([
-        core_1.Output(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(), 
         __metadata('design:type', Object)
     ], CompleterCmpMd.prototype, "blur", void 0);
     __decorate([
-        core_1.ViewChild(src_1.CtrCompleter), 
-        __metadata('design:type', src_1.CtrCompleter)
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])(__WEBPACK_IMPORTED_MODULE_2__src__["CtrCompleter"]), 
+        __metadata('design:type', __WEBPACK_IMPORTED_MODULE_2__src__["CtrCompleter"])
     ], CompleterCmpMd.prototype, "completer", void 0);
     CompleterCmpMd = __decorate([
-        core_1.Component({
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: "ng2-completer-md",
-            template: __webpack_require__(872),
-            styles: [__webpack_require__(871)],
+            template: __webpack_require__(879),
+            styles: [__webpack_require__(878)],
             providers: [COMPLETER_CONTROL_VALUE_ACCESSOR]
         }), 
         __metadata('design:paramtypes', [])
     ], CompleterCmpMd);
     return CompleterCmpMd;
 }());
-exports.CompleterCmpMd = CompleterCmpMd;
 
 
 /***/ },
 
-/***/ 676:
+/***/ 683:
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_Subject__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_Subject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_rxjs_Subject__);
+/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return CustomData; });
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var Subject_1 = __webpack_require__(13);
+
 var CustomData = (function (_super) {
     __extends(CustomData, _super);
     function CustomData(http) {
@@ -2695,51 +2757,29 @@ var CustomData = (function (_super) {
         // Handle cancel
     };
     return CustomData;
-}(Subject_1.Subject));
-exports.CustomData = CustomData;
+}(__WEBPACK_IMPORTED_MODULE_0_rxjs_Subject__["Subject"]));
 
 
 /***/ },
 
-/***/ 870:
+/***/ 877:
 /***/ function(module, exports) {
 
 module.exports = "        <nav class=\"navbar navbar-dark navbar-static-top bg-inverse\">\n            <a class=\"navbar-brand\" href=\"#\">ng2-completer demo</a>\n            <ul class=\"nav navbar-nav\">\n                <li class=\"nav-item\">\n                    <a class=\"nav-link\" routerLink=\"/native\">JS Native</a>\n                </li>\n                <li class=\"nav-item\">\n                    <a class=\"nav-link\" routerLink=\"/material\">Material Design</a>\n                </li>\n            </ul>\n        </nav>\n<div class=\"container main\">\n    <router-outlet></router-outlet>\n</div>"
 
 /***/ },
 
-/***/ 871:
+/***/ 878:
 /***/ function(module, exports) {
 
 module.exports = ".completer-row {\n    display: inherit;\n}\n\n.completer-selected-row {\n    background-color: lightblue;\n    color: #ffffff;\n}\n\n.completer-row p {\n    position: relative;\n    top: 50%;\n    transform: translateY(50%);\n}"
 
 /***/ },
 
-/***/ 872:
+/***/ 879:
 /***/ function(module, exports) {
 
 module.exports = "<div class=\"completer-holder\" ctrCompleter>\n    <md-input class=\"completer-input\" ctrInput=\"clearSelected=clearSelected; overrideSuggested=overrideSuggested\" [(ngModel)]=\"searchStr\" [attr.name]=\"inputName\" [placeholder]=\"placeholder\" [attr.maxlength]=\"maxChars\"\n        [tabindex]=\"fieldTabindex\" [disabled]=\"disableInput\" (blur)=\"onBlur()\"\n        autocomplete=\"off\" autocorrect=\"off\" autocapitalize=\"off\">\n    </md-input>\n\n    <div class=\"completer-dropdown-holder\" *ctrList=\"dataService; minSearchLength: minSearchLength; pause: pause; autoMatch: autoMatch; let items = results; let searchActive = searching; let isInitialized = searchInitialized;\">\n        <md-list class=\"completer-dropdown\" ctrDropdown *ngIf=\"isInitialized\">\n            <md-list-item *ngIf=\"searchActive && displaySearching\" class=\"completer-searching\">{{textSearching}}</md-list-item>\n            <md-list-item *ngIf=\"!searchActive && (!items || items.length === 0)\" class=\"completer-no-results\">{{textNoResults}}</md-list-item>\n            <md-list-item class=\"completer-row-wrapper\" *ngFor=\"let item of items; let rowIndex=index\">\n                <div class=\"completer-row\" [ctrRow]=\"rowIndex\" [dataItem]=\"item\">\n                    <span *ngIf=\"item.image || item.image === ''\" class=\"completer-image-holder\">\n                        <img md-list-avatar *ngIf=\"item.image != ''\" src=\"{{item.image}}\" class=\"completer-image\" />\n                        <span md-list-avatar *ngIf=\"item.image === ''\" class=\"completer-image-default\"></span>\n                    </span>\n                    <p md-line>\n                        <completer-list-item class=\"completer-title\" [text]=\"item.title\" [matchClass]=\"matchClass\" [searchStr]=\"searchStr\" [type]=\"'title'\"></completer-list-item>\n                        <completer-list-item *ngIf=\"item.description && item.description != ''\" class=\"completer-description\" [text]=\"item.description\"\n                            [matchClass]=\"matchClass\" [searchStr]=\"searchStr\" [type]=\"'description'\">\n                        </completer-list-item>\n                    </p>\n                </div>\n            </md-list-item>\n        </md-list>\n    </div>\n</div>"
-
-/***/ },
-
-/***/ 873:
-/***/ function(module, exports) {
-
-module.exports = "<div class=\"row\">\n    <h1>Completer Material</h1>\n    <p>This is a demo of a custom component that uses Ng2-Completer directives to create a material2 autocomplete component.</p>\n    <p>To use this compnent copy all completer-cmp-md files from the demo code</p>\n</div>\n<h2>Local data with image</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Local data of countries - using image, matchClass and maxLength</p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer-md [(ngModel)]=\"countryName\" [dataService]=\"dataService\" [minSearchLength]=\"0\" [maxChars]=\"4\" [placeholder]=\"'search country'\"\n                [matchClass]=\"'match'\">\n            </ng2-completer-md>\n        </div>\n        <div class=\"row\">\n            <p>Selected country: {{countryName}}</p>\n        </div>\n    </div>\n</div>\n"
-
-/***/ },
-
-/***/ 874:
-/***/ function(module, exports) {
-
-module.exports = "/*\n * Top navigation\n * Hide default border to remove 1px line.\n */\n.navbar-fixed-top {\n  border: 0;\n}\n\n/*\n * Main content\n */\n\n.main {\n  padding: 5rem;\n}\n\n.completer-wrapper {\n    border-radius: 25px;\n    background: lightgray;\n}\n\n:host >>> .match {\n  color: orangered;\n}"
-
-/***/ },
-
-/***/ 875:
-/***/ function(module, exports) {
-
-module.exports = "<div class=\"row\">\n    <h1>Completer Native</h1>\n</div>\n<h2>Local data with image</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Local data of countries - using image, matchClass and maxLength</p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer [(ngModel)]=\"countryName\" [dataService]=\"dataService\" [minSearchLength]=\"0\" [maxChars]=\"4\" [placeholder]=\"'search country'\"\n                [matchClass]=\"'match'\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Selected country: {{countryName}}</p>\n        </div>\n    </div>\n</div>\n<h2>Local data with description</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Local data of quotes - using desription, textNoResults, matchClass and selected event</p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer [dataService]=\"dataService2\" (selected)=\"onQuoteSelected($event)\" [minSearchLength]=\"0\" [placeholder]=\"'search quote by author name'\"\n                [textNoResults]=\"'No quotes found'\" [matchClass]=\"'match'\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Quote: {{quote}}</p>\n        </div>\n    </div>\n</div>\n\n<h2>Remote data</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Remote data of countries with minSearchLength, textSearching and clearSelected</p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer [dataService]=\"dataRemote\" [minSearchLength]=\"3\" [placeholder]=\"'search country'\" [clearSelected]=\"true\" (selected)=\"onCountrySelected($event)\"\n                [textSearching]=\"'Please wait...'\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Selected country: {{countryName2}}</p>\n        </div>\n    </div>\n</div>\n\n<h2>Input disabled</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Async local data of countries - overrideSuggested, inputDisabled and fieldTabindex</p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer [(ngModel)]=\"countryName3\" [dataService]=\"dataService3\" [minSearchLength]=\"0\" [placeholder]=\"'search country'\"\n                [overrideSuggested]=\"true\" [disableInput]=\"searchcb\" [fieldTabindex]=\"-1\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Selected: {{countryName3}}</p>\n        </div>\n        <div class=\"row\">\n            <label>Disable search</label>\n            <input type=\"checkbox\" [(ngModel)]=\"searchcb\" />\n        </div>\n    </div>\n</div>\n\n<h2>Automatch</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <form>\n            <div class=\"row\">\n                <p>Local data of countries - autoMatch and required</p>\n            </div>\n            <div class=\"row\">\n                <ng2-completer name=\"countryRequired\" [dataService]=\"dataService4\" [(ngModel)]=\"countryName4\" [minSearchLength]=\"0\" [placeholder]=\"'search country'\"\n                    #countryRequired=\"ngModel\" [autoMatch]=\"true\" required>\n                </ng2-completer>\n                <div [hidden]=\"countryRequired.valid\" class=\"col-md-6 alert alert-danger\">\n                    Country is required\n                </div>\n            </div>\n            <div class=\"row\">\n                <p>Selected: {{countryName4}}</p>\n            </div>\n        </form>\n    </div>\n</div>\n\n<h2>Remote data with URL Formater and Headers</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Remote data from <a href=\"https://developers.google.com/maps/documentation/geocoding/start\">Google Maps API</a>                - urlFormater, dataField, and headers</p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer [(ngModel)]=\"countryName5\" [dataService]=\"dataRemote2\" [minSearchLength]=\"3\" [placeholder]=\"'search country'\"\n                [textSearching]=\"'Please wait...'\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Selected country: {{countryName5}}</p>\n        </div>\n    </div>\n</div>\n\n<h2>Custom data provider</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Custom data provider. Seinfeld episodes data from <a href=\"https://mysafeinfo.com/\">mysafeinfo.com</a></p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer [(ngModel)]=\"seinfeldEpisode\" [dataService]=\"customData\" [minSearchLength]=\"3\" [placeholder]=\"'search Seinfeld episode'\"\n                [textSearching]=\"'Please wait...'\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Selected episode: {{seinfeldEpisode}}</p>\n        </div>\n    </div>\n</div>"
 
 /***/ },
 
@@ -2747,13 +2787,15 @@ module.exports = "<div class=\"row\">\n    <h1>Completer Native</h1>\n</div>\n<h
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_Subject__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_Subject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_rxjs_Subject__);
+/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return CompleterBaseData; });
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var Subject_1 = __webpack_require__(13);
+
 var CompleterBaseData = (function (_super) {
     __extends(CompleterBaseData, _super);
     function CompleterBaseData() {
@@ -2854,9 +2896,29 @@ var CompleterBaseData = (function (_super) {
         return results;
     };
     return CompleterBaseData;
-}(Subject_1.Subject));
-exports.CompleterBaseData = CompleterBaseData;
+}(__WEBPACK_IMPORTED_MODULE_0_rxjs_Subject__["Subject"]));
 
+
+/***/ },
+
+/***/ 880:
+/***/ function(module, exports) {
+
+module.exports = "<div class=\"row\">\n    <h1>Completer Material</h1>\n    <p>This is a demo of a custom component that uses Ng2-Completer directives to create a material2 autocomplete component.</p>\n    <p>To use this compnent copy all completer-cmp-md files from the demo code</p>\n</div>\n<h2>Local data with image</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Local data of countries - using image, matchClass and maxLength</p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer-md [(ngModel)]=\"countryName\" [dataService]=\"dataService\" [minSearchLength]=\"0\" [maxChars]=\"4\" [placeholder]=\"'search country'\"\n                [matchClass]=\"'match'\">\n            </ng2-completer-md>\n        </div>\n        <div class=\"row\">\n            <p>Selected country: {{countryName}}</p>\n        </div>\n    </div>\n</div>\n"
+
+/***/ },
+
+/***/ 881:
+/***/ function(module, exports) {
+
+module.exports = "/*\n * Top navigation\n * Hide default border to remove 1px line.\n */\n.navbar-fixed-top {\n  border: 0;\n}\n\n/*\n * Main content\n */\n\n.main {\n  padding: 5rem;\n}\n\n.completer-wrapper {\n    border-radius: 25px;\n    background: lightgray;\n}\n\n:host >>> .match {\n  color: orangered;\n}"
+
+/***/ },
+
+/***/ 882:
+/***/ function(module, exports) {
+
+module.exports = "<div class=\"row\">\n    <h1>Completer Native</h1>\n</div>\n<h2>Local data with image</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Local data of countries - using image, matchClass and maxLength</p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer [(ngModel)]=\"countryName\" [dataService]=\"dataService\" [minSearchLength]=\"0\" [maxChars]=\"4\" [placeholder]=\"'search country'\"\n                [matchClass]=\"'match'\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Selected country: {{countryName}}</p>\n        </div>\n    </div>\n</div>\n<h2>Local data with description</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Local data of quotes - using desription, textNoResults, matchClass and selected event</p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer [dataService]=\"dataService2\" (selected)=\"onQuoteSelected($event)\" [minSearchLength]=\"0\" [placeholder]=\"'search quote by author name'\"\n                [textNoResults]=\"'No quotes found'\" [matchClass]=\"'match'\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Quote: {{quote}}</p>\n        </div>\n    </div>\n</div>\n\n<h2>Remote data</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Remote data of countries with minSearchLength, textSearching and clearSelected</p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer [dataService]=\"dataRemote\" [minSearchLength]=\"3\" [placeholder]=\"'search country'\" [clearSelected]=\"true\" (selected)=\"onCountrySelected($event)\"\n                [textSearching]=\"'Please wait...'\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Selected country: {{countryName2}}</p>\n        </div>\n    </div>\n</div>\n\n<h2>Input disabled</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Async local data of countries - overrideSuggested, inputDisabled and fieldTabindex</p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer [(ngModel)]=\"countryName3\" [dataService]=\"dataService3\" [minSearchLength]=\"0\" [placeholder]=\"'search country'\"\n                [overrideSuggested]=\"true\" [disableInput]=\"searchcb\" [fieldTabindex]=\"-1\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Selected: {{countryName3}}</p>\n        </div>\n        <div class=\"row\">\n            <label>Disable search</label>\n            <input type=\"checkbox\" [(ngModel)]=\"searchcb\" />\n        </div>\n    </div>\n</div>\n\n<h2>Automatch</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <form>\n            <div class=\"row\">\n                <p>Local data of countries - autoMatch and required</p>\n            </div>\n            <div class=\"row\">\n                <ng2-completer name=\"countryRequired\" [dataService]=\"dataService4\" [(ngModel)]=\"countryName4\" [minSearchLength]=\"0\" [placeholder]=\"'search country'\"\n                    #countryRequired=\"ngModel\" [autoMatch]=\"true\" required>\n                </ng2-completer>\n                <div [hidden]=\"countryRequired.valid\" class=\"col-md-6 alert alert-danger\">\n                    Country is required\n                </div>\n            </div>\n            <div class=\"row\">\n                <p>Selected: {{countryName4}}</p>\n            </div>\n        </form>\n    </div>\n</div>\n\n<h2>Remote data with URL Formater and Headers</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Remote data from <a href=\"https://developers.google.com/maps/documentation/geocoding/start\">Google Maps API</a>                - urlFormater, dataField, and headers</p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer [(ngModel)]=\"countryName5\" [dataService]=\"dataRemote2\" [minSearchLength]=\"3\" [placeholder]=\"'search country'\"\n                [textSearching]=\"'Please wait...'\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Selected country: {{countryName5}}</p>\n        </div>\n    </div>\n</div>\n\n<h2>Custom data provider</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Custom data provider. Seinfeld episodes data from <a href=\"https://mysafeinfo.com/\">mysafeinfo.com</a></p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer [(ngModel)]=\"seinfeldEpisode\" [dataService]=\"customData\" [minSearchLength]=\"3\" [placeholder]=\"'search Seinfeld episode'\"\n                [textSearching]=\"'Please wait...'\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Selected episode: {{seinfeldEpisode}}</p>\n        </div>\n    </div>\n</div>"
 
 /***/ },
 
@@ -2864,7 +2926,11 @@ exports.CompleterBaseData = CompleterBaseData;
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Observable__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_Observable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__completer_base_data__ = __webpack_require__(88);
+/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return LocalData; });
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -2879,9 +2945,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = __webpack_require__(0);
-var Observable_1 = __webpack_require__(1);
-var completer_base_data_1 = __webpack_require__(88);
+
+
+
 var LocalData = (function (_super) {
     __extends(LocalData, _super);
     function LocalData() {
@@ -2889,7 +2955,7 @@ var LocalData = (function (_super) {
     }
     LocalData.prototype.data = function (data) {
         var _this = this;
-        if (data instanceof Observable_1.Observable) {
+        if (data instanceof __WEBPACK_IMPORTED_MODULE_1_rxjs_Observable__["Observable"]) {
             data.subscribe(function (res) {
                 _this._data = res;
                 if (_this.savedTerm) {
@@ -2913,12 +2979,11 @@ var LocalData = (function (_super) {
         }
     };
     LocalData = __decorate([
-        core_1.Injectable(), 
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(), 
         __metadata('design:paramtypes', [])
     ], LocalData);
     return LocalData;
-}(completer_base_data_1.CompleterBaseData));
-exports.LocalData = LocalData;
+}(__WEBPACK_IMPORTED_MODULE_2__completer_base_data__["a" /* CompleterBaseData */]));
 
 
 /***/ },
@@ -2927,16 +2992,22 @@ exports.LocalData = LocalData;
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_add_operator_map__ = __webpack_require__(154);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_add_operator_map__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_catch__ = __webpack_require__(102);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_catch___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_catch__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__completer_base_data__ = __webpack_require__(88);
+/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return RemoteData; });
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var http_1 = __webpack_require__(45);
-__webpack_require__(143);
-__webpack_require__(102);
-var completer_base_data_1 = __webpack_require__(88);
+
+
+
+
 var RemoteData = (function (_super) {
     __extends(RemoteData, _super);
     function RemoteData(http) {
@@ -2969,7 +3040,7 @@ var RemoteData = (function (_super) {
         else {
             url = this._remoteUrl + encodeURIComponent(term);
         }
-        this.remoteSearch = this.http.get(url, { headers: this._headers || new http_1.Headers() })
+        this.remoteSearch = this.http.get(url, { headers: this._headers || new __WEBPACK_IMPORTED_MODULE_0__angular_http__["Headers"]() })
             .map(function (res) { return res.json(); })
             .map(function (data) {
             var matchaes = _this.extractValue(data, _this._dataField);
@@ -2992,8 +3063,7 @@ var RemoteData = (function (_super) {
         }
     };
     return RemoteData;
-}(completer_base_data_1.CompleterBaseData));
-exports.RemoteData = RemoteData;
+}(__WEBPACK_IMPORTED_MODULE_3__completer_base_data__["a" /* CompleterBaseData */]));
 
 
 /***/ },
@@ -3002,7 +3072,10 @@ exports.RemoteData = RemoteData;
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ctr_completer__ = __webpack_require__(34);
+/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return CtrRowItem; });
+/* harmony export (binding) */ __webpack_require__.d(exports, "b", function() { return CtrDropdown; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3015,8 +3088,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var core_1 = __webpack_require__(0);
-var ctr_completer_1 = __webpack_require__(35);
+
+
 var CtrRowItem = (function () {
     function CtrRowItem(row, index) {
         this.row = row;
@@ -3024,7 +3097,6 @@ var CtrRowItem = (function () {
     }
     return CtrRowItem;
 }());
-exports.CtrRowItem = CtrRowItem;
 var CtrDropdown = (function () {
     function CtrDropdown(completer, el) {
         this.completer = completer;
@@ -3119,17 +3191,16 @@ var CtrDropdown = (function () {
             parseInt(css.marginTop, 10) + parseInt(css.marginBottom, 10);
     };
     CtrDropdown = __decorate([
-        core_1.Directive({
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Directive"])({
             selector: "[ctrDropdown]",
         }),
-        __param(0, core_1.Host()), 
-        __metadata('design:paramtypes', [ctr_completer_1.CtrCompleter, core_1.ElementRef])
+        __param(0, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Host"])()), 
+        __metadata('design:paramtypes', [__WEBPACK_IMPORTED_MODULE_1__ctr_completer__["a" /* CtrCompleter */], __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"]])
     ], CtrDropdown);
     return CtrDropdown;
 }());
-exports.CtrDropdown = CtrDropdown;
 
 
 /***/ }
 
-},[1133]);
+},[1144]);

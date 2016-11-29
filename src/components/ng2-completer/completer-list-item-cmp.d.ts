@@ -8,6 +8,6 @@ export declare class CompleterListItemCmp implements OnInit {
     searchStr: string;
     matchClass: string;
     type: string;
-    private parts;
+    parts: MatchPart[];
     ngOnInit(): void;
 }
