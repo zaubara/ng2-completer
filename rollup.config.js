@@ -4,7 +4,7 @@ export default {
     entry: 'dist/index.js',
     dest: 'dist/ng2-completer.umd.js',
     format: 'umd',
-    moduleName: 'g2-completer',
+    moduleName: 'ng2Completer',
     sourceMap: true,
     plugins: [
         uglify()
@@ -19,6 +19,7 @@ export default {
         'rxjs/observable/PromiseObservable': 'Rx',
         'rxjs/operator/toPromise': 'Rx.Observable.prototype',
         'rxjs/Observable': 'Rx',
-        'rxjs/Rx': 'Rx'
+        'rxjs/Rx': 'Rx',
+
     }
 }
