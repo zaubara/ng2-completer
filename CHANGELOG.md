@@ -1,6 +1,16 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 0.3.0
+### Implemented enhancments
+- Change deployment method now using ngc and rollup for the package and webpack for dev and demo
+- AOT support #60
+
+### Fixed bugs:
+- TS5023 Build:Unknown compiler option 'forceConsistentCasingInFileName' #74
+- .completer-selected-row is missing in the description #78
+- originalObject is null for CompleterService in version 0.2.3 #81
+
 ## 0.2.3
 ### Implemented enhancments
 - Clear selection when search changes #45
@@ -31,4 +41,3 @@ This is a rewrite of the completer component using directives that implement mos
 
 ### Fixed bugs:
 - Bump version dependency to angular 2.0.0 #39
-

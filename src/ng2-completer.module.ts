@@ -25,7 +25,7 @@ import { CommonModule } from "@angular/common";
         CtrInput,
         CtrList,
         CtrRow,
-        CompleterCmp,
+        CompleterCmp
     ],
     exports: [
         CompleterCmp,

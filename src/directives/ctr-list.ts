@@ -1,5 +1,5 @@
 import { Directive, Host, Input, OnInit, TemplateRef, ViewContainerRef } from "@angular/core";
-import { Observable } from "rxjs/Observable";
+import { Observable, Subscription } from "rxjs/Rx";
 
 
 import { CtrCompleter, CompleterList } from "./ctr-completer";
@@ -28,7 +28,7 @@ export class CtrList implements OnInit, CompleterList {
     // private results: CompleterItem[] = [];
     private term: string = null;
     // private searching = false;
-    private searchTimer: NodeJS.Timer = null;
+    private searchTimer: Subscription = null;
     private ctx = new CtrListContext([], false, false);
 
     constructor(
@@ -54,7 +54,7 @@ export class CtrList implements OnInit, CompleterList {
                     this.ctx.searchInitialized = true;
                     this.ctx.searching = false;
                     this.ctx.results = results;
-                    if (this.ctrListAutoMatch && results.length === 1 &&
+                    if (this.ctrListAutoMatch && results.length === 1 && results[0].title && this.term &&
                         results[0].title.toLocaleLowerCase() === this.term.toLocaleLowerCase()) {
                         // Do automatch
                         this.completer.onSelected(results[0]);
@@ -67,11 +67,12 @@ export class CtrList implements OnInit, CompleterList {
     public search(term: string) {
         if (this.term != term) {
             // Clear selected value
-            this.completer.onSelected(null);
+            this.completer.clear();
         }
         if (term && term.length >= this.ctrListMinSearchLength && this.term !== term) {
             if (this.searchTimer) {
-                clearTimeout(this.searchTimer);
+                this.searchTimer.unsubscribe();
+                this.searchTimer = null;
             }
             if (!this.ctx.searching) {
                 this.ctx.results = [];
@@ -80,20 +81,16 @@ export class CtrList implements OnInit, CompleterList {
                 this.refreshTemplate();
             }
 
-            this.searchTimer = setTimeout(
-                () => {
-                    this.searchTimerComplete(term);
-                },
-                this.ctrListPause
-            );
-
-
+            this.searchTimer = Observable.timer(this.ctrListPause).subscribe(() => {
+                this.searchTimerComplete(term);
+            });
         }
     }
 
     public clear() {
         if (this.searchTimer) {
-            clearTimeout(this.searchTimer);
+            this.searchTimer.unsubscribe();
+            this.searchTimer = null;
         }
         if (this.dataService) {
             this.dataService.cancel();

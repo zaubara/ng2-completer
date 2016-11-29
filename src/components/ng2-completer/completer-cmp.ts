@@ -21,8 +21,82 @@ const COMPLETER_CONTROL_VALUE_ACCESSOR = {
 
 @Component({
     selector: "ng2-completer",
-    templateUrl: "./completer-cmp.html",
-    styleUrls: ["./completer-cmp.css"],
+    template: `
+        <div class="completer-holder" ctrCompleter>
+            <input class="completer-input" ctrInput [(ngModel)]="searchStr" [attr.name]="inputName" [placeholder]="placeholder" [attr.maxlength]="maxChars"
+                [tabindex]="fieldTabindex" [disabled]="disableInput" [clearSelected]="clearSelected" [overrideSuggested]="overrideSuggested" (blur)="onBlur()"
+                autocomplete="off" autocorrect="off" autocapitalize="off" />
+
+            <div class="completer-dropdown-holder" *ctrList="dataService; minSearchLength: minSearchLength; pause: pause; autoMatch: autoMatch; let items = results; let searchActive = searching; let isInitialized = searchInitialized;">
+                <div class="completer-dropdown" ctrDropdown *ngIf="isInitialized">
+                    <div *ngIf="searchActive && displaySearching" class="completer-searching">{{textSearching}}</div>
+                    <div *ngIf="!searchActive && (!items || items.length === 0)" class="completer-no-results">{{textNoResults}}</div>
+                    <div class="completer-row-wrapper" *ngFor="let item of items; let rowIndex=index">
+                        <div class="completer-row" [ctrRow]="rowIndex" [dataItem]="item">
+                            <div *ngIf="item.image || item.image === ''" class="completer-image-holder">
+                                <img *ngIf="item.image != ''" src="{{item.image}}" class="completer-image" />
+                                <div *ngIf="item.image === ''" class="completer-image-default"></div>
+                            </div>
+                            <div class="completer-item-text" [ngClass]="{'completer-item-text-image': item.image || item.image === '' }">
+                                <completer-list-item class="completer-title" [text]="item.title" [matchClass]="matchClass" [searchStr]="searchStr" [type]="'title'"></completer-list-item>
+                                <completer-list-item *ngIf="item.description && item.description != ''" class="completer-description" [text]="item.description"
+                                    [matchClass]="matchClass" [searchStr]="searchStr" [type]="'description'">
+                                </completer-list-item>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `,
+    styles: [`
+    .completer-dropdown {
+        border-color: #ececec;
+        border-width: 1px;
+        border-style: solid;
+        border-radius: 2px;
+        width: 250px;
+        padding: 6px;
+        cursor: pointer;
+        z-index: 9999;
+        position: absolute;
+        margin-top: -6px;
+        background-color: #ffffff;
+    }
+
+    .completer-row {
+        padding: 5px;
+        color: #000000;
+        margin-bottom: 4px;
+        clear: both;
+        display: inline-block;
+        width: 103%;
+    }
+
+    .completer-selected-row {
+        background-color: lightblue;
+        color: #ffffff;
+    }
+
+    .completer-description {
+        font-size: 14px;
+    }
+
+    .completer-image-default {
+        width: 16px; 
+        height: 16px;
+        background-image: url("demo/res/img/default.png");
+    }
+
+    .completer-image-holder {
+        float: left;
+        width: 10%;
+    }
+    .completer-item-text-image {
+        float: right;
+        width: 90%;
+    }
+    `],
     providers: [COMPLETER_CONTROL_VALUE_ACCESSOR]
 })
 export class CompleterCmp implements OnInit, ControlValueAccessor {
@@ -44,10 +118,11 @@ export class CompleterCmp implements OnInit, ControlValueAccessor {
     @Output() public highlighted = new EventEmitter<CompleterItem>();
     @Output() public blur = new EventEmitter<void>();
 
-    @ViewChild(CtrCompleter) private completer: CtrCompleter;
+    @ViewChild(CtrCompleter) public completer: CtrCompleter;
+
+    public searchStr = "";
 
     private displaySearching = true;
-    private searchStr = "";
     private _onTouchedCallback: () => void = noop;
     private _onChangeCallback: (_: any) => void = noop;
 
