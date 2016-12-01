@@ -71,7 +71,7 @@ export class MyComponent {
 
 ng2-completer uses [rxjs](https://github.com/Reactive-Extensions/RxJS) stream as data sources. 
 There are 2 ready made data sources that can be used to fetch local and remote data but it's also possible to provide 
-a custome source that generates a stream of items.
+a custom source that generates a stream of items.
 
 ### System.js configuration
 
