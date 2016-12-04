@@ -84,6 +84,9 @@ export class CtrInput {
     public keydownHandler(event: any) {
 
         if (event.keyCode === KEY_EN) {
+            if (this.completer.hasHighlited()) {
+                event.preventDefault();
+            }
             this.completer.selectCurrent();
         } else if (event.keyCode === KEY_DW) {
             event.preventDefault();

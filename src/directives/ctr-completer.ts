@@ -26,6 +26,7 @@ export class CtrCompleter implements OnInit {
 
     private list: CompleterList;
     private dropdown: CompleterDropdown;
+    private _hasHighlited = false;
 
     constructor() { }
 
@@ -43,6 +44,7 @@ export class CtrCompleter implements OnInit {
 
     public onHighlighted(item: CompleterItem) {
         this.highlighted.emit(item);
+        this._hasHighlited = true;
     }
 
     public onSelected(item: CompleterItem) {
@@ -63,6 +65,7 @@ export class CtrCompleter implements OnInit {
         if (this.list) {
             this.list.clear();
         }
+        this._hasHighlited = false;
     }
 
     public selectCurrent() {
@@ -81,5 +84,9 @@ export class CtrCompleter implements OnInit {
         if (this.dropdown) {
             this.dropdown.prevRow();
         }
+    }
+
+    public hasHighlited() {
+        return this._hasHighlited;
     }
 }
