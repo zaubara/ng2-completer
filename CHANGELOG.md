@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 0.3.2
+### Fixed bugs:
+- Form is submitted when we select an option from dropdown using enter key #52
+
 ## 0.3.0
 ### Implemented enhancments
 - Change deployment method now using ngc and rollup for the package and webpack for dev and demo
