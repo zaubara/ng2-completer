@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 0.3.3
+### Fixed bugs:
+- Why version 0.3.2 requires @angular/*@2.2.4? #103
+- Build with @angular version 2.3.1 to fix issue with metadata version
+
 ## 0.3.2
 ### Fixed bugs:
 - Form is submitted when we select an option from dropdown using enter key #52
