@@ -5,7 +5,7 @@ import { Observable, Subscription } from "rxjs/Rx";
 import { CtrCompleter, CompleterList } from "./ctr-completer";
 import { CompleterData } from "../services/completer-data";
 import { CompleterItem } from "../components/completer-item";
-import { MIN_SEARCH_LENGTH, PAUSE } from "../globals";
+import { MIN_SEARCH_LENGTH, PAUSE, CLEAR_TIMEOUT } from "../globals";
 
 
 export class CtrListContext {
@@ -29,6 +29,7 @@ export class CtrList implements OnInit, CompleterList {
     private term: string = null;
     // private searching = false;
     private searchTimer: Subscription = null;
+    private clearTimer: Subscription = null;
     private ctx = new CtrListContext([], false, false);
 
     constructor(
@@ -82,6 +83,9 @@ export class CtrList implements OnInit, CompleterList {
                 this.refreshTemplate();
             }
 
+            if (this.clearTimer) {
+                this.clearTimer.unsubscribe();
+            }
             this.searchTimer = Observable.timer(this.ctrListPause).subscribe(() => {
                 this.searchTimerComplete(term);
             });
@@ -89,6 +93,15 @@ export class CtrList implements OnInit, CompleterList {
     }
 
     public clear() {
+        if (this.searchTimer) {
+            this.searchTimer.unsubscribe();
+        }
+        this.clearTimer = Observable.timer(CLEAR_TIMEOUT).subscribe(() => {
+            this._clear();
+        });
+    }
+
+    private _clear() {
         if (this.searchTimer) {
             this.searchTimer.unsubscribe();
             this.searchTimer = null;
