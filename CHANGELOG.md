@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 - reorder of the folder structure
 - Apply class to child input for styling purposes #40
 - Annoying flickering when clearing data #82
+- Open dropdown programmatically. #84
 
 ### Fixed bugs:
 - Problem with OnPush change detection strategy #69

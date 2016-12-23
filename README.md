@@ -110,6 +110,12 @@ Add the following to `System.js` map configuration:
 |textNoResults|Text displayed when the search returned no results.|string|No|
 |textSearching|Text displayed while search is active.|string|No|Searching...|
 
+### ng2-completer methods
+
+|Method|Description|Parameters|
+|:---    |:---        |:--- |
+|Open(searchValue: string)|Open the dropdown and do search on a value|searchValue - string to search for default is ""|
+|Close()|Close the dropdown| |
 
 ### Local data
 
