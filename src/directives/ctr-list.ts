@@ -1,4 +1,4 @@
-import { Directive, Host, Input, OnInit, TemplateRef, ViewContainerRef } from "@angular/core";
+import { ChangeDetectorRef, Directive, Host, Input, OnInit, TemplateRef, ViewContainerRef } from "@angular/core";
 import { Observable, Subscription } from "rxjs/Rx";
 
 
@@ -34,7 +34,8 @@ export class CtrList implements OnInit, CompleterList {
     constructor(
         @Host() private completer: CtrCompleter,
         private templateRef: TemplateRef<CtrListContext>,
-        private viewContainer: ViewContainerRef) { }
+        private viewContainer: ViewContainerRef,
+        private cd: ChangeDetectorRef) { }
 
     public ngOnInit() {
         this.completer.registerList(this);
@@ -130,6 +131,7 @@ export class CtrList implements OnInit, CompleterList {
             this.templateRef,
             this.ctx
         );
+        this.cd.markForCheck();
     }
 
 }
