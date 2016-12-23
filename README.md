@@ -98,6 +98,7 @@ Add the following to `System.js` map configuration:
 |disableInput|If true disable the input field.|boolean|No|false|
 |fieldTabindex|Set the `tabIndex` of the input.|number|No||
 |inputName|`name` attribute of the input element.|string|No||
+|inputClass| `class` attribute of the input element.|string|No||
 |matchClass|CSS class to apply for matching part of the title and description.|string|No||
 |maxChars|Maximal number of characters that the user can type in the component.|number|No|524288|
 |minSearchLength|Minimal number of characters required for searching.|number|No|3|

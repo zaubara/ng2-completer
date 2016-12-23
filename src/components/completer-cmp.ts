@@ -23,7 +23,7 @@ const COMPLETER_CONTROL_VALUE_ACCESSOR = {
     selector: "ng2-completer",
     template: `
         <div class="completer-holder" ctrCompleter>
-            <input class="completer-input" ctrInput [(ngModel)]="searchStr" [attr.name]="inputName" [placeholder]="placeholder" [attr.maxlength]="maxChars"
+            <input class="completer-input" ctrInput [ngClass]="inputClass" [(ngModel)]="searchStr" [attr.name]="inputName" [placeholder]="placeholder" [attr.maxlength]="maxChars"
                 [tabindex]="fieldTabindex" [disabled]="disableInput" [clearSelected]="clearSelected" [overrideSuggested]="overrideSuggested" (blur)="onBlur()"
                 autocomplete="off" autocorrect="off" autocapitalize="off" />
 
@@ -114,6 +114,8 @@ export class CompleterCmp implements OnInit, ControlValueAccessor {
     @Input() public fieldTabindex: number;
     @Input() public autoMatch = false;
     @Input() public disableInput = false;
+    @Input() public inputClass: string;
+
     @Output() public selected = new EventEmitter<CompleterItem>();
     @Output() public highlighted = new EventEmitter<CompleterItem>();
     @Output() public blur = new EventEmitter<void>();

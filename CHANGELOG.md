@@ -1,6 +1,13 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 0.4.0
+### Implemented enhancments
+- reorder of the folder structure
+- Apply class to child input for styling purposes #40
+
+### Fixed bugs:
+
 ## 0.3.3
 ### Fixed bugs:
 - Why version 0.3.2 requires @angular/*@2.2.4? #103
