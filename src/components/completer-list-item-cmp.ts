@@ -22,6 +22,10 @@ export class CompleterListItemCmp implements OnInit {
 
     public parts: MatchPart[] = [];
     public ngOnInit() {
+        if (!this.searchStr) {
+            this.parts.push({ isMatch: false, text: this.text });
+            return;
+        }
         let matchStr = this.text.toLowerCase();
         let matchPos = matchStr.indexOf(this.searchStr.toLowerCase());
         let startIndex = 0;

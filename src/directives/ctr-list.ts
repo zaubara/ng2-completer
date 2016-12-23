@@ -32,6 +32,10 @@ export class CtrList implements OnInit, CompleterList {
     private clearTimer: Subscription = null;
     private ctx = new CtrListContext([], false, false);
 
+    private static hasTerm(term: string) {
+        return term || term === "";
+    }
+
     constructor(
         @Host() private completer: CtrCompleter,
         private templateRef: TemplateRef<CtrListContext>,
@@ -56,7 +60,7 @@ export class CtrList implements OnInit, CompleterList {
                     this.ctx.searchInitialized = true;
                     this.ctx.searching = false;
                     this.ctx.results = results;
-                    if (this.ctrListAutoMatch && results.length === 1 && results[0].title && this.term &&
+                    if (this.ctrListAutoMatch && results.length === 1 && results[0].title && CtrList.hasTerm(this.term) &&
                         results[0].title.toLocaleLowerCase() === this.term.toLocaleLowerCase()) {
                         // Do automatch
                         this.completer.onSelected(results[0]);
@@ -71,7 +75,7 @@ export class CtrList implements OnInit, CompleterList {
             // Clear selected value
             this.completer.clear();
         }
-        if (term && term.length >= this.ctrListMinSearchLength && this.term !== term) {
+        if (CtrList.hasTerm(term) && term.length >= this.ctrListMinSearchLength && this.term !== term) {
             if (this.searchTimer) {
                 this.searchTimer.unsubscribe();
                 this.searchTimer = null;
@@ -101,6 +105,8 @@ export class CtrList implements OnInit, CompleterList {
         });
     }
 
+
+
     private _clear() {
         if (this.searchTimer) {
             this.searchTimer.unsubscribe();
@@ -117,7 +123,7 @@ export class CtrList implements OnInit, CompleterList {
 
     private searchTimerComplete(term: string) {
         // Begin the search
-        if (!term || term.length < this.ctrListMinSearchLength) {
+        if (!CtrList.hasTerm(term) || term.length < this.ctrListMinSearchLength) {
             this.ctx.searching = false;
             return;
         }
@@ -127,8 +133,12 @@ export class CtrList implements OnInit, CompleterList {
 
     private handleError(error: any) {
         this.ctx.searching = false;
-        let errMsg = (error.message) ? error.message :
-            error.status ? `${error.status} - ${error.statusText}` : "Server error";
+        let errMsg: string = "search error";
+        if (error) {
+            errMsg = (error.message) ? error.message :
+                error.status ? `${error.status} - ${error.statusText}` : "Server error";
+        }
+
         if (console && console.error) {
             console.error(errMsg); // log to console 
         }

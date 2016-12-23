@@ -1,5 +1,6 @@
 export {Ng2CompleterModule} from "./ng2-completer.module";
 
+export {CompleterCmp} from "./components/completer-cmp";
 export {CompleterService} from "./services/completer-service";
 export {CompleterData} from "./services/completer-data";
 export {CompleterItem} from "./components/completer-item";

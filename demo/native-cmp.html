@@ -133,3 +133,27 @@
         </div>
     </div>
 </div>
+
+<h2>Open and close from code</h2>
+<div class="row completer-wrapper m-a-1">
+    <div class="col-md-offset-1">
+        <div class="row">
+            <p>Local data of countries open and close from code</p>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <ng2-completer #openCloseExample  [(ngModel)]="countryName6" [dataService]="dataService5" [minSearchLength]="0" [placeholder]="'search country'">
+                </ng2-completer>
+            </div>
+            <div class="col-md-1">
+                <button (click)="onOpen()">open</button>
+            </div>
+            <div class="col-md-1">
+                <button (click)="onClose()">close</button>
+            </div>
+        </div>
+        <div class="row">
+            <p>Selected country: {{countryName6}}</p>
+        </div>
+    </div>
+</div>

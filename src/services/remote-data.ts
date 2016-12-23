@@ -53,7 +53,7 @@ export class RemoteData extends CompleterBaseData {
             })
             .map(
             (matches: any[]) => {
-                let results = this.processResults(matches, term);
+                let results = this.processResults(matches);
                 this.next(results);
                 return results;
             })

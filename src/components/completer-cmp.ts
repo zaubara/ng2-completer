@@ -174,4 +174,12 @@ export class CompleterCmp implements OnInit, ControlValueAccessor {
         this.blur.emit();
         this.onTouched();
     }
+
+    public open(searchValue = "") {
+        this.completer.search(searchValue);
+    }
+
+    public close() {
+        this.completer.clear();
+    }
 }
