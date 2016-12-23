@@ -2,10 +2,10 @@
 import { Component, Input, Output, EventEmitter, OnInit, ViewChild, forwardRef } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
-import { CtrCompleter } from "../../directives/ctr-completer";
-import { CompleterData } from "./services/completer-data";
+import { CtrCompleter } from "../directives/ctr-completer";
+import { CompleterData } from "../services/completer-data";
 import { CompleterItem } from "./completer-item";
-import { MAX_CHARS, MIN_SEARCH_LENGTH, PAUSE, TEXT_SEARCHING, TEXT_NORESULTS } from "../../globals";
+import { MAX_CHARS, MIN_SEARCH_LENGTH, PAUSE, TEXT_SEARCHING, TEXT_NORESULTS } from "../globals";
 
 
 import "rxjs/add/operator/catch";

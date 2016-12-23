@@ -1,6 +1,6 @@
 import { Subject } from "rxjs/Subject";
 
-import { CompleterItem } from "../completer-item";
+import { CompleterItem } from "../components/completer-item";
 import { CompleterData } from "./completer-data";
 
 export abstract class CompleterBaseData extends Subject<CompleterItem[]> implements CompleterData {

@@ -1,10 +1,10 @@
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { HttpModule } from "@angular/http";
-import { CompleterCmp } from "./components/ng2-completer/completer-cmp";
-import { CompleterListItemCmp } from "./components/ng2-completer/completer-list-item-cmp";
-import { CompleterService } from "./components/ng2-completer/services/completer-service";
-import { LocalDataFactoryProvider, RemoteDataFactoryProvider } from "./components/ng2-completer/services/completer-data-factory";
+import { CompleterCmp } from "./components/completer-cmp";
+import { CompleterListItemCmp } from "./components/completer-list-item-cmp";
+import { CompleterService } from "./services/completer-service";
+import { LocalDataFactoryProvider, RemoteDataFactoryProvider } from "./services/completer-data-factory";
 import { CtrCompleter } from "./directives/ctr-completer";
 import { CtrDropdown } from "./directives/ctr-dropdown";
 import { CtrInput } from "./directives/ctr-input";

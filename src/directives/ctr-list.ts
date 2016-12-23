@@ -3,8 +3,8 @@ import { Observable, Subscription } from "rxjs/Rx";
 
 
 import { CtrCompleter, CompleterList } from "./ctr-completer";
-import { CompleterData } from "../components/ng2-completer/services/completer-data";
-import { CompleterItem } from "../components/ng2-completer/completer-item";
+import { CompleterData } from "../services/completer-data";
+import { CompleterItem } from "../components/completer-item";
 import { MIN_SEARCH_LENGTH, PAUSE } from "../globals";
 
 

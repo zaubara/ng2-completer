@@ -1,6 +1,6 @@
 import { Directive, ElementRef, Host, OnDestroy, OnInit } from "@angular/core";
 
-import { CompleterItem } from "../components/ng2-completer/completer-item";
+import { CompleterItem } from "../components/completer-item";
 import { CtrCompleter, CompleterDropdown } from "./ctr-completer";
 
 
