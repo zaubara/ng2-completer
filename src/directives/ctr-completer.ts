@@ -27,6 +27,7 @@ export class CtrCompleter implements OnInit {
     private list: CompleterList;
     private dropdown: CompleterDropdown;
     private _hasHighlited = false;
+    private hasSelected = false;
 
     constructor() { }
 
@@ -49,10 +50,15 @@ export class CtrCompleter implements OnInit {
 
     public onSelected(item: CompleterItem) {
         this.selected.emit(item);
+        this.hasSelected = true;
         this.clear();
     }
 
     public search(term: string) {
+        if (this.hasSelected) {
+            this.selected.emit(null);
+            this.hasSelected = false;
+        }
         if (this.list) {
             this.list.search(term);
         }
