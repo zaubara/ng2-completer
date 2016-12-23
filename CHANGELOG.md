@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed bugs:
 - Problem with OnPush change detection strategy #69
+- AutoMatch doesn't remove binded value if nothing match (angucomplete-alt does) #101
 
 ## 0.3.3
 ### Fixed bugs:
