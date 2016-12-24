@@ -1,6 +1,6 @@
 import { Subject } from "rxjs/Subject";
 
-import { CompleterItem } from "../completer-item";
+import { CompleterItem } from "../components/completer-item";
 import { CompleterData } from "./completer-data";
 
 export abstract class CompleterBaseData extends Subject<CompleterItem[]> implements CompleterData {
@@ -41,17 +41,17 @@ export abstract class CompleterBaseData extends Subject<CompleterItem[]> impleme
 
     protected extractMatches(data: any[], term: string) {
         let matches: any[] = [];
-        if (this._searchFields && this._searchFields != "") {
+        if (this._searchFields && this._searchFields != "" && term != "") {
             let searchFields = this._searchFields.split(",");
             for (let i = 0; i < data.length; i++) {
                 let match = false;
-                for (let s = 0; s < searchFields.length; s++) {
+                for (let s = 0; s < searchFields.length && !match; s++) {
                     let value = this.extractValue(data[i], searchFields[s]) || "";
-                    match = match || (value.toString().toLowerCase().indexOf(term.toString().toLowerCase()) >= 0);
+                    match = value.toString().toLowerCase().indexOf(term.toString().toLowerCase()) >= 0;
                 }
 
                 if (match) {
-                    matches[matches.length] = data[i];
+                    matches.push(data[i]);
                 }
             }
         } else {
@@ -89,7 +89,7 @@ export abstract class CompleterBaseData extends Subject<CompleterItem[]> impleme
         return result;
     }
 
-    protected processResults(matches: string[], term: string): CompleterItem[] {
+    protected processResults(matches: string[]): CompleterItem[] {
         let i: number;
         let description: string;
         let image: string;

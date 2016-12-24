@@ -1,6 +1,17 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 0.4.0
+### Implemented enhancements:
+- reorder of the folder structure
+- Apply class to child input for styling purposes #40
+- Annoying flickering when clearing data #82
+- Open dropdown programmatically. #84
+
+### Fixed bugs:
+- Problem with OnPush change detection strategy #69
+- AutoMatch doesn't remove binded value if nothing match (angucomplete-alt does) #101
+
 ## 0.3.3
 ### Fixed bugs:
 - Why version 0.3.2 requires @angular/*@2.2.4? #103
@@ -11,7 +22,7 @@ All notable changes to this project will be documented in this file.
 - Form is submitted when we select an option from dropdown using enter key #52
 
 ## 0.3.0
-### Implemented enhancments
+### Implemented enhancements
 - Change deployment method now using ngc and rollup for the package and webpack for dev and demo
 - AOT support #60
 
@@ -21,14 +32,14 @@ All notable changes to this project will be documented in this file.
 - originalObject is null for CompleterService in version 0.2.3 #81
 
 ## 0.2.3
-### Implemented enhancments
+### Implemented enhancements
 - Clear selection when search changes #45
 
 ### Fixed bugs:
 - fix for overrideSuggested
 
 ## 0.2.2 
-### Implemented enhancments
+### Implemented enhancements
 - Added support for async local data
 
 ### Fixed bugs:
@@ -36,7 +47,7 @@ All notable changes to this project will be documented in this file.
 - textSearching not display in first search #55
 
 ## 0.2.1 (2016-10-05)
-### Implemented enhancments
+### Implemented enhancements
 - Added material2 component to demo
 
 ### Fixed bugs:
@@ -45,7 +56,7 @@ All notable changes to this project will be documented in this file.
 
 ## 0.2.0 (2016-10-04)
 This is a rewrite of the completer component using directives that implement most of the functionality.
-### Implemented enhancments
+### Implemented enhancements
 - Support for custom HTML and CSS #13 #21
 
 ### Fixed bugs:

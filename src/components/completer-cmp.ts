@@ -2,10 +2,10 @@
 import { Component, Input, Output, EventEmitter, OnInit, ViewChild, forwardRef } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
-import { CtrCompleter } from "../../directives/ctr-completer";
-import { CompleterData } from "./services/completer-data";
+import { CtrCompleter } from "../directives/ctr-completer";
+import { CompleterData } from "../services/completer-data";
 import { CompleterItem } from "./completer-item";
-import { MAX_CHARS, MIN_SEARCH_LENGTH, PAUSE, TEXT_SEARCHING, TEXT_NORESULTS } from "../../globals";
+import { MAX_CHARS, MIN_SEARCH_LENGTH, PAUSE, TEXT_SEARCHING, TEXT_NORESULTS } from "../globals";
 
 
 import "rxjs/add/operator/catch";
@@ -23,7 +23,7 @@ const COMPLETER_CONTROL_VALUE_ACCESSOR = {
     selector: "ng2-completer",
     template: `
         <div class="completer-holder" ctrCompleter>
-            <input class="completer-input" ctrInput [(ngModel)]="searchStr" [attr.name]="inputName" [placeholder]="placeholder" [attr.maxlength]="maxChars"
+            <input class="completer-input" ctrInput [ngClass]="inputClass" [(ngModel)]="searchStr" [attr.name]="inputName" [placeholder]="placeholder" [attr.maxlength]="maxChars"
                 [tabindex]="fieldTabindex" [disabled]="disableInput" [clearSelected]="clearSelected" [overrideSuggested]="overrideSuggested" (blur)="onBlur()"
                 autocomplete="off" autocorrect="off" autocapitalize="off" />
 
@@ -114,6 +114,8 @@ export class CompleterCmp implements OnInit, ControlValueAccessor {
     @Input() public fieldTabindex: number;
     @Input() public autoMatch = false;
     @Input() public disableInput = false;
+    @Input() public inputClass: string;
+
     @Output() public selected = new EventEmitter<CompleterItem>();
     @Output() public highlighted = new EventEmitter<CompleterItem>();
     @Output() public blur = new EventEmitter<void>();
@@ -171,5 +173,13 @@ export class CompleterCmp implements OnInit, ControlValueAccessor {
     public onBlur() {
         this.blur.emit();
         this.onTouched();
+    }
+
+    public open(searchValue = "") {
+        this.completer.search(searchValue);
+    }
+
+    public close() {
+        this.completer.clear();
     }
 }

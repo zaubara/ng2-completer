@@ -3,7 +3,7 @@ import { Directive, EventEmitter, OnInit, Output } from "@angular/core";
 
 
 // import { CompleterData } from "../components/ng2-completer/services/completer-data";
-import { CompleterItem } from "../components/ng2-completer/completer-item";
+import { CompleterItem } from "../components/completer-item";
 
 export interface CompleterList {
     search(term: string): void;
@@ -27,6 +27,7 @@ export class CtrCompleter implements OnInit {
     private list: CompleterList;
     private dropdown: CompleterDropdown;
     private _hasHighlited = false;
+    private hasSelected = false;
 
     constructor() { }
 
@@ -49,10 +50,15 @@ export class CtrCompleter implements OnInit {
 
     public onSelected(item: CompleterItem) {
         this.selected.emit(item);
+        this.hasSelected = true;
         this.clear();
     }
 
     public search(term: string) {
+        if (this.hasSelected) {
+            this.selected.emit(null);
+            this.hasSelected = false;
+        }
         if (this.list) {
             this.list.search(term);
         }

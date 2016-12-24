@@ -22,3 +22,7 @@
 :host >>> .match {
   color: orangered;
 }
+
+:host >>> .my-input-class {
+  color: #2e405b;
+}

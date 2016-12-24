@@ -1,9 +1,9 @@
 "use strict";
-import { Component } from "@angular/core";
+import { Component, ViewChild } from "@angular/core";
 
 import { Observable } from "rxjs/Rx";
 
-import { CompleterService, CompleterData, CompleterItem, RemoteData } from "../src";
+import { CompleterCmp, CompleterData, CompleterService, CompleterItem, RemoteData } from "../src";
 import { CustomData } from "./custom-data";
 import { Http, Headers } from "@angular/http";
 
@@ -60,6 +60,8 @@ export class NativeCmp {
         }
     ];
 
+    @ViewChild("openCloseExample") private openCloseExample: CompleterCmp;
+
     private dataService: CompleterData;
     private dataService2: CompleterData;
     private countryName2 = "";
@@ -68,6 +70,7 @@ export class NativeCmp {
     private dataRemote2: RemoteData;
     private dataService3: CompleterData;
     private dataService4: CompleterData;
+    private dataService5: CompleterData;
     private customData: CustomData;
 
     constructor(completerService: CompleterService, http: Http) {
@@ -85,12 +88,13 @@ export class NativeCmp {
             return `https://maps.googleapis.com/maps/api/geocode/json?address=${term}`;
         });
         this.dataRemote2.dataField("results");
-        this.dataRemote2.headers(new Headers({"My-Header": "Hello World!"}));
+        this.dataRemote2.headers(new Headers({ "My-Header": "Hello World!" }));
         // For async local the source can also be HTTP request
         // let source = http.get("https://raw.githubusercontent.com/oferh/ng2-completer/master/demo/res/data/countries.json?").map((res: any) => res.json());
         let source = Observable.from([this.countries]).delay(3000);
         this.dataService3 = completerService.local(<Observable<any[]>>source, "name", "name");
         this.dataService4 = completerService.local(this.countries, "name", "name");
+        this.dataService5 = completerService.local(this.countries.slice(1, 10) , "name", "name");
         this.customData = new CustomData(http);
     }
 
@@ -108,6 +112,14 @@ export class NativeCmp {
         } else {
             this.quote = "";
         }
+    }
+
+    public onOpen() {
+        this.openCloseExample.open();
+    }
+
+    public onClose() {
+        this.openCloseExample.close();
     }
 
 }
