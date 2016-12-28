@@ -2,7 +2,7 @@
 # 8Loops configuration file
 
 stack: 
-  node: "6.1.9" # Define node version
+  node: "6.9.2" # Define node version
 
 buildCmd: "npm run build:demo:prod" # Command that will execute the build
 
