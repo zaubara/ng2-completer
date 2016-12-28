@@ -3,6 +3,7 @@
 
 stack: 
   node: "6.9.2" # Define node version
+  python: "2.7.13"
 
 buildCmd: "npm run build:demo:prod" # Command that will execute the build
 
