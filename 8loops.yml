@@ -8,5 +8,5 @@ stack:
 buildCmd: "npm run build:demo:prod" # Command that will execute the build
 
 outputPaths: # Paths from which to take the output
-  - built 
+  - bundles 
 
