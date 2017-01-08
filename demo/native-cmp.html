@@ -5,10 +5,10 @@
 <div class="row completer-wrapper m-a-1">
     <div class="col-md-offset-1">
         <div class="row">
-            <p>Local data of countries - using image, matchClass and maxLength</p>
+            <p>Local data of countries - using image, matchClass, maxLength and limit of the dropdown length in CSS</p>
         </div>
         <div class="row">
-            <ng2-completer [(ngModel)]="countryName" [dataService]="dataService" [minSearchLength]="0"
+            <ng2-completer class="completer-limit" [(ngModel)]="countryName" [dataService]="dataService" [minSearchLength]="0"
                 [maxChars]="4" [placeholder]="'search country'" [matchClass]="'match'">
             </ng2-completer>
         </div>
