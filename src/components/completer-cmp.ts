@@ -24,7 +24,7 @@ const COMPLETER_CONTROL_VALUE_ACCESSOR = {
     template: `
         <div class="completer-holder" ctrCompleter>
             <input class="completer-input" ctrInput [ngClass]="inputClass" [(ngModel)]="searchStr" [attr.name]="inputName" [placeholder]="placeholder" [attr.maxlength]="maxChars"
-                [tabindex]="fieldTabindex" [disabled]="disableInput" [clearSelected]="clearSelected" [overrideSuggested]="overrideSuggested" (blur)="onBlur()"
+                [tabindex]="fieldTabindex" [disabled]="disableInput" [clearSelected]="clearSelected" [overrideSuggested]="overrideSuggested" [fillHighlighted]="fillHighlighted" (blur)="onBlur()"
                 autocomplete="off" autocorrect="off" autocapitalize="off" />
 
             <div class="completer-dropdown-holder" *ctrList="dataService; minSearchLength: minSearchLength; pause: pause; autoMatch: autoMatch; let items = results; let searchActive = searching; let isInitialized = searchInitialized;">
@@ -107,6 +107,7 @@ export class CompleterCmp implements OnInit, ControlValueAccessor {
     @Input() public maxChars = MAX_CHARS;
     @Input() public overrideSuggested = false;
     @Input() public clearSelected = false;
+    @Input() public fillHighlighted = true;
     @Input() public placeholder = "";
     @Input() public matchClass: string;
     @Input() public textSearching = TEXT_SEARCHING;

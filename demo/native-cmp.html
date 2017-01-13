@@ -165,7 +165,7 @@
             <p>Remote data of countries with minSearchLength, textSearching and fillHighlighted=false</p>
         </div>
         <div class="row">
-            <ng2-completer [dataService]="dataRemote" [minSearchLength]="1" [placeholder]="'search country'"
+            <ng2-completer [dataService]="dataNoFill" [minSearchLength]="1" [placeholder]="'search country'"
                            [fillHighlighted]="false" (selected)="onCountrySelected($event)" [textSearching]="'Please wait...'">
             </ng2-completer>
         </div>
