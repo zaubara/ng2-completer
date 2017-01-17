@@ -72,6 +72,7 @@ export class NativeCmp {
     private dataService4: CompleterData;
     private dataService5: CompleterData;
     private customData: CustomData;
+    private dataNoFill: CompleterData;
 
     constructor(completerService: CompleterService, http: Http) {
         this.dataService = completerService.local(this.countries, "name", "name").imageField("flag");
@@ -96,6 +97,10 @@ export class NativeCmp {
         this.dataService4 = completerService.local(this.countries, "name", "name");
         this.dataService5 = completerService.local(this.countries.slice(1, 10) , "name", "name");
         this.customData = new CustomData(http);
+        this.dataNoFill  = completerService.remote(
+            "https://raw.githubusercontent.com/oferh/ng2-completer/master/demo/res/data/countries.json?",
+            "name",
+            "name");
     }
 
     public onCountrySelected(selected: CompleterItem) {

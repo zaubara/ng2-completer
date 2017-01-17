@@ -31,6 +31,7 @@ export class CompleterCmpMd implements OnInit, ControlValueAccessor {
     @Input() public minSearchLength = MIN_SEARCH_LENGTH;
     @Input() public maxChars = MAX_CHARS;
     @Input() public overrideSuggested = false;
+    @Input() public fillHighlighted = true;
     @Input() public clearSelected = false;
     @Input() public placeholder = "";
     @Input() public matchClass: string;

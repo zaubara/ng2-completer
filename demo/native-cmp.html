@@ -157,3 +157,20 @@
         </div>
     </div>
 </div>
+
+<h2>Do not set input value when item is highlighted</h2>
+<div class="row completer-wrapper m-a-1">
+    <div class="col-md-offset-1">
+        <div class="row">
+            <p>Remote data of countries with minSearchLength, textSearching and fillHighlighted=false</p>
+        </div>
+        <div class="row">
+            <ng2-completer [dataService]="dataNoFill" [minSearchLength]="1" [placeholder]="'search country'"
+                           [fillHighlighted]="false" (selected)="onCountrySelected($event)" [textSearching]="'Please wait...'">
+            </ng2-completer>
+        </div>
+        <div class="row">
+            <p>Selected country: {{countryName2}}</p>
+        </div>
+    </div>
+</div>
