@@ -139,7 +139,7 @@ export class CompleterCmp implements OnInit, ControlValueAccessor {
         if (v !== this.searchStr) {
             this.searchStr = v;
         }
-        // Propogate the change in any case
+        // Propagate the change in any case
         this._onChangeCallback(v);
     }
 

@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 - new ctr-input property 'fillHighlighted' that controls setting of input value when item is highlighted #123 (by @mdudek)
 - Cannot access entered text when not selected from list #72
 - ng2-completer input autofocus? #125
+- Set `max-height` of dropdown in demo
 
 ### Fixed bugs
 - ngModelChange doesn't work #97
