@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed bugs
 - ngModelChange doesn't work #97
+- Material design dropdown pushes everything down #115
 
 ### Breaking changes
 - NgModel now reflects the vlue of the input. to get only selected values use `selected` event
