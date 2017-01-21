@@ -1,24 +1,38 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 1.0.0 (2017-01-21)
+
+### Implemented enhancements
+- Input box doesn't have a type! #73
+- new ctr-input property 'fillHighlighted' that controls setting of input value when item is highlighted #123 (by @mdudek)
+- Cannot access entered text when not selected from list #72
+- ng2-completer input autofocus? #125
+
+### Fixed bugs
+- ngModelChange doesn't work #97
+
+### Breaking changes
+- NgModel now reflects the vlue of the input. to get only selected values use `selected` event
+
 ## 0.4.0
-### Implemented enhancements:
+### Implemented enhancements
 - reorder of the folder structure
 - Apply class to child input for styling purposes #40
 - Annoying flickering when clearing data #82
 - Open dropdown programmatically. #84
 
-### Fixed bugs:
+### Fixed bugs
 - Problem with OnPush change detection strategy #69
 - AutoMatch doesn't remove binded value if nothing match (angucomplete-alt does) #101
 
 ## 0.3.3
-### Fixed bugs:
+### Fixed bugs
 - Why version 0.3.2 requires @angular/*@2.2.4? #103
 - Build with @angular version 2.3.1 to fix issue with metadata version
 
 ## 0.3.2
-### Fixed bugs:
+### Fixed bugs
 - Form is submitted when we select an option from dropdown using enter key #52
 
 ## 0.3.0
@@ -26,7 +40,7 @@ All notable changes to this project will be documented in this file.
 - Change deployment method now using ngc and rollup for the package and webpack for dev and demo
 - AOT support #60
 
-### Fixed bugs:
+### Fixed bugs
 - TS5023 Build:Unknown compiler option 'forceConsistentCasingInFileName' #74
 - .completer-selected-row is missing in the description #78
 - originalObject is null for CompleterService in version 0.2.3 #81
@@ -42,7 +56,7 @@ All notable changes to this project will be documented in this file.
 ### Implemented enhancements
 - Added support for async local data
 
-### Fixed bugs:
+### Fixed bugs
 - Not able to capture blur event #50
 - textSearching not display in first search #55
 
@@ -50,7 +64,7 @@ All notable changes to this project will be documented in this file.
 ### Implemented enhancements
 - Added material2 component to demo
 
-### Fixed bugs:
+### Fixed bugs
 - Mouse click doesn't select the item, Enter Key does! #46
 
 
@@ -59,5 +73,5 @@ This is a rewrite of the completer component using directives that implement mos
 ### Implemented enhancements
 - Support for custom HTML and CSS #13 #21
 
-### Fixed bugs:
+### Fixed bugs
 - Bump version dependency to angular 2.0.0 #39
