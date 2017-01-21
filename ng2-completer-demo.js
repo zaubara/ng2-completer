@@ -122,15 +122,18 @@ var CompleterCmp = (function () {
         this.maxChars = __WEBPACK_IMPORTED_MODULE_3__globals__["c" /* MAX_CHARS */];
         this.overrideSuggested = false;
         this.clearSelected = false;
+        this.fillHighlighted = true;
         this.placeholder = "";
         this.textSearching = __WEBPACK_IMPORTED_MODULE_3__globals__["d" /* TEXT_SEARCHING */];
         this.textNoResults = __WEBPACK_IMPORTED_MODULE_3__globals__["e" /* TEXT_NORESULTS */];
         this.autoMatch = false;
         this.disableInput = false;
+        this.autofocus = false;
         this.selected = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
         this.highlighted = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
         this.blur = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
         this.searchStr = "";
+        this.control = new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormControl"]("");
         this.displaySearching = true;
         this._onTouchedCallback = noop;
         this._onChangeCallback = noop;
@@ -140,8 +143,9 @@ var CompleterCmp = (function () {
         set: function (v) {
             if (v !== this.searchStr) {
                 this.searchStr = v;
-                this._onChangeCallback(v);
             }
+            // Propagate the change in any case
+            this._onChangeCallback(v);
         },
         enumerable: true,
         configurable: true
@@ -176,6 +180,9 @@ var CompleterCmp = (function () {
     CompleterCmp.prototype.onBlur = function () {
         this.blur.emit();
         this.onTouched();
+    };
+    CompleterCmp.prototype.onChange = function (value) {
+        this.value = value;
     };
     CompleterCmp.prototype.open = function (searchValue) {
         if (searchValue === void 0) { searchValue = ""; }
@@ -215,6 +222,10 @@ var CompleterCmp = (function () {
     __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Object)
+    ], CompleterCmp.prototype, "fillHighlighted", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', Object)
     ], CompleterCmp.prototype, "placeholder", void 0);
     __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
@@ -245,6 +256,10 @@ var CompleterCmp = (function () {
         __metadata('design:type', String)
     ], CompleterCmp.prototype, "inputClass", void 0);
     __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', Object)
+    ], CompleterCmp.prototype, "autofocus", void 0);
+    __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(), 
         __metadata('design:type', Object)
     ], CompleterCmp.prototype, "selected", void 0);
@@ -263,7 +278,7 @@ var CompleterCmp = (function () {
     CompleterCmp = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: "ng2-completer",
-            template: "\n        <div class=\"completer-holder\" ctrCompleter>\n            <input class=\"completer-input\" ctrInput [ngClass]=\"inputClass\" [(ngModel)]=\"searchStr\" [attr.name]=\"inputName\" [placeholder]=\"placeholder\" [attr.maxlength]=\"maxChars\"\n                [tabindex]=\"fieldTabindex\" [disabled]=\"disableInput\" [clearSelected]=\"clearSelected\" [overrideSuggested]=\"overrideSuggested\" (blur)=\"onBlur()\"\n                autocomplete=\"off\" autocorrect=\"off\" autocapitalize=\"off\" />\n\n            <div class=\"completer-dropdown-holder\" *ctrList=\"dataService; minSearchLength: minSearchLength; pause: pause; autoMatch: autoMatch; let items = results; let searchActive = searching; let isInitialized = searchInitialized;\">\n                <div class=\"completer-dropdown\" ctrDropdown *ngIf=\"isInitialized\">\n                    <div *ngIf=\"searchActive && displaySearching\" class=\"completer-searching\">{{textSearching}}</div>\n                    <div *ngIf=\"!searchActive && (!items || items.length === 0)\" class=\"completer-no-results\">{{textNoResults}}</div>\n                    <div class=\"completer-row-wrapper\" *ngFor=\"let item of items; let rowIndex=index\">\n                        <div class=\"completer-row\" [ctrRow]=\"rowIndex\" [dataItem]=\"item\">\n                            <div *ngIf=\"item.image || item.image === ''\" class=\"completer-image-holder\">\n                                <img *ngIf=\"item.image != ''\" src=\"{{item.image}}\" class=\"completer-image\" />\n                                <div *ngIf=\"item.image === ''\" class=\"completer-image-default\"></div>\n                            </div>\n                            <div class=\"completer-item-text\" [ngClass]=\"{'completer-item-text-image': item.image || item.image === '' }\">\n                                <completer-list-item class=\"completer-title\" [text]=\"item.title\" [matchClass]=\"matchClass\" [searchStr]=\"searchStr\" [type]=\"'title'\"></completer-list-item>\n                                <completer-list-item *ngIf=\"item.description && item.description != ''\" class=\"completer-description\" [text]=\"item.description\"\n                                    [matchClass]=\"matchClass\" [searchStr]=\"searchStr\" [type]=\"'description'\">\n                                </completer-list-item>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    ",
+            template: "\n        <div class=\"completer-holder\" ctrCompleter>\n            <input type=\"search\" class=\"completer-input\" ctrInput [ngClass]=\"inputClass\" [(ngModel)]=\"searchStr\" (ngModelChange)=\"onChange($event)\" [attr.name]=\"inputName\" [placeholder]=\"placeholder\"\n                [attr.maxlength]=\"maxChars\" [tabindex]=\"fieldTabindex\" [disabled]=\"disableInput\" [clearSelected]=\"clearSelected\" [overrideSuggested]=\"overrideSuggested\" \n                [fillHighlighted]=\"fillHighlighted\" (blur)=\"onBlur()\" [autofocus]=\"autofocus\" autocomplete=\"off\" autocorrect=\"off\" autocapitalize=\"off\" />\n\n            <div class=\"completer-dropdown-holder\" *ctrList=\"dataService; minSearchLength: minSearchLength; pause: pause; autoMatch: autoMatch; let items = results; let searchActive = searching; let isInitialized = searchInitialized;\">\n                <div class=\"completer-dropdown\" ctrDropdown *ngIf=\"isInitialized\">\n                    <div *ngIf=\"searchActive && displaySearching\" class=\"completer-searching\">{{textSearching}}</div>\n                    <div *ngIf=\"!searchActive && (!items || items.length === 0)\" class=\"completer-no-results\">{{textNoResults}}</div>\n                    <div class=\"completer-row-wrapper\" *ngFor=\"let item of items; let rowIndex=index\">\n                        <div class=\"completer-row\" [ctrRow]=\"rowIndex\" [dataItem]=\"item\">\n                            <div *ngIf=\"item.image || item.image === ''\" class=\"completer-image-holder\">\n                                <img *ngIf=\"item.image != ''\" src=\"{{item.image}}\" class=\"completer-image\" />\n                                <div *ngIf=\"item.image === ''\" class=\"completer-image-default\"></div>\n                            </div>\n                            <div class=\"completer-item-text\" [ngClass]=\"{'completer-item-text-image': item.image || item.image === '' }\">\n                                <completer-list-item class=\"completer-title\" [text]=\"item.title\" [matchClass]=\"matchClass\" [searchStr]=\"searchStr\" [type]=\"'title'\"></completer-list-item>\n                                <completer-list-item *ngIf=\"item.description && item.description != ''\" class=\"completer-description\" [text]=\"item.description\"\n                                    [matchClass]=\"matchClass\" [searchStr]=\"searchStr\" [type]=\"'description'\">\n                                </completer-list-item>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    ",
             styles: ["\n    .completer-dropdown {\n        border-color: #ececec;\n        border-width: 1px;\n        border-style: solid;\n        border-radius: 2px;\n        width: 250px;\n        padding: 6px;\n        cursor: pointer;\n        z-index: 9999;\n        position: absolute;\n        margin-top: -6px;\n        background-color: #ffffff;\n    }\n\n    .completer-row {\n        padding: 5px;\n        color: #000000;\n        margin-bottom: 4px;\n        clear: both;\n        display: inline-block;\n        width: 103%;\n    }\n\n    .completer-selected-row {\n        background-color: lightblue;\n        color: #ffffff;\n    }\n\n    .completer-description {\n        font-size: 14px;\n    }\n\n    .completer-image-default {\n        width: 16px; \n        height: 16px;\n        background-image: url(\"demo/res/img/default.png\");\n    }\n\n    .completer-image-holder {\n        float: left;\n        width: 10%;\n    }\n    .completer-item-text-image {\n        float: right;\n        width: 90%;\n    }\n    "],
             providers: [COMPLETER_CONTROL_VALUE_ACCESSOR]
         }), 
@@ -310,6 +325,7 @@ var CtrInput = (function () {
         this.completer = completer;
         this.clearSelected = false;
         this.overrideSuggested = false;
+        this.fillHighlighted = true;
         this.ngModelChange = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
         this._searchStr = "";
         this._displayStr = "";
@@ -328,8 +344,10 @@ var CtrInput = (function () {
             _this.ngModelChange.emit(_this.searchStr);
         });
         this.completer.highlighted.subscribe(function (item) {
-            _this._displayStr = item.title;
-            _this.ngModelChange.emit(item.title);
+            if (_this.fillHighlighted) {
+                _this._displayStr = item.title;
+                _this.ngModelChange.emit(item.title);
+            }
         });
     }
     CtrInput.prototype.onInputChange = function (event) {
@@ -416,6 +434,10 @@ var CtrInput = (function () {
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])("overrideSuggested"), 
         __metadata('design:type', Object)
     ], CtrInput.prototype, "overrideSuggested", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])("fillHighlighted"), 
+        __metadata('design:type', Object)
+    ], CtrInput.prototype, "fillHighlighted", void 0);
     __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(), 
         __metadata('design:type', __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"])
@@ -1214,6 +1236,7 @@ var NativeCmp = (function () {
         this.dataService4 = completerService.local(this.countries, "name", "name");
         this.dataService5 = completerService.local(this.countries.slice(1, 10), "name", "name");
         this.customData = new __WEBPACK_IMPORTED_MODULE_3__custom_data__["a" /* CustomData */](http);
+        this.dataNoFill = completerService.remote("https://raw.githubusercontent.com/oferh/ng2-completer/master/demo/res/data/countries.json?", "name", "name");
     }
     NativeCmp.prototype.onCountrySelected = function (selected) {
         if (selected) {
@@ -2645,6 +2668,7 @@ var CompleterCmpMd = (function () {
         this.minSearchLength = __WEBPACK_IMPORTED_MODULE_3__src_globals__["b" /* MIN_SEARCH_LENGTH */];
         this.maxChars = __WEBPACK_IMPORTED_MODULE_3__src_globals__["c" /* MAX_CHARS */];
         this.overrideSuggested = false;
+        this.fillHighlighted = true;
         this.clearSelected = false;
         this.placeholder = "";
         this.textSearching = __WEBPACK_IMPORTED_MODULE_3__src_globals__["d" /* TEXT_SEARCHING */];
@@ -2687,7 +2711,9 @@ var CompleterCmpMd = (function () {
         var _this = this;
         this.completer.selected.subscribe(function (item) {
             _this.selected.emit(item);
-            _this._onChangeCallback(item.title);
+            if (item) {
+                _this._onChangeCallback(item.title);
+            }
         });
         this.completer.highlighted.subscribe(function (item) {
             _this.highlighted.emit(item);
@@ -2724,6 +2750,10 @@ var CompleterCmpMd = (function () {
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Object)
     ], CompleterCmpMd.prototype, "overrideSuggested", void 0);
+    __decorate([
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
+        __metadata('design:type', Object)
+    ], CompleterCmpMd.prototype, "fillHighlighted", void 0);
     __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(), 
         __metadata('design:type', Object)
@@ -2840,14 +2870,14 @@ module.exports = "        <nav class=\"navbar navbar-dark navbar-static-top bg-i
 /***/ 920:
 /***/ function(module, exports) {
 
-module.exports = ".completer-row {\n    display: inherit;\n}\n\n.completer-selected-row {\n    background-color: lightblue;\n    color: #ffffff;\n}\n\n.completer-row p {\n    position: relative;\n    top: 50%;\n    transform: translateY(50%);\n}"
+module.exports = ".completer-row {\n    display: inherit;\n}\n\n.completer-selected-row {\n    background-color: lightblue;\n    color: #ffffff;\n}\n\n.completer-row p {\n    position: relative;\n    top: 50%;\n    transform: translateY(50%);\n}\n\n.completer-dropdown-holder {\n    position: absolute;\n    background: white;\n}"
 
 /***/ },
 
 /***/ 921:
 /***/ function(module, exports) {
 
-module.exports = "<div class=\"completer-holder\" ctrCompleter>\n    <md-input class=\"completer-input\" ctrInput=\"clearSelected=clearSelected; overrideSuggested=overrideSuggested\" [(ngModel)]=\"searchStr\" [attr.name]=\"inputName\" [placeholder]=\"placeholder\" [attr.maxlength]=\"maxChars\"\n        [tabindex]=\"fieldTabindex\" [disabled]=\"disableInput\" (blur)=\"onBlur()\"\n        autocomplete=\"off\" autocorrect=\"off\" autocapitalize=\"off\">\n    </md-input>\n\n    <div class=\"completer-dropdown-holder\" *ctrList=\"dataService; minSearchLength: minSearchLength; pause: pause; autoMatch: autoMatch; let items = results; let searchActive = searching; let isInitialized = searchInitialized;\">\n        <md-list class=\"completer-dropdown\" ctrDropdown *ngIf=\"isInitialized\">\n            <md-list-item *ngIf=\"searchActive && displaySearching\" class=\"completer-searching\">{{textSearching}}</md-list-item>\n            <md-list-item *ngIf=\"!searchActive && (!items || items.length === 0)\" class=\"completer-no-results\">{{textNoResults}}</md-list-item>\n            <md-list-item class=\"completer-row-wrapper\" *ngFor=\"let item of items; let rowIndex=index\">\n                <div class=\"completer-row\" [ctrRow]=\"rowIndex\" [dataItem]=\"item\">\n                    <span *ngIf=\"item.image || item.image === ''\" class=\"completer-image-holder\">\n                        <img md-list-avatar *ngIf=\"item.image != ''\" src=\"{{item.image}}\" class=\"completer-image\" />\n                        <span md-list-avatar *ngIf=\"item.image === ''\" class=\"completer-image-default\"></span>\n                    </span>\n                    <p md-line>\n                        <completer-list-item class=\"completer-title\" [text]=\"item.title\" [matchClass]=\"matchClass\" [searchStr]=\"searchStr\" [type]=\"'title'\"></completer-list-item>\n                        <completer-list-item *ngIf=\"item.description && item.description != ''\" class=\"completer-description\" [text]=\"item.description\"\n                            [matchClass]=\"matchClass\" [searchStr]=\"searchStr\" [type]=\"'description'\">\n                        </completer-list-item>\n                    </p>\n                </div>\n            </md-list-item>\n        </md-list>\n    </div>\n</div>"
+module.exports = "<div class=\"completer-holder\" ctrCompleter>\n    <md-input class=\"completer-input\" ctrInput=\"clearSelected=clearSelected; overrideSuggested=overrideSuggested; fillHighlighted=fillHighlighted\" [(ngModel)]=\"searchStr\" [attr.name]=\"inputName\" [placeholder]=\"placeholder\" [attr.maxlength]=\"maxChars\"\n        [tabindex]=\"fieldTabindex\" [disabled]=\"disableInput\" (blur)=\"onBlur()\"\n        autocomplete=\"off\" autocorrect=\"off\" autocapitalize=\"off\">\n    </md-input>\n\n    <div class=\"completer-dropdown-holder\" *ctrList=\"dataService; minSearchLength: minSearchLength; pause: pause; autoMatch: autoMatch; let items = results; let searchActive = searching; let isInitialized = searchInitialized;\">\n        <md-list class=\"completer-dropdown\" ctrDropdown *ngIf=\"isInitialized\">\n            <md-list-item *ngIf=\"searchActive && displaySearching\" class=\"completer-searching\">{{textSearching}}</md-list-item>\n            <md-list-item *ngIf=\"!searchActive && (!items || items.length === 0)\" class=\"completer-no-results\">{{textNoResults}}</md-list-item>\n            <md-list-item class=\"completer-row-wrapper\" *ngFor=\"let item of items; let rowIndex=index\">\n                <div class=\"completer-row\" [ctrRow]=\"rowIndex\" [dataItem]=\"item\">\n                    <span *ngIf=\"item.image || item.image === ''\" class=\"completer-image-holder\">\n                        <img md-list-avatar *ngIf=\"item.image != ''\" src=\"{{item.image}}\" class=\"completer-image\" />\n                        <span md-list-avatar *ngIf=\"item.image === ''\" class=\"completer-image-default\"></span>\n                    </span>\n                    <p md-line>\n                        <completer-list-item class=\"completer-title\" [text]=\"item.title\" [matchClass]=\"matchClass\" [searchStr]=\"searchStr\" [type]=\"'title'\"></completer-list-item>\n                        <completer-list-item *ngIf=\"item.description && item.description != ''\" class=\"completer-description\" [text]=\"item.description\"\n                            [matchClass]=\"matchClass\" [searchStr]=\"searchStr\" [type]=\"'description'\">\n                        </completer-list-item>\n                    </p>\n                </div>\n            </md-list-item>\n        </md-list>\n    </div>\n</div>"
 
 /***/ },
 
@@ -2861,14 +2891,14 @@ module.exports = "<div class=\"row\">\n    <h1>Completer Material</h1>\n    <p>T
 /***/ 923:
 /***/ function(module, exports) {
 
-module.exports = "/*\n * Top navigation\n * Hide default border to remove 1px line.\n */\n.navbar-fixed-top {\n  border: 0;\n}\n\n/*\n * Main content\n */\n\n.main {\n  padding: 5rem;\n}\n\n.completer-wrapper {\n    border-radius: 25px;\n    background: lightgray;\n}\n\n:host >>> .match {\n  color: orangered;\n}\n\n:host >>> .my-input-class {\n  color: #2e405b;\n}"
+module.exports = "/*\n * Top navigation\n * Hide default border to remove 1px line.\n */\n.navbar-fixed-top {\n  border: 0;\n}\n\n/*\n * Main content\n */\n\n.main {\n  padding: 5rem;\n}\n\n.completer-wrapper {\n    border-radius: 25px;\n    background: lightgray;\n}\n\n:host >>> .match {\n  color: orangered;\n}\n\n:host >>> .my-input-class {\n  color: #2e405b;\n}\n\n.completer-limit /deep/ .completer-dropdown {\n  overflow-y: auto;\n  max-height: 20rem;\n}"
 
 /***/ },
 
 /***/ 924:
 /***/ function(module, exports) {
 
-module.exports = "<div class=\"row\">\n    <h1>Completer Native</h1>\n</div>\n<h2>Local data with image</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Local data of countries - using image, matchClass and maxLength</p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer [(ngModel)]=\"countryName\" [dataService]=\"dataService\" [minSearchLength]=\"0\"\n                [maxChars]=\"4\" [placeholder]=\"'search country'\" [matchClass]=\"'match'\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Selected country: {{countryName}}</p>\n        </div>\n    </div>\n</div>\n<h2>Local data with description</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Local data of quotes - using desription, textNoResults, matchClass and\n                selected event</p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer [dataService]=\"dataService2\" (selected)=\"onQuoteSelected($event)\"\n                [minSearchLength]=\"0\" [placeholder]=\"'search quote by author name'\" [textNoResults]=\"'No quotes found'\"\n                [matchClass]=\"'match'\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Quote: {{quote}}</p>\n        </div>\n    </div>\n</div>\n\n<h2>Remote data</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Remote data of countries with minSearchLength, textSearching and clearSelected</p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer [dataService]=\"dataRemote\" [minSearchLength]=\"3\" [placeholder]=\"'search country'\"\n                [clearSelected]=\"true\" (selected)=\"onCountrySelected($event)\" [textSearching]=\"'Please wait...'\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Selected country: {{countryName2}}</p>\n        </div>\n    </div>\n</div>\n\n<h2>Input disabled</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Async local data of countries - overrideSuggested, inputDisabled, inputClass and\n                fieldTabindex\n            </p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer [(ngModel)]=\"countryName3\" [dataService]=\"dataService3\" [minSearchLength]=\"0\"\n                [placeholder]=\"'search country'\" [overrideSuggested]=\"true\" [disableInput]=\"searchcb\"\n                [fieldTabindex]=\"-1\" [inputClass]=\"'my-input-class'\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Selected: {{countryName3}}</p>\n        </div>\n        <div class=\"row\">\n            <label>Disable search</label>\n            <input type=\"checkbox\" [(ngModel)]=\"searchcb\" />\n        </div>\n    </div>\n</div>\n\n<h2>Automatch</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <form>\n            <div class=\"row\">\n                <p>Local data of countries - autoMatch and required</p>\n            </div>\n            <div class=\"row\">\n                <ng2-completer name=\"countryRequired\" [dataService]=\"dataService4\" [(ngModel)]=\"countryName4\"\n                    [minSearchLength]=\"0\" [placeholder]=\"'search country'\" #countryRequired=\"ngModel\"\n                    [autoMatch]=\"true\" required>\n                </ng2-completer>\n                <div [hidden]=\"countryRequired.valid\" class=\"col-md-6 alert alert-danger\">\n                    Country is required\n                </div>\n            </div>\n            <div class=\"row\">\n                <p>Selected: {{countryName4}}</p>\n            </div>\n        </form>\n    </div>\n</div>\n\n<h2>Remote data with URL Formater and Headers</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Remote data from <a href=\"https://developers.google.com/maps/documentation/geocoding/start\">Google Maps API</a> - urlFormater, dataField, and headers</p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer [(ngModel)]=\"countryName5\" [dataService]=\"dataRemote2\" [minSearchLength]=\"3\"\n                [placeholder]=\"'search country'\" [textSearching]=\"'Please wait...'\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Selected country: {{countryName5}}</p>\n        </div>\n    </div>\n</div>\n\n<h2>Custom data provider</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Custom data provider. Seinfeld episodes data from <a href=\"https://mysafeinfo.com/\">mysafeinfo.com</a></p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer [(ngModel)]=\"seinfeldEpisode\" [dataService]=\"customData\" [minSearchLength]=\"3\"\n                [placeholder]=\"'search Seinfeld episode'\" [textSearching]=\"'Please wait...'\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Selected episode: {{seinfeldEpisode}}</p>\n        </div>\n    </div>\n</div>\n\n<h2>Open and close programmatically</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Local data of countries open and close from code</p>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-md-3\">\n                <ng2-completer #openCloseExample  [(ngModel)]=\"countryName6\" [dataService]=\"dataService5\" [minSearchLength]=\"0\" [placeholder]=\"'search country'\">\n                </ng2-completer>\n            </div>\n            <div class=\"col-md-1\">\n                <button (click)=\"onOpen()\">open</button>\n            </div>\n            <div class=\"col-md-1\">\n                <button (click)=\"onClose()\">close</button>\n            </div>\n        </div>\n        <div class=\"row\">\n            <p>Selected country: {{countryName6}}</p>\n        </div>\n    </div>\n</div>\n"
+module.exports = "<div class=\"row\">\n    <h1>Completer Native</h1>\n</div>\n<h2>Local data with image</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Local data of countries - using image, matchClass, maxLength, autofocus and limit of the dropdown length in CSS</p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer class=\"completer-limit\" [(ngModel)]=\"countryName\" [dataService]=\"dataService\" [minSearchLength]=\"0\"\n                [maxChars]=\"4\" [placeholder]=\"'search country'\" [matchClass]=\"'match'\" [autofocus]=\"true\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Selected country: {{countryName}}</p>\n        </div>\n    </div>\n</div>\n<h2>Local data with description</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Local data of quotes - using desription, textNoResults, matchClass and\n                selected event</p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer [dataService]=\"dataService2\" (selected)=\"onQuoteSelected($event)\"\n                [minSearchLength]=\"0\" [placeholder]=\"'search quote by author name'\" [textNoResults]=\"'No quotes found'\"\n                [matchClass]=\"'match'\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Quote: {{quote}}</p>\n        </div>\n    </div>\n</div>\n\n<h2>Remote data</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Remote data of countries with minSearchLength, textSearching and clearSelected</p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer [dataService]=\"dataRemote\" [minSearchLength]=\"3\" [placeholder]=\"'search country'\"\n                [clearSelected]=\"true\" (selected)=\"onCountrySelected($event)\" [textSearching]=\"'Please wait...'\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Selected country: {{countryName2}}</p>\n        </div>\n    </div>\n</div>\n\n<h2>Input disabled</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Async local data of countries - overrideSuggested, inputDisabled, inputClass and\n                fieldTabindex\n            </p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer [(ngModel)]=\"countryName3\" [dataService]=\"dataService3\" [minSearchLength]=\"0\"\n                [placeholder]=\"'search country'\" [overrideSuggested]=\"true\" [disableInput]=\"searchcb\"\n                [fieldTabindex]=\"-1\" [inputClass]=\"'my-input-class'\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Selected: {{countryName3}}</p>\n        </div>\n        <div class=\"row\">\n            <label>Disable search</label>\n            <input type=\"checkbox\" [(ngModel)]=\"searchcb\" />\n        </div>\n    </div>\n</div>\n\n<h2>Automatch</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <form>\n            <div class=\"row\">\n                <p>Local data of countries - autoMatch and required</p>\n            </div>\n            <div class=\"row\">\n                <ng2-completer name=\"countryRequired\" [dataService]=\"dataService4\" [(ngModel)]=\"countryName4\"\n                    [minSearchLength]=\"0\" [placeholder]=\"'search country'\" #countryRequired=\"ngModel\"\n                    [autoMatch]=\"true\" required>\n                </ng2-completer>\n                <div [hidden]=\"countryRequired.valid\" class=\"col-md-6 alert alert-danger\">\n                    Country is required\n                </div>\n            </div>\n            <div class=\"row\">\n                <p>Selected: {{countryName4}}</p>\n            </div>\n        </form>\n    </div>\n</div>\n\n<h2>Remote data with URL Formater and Headers</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Remote data from <a href=\"https://developers.google.com/maps/documentation/geocoding/start\">Google Maps API</a> - urlFormater, dataField, and headers</p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer [(ngModel)]=\"countryName5\" [dataService]=\"dataRemote2\" [minSearchLength]=\"3\"\n                [placeholder]=\"'search country'\" [textSearching]=\"'Please wait...'\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Selected country: {{countryName5}}</p>\n        </div>\n    </div>\n</div>\n\n<h2>Custom data provider</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Custom data provider. Seinfeld episodes data from <a href=\"https://mysafeinfo.com/\">mysafeinfo.com</a></p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer [(ngModel)]=\"seinfeldEpisode\" [dataService]=\"customData\" [minSearchLength]=\"3\"\n                [placeholder]=\"'search Seinfeld episode'\" [textSearching]=\"'Please wait...'\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Selected episode: {{seinfeldEpisode}}</p>\n        </div>\n    </div>\n</div>\n\n<h2>Open and close programmatically</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Local data of countries open and close from code</p>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-md-3\">\n                <ng2-completer #openCloseExample  [(ngModel)]=\"countryName6\" [dataService]=\"dataService5\" [minSearchLength]=\"0\" [placeholder]=\"'search country'\">\n                </ng2-completer>\n            </div>\n            <div class=\"col-md-1\">\n                <button (click)=\"onOpen()\">open</button>\n            </div>\n            <div class=\"col-md-1\">\n                <button (click)=\"onClose()\">close</button>\n            </div>\n        </div>\n        <div class=\"row\">\n            <p>Selected country: {{countryName6}}</p>\n        </div>\n    </div>\n</div>\n\n<h2>Do not set input value when item is highlighted</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Remote data of countries with minSearchLength, textSearching and fillHighlighted=false</p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer [dataService]=\"dataNoFill\" [minSearchLength]=\"1\" [placeholder]=\"'search country'\"\n                           [fillHighlighted]=\"false\" (selected)=\"onCountrySelected($event)\" [textSearching]=\"'Please wait...'\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Selected country: {{countryName2}}</p>\n        </div>\n    </div>\n</div>\n"
 
 /***/ },
 
