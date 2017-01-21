@@ -12,3 +12,8 @@
     top: 50%;
     transform: translateY(50%);
 }
+
+.completer-dropdown-holder {
+    position: absolute;
+    background: white;
+}

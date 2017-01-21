@@ -19,7 +19,8 @@ const KEY_TAB = 9;
 export class CtrInput {
     @Input("clearSelected") public clearSelected = false;
     @Input("overrideSuggested") public overrideSuggested = false;
-    @Output() public ngModelChange: EventEmitter<any> = new EventEmitter()
+    @Input("fillHighlighted") public fillHighlighted = true;
+    @Output() public ngModelChange: EventEmitter<any> = new EventEmitter();
 
     private _searchStr = "";
     private _displayStr = "";
@@ -39,8 +40,10 @@ export class CtrInput {
             this.ngModelChange.emit(this.searchStr);
         });
         this.completer.highlighted.subscribe((item: CompleterItem) => {
-            this._displayStr = item.title;
-            this.ngModelChange.emit(item.title);
+            if (this.fillHighlighted) {
+                this._displayStr = item.title;
+                this.ngModelChange.emit(item.title);
+            }
         });
     }
 

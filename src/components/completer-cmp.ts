@@ -1,6 +1,6 @@
 "use strict";
 import { Component, Input, Output, EventEmitter, OnInit, ViewChild, forwardRef } from "@angular/core";
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
+import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from "@angular/forms";
 
 import { CtrCompleter } from "../directives/ctr-completer";
 import { CompleterData } from "../services/completer-data";
@@ -23,9 +23,9 @@ const COMPLETER_CONTROL_VALUE_ACCESSOR = {
     selector: "ng2-completer",
     template: `
         <div class="completer-holder" ctrCompleter>
-            <input class="completer-input" ctrInput [ngClass]="inputClass" [(ngModel)]="searchStr" [attr.name]="inputName" [placeholder]="placeholder" [attr.maxlength]="maxChars"
-                [tabindex]="fieldTabindex" [disabled]="disableInput" [clearSelected]="clearSelected" [overrideSuggested]="overrideSuggested" (blur)="onBlur()"
-                autocomplete="off" autocorrect="off" autocapitalize="off" />
+            <input type="search" class="completer-input" ctrInput [ngClass]="inputClass" [(ngModel)]="searchStr" (ngModelChange)="onChange($event)" [attr.name]="inputName" [placeholder]="placeholder"
+                [attr.maxlength]="maxChars" [tabindex]="fieldTabindex" [disabled]="disableInput" [clearSelected]="clearSelected" [overrideSuggested]="overrideSuggested" 
+                [fillHighlighted]="fillHighlighted" (blur)="onBlur()" [autofocus]="autofocus" autocomplete="off" autocorrect="off" autocapitalize="off" />
 
             <div class="completer-dropdown-holder" *ctrList="dataService; minSearchLength: minSearchLength; pause: pause; autoMatch: autoMatch; let items = results; let searchActive = searching; let isInitialized = searchInitialized;">
                 <div class="completer-dropdown" ctrDropdown *ngIf="isInitialized">
@@ -107,6 +107,7 @@ export class CompleterCmp implements OnInit, ControlValueAccessor {
     @Input() public maxChars = MAX_CHARS;
     @Input() public overrideSuggested = false;
     @Input() public clearSelected = false;
+    @Input() public fillHighlighted = true;
     @Input() public placeholder = "";
     @Input() public matchClass: string;
     @Input() public textSearching = TEXT_SEARCHING;
@@ -115,6 +116,7 @@ export class CompleterCmp implements OnInit, ControlValueAccessor {
     @Input() public autoMatch = false;
     @Input() public disableInput = false;
     @Input() public inputClass: string;
+    @Input() public autofocus = false;
 
     @Output() public selected = new EventEmitter<CompleterItem>();
     @Output() public highlighted = new EventEmitter<CompleterItem>();
@@ -123,6 +125,7 @@ export class CompleterCmp implements OnInit, ControlValueAccessor {
     @ViewChild(CtrCompleter) public completer: CtrCompleter;
 
     public searchStr = "";
+    public control = new FormControl("");
 
     private displaySearching = true;
     private _onTouchedCallback: () => void = noop;
@@ -135,8 +138,9 @@ export class CompleterCmp implements OnInit, ControlValueAccessor {
     set value(v: any) {
         if (v !== this.searchStr) {
             this.searchStr = v;
-            this._onChangeCallback(v);
         }
+        // Propagate the change in any case
+        this._onChangeCallback(v);
     }
 
     public onTouched() {
@@ -173,6 +177,10 @@ export class CompleterCmp implements OnInit, ControlValueAccessor {
     public onBlur() {
         this.blur.emit();
         this.onTouched();
+    }
+
+    public onChange(value: string) {
+        this.value = value;
     }
 
     public open(searchValue = "") {

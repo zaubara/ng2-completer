@@ -26,3 +26,8 @@
 :host >>> .my-input-class {
   color: #2e405b;
 }
+
+.completer-limit /deep/ .completer-dropdown {
+  overflow-y: auto;
+  max-height: 20rem;
+}

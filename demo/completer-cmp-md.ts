@@ -31,6 +31,7 @@ export class CompleterCmpMd implements OnInit, ControlValueAccessor {
     @Input() public minSearchLength = MIN_SEARCH_LENGTH;
     @Input() public maxChars = MAX_CHARS;
     @Input() public overrideSuggested = false;
+    @Input() public fillHighlighted = true;
     @Input() public clearSelected = false;
     @Input() public placeholder = "";
     @Input() public matchClass: string;
@@ -80,7 +81,9 @@ export class CompleterCmpMd implements OnInit, ControlValueAccessor {
     public ngOnInit() {
         this.completer.selected.subscribe((item: CompleterItem) => {
             this.selected.emit(item);
-            this._onChangeCallback(item.title);
+            if (item) {
+                this._onChangeCallback(item.title);
+            }
         });
         this.completer.highlighted.subscribe((item: CompleterItem) => {
             this.highlighted.emit(item);
