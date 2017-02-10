@@ -25,11 +25,9 @@ export class CtrInput {
 
     private _searchStr = "";
     private _displayStr = "";
-    private _selectedItem: CompleterItem = null;
 
     constructor( @Host() private completer: CtrCompleter, private ngModel: NgModel) {
         this.completer.selected.subscribe((item: CompleterItem) => {
-            this._selectedItem = item;
             if (!item) {
                 return;
             }
@@ -42,12 +40,19 @@ export class CtrInput {
         });
         this.completer.highlighted.subscribe((item: CompleterItem) => {
             if (this.fillHighlighted) {
-                this._displayStr = item.title;
-                this.ngModelChange.emit(item.title);
+                if (item) {
+                    this._displayStr = item.title;
+                    this.ngModelChange.emit(item.title);
+                } else {
+                    this._displayStr = this.searchStr;
+                    this.ngModelChange.emit(this.searchStr);
+                }
             }
         });
         this.ngModel.valueChanges.subscribe(value => {
-            this.searchStr = value;
+            if (this._displayStr != value) {
+                this.searchStr = value;
+            }
         });
     }
 
@@ -68,7 +73,7 @@ export class CtrInput {
             this.completer.search(this.searchStr);
         }
         else if (event.keyCode === KEY_ES) {
-            this._searchStr = this._displayStr;
+            this.restoreSearchValue();
             this.completer.clear();
         }
         else {
@@ -90,7 +95,7 @@ export class CtrInput {
             if (this.completer.hasHighlited()) {
                 event.preventDefault();
             }
-            this.completer.selectCurrent();
+            this.handleSelection();
         } else if (event.keyCode === KEY_DW) {
             event.preventDefault();
             this.completer.nextRow();
@@ -98,11 +103,7 @@ export class CtrInput {
             event.preventDefault();
             this.completer.prevRow();
         } else if (event.keyCode === KEY_TAB) {
-            if (this.overrideSuggested && this._selectedItem) {
-                this.completer.onSelected({ title: this.searchStr, originalObject: null });
-            } else {
-                this.completer.selectCurrent();
-            }
+            this.handleSelection();
         } else if (event.keyCode === KEY_ES) {
             // This is very specific to IE10/11 #272
             // without this, IE clears the input text
@@ -116,6 +117,8 @@ export class CtrInput {
             () => {
                 if (this.overrideSuggested) {
                     this.completer.onSelected({ title: this.searchStr, originalObject: null });
+                } else {
+                    this.restoreSearchValue();
                 }
                 this.completer.clear();
             },
@@ -130,5 +133,25 @@ export class CtrInput {
     public set searchStr(term: string) {
         this._searchStr = term;
         this._displayStr = term;
+    }
+
+    private handleSelection() {
+        if (this.overrideSuggested) {
+            this.completer.onSelected({ title: this.searchStr, originalObject: null });
+        } else if (this.completer.hasHighlited()) {
+            this.completer.selectCurrent();
+        } else {
+            this.completer.clear();
+        }
+    }
+
+    private restoreSearchValue() {
+        if (this.fillHighlighted) {
+            // Restore searched value if there is no overrideSuggested
+            if (this._displayStr != this.searchStr) {
+                this._displayStr = this.searchStr;
+                this.ngModelChange.emit(this.searchStr);
+            }
+        }
     }
 }

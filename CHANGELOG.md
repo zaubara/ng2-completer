@@ -5,8 +5,12 @@ All notable changes to this project will be documented in this file.
 
 ### Implemented enhancements
 - searchFields and titleField are mandatory #100
+
+### Fixed bugs
 - (selected) not called when text is highlighted and then deleted #121
 - Clicking in a pre-filled ng2-completer with [overrideSuggested]="true", then immediately clicking another element clears the ngModel to a blank string #122
+- required not working when intializing ngModel with a value #126
+- First item is selected on enter #134
 
 ## 1.0.0 (2017-01-21)
 
