@@ -41,19 +41,12 @@ export abstract class CompleterBaseData extends Subject<CompleterItem[]> impleme
 
     protected extractMatches(data: any[], term: string) {
         let matches: any[] = [];
-        if (this._searchFields && this._searchFields != "" && term != "") {
-            let searchFields = this._searchFields.split(",");
-            for (let i = 0; i < data.length; i++) {
-                let match = false;
-                for (let s = 0; s < searchFields.length && !match; s++) {
-                    let value = this.extractValue(data[i], searchFields[s]) || "";
-                    match = value.toString().toLowerCase().indexOf(term.toString().toLowerCase()) >= 0;
-                }
-
-                if (match) {
-                    matches.push(data[i]);
-                }
-            }
+        const searchFields = this._searchFields ? this._searchFields.split(",") : null;
+        if (term != "") {
+            matches = data.filter(item => {
+                const values: any[] = searchFields ? searchFields.map(searchField => this.extractValue(item, searchField)).filter(value => !!value) : [item];
+                return values.some(value => value.toString().toLowerCase().indexOf(term.toString().toLowerCase()) >= 0);
+            });
         } else {
             matches = data;
         }
@@ -91,9 +84,8 @@ export abstract class CompleterBaseData extends Subject<CompleterItem[]> impleme
 
     protected processResults(matches: string[]): CompleterItem[] {
         let i: number;
-        let description: string;
-        let image: string;
-        let text: string;
+        let description: string = "";
+        let image: string = null;
         let formattedText: string;
         let formattedDesc: string;
         let results: CompleterItem[] = [];
@@ -101,16 +93,16 @@ export abstract class CompleterBaseData extends Subject<CompleterItem[]> impleme
         if (matches && matches.length > 0) {
 
             for (i = 0; i < matches.length; i++) {
-                if (this.titleField && this._titleField !== "") {
-                    text = formattedText = this.extractTitle(matches[i]);
+                if (this._titleField) {
+                    formattedText = this.extractTitle(matches[i]);
+                } else {
+                    formattedText =  matches[i];
                 }
 
-                description = "";
                 if (this._descriptionField) {
                     description = formattedDesc = this.extractValue(matches[i], this._descriptionField);
                 }
 
-                image = null;
                 if (this._imageField) {
                     image = this.extractValue(matches[i], this._imageField);
                 }

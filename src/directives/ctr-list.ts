@@ -71,10 +71,6 @@ export class CtrList implements OnInit, CompleterList {
     }
 
     public search(term: string) {
-        if (this.term != term) {
-            // Clear selected value
-            this.completer.clear();
-        }
         if (CtrList.hasTerm(term) && term.length >= this.ctrListMinSearchLength && this.term !== term) {
             if (this.searchTimer) {
                 this.searchTimer.unsubscribe();

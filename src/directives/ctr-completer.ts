@@ -45,7 +45,7 @@ export class CtrCompleter implements OnInit {
 
     public onHighlighted(item: CompleterItem) {
         this.highlighted.emit(item);
-        this._hasHighlited = true;
+        this._hasHighlited = !!item;
     }
 
     public onSelected(item: CompleterItem) {
