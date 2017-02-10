@@ -1,4 +1,5 @@
 import { Directive, EventEmitter, Host, HostListener, Input, Output } from "@angular/core";
+import { NgModel } from "@angular/forms";
 
 import { CompleterItem } from "../components/completer-item";
 import { CtrCompleter } from "./ctr-completer";
@@ -26,7 +27,7 @@ export class CtrInput {
     private _displayStr = "";
     private _selectedItem: CompleterItem = null;
 
-    constructor( @Host() private completer: CtrCompleter) {
+    constructor( @Host() private completer: CtrCompleter, private ngModel: NgModel) {
         this.completer.selected.subscribe((item: CompleterItem) => {
             this._selectedItem = item;
             if (!item) {
@@ -45,11 +46,9 @@ export class CtrInput {
                 this.ngModelChange.emit(item.title);
             }
         });
-    }
-
-    @HostListener("input", ["$event"])
-    public onInputChange(event: any) {
-        this.searchStr = event.target.value;
+        this.ngModel.valueChanges.subscribe(value => {
+            this.searchStr = value;
+        });
     }
 
     @HostListener("keyup", ["$event"])
