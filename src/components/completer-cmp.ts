@@ -1,5 +1,5 @@
 "use strict";
-import { Component, Input, Output, EventEmitter, OnInit, ViewChild, forwardRef } from "@angular/core";
+import { Component, AfterViewChecked, ElementRef, Input, Output, EventEmitter, OnInit, ViewChild, forwardRef } from "@angular/core";
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from "@angular/forms";
 
 import { CtrCompleter } from "../directives/ctr-completer";
@@ -13,17 +13,17 @@ import "rxjs/add/operator/catch";
 const noop = () => { };
 
 const COMPLETER_CONTROL_VALUE_ACCESSOR = {
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => CompleterCmp),
-    multi: true
+  provide: NG_VALUE_ACCESSOR,
+  useExisting: forwardRef(() => CompleterCmp),
+  multi: true
 };
 
 
 @Component({
-    selector: "ng2-completer",
-    template: `
+  selector: "ng2-completer",
+  template: `
         <div class="completer-holder" ctrCompleter>
-            <input type="search" class="completer-input" ctrInput [ngClass]="inputClass" [(ngModel)]="searchStr" (ngModelChange)="onChange($event)" [attr.name]="inputName" [placeholder]="placeholder"
+            <input #completerInput type="search" class="completer-input" ctrInput [ngClass]="inputClass" [(ngModel)]="searchStr" (ngModelChange)="onChange($event)" [attr.name]="inputName" [placeholder]="placeholder"
                 [attr.maxlength]="maxChars" [tabindex]="fieldTabindex" [disabled]="disableInput" [clearSelected]="clearSelected" [overrideSuggested]="overrideSuggested" 
                 [fillHighlighted]="fillHighlighted" (blur)="onBlur()" [autofocus]="autofocus" autocomplete="off" autocorrect="off" autocapitalize="off" />
 
@@ -49,7 +49,7 @@ const COMPLETER_CONTROL_VALUE_ACCESSOR = {
             </div>
         </div>
     `,
-    styles: [`
+  styles: [`
     .completer-dropdown {
         border-color: #ececec;
         border-width: 1px;
@@ -97,97 +97,114 @@ const COMPLETER_CONTROL_VALUE_ACCESSOR = {
         width: 90%;
     }
     `],
-    providers: [COMPLETER_CONTROL_VALUE_ACCESSOR]
+  providers: [COMPLETER_CONTROL_VALUE_ACCESSOR]
 })
-export class CompleterCmp implements OnInit, ControlValueAccessor {
-    @Input() public dataService: CompleterData;
-    @Input() public inputName = "";
-    @Input() public pause = PAUSE;
-    @Input() public minSearchLength = MIN_SEARCH_LENGTH;
-    @Input() public maxChars = MAX_CHARS;
-    @Input() public overrideSuggested = false;
-    @Input() public clearSelected = false;
-    @Input() public fillHighlighted = true;
-    @Input() public placeholder = "";
-    @Input() public matchClass: string;
-    @Input() public textSearching = TEXT_SEARCHING;
-    @Input() public textNoResults = TEXT_NORESULTS;
-    @Input() public fieldTabindex: number;
-    @Input() public autoMatch = false;
-    @Input() public disableInput = false;
-    @Input() public inputClass: string;
-    @Input() public autofocus = false;
+export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChecked {
+  @Input() public dataService: CompleterData;
+  @Input() public inputName = "";
+  @Input() public pause = PAUSE;
+  @Input() public minSearchLength = MIN_SEARCH_LENGTH;
+  @Input() public maxChars = MAX_CHARS;
+  @Input() public overrideSuggested = false;
+  @Input() public clearSelected = false;
+  @Input() public fillHighlighted = true;
+  @Input() public placeholder = "";
+  @Input() public matchClass: string;
+  @Input() public textSearching = TEXT_SEARCHING;
+  @Input() public textNoResults = TEXT_NORESULTS;
+  @Input() public fieldTabindex: number;
+  @Input() public autoMatch = false;
+  @Input() public disableInput = false;
+  @Input() public inputClass: string;
+  @Input() public autofocus = false;
 
-    @Output() public selected = new EventEmitter<CompleterItem>();
-    @Output() public highlighted = new EventEmitter<CompleterItem>();
-    @Output() public blur = new EventEmitter<void>();
+  @Output() public selected = new EventEmitter<CompleterItem>();
+  @Output() public highlighted = new EventEmitter<CompleterItem>();
+  @Output() public blur = new EventEmitter<void>();
 
-    @ViewChild(CtrCompleter) public completer: CtrCompleter;
+  @ViewChild(CtrCompleter) public completer: CtrCompleter;
+  @ViewChild("completerInput") public completerInput: ElementRef;
 
-    public searchStr = "";
-    public control = new FormControl("");
+  public searchStr = "";
+  public control = new FormControl("");
 
-    private displaySearching = true;
-    private _onTouchedCallback: () => void = noop;
-    private _onChangeCallback: (_: any) => void = noop;
+  private displaySearching = true;
+  private _onTouchedCallback: () => void = noop;
+  private _onChangeCallback: (_: any) => void = noop;
+  private _focus: boolean = false;
 
-    constructor() { }
+  constructor() { }
 
-    get value(): any { return this.searchStr; };
+  get value(): any { return this.searchStr; };
 
-    set value(v: any) {
-        if (v !== this.searchStr) {
-            this.searchStr = v;
-        }
-        // Propagate the change in any case
-        this._onChangeCallback(v);
+  set value(v: any) {
+    if (v !== this.searchStr) {
+      this.searchStr = v;
     }
+    // Propagate the change in any case
+    this._onChangeCallback(v);
+  }
 
-    public onTouched() {
-        this._onTouchedCallback();
+  public focus(): void {
+    if (this.completerInput) {
+      this.completerInput.nativeElement.focus();
+    } else {
+      this._focus = true;
     }
+  }
 
-    public writeValue(value: any) {
-        this.searchStr = value;
+  public ngAfterViewChecked(): void {
+    if (this._focus) {
+      this.completerInput.nativeElement.focus();
+      this._focus = false;
     }
+  }
 
-    public registerOnChange(fn: any) {
-        this._onChangeCallback = fn;
+  public onTouched() {
+    this._onTouchedCallback();
+  }
+
+  public writeValue(value: any) {
+    this.searchStr = value;
+  }
+
+  public registerOnChange(fn: any) {
+    this._onChangeCallback = fn;
+  }
+
+  public registerOnTouched(fn: any) {
+    this._onTouchedCallback = fn;
+  }
+
+  public ngOnInit() {
+    this.completer.selected.subscribe((item: CompleterItem) => {
+      let title = item ? item.title : "";
+      this.selected.emit(item);
+      this._onChangeCallback(title);
+    });
+    this.completer.highlighted.subscribe((item: CompleterItem) => {
+      this.highlighted.emit(item);
+    });
+
+    if (this.textSearching === "false") {
+      this.displaySearching = false;
     }
+  }
 
-    public registerOnTouched(fn: any) {
-        this._onTouchedCallback = fn;
-    }
+  public onBlur() {
+    this.blur.emit();
+    this.onTouched();
+  }
 
-    public ngOnInit() {
-        this.completer.selected.subscribe((item: CompleterItem) => {
-            let title = item ? item.title : "";
-            this.selected.emit(item);
-            this._onChangeCallback(title);
-        });
-        this.completer.highlighted.subscribe((item: CompleterItem) => {
-            this.highlighted.emit(item);
-        });
+  public onChange(value: string) {
+    this.value = value;
+  }
 
-        if (this.textSearching === "false") {
-            this.displaySearching = false;
-        }
-    }
+  public open(searchValue = "") {
+    this.completer.search(searchValue);
+  }
 
-    public onBlur() {
-        this.blur.emit();
-        this.onTouched();
-    }
-
-    public onChange(value: string) {
-        this.value = value;
-    }
-
-    public open(searchValue = "") {
-        this.completer.search(searchValue);
-    }
-
-    public close() {
-        this.completer.clear();
-    }
+  public close() {
+    this.completer.clear();
+  }
 }
