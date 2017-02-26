@@ -1,6 +1,13 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 1.2.0 (2017-02-24)
+
+### Fixed bugs
+- Since last commit searchFields does not behave as stated in the docs #144
+- Fixed ionic build
+- Fix material design demo
+
 ## 1.1.0 (2017-02-10)
 
 ### Implemented enhancements
