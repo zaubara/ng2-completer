@@ -1,8 +1,9 @@
 <div class="completer-holder" ctrCompleter>
-    <md-input class="completer-input" ctrInput="clearSelected=clearSelected; overrideSuggested=overrideSuggested; fillHighlighted=fillHighlighted" [(ngModel)]="searchStr" [attr.name]="inputName" [placeholder]="placeholder" [attr.maxlength]="maxChars"
-        [tabindex]="fieldTabindex" [disabled]="disableInput" (blur)="onBlur()"
-        autocomplete="off" autocorrect="off" autocapitalize="off">
-    </md-input>
+    <md-input-container class="completer-input">
+        <input mdInput ctrInput="clearSelected=clearSelected; overrideSuggested=overrideSuggested; fillHighlighted=fillHighlighted" [(ngModel)]="searchStr" 
+            [attr.name]="inputName" [attr.maxlength]="maxChars" [tabindex]="fieldTabindex" [disabled]="disableInput" (blur)="onBlur()" [placeholder]="placeholder"
+            autocomplete="off" autocorrect="off" autocapitalize="off">
+    </md-input-container>
 
     <div class="completer-dropdown-holder" *ctrList="dataService; minSearchLength: minSearchLength; pause: pause; autoMatch: autoMatch; let items = results; let searchActive = searching; let isInitialized = searchInitialized;">
         <md-list class="completer-dropdown" ctrDropdown *ngIf="isInitialized">

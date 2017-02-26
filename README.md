@@ -47,13 +47,16 @@ import { CompleterService, CompleterData } from 'ng2-completer';
 @Component({
   selector: 'my-component',
   template: `<h1>Search color</h1>
-            <ng2-completer [(ngModel)]="searchStr" [dataService]="dataService" [minSearchLength]="0"></ng2-completer>`
+            <ng2-completer [(ngModel)]="searchStr" [datasource]="dataService" [minSearchLength]="0"></ng2-completer>
+            <h1>Search captain</h1>
+            <ng2-completer [(ngModel)]="captain" [datasource]="captains" [minSearchLength]="0"></ng2-completer>`
 })
 export class MyComponent {
 
-  private searchStr: string;
-  private dataService: CompleterData;
-  private searchData = [
+  protected searchStr: string;
+  protected captain: string;
+  protected dataService: CompleterData;
+  protected searchData = [
     { color: 'red', value: '#f00' },
     { color: 'green', value: '#0f0' },
     { color: 'blue', value: '#00f' },
@@ -62,6 +65,7 @@ export class MyComponent {
     { color: 'yellow', value: '#ff0' },
     { color: 'black', value: '#000' }
   ];
+  protected captains = ['James T. Kirk', 'Benjamin Sisko', 'Jean-Luc Picard', 'Spock', 'Jonathan Archer', 'Hikaru Sulu', 'Christopher Pike', 'Rachel Garrett' ];
 
   constructor(private completerService: CompleterService) {
     this.dataService = completerService.local(this.searchData, 'color', 'color');
@@ -91,7 +95,8 @@ Add the following to `System.js` map configuration:
 
 |Attribute|Description|Type|Required|Default|
 |:---    |:---        |:--- |:---      |:--- |
-|dataService|Autocomplete list data source.|CompleterData|Yes||
+|datasource|Autocomplete list data source can be an array of strigs or a URL that results in an array of strings or a CompleterData object|Array\<string\>\|string\|CompleterData|Yes||
+|dataService|**Depreacted**  use `datasource` instead. Autocomplete list data source.|CompleterData|Yes||
 |ngModel| see the angular [forms API](https://angular.io/docs/js/latest/guide/forms.html).|string|Yes||
 |autoMatch|Auto select an item if it is the only result and it is an exact match of the search text.|boolean|No|false
 |autofocus|Set input focus when the page loads|boolean|No|false

@@ -17,7 +17,7 @@ export class CompleterService {
         let localData = this.localDataFactory();
         return localData
             .data(data)
-            .searchFieldss(searchFields)
+            .searchFields(searchFields)
             .titleField(titleField);
     }
 
@@ -26,7 +26,7 @@ export class CompleterService {
         let remoteData = this.remoteDataFactory();
         return remoteData
             .remoteUrl(url)
-            .searchFieldss(searchFields)
+            .searchFields(searchFields)
             .titleField(titleField);
     }
 }
