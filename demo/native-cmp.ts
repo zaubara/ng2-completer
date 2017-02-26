@@ -61,8 +61,6 @@ export class NativeCmp {
         }
     ];
 
-
-
     @ViewChild("openCloseExample") private openCloseExample: CompleterCmp;
 
     private dataService: CompleterData;
