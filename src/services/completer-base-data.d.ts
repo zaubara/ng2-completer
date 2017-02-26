@@ -9,7 +9,7 @@ export declare abstract class CompleterBaseData extends Subject<CompleterItem[]>
     constructor();
     abstract search(term: string): void;
     cancel(): void;
-    searchFieldss(searchFields: string): this;
+    searchFields(searchFields: string): this;
     titleField(titleField: string): this;
     descriptionField(descriptionField: string): this;
     imageField(imageField: string): this;

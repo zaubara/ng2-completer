@@ -2,10 +2,13 @@ import { EventEmitter, OnInit } from "@angular/core";
 import { ControlValueAccessor, FormControl } from "@angular/forms";
 import { CtrCompleter } from "../directives/ctr-completer";
 import { CompleterData } from "../services/completer-data";
+import { CompleterService } from "../services/completer-service";
 import { CompleterItem } from "./completer-item";
 import "rxjs/add/operator/catch";
 export declare class CompleterCmp implements OnInit, ControlValueAccessor {
+    private completerService;
     dataService: CompleterData;
+    datasource: CompleterData | string | Array<any>;
     inputName: string;
     pause: number;
     minSearchLength: number;
@@ -31,7 +34,7 @@ export declare class CompleterCmp implements OnInit, ControlValueAccessor {
     private displaySearching;
     private _onTouchedCallback;
     private _onChangeCallback;
-    constructor();
+    constructor(completerService: CompleterService);
     value: any;
     onTouched(): void;
     writeValue(value: any): void;

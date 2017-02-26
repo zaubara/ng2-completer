@@ -2,6 +2,7 @@ import { CompleterService, CompleterItem } from "../src";
 import { Http } from "@angular/http";
 export declare class NativeCmp {
     countries: any;
+    colors: any;
     quotes: {
         qt: string;
         nm: string;
@@ -14,10 +15,7 @@ export declare class NativeCmp {
     private dataRemote;
     private dataRemote2;
     private dataService3;
-    private dataService4;
-    private dataService5;
     private customData;
-    private dataNoFill;
     constructor(completerService: CompleterService, http: Http);
     onCountrySelected(selected: CompleterItem): void;
     onQuoteSelected(selected: CompleterItem): void;

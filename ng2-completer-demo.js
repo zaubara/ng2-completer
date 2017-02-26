@@ -1,32 +1,200 @@
 webpackJsonp([0],{
 
-/***/ 111:
+/***/ 100:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Observable__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_Observable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__completer_base_data__ = __webpack_require__(98);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LocalData; });
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var LocalData = (function (_super) {
+    __extends(LocalData, _super);
+    function LocalData() {
+        return _super.call(this) || this;
+    }
+    LocalData.prototype.data = function (data) {
+        var _this = this;
+        if (data instanceof __WEBPACK_IMPORTED_MODULE_1_rxjs_Observable__["Observable"]) {
+            data.subscribe(function (res) {
+                _this._data = res;
+                if (_this.savedTerm) {
+                    _this.search(_this.savedTerm);
+                }
+            });
+        }
+        else {
+            this._data = data;
+        }
+        return this;
+    };
+    LocalData.prototype.search = function (term) {
+        if (!this._data) {
+            this.savedTerm = term;
+        }
+        else {
+            this.savedTerm = null;
+            var matches = this.extractMatches(this._data, term);
+            this.next(this.processResults(matches));
+        }
+    };
+    return LocalData;
+}(__WEBPACK_IMPORTED_MODULE_2__completer_base_data__["a" /* CompleterBaseData */]));
+LocalData = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
+    __metadata("design:paramtypes", [])
+], LocalData);
+
+
+
+/***/ }),
+
+/***/ 101:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_add_operator_map__ = __webpack_require__(113);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_add_operator_map__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_catch__ = __webpack_require__(112);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_catch___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_catch__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__completer_base_data__ = __webpack_require__(98);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RemoteData; });
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+
+
+
+
+var RemoteData = (function (_super) {
+    __extends(RemoteData, _super);
+    function RemoteData(http) {
+        var _this = _super.call(this) || this;
+        _this.http = http;
+        _this._urlFormater = null;
+        _this._dataField = null;
+        return _this;
+    }
+    RemoteData.prototype.remoteUrl = function (remoteUrl) {
+        this._remoteUrl = remoteUrl;
+        return this;
+    };
+    RemoteData.prototype.urlFormater = function (urlFormater) {
+        this._urlFormater = urlFormater;
+    };
+    RemoteData.prototype.dataField = function (dataField) {
+        this._dataField = dataField;
+    };
+    RemoteData.prototype.headers = function (headers) {
+        this._headers = headers;
+    };
+    RemoteData.prototype.search = function (term) {
+        var _this = this;
+        this.cancel();
+        // let params = {};
+        var url = "";
+        if (this._urlFormater) {
+            url = this._urlFormater(term);
+        }
+        else {
+            url = this._remoteUrl + encodeURIComponent(term);
+        }
+        this.remoteSearch = this.http.get(url, { headers: this._headers || new __WEBPACK_IMPORTED_MODULE_0__angular_http__["Headers"]() })
+            .map(function (res) { return res.json(); })
+            .map(function (data) {
+            var matchaes = _this.extractValue(data, _this._dataField);
+            return _this.extractMatches(matchaes, term);
+        })
+            .map(function (matches) {
+            var results = _this.processResults(matches);
+            _this.next(results);
+            return results;
+        })
+            .catch(function (err) {
+            _this.error(err);
+            return null;
+        })
+            .subscribe();
+    };
+    RemoteData.prototype.cancel = function () {
+        if (this.remoteSearch) {
+            this.remoteSearch.unsubscribe();
+        }
+    };
+    return RemoteData;
+}(__WEBPACK_IMPORTED_MODULE_3__completer_base_data__["a" /* CompleterBaseData */]));
+
+
+
+/***/ }),
+
+/***/ 115:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ng2_completer_module__ = __webpack_require__(310);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ng2_completer_module__ = __webpack_require__(317);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Ng2CompleterModule", function() { return __WEBPACK_IMPORTED_MODULE_0__ng2_completer_module__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_completer_cmp__ = __webpack_require__(155);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_completer_cmp__ = __webpack_require__(157);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "CompleterCmp", function() { return __WEBPACK_IMPORTED_MODULE_1__components_completer_cmp__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_completer_service__ = __webpack_require__(159);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "CompleterService", function() { return __WEBPACK_IMPORTED_MODULE_2__services_completer_service__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_local_data__ = __webpack_require__(95);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "LocalData", function() { return __WEBPACK_IMPORTED_MODULE_3__services_local_data__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_remote_data__ = __webpack_require__(96);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "RemoteData", function() { return __WEBPACK_IMPORTED_MODULE_4__services_remote_data__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__services_completer_base_data__ = __webpack_require__(94);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "CompleterBaseData", function() { return __WEBPACK_IMPORTED_MODULE_5__services_completer_base_data__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__directives_ctr_completer__ = __webpack_require__(36);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "CtrCompleter", function() { return __WEBPACK_IMPORTED_MODULE_6__directives_ctr_completer__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__directives_ctr_dropdown__ = __webpack_require__(93);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "CtrDropdown", function() { return __WEBPACK_IMPORTED_MODULE_7__directives_ctr_dropdown__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__directives_ctr_input__ = __webpack_require__(156);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "CtrInput", function() { return __WEBPACK_IMPORTED_MODULE_8__directives_ctr_input__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__directives_ctr_list__ = __webpack_require__(157);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "CtrList", function() { return __WEBPACK_IMPORTED_MODULE_9__directives_ctr_list__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__directives_ctr_row__ = __webpack_require__(158);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "CtrRow", function() { return __WEBPACK_IMPORTED_MODULE_10__directives_ctr_row__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_completer_list_item_cmp__ = __webpack_require__(158);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "CompleterListItemCmp", function() { return __WEBPACK_IMPORTED_MODULE_2__components_completer_list_item_cmp__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_completer_service__ = __webpack_require__(99);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "CompleterService", function() { return __WEBPACK_IMPORTED_MODULE_3__services_completer_service__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_completer_data_factory__ = __webpack_require__(162);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "localDataFactory", function() { return __WEBPACK_IMPORTED_MODULE_4__services_completer_data_factory__["c"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "LocalDataFactoryProvider", function() { return __WEBPACK_IMPORTED_MODULE_4__services_completer_data_factory__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "remoteDataFactory", function() { return __WEBPACK_IMPORTED_MODULE_4__services_completer_data_factory__["d"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "RemoteDataFactoryProvider", function() { return __WEBPACK_IMPORTED_MODULE_4__services_completer_data_factory__["b"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__services_local_data__ = __webpack_require__(100);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "LocalData", function() { return __WEBPACK_IMPORTED_MODULE_5__services_local_data__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__services_remote_data__ = __webpack_require__(101);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "RemoteData", function() { return __WEBPACK_IMPORTED_MODULE_6__services_remote_data__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__services_completer_base_data__ = __webpack_require__(98);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "CompleterBaseData", function() { return __WEBPACK_IMPORTED_MODULE_7__services_completer_base_data__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__directives_ctr_completer__ = __webpack_require__(36);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "CtrCompleter", function() { return __WEBPACK_IMPORTED_MODULE_8__directives_ctr_completer__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__directives_ctr_dropdown__ = __webpack_require__(97);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "CtrDropdown", function() { return __WEBPACK_IMPORTED_MODULE_9__directives_ctr_dropdown__["b"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__directives_ctr_input__ = __webpack_require__(159);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "CtrInput", function() { return __WEBPACK_IMPORTED_MODULE_10__directives_ctr_input__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__directives_ctr_list__ = __webpack_require__(160);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "CtrList", function() { return __WEBPACK_IMPORTED_MODULE_11__directives_ctr_list__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__directives_ctr_row__ = __webpack_require__(161);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "CtrRow", function() { return __WEBPACK_IMPORTED_MODULE_12__directives_ctr_row__["a"]; });
+
+
 
 
 
@@ -42,14 +210,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 1184:
+/***/ 1194:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__ = __webpack_require__(237);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__app_module__ = __webpack_require__(567);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__ = __webpack_require__(241);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__app_module__ = __webpack_require__(583);
 
 
 
@@ -63,7 +231,7 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dyna
 
 /***/ }),
 
-/***/ 124:
+/***/ 127:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -84,16 +252,17 @@ var CLEAR_TIMEOUT = 100;
 
 /***/ }),
 
-/***/ 155:
+/***/ 157:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__directives_ctr_completer__ = __webpack_require__(36);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__globals__ = __webpack_require__(124);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch__ = __webpack_require__(107);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_completer_service__ = __webpack_require__(99);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__globals__ = __webpack_require__(127);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_catch__ = __webpack_require__(112);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_catch___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_catch__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CompleterCmp; });
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -110,6 +279,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var noop = function () { };
 var COMPLETER_CONTROL_VALUE_ACCESSOR = {
     provide: __WEBPACK_IMPORTED_MODULE_1__angular_forms__["NG_VALUE_ACCESSOR"],
@@ -117,17 +287,18 @@ var COMPLETER_CONTROL_VALUE_ACCESSOR = {
     multi: true
 };
 var CompleterCmp = (function () {
-    function CompleterCmp() {
+    function CompleterCmp(completerService) {
+        this.completerService = completerService;
         this.inputName = "";
-        this.pause = __WEBPACK_IMPORTED_MODULE_3__globals__["b" /* PAUSE */];
-        this.minSearchLength = __WEBPACK_IMPORTED_MODULE_3__globals__["a" /* MIN_SEARCH_LENGTH */];
-        this.maxChars = __WEBPACK_IMPORTED_MODULE_3__globals__["d" /* MAX_CHARS */];
+        this.pause = __WEBPACK_IMPORTED_MODULE_4__globals__["b" /* PAUSE */];
+        this.minSearchLength = __WEBPACK_IMPORTED_MODULE_4__globals__["a" /* MIN_SEARCH_LENGTH */];
+        this.maxChars = __WEBPACK_IMPORTED_MODULE_4__globals__["d" /* MAX_CHARS */];
         this.overrideSuggested = false;
         this.clearSelected = false;
         this.fillHighlighted = true;
         this.placeholder = "";
-        this.textSearching = __WEBPACK_IMPORTED_MODULE_3__globals__["e" /* TEXT_SEARCHING */];
-        this.textNoResults = __WEBPACK_IMPORTED_MODULE_3__globals__["f" /* TEXT_NORESULTS */];
+        this.textSearching = __WEBPACK_IMPORTED_MODULE_4__globals__["e" /* TEXT_SEARCHING */];
+        this.textNoResults = __WEBPACK_IMPORTED_MODULE_4__globals__["f" /* TEXT_NORESULTS */];
         this.autoMatch = false;
         this.disableInput = false;
         this.autofocus = false;
@@ -167,6 +338,17 @@ var CompleterCmp = (function () {
     };
     CompleterCmp.prototype.ngOnInit = function () {
         var _this = this;
+        if (this.datasource) {
+            if (this.datasource instanceof Array) {
+                this.dataService = this.completerService.local(this.datasource);
+            }
+            else if (typeof (this.datasource) === "string") {
+                this.dataService = this.completerService.remote(this.datasource);
+            }
+            else {
+                this.dataService = this.datasource;
+            }
+        }
         this.completer.selected.subscribe(function (item) {
             var title = item ? item.title : "";
             _this.selected.emit(item);
@@ -199,6 +381,10 @@ __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
     __metadata("design:type", Object)
 ], CompleterCmp.prototype, "dataService", void 0);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+    __metadata("design:type", Object)
+], CompleterCmp.prototype, "datasource", void 0);
 __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
     __metadata("design:type", Object)
@@ -286,19 +472,95 @@ CompleterCmp = __decorate([
         styles: ["\n    .completer-dropdown {\n        border-color: #ececec;\n        border-width: 1px;\n        border-style: solid;\n        border-radius: 2px;\n        width: 250px;\n        padding: 6px;\n        cursor: pointer;\n        z-index: 9999;\n        position: absolute;\n        margin-top: -6px;\n        background-color: #ffffff;\n    }\n\n    .completer-row {\n        padding: 5px;\n        color: #000000;\n        margin-bottom: 4px;\n        clear: both;\n        display: inline-block;\n        width: 103%;\n    }\n\n    .completer-selected-row {\n        background-color: lightblue;\n        color: #ffffff;\n    }\n\n    .completer-description {\n        font-size: 14px;\n    }\n\n    .completer-image-default {\n        width: 16px; \n        height: 16px;\n        background-image: url(\"demo/res/img/default.png\");\n    }\n\n    .completer-image-holder {\n        float: left;\n        width: 10%;\n    }\n    .completer-item-text-image {\n        float: right;\n        width: 90%;\n    }\n    "],
         providers: [COMPLETER_CONTROL_VALUE_ACCESSOR]
     }),
-    __metadata("design:paramtypes", [])
+    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__services_completer_service__["a" /* CompleterService */]])
 ], CompleterCmp);
 
 
 
 /***/ }),
 
-/***/ 156:
+/***/ 158:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__(24);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CompleterListItemCmp; });
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var CompleterListItemCmp = (function () {
+    function CompleterListItemCmp() {
+        this.parts = [];
+    }
+    CompleterListItemCmp.prototype.ngOnInit = function () {
+        if (!this.searchStr) {
+            this.parts.push({ isMatch: false, text: this.text });
+            return;
+        }
+        var matchStr = this.text.toLowerCase();
+        var matchPos = matchStr.indexOf(this.searchStr.toLowerCase());
+        var startIndex = 0;
+        while (matchPos >= 0) {
+            var matchText = this.text.slice(matchPos, matchPos + this.searchStr.length);
+            if (matchPos === 0) {
+                this.parts.push({ isMatch: true, text: matchText });
+                startIndex += this.searchStr.length;
+            }
+            else if (matchPos > 0) {
+                var matchPart = this.text.slice(startIndex, matchPos);
+                this.parts.push({ isMatch: false, text: matchPart });
+                this.parts.push({ isMatch: true, text: matchText });
+                startIndex += this.searchStr.length + matchPart.length;
+            }
+            matchPos = matchStr.indexOf(this.searchStr.toLowerCase(), startIndex);
+        }
+        if (startIndex < this.text.length) {
+            this.parts.push({ isMatch: false, text: this.text.slice(startIndex, this.text.length) });
+        }
+    };
+    return CompleterListItemCmp;
+}());
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+    __metadata("design:type", String)
+], CompleterListItemCmp.prototype, "text", void 0);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+    __metadata("design:type", String)
+], CompleterListItemCmp.prototype, "searchStr", void 0);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+    __metadata("design:type", String)
+], CompleterListItemCmp.prototype, "matchClass", void 0);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+    __metadata("design:type", String)
+], CompleterListItemCmp.prototype, "type", void 0);
+CompleterListItemCmp = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+        selector: "completer-list-item",
+        template: "\n    <span class=\"completer-list-item-holder\" [ngClass]=\"{'completer-title': type === 'title', 'completer-description': type === 'description'}\" >\n        <span class=\"completer-list-item\" *ngFor=\"let part of parts\" [ngClass]=\"part.isMatch ? matchClass : null\">{{part.text}}</span>\n    </span>\n    "
+    })
+], CompleterListItemCmp);
+
+
+
+/***/ }),
+
+/***/ 159:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ctr_completer__ = __webpack_require__(36);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CtrInput; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -505,15 +767,15 @@ CtrInput = __decorate([
 
 /***/ }),
 
-/***/ 157:
+/***/ 160:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__ = __webpack_require__(112);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__ = __webpack_require__(116);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ctr_completer__ = __webpack_require__(36);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__globals__ = __webpack_require__(124);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__globals__ = __webpack_require__(127);
 /* unused harmony export CtrListContext */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CtrList; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -693,12 +955,12 @@ var CtrList_1;
 
 /***/ }),
 
-/***/ 158:
+/***/ 161:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ctr_dropdown__ = __webpack_require__(93);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ctr_dropdown__ = __webpack_require__(97);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CtrRow; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -790,160 +1052,53 @@ CtrRow = __decorate([
 
 /***/ }),
 
-/***/ 159:
+/***/ 162:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__local_data__ = __webpack_require__(95);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__remote_data__ = __webpack_require__(96);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CompleterService; });
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__local_data__ = __webpack_require__(100);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__remote_data__ = __webpack_require__(101);
+/* harmony export (immutable) */ __webpack_exports__["c"] = localDataFactory;
+/* harmony export (immutable) */ __webpack_exports__["d"] = remoteDataFactory;
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LocalDataFactoryProvider; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return RemoteDataFactoryProvider; });
 
 
 
-var CompleterService = (function () {
-    function CompleterService(localDataFactory, // Using any instead of () => LocalData because on AoT errors
-        remoteDataFactory // Using any instead of () => LocalData because on AoT errors
-    ) {
-        this.localDataFactory = localDataFactory;
-        this.remoteDataFactory = remoteDataFactory; // Using any instead of () => LocalData because on AoT errors
-    }
-    CompleterService.prototype.local = function (data, searchFields, titleField) {
-        if (searchFields === void 0) { searchFields = ""; }
-        if (titleField === void 0) { titleField = ""; }
-        var localData = this.localDataFactory();
-        return localData
-            .data(data)
-            .searchFieldss(searchFields)
-            .titleField(titleField);
+function localDataFactory() {
+    return function () {
+        return new __WEBPACK_IMPORTED_MODULE_1__local_data__["a" /* LocalData */]();
     };
-    CompleterService.prototype.remote = function (url, searchFields, titleField) {
-        if (searchFields === void 0) { searchFields = ""; }
-        if (titleField === void 0) { titleField = ""; }
-        var remoteData = this.remoteDataFactory();
-        return remoteData
-            .remoteUrl(url)
-            .searchFieldss(searchFields)
-            .titleField(titleField);
+}
+function remoteDataFactory(http) {
+    return function () {
+        return new __WEBPACK_IMPORTED_MODULE_2__remote_data__["a" /* RemoteData */](http);
     };
-    return CompleterService;
-}());
-CompleterService = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
-    __param(0, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Inject"])(__WEBPACK_IMPORTED_MODULE_1__local_data__["a" /* LocalData */])),
-    __param(1, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Inject"])(__WEBPACK_IMPORTED_MODULE_2__remote_data__["a" /* RemoteData */])),
-    __metadata("design:paramtypes", [Object, Object])
-], CompleterService);
-
+}
+var LocalDataFactoryProvider = { provide: __WEBPACK_IMPORTED_MODULE_1__local_data__["a" /* LocalData */], useFactory: localDataFactory };
+var RemoteDataFactoryProvider = { provide: __WEBPACK_IMPORTED_MODULE_2__remote_data__["a" /* RemoteData */], useFactory: remoteDataFactory, deps: [__WEBPACK_IMPORTED_MODULE_0__angular_http__["Http"]] };
 
 
 /***/ }),
 
-/***/ 309:
+/***/ 317:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CompleterListItemCmp; });
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-var CompleterListItemCmp = (function () {
-    function CompleterListItemCmp() {
-        this.parts = [];
-    }
-    CompleterListItemCmp.prototype.ngOnInit = function () {
-        if (!this.searchStr) {
-            this.parts.push({ isMatch: false, text: this.text });
-            return;
-        }
-        var matchStr = this.text.toLowerCase();
-        var matchPos = matchStr.indexOf(this.searchStr.toLowerCase());
-        var startIndex = 0;
-        while (matchPos >= 0) {
-            var matchText = this.text.slice(matchPos, matchPos + this.searchStr.length);
-            if (matchPos === 0) {
-                this.parts.push({ isMatch: true, text: matchText });
-                startIndex += this.searchStr.length;
-            }
-            else if (matchPos > 0) {
-                var matchPart = this.text.slice(startIndex, matchPos);
-                this.parts.push({ isMatch: false, text: matchPart });
-                this.parts.push({ isMatch: true, text: matchText });
-                startIndex += this.searchStr.length + matchPart.length;
-            }
-            matchPos = matchStr.indexOf(this.searchStr.toLowerCase(), startIndex);
-        }
-        if (startIndex < this.text.length) {
-            this.parts.push({ isMatch: false, text: this.text.slice(startIndex, this.text.length) });
-        }
-    };
-    return CompleterListItemCmp;
-}());
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
-    __metadata("design:type", String)
-], CompleterListItemCmp.prototype, "text", void 0);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
-    __metadata("design:type", String)
-], CompleterListItemCmp.prototype, "searchStr", void 0);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
-    __metadata("design:type", String)
-], CompleterListItemCmp.prototype, "matchClass", void 0);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
-    __metadata("design:type", String)
-], CompleterListItemCmp.prototype, "type", void 0);
-CompleterListItemCmp = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-        selector: "completer-list-item",
-        template: "\n    <span class=\"completer-list-item-holder\" [ngClass]=\"{'completer-title': type === 'title', 'completer-description': type === 'description'}\" >\n        <span class=\"completer-list-item\" *ngFor=\"let part of parts\" [ngClass]=\"part.isMatch ? matchClass : null\">{{part.text}}</span>\n    </span>\n    "
-    })
-], CompleterListItemCmp);
-
-
-
-/***/ }),
-
-/***/ 310:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_http__ = __webpack_require__(43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_completer_cmp__ = __webpack_require__(155);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_completer_list_item_cmp__ = __webpack_require__(309);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__services_completer_service__ = __webpack_require__(159);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__services_completer_data_factory__ = __webpack_require__(311);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_completer_cmp__ = __webpack_require__(157);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_completer_list_item_cmp__ = __webpack_require__(158);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__services_completer_service__ = __webpack_require__(99);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__services_completer_data_factory__ = __webpack_require__(162);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__directives_ctr_completer__ = __webpack_require__(36);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__directives_ctr_dropdown__ = __webpack_require__(93);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__directives_ctr_input__ = __webpack_require__(156);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__directives_ctr_list__ = __webpack_require__(157);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__directives_ctr_row__ = __webpack_require__(158);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__angular_common__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__directives_ctr_dropdown__ = __webpack_require__(97);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__directives_ctr_input__ = __webpack_require__(159);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__directives_ctr_list__ = __webpack_require__(160);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__directives_ctr_row__ = __webpack_require__(161);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__angular_common__ = __webpack_require__(19);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Ng2CompleterModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1002,36 +1157,6 @@ Ng2CompleterModule = __decorate([
     })
 ], Ng2CompleterModule);
 
-
-
-/***/ }),
-
-/***/ 311:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__(43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__local_data__ = __webpack_require__(95);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__remote_data__ = __webpack_require__(96);
-/* unused harmony export localDataFactory */
-/* unused harmony export remoteDataFactory */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LocalDataFactoryProvider; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return RemoteDataFactoryProvider; });
-
-
-
-function localDataFactory() {
-    return function () {
-        return new __WEBPACK_IMPORTED_MODULE_1__local_data__["a" /* LocalData */]();
-    };
-}
-function remoteDataFactory(http) {
-    return function () {
-        return new __WEBPACK_IMPORTED_MODULE_2__remote_data__["a" /* RemoteData */](http);
-    };
-}
-var LocalDataFactoryProvider = { provide: __WEBPACK_IMPORTED_MODULE_1__local_data__["a" /* LocalData */], useFactory: localDataFactory };
-var RemoteDataFactoryProvider = { provide: __WEBPACK_IMPORTED_MODULE_2__remote_data__["a" /* RemoteData */], useFactory: remoteDataFactory, deps: [__WEBPACK_IMPORTED_MODULE_0__angular_http__["Http"]] };
 
 
 /***/ }),
@@ -1134,14 +1259,14 @@ CtrCompleter = __decorate([
 
 /***/ }),
 
-/***/ 497:
+/***/ 509:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__ = __webpack_require__(112);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__ = __webpack_require__(116);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src__ = __webpack_require__(111);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src__ = __webpack_require__(115);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MaterialCmp; });
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -1156,11 +1281,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var template = __webpack_require__(926);
+var template = __webpack_require__(940);
 // let style = require("./native-cmp.css");
 var MaterialCmp = (function () {
     function MaterialCmp(completerService) {
-        this.countries = __webpack_require__(529);
+        this.countries = __webpack_require__(541);
         this.dataService = completerService.local(this.countries, "name", "name").imageField("flag");
     }
     return MaterialCmp;
@@ -1177,15 +1302,15 @@ MaterialCmp = __decorate([
 
 /***/ }),
 
-/***/ 498:
+/***/ 510:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__ = __webpack_require__(112);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__ = __webpack_require__(116);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src__ = __webpack_require__(111);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__custom_data__ = __webpack_require__(729);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src__ = __webpack_require__(115);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__custom_data__ = __webpack_require__(742);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_http__ = __webpack_require__(43);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NativeCmp; });
 
@@ -1203,11 +1328,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var template = __webpack_require__(928);
-var style = __webpack_require__(927);
+var template = __webpack_require__(942);
+var style = __webpack_require__(941);
 var NativeCmp = (function () {
     function NativeCmp(completerService, http) {
-        this.countries = __webpack_require__(529);
+        this.countries = __webpack_require__(541);
+        this.colors = __webpack_require__(933);
         this.quotes = [
             {
                 qt: "Always forgive your enemies; nothing annoys them so much.",
@@ -1255,20 +1381,16 @@ var NativeCmp = (function () {
         this.dataService = completerService.local(this.countries, "name", "name").imageField("flag");
         this.dataService2 = completerService.local(this.quotes, "nm", "nm").descriptionField("qt");
         this.dataRemote = completerService.remote("https://raw.githubusercontent.com/oferh/ng2-completer/master/demo/res/data/countries.json?", "name", "name");
-        this.dataRemote2 = completerService.remote(null, null, "formatted_address");
+        this.dataRemote2 = completerService.remote(null, null, "Title");
         this.dataRemote2.urlFormater(function (term) {
-            return "https://maps.googleapis.com/maps/api/geocode/json?address=" + term;
+            return "http://www.omdbapi.com/?s=" + term + "&type=movie";
         });
-        this.dataRemote2.dataField("results");
-        this.dataRemote2.headers(new __WEBPACK_IMPORTED_MODULE_4__angular_http__["Headers"]({ "My-Header": "Hello World!" }));
+        this.dataRemote2.dataField("Search");
         // For async local the source can also be HTTP request
         // let source = http.get("https://raw.githubusercontent.com/oferh/ng2-completer/master/demo/res/data/countries.json?").map((res: any) => res.json());
         var source = __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__["Observable"].from([this.countries]).delay(3000);
         this.dataService3 = completerService.local(source, "name", "name");
-        this.dataService4 = completerService.local(this.countries, "name", "name");
-        this.dataService5 = completerService.local(this.countries.slice(1, 10), "name", "name");
         this.customData = new __WEBPACK_IMPORTED_MODULE_3__custom_data__["a" /* CustomData */](http);
-        this.dataNoFill = completerService.remote("https://raw.githubusercontent.com/oferh/ng2-completer/master/demo/res/data/countries.json?", "name", "name");
     }
     NativeCmp.prototype.onCountrySelected = function (selected) {
         if (selected) {
@@ -1311,7 +1433,7 @@ NativeCmp = __decorate([
 
 /***/ }),
 
-/***/ 529:
+/***/ 541:
 /***/ (function(module, exports) {
 
 module.exports = [
@@ -2534,21 +2656,21 @@ module.exports = [
 
 /***/ }),
 
-/***/ 567:
+/***/ 583:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(24);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_material__ = __webpack_require__(356);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_platform_browser__ = __webpack_require__(63);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__app_cmp__ = __webpack_require__(726);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__material_cmp__ = __webpack_require__(497);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__native_cmp__ = __webpack_require__(498);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__app_routing__ = __webpack_require__(727);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__src__ = __webpack_require__(111);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__completer_cmp_md__ = __webpack_require__(728);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_material__ = __webpack_require__(361);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_platform_browser__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__app_cmp__ = __webpack_require__(739);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__material_cmp__ = __webpack_require__(509);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__native_cmp__ = __webpack_require__(510);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__app_routing__ = __webpack_require__(740);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__src__ = __webpack_require__(115);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__completer_cmp_md__ = __webpack_require__(741);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -2591,12 +2713,12 @@ AppModule = __decorate([
 
 /***/ }),
 
-/***/ 726:
+/***/ 739:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__ = __webpack_require__(112);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__ = __webpack_require__(116);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppComponent; });
 
@@ -2608,7 +2730,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 
 
-var template = __webpack_require__(923);
+var template = __webpack_require__(937);
 var AppComponent = (function () {
     function AppComponent() {
     }
@@ -2625,13 +2747,13 @@ AppComponent = __decorate([
 
 /***/ }),
 
-/***/ 727:
+/***/ 740:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_router__ = __webpack_require__(357);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__material_cmp__ = __webpack_require__(497);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__native_cmp__ = __webpack_require__(498);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_router__ = __webpack_require__(362);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__material_cmp__ = __webpack_require__(509);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__native_cmp__ = __webpack_require__(510);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return routing; });
 
 
@@ -2656,15 +2778,15 @@ var routing = __WEBPACK_IMPORTED_MODULE_0__angular_router__["RouterModule"].forR
 
 /***/ }),
 
-/***/ 728:
+/***/ 741:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__(24);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src__ = __webpack_require__(111);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__src_globals__ = __webpack_require__(124);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch__ = __webpack_require__(107);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src__ = __webpack_require__(115);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__src_globals__ = __webpack_require__(127);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch__ = __webpack_require__(112);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CompleterCmpMd; });
 
@@ -2834,8 +2956,8 @@ __decorate([
 CompleterCmpMd = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: "ng2-completer-md",
-        template: __webpack_require__(925),
-        styles: [__webpack_require__(924)],
+        template: __webpack_require__(939),
+        styles: [__webpack_require__(938)],
         providers: [COMPLETER_CONTROL_VALUE_ACCESSOR]
     }),
     __metadata("design:paramtypes", [])
@@ -2845,18 +2967,23 @@ CompleterCmpMd = __decorate([
 
 /***/ }),
 
-/***/ 729:
+/***/ 742:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_Subject__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_Subject__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_Subject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_rxjs_Subject__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CustomData; });
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 
 var CustomData = (function (_super) {
     __extends(CustomData, _super);
@@ -2890,49 +3017,205 @@ var CustomData = (function (_super) {
 
 /***/ }),
 
-/***/ 923:
+/***/ 933:
+/***/ (function(module, exports) {
+
+module.exports = [
+	"aliceblue",
+	"antiquewhite",
+	"aqua",
+	"aquamarine",
+	"azure",
+	"beige",
+	"bisque",
+	"black",
+	"blanchedalmond",
+	"blue",
+	"blueviolet",
+	"brown",
+	"burlywood",
+	"cadetblue",
+	"chartreuse",
+	"chocolate",
+	"coral",
+	"cornflowerblue",
+	"cornsilk",
+	"crimson",
+	"cyan",
+	"darkblue",
+	"darkcyan",
+	"darkgoldenrod",
+	"darkgray",
+	"darkgreen",
+	"darkgrey",
+	"darkkhaki",
+	"darkmagenta",
+	"darkolivegreen",
+	"darkorange",
+	"darkorchid",
+	"darkred",
+	"darksalmon",
+	"darkseagreen",
+	"darkslateblue",
+	"darkslategray",
+	"darkslategrey",
+	"darkturquoise",
+	"darkviolet",
+	"deeppink",
+	"deepskyblue",
+	"dimgray",
+	"dimgrey",
+	"dodgerblue",
+	"firebrick",
+	"floralwhite",
+	"forestgreen",
+	"fuchsia",
+	"gainsboro",
+	"ghostwhite",
+	"gold",
+	"goldenrod",
+	"gray",
+	"green",
+	"greenyellow",
+	"grey",
+	"honeydew",
+	"hotpink",
+	"indianred",
+	"indigo",
+	"ivory",
+	"khaki",
+	"lavender",
+	"lavenderblush",
+	"lawngreen",
+	"lemonchiffon",
+	"lightblue",
+	"lightcoral",
+	"lightcyan",
+	"lightgoldenrodyellow",
+	"lightgray",
+	"lightgreen",
+	"lightgrey",
+	"lightpink",
+	"lightsalmon",
+	"lightseagreen",
+	"lightskyblue",
+	"lightslategray",
+	"lightslategrey",
+	"lightsteelblue",
+	"lightyellow",
+	"lime",
+	"limegreen",
+	"linen",
+	"magenta",
+	"maroon",
+	"mediumaquamarine",
+	"mediumblue",
+	"mediumorchid",
+	"mediumpurple",
+	"mediumseagreen",
+	"mediumslateblue",
+	"mediumspringgreen",
+	"mediumturquoise",
+	"mediumvioletred",
+	"midnightblue",
+	"mintcream",
+	"mistyrose",
+	"moccasin",
+	"navajowhite",
+	"navy",
+	"oldlace",
+	"olive",
+	"olivedrab",
+	"orange",
+	"orangered",
+	"orchid",
+	"palegoldenrod",
+	"palegreen",
+	"paleturquoise",
+	"palevioletred",
+	"papayawhip",
+	"peachpuff",
+	"peru",
+	"pink",
+	"plum",
+	"powderblue",
+	"purple",
+	"rebeccapurple",
+	"red",
+	"rosybrown",
+	"royalblue",
+	"saddlebrown",
+	"salmon",
+	"sandybrown",
+	"seagreen",
+	"seashell",
+	"sienna",
+	"silver",
+	"skyblue",
+	"slateblue",
+	"slategray",
+	"slategrey",
+	"snow",
+	"springgreen",
+	"steelblue",
+	"tan",
+	"teal",
+	"thistle",
+	"tomato",
+	"turquoise",
+	"violet",
+	"wheat",
+	"white",
+	"whitesmoke",
+	"yellow",
+	"yellowgreen"
+];
+
+/***/ }),
+
+/***/ 937:
 /***/ (function(module, exports) {
 
 module.exports = "        <nav class=\"navbar navbar-dark navbar-static-top bg-inverse\">\n            <a class=\"navbar-brand\" href=\"#\">ng2-completer demo</a>\n            <ul class=\"nav navbar-nav\">\n                <li class=\"nav-item\">\n                    <a class=\"nav-link\" routerLink=\"/native\">JS Native</a>\n                </li>\n                <li class=\"nav-item\">\n                    <a class=\"nav-link\" routerLink=\"/material\">Material Design</a>\n                </li>\n            </ul>\n        </nav>\n<div class=\"container main\">\n    <router-outlet></router-outlet>\n</div>"
 
 /***/ }),
 
-/***/ 924:
+/***/ 938:
 /***/ (function(module, exports) {
 
 module.exports = ".completer-row {\n    display: inherit;\n}\n\n.completer-selected-row {\n    background-color: lightblue;\n    color: #ffffff;\n}\n\n.completer-row p {\n    position: relative;\n    top: 50%;\n    transform: translateY(50%);\n}\n\n.completer-dropdown-holder {\n    position: absolute;\n    background: white;\n}"
 
 /***/ }),
 
-/***/ 925:
+/***/ 939:
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"completer-holder\" ctrCompleter>\n    <md-input class=\"completer-input\" ctrInput=\"clearSelected=clearSelected; overrideSuggested=overrideSuggested; fillHighlighted=fillHighlighted\" [(ngModel)]=\"searchStr\" [attr.name]=\"inputName\" [placeholder]=\"placeholder\" [attr.maxlength]=\"maxChars\"\n        [tabindex]=\"fieldTabindex\" [disabled]=\"disableInput\" (blur)=\"onBlur()\"\n        autocomplete=\"off\" autocorrect=\"off\" autocapitalize=\"off\">\n    </md-input>\n\n    <div class=\"completer-dropdown-holder\" *ctrList=\"dataService; minSearchLength: minSearchLength; pause: pause; autoMatch: autoMatch; let items = results; let searchActive = searching; let isInitialized = searchInitialized;\">\n        <md-list class=\"completer-dropdown\" ctrDropdown *ngIf=\"isInitialized\">\n            <md-list-item *ngIf=\"searchActive && displaySearching\" class=\"completer-searching\">{{textSearching}}</md-list-item>\n            <md-list-item *ngIf=\"!searchActive && (!items || items.length === 0)\" class=\"completer-no-results\">{{textNoResults}}</md-list-item>\n            <md-list-item class=\"completer-row-wrapper\" *ngFor=\"let item of items; let rowIndex=index\">\n                <div class=\"completer-row\" [ctrRow]=\"rowIndex\" [dataItem]=\"item\">\n                    <span *ngIf=\"item.image || item.image === ''\" class=\"completer-image-holder\">\n                        <img md-list-avatar *ngIf=\"item.image != ''\" src=\"{{item.image}}\" class=\"completer-image\" />\n                        <span md-list-avatar *ngIf=\"item.image === ''\" class=\"completer-image-default\"></span>\n                    </span>\n                    <p md-line>\n                        <completer-list-item class=\"completer-title\" [text]=\"item.title\" [matchClass]=\"matchClass\" [searchStr]=\"searchStr\" [type]=\"'title'\"></completer-list-item>\n                        <completer-list-item *ngIf=\"item.description && item.description != ''\" class=\"completer-description\" [text]=\"item.description\"\n                            [matchClass]=\"matchClass\" [searchStr]=\"searchStr\" [type]=\"'description'\">\n                        </completer-list-item>\n                    </p>\n                </div>\n            </md-list-item>\n        </md-list>\n    </div>\n</div>"
+module.exports = "<div class=\"completer-holder\" ctrCompleter>\n    <md-input-container class=\"completer-input\">\n        <input mdInput ctrInput=\"clearSelected=clearSelected; overrideSuggested=overrideSuggested; fillHighlighted=fillHighlighted\" [(ngModel)]=\"searchStr\" \n            [attr.name]=\"inputName\" [attr.maxlength]=\"maxChars\" [tabindex]=\"fieldTabindex\" [disabled]=\"disableInput\" (blur)=\"onBlur()\" [placeholder]=\"placeholder\"\n            autocomplete=\"off\" autocorrect=\"off\" autocapitalize=\"off\">\n    </md-input-container>\n\n    <div class=\"completer-dropdown-holder\" *ctrList=\"dataService; minSearchLength: minSearchLength; pause: pause; autoMatch: autoMatch; let items = results; let searchActive = searching; let isInitialized = searchInitialized;\">\n        <md-list class=\"completer-dropdown\" ctrDropdown *ngIf=\"isInitialized\">\n            <md-list-item *ngIf=\"searchActive && displaySearching\" class=\"completer-searching\">{{textSearching}}</md-list-item>\n            <md-list-item *ngIf=\"!searchActive && (!items || items.length === 0)\" class=\"completer-no-results\">{{textNoResults}}</md-list-item>\n            <md-list-item class=\"completer-row-wrapper\" *ngFor=\"let item of items; let rowIndex=index\">\n                <div class=\"completer-row\" [ctrRow]=\"rowIndex\" [dataItem]=\"item\">\n                    <span *ngIf=\"item.image || item.image === ''\" class=\"completer-image-holder\">\n                        <img md-list-avatar *ngIf=\"item.image != ''\" src=\"{{item.image}}\" class=\"completer-image\" />\n                        <span md-list-avatar *ngIf=\"item.image === ''\" class=\"completer-image-default\"></span>\n                    </span>\n                    <p md-line>\n                        <completer-list-item class=\"completer-title\" [text]=\"item.title\" [matchClass]=\"matchClass\" [searchStr]=\"searchStr\" [type]=\"'title'\"></completer-list-item>\n                        <completer-list-item *ngIf=\"item.description && item.description != ''\" class=\"completer-description\" [text]=\"item.description\"\n                            [matchClass]=\"matchClass\" [searchStr]=\"searchStr\" [type]=\"'description'\">\n                        </completer-list-item>\n                    </p>\n                </div>\n            </md-list-item>\n        </md-list>\n    </div>\n</div>"
 
 /***/ }),
 
-/***/ 926:
+/***/ 940:
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"row\">\n    <h1>Completer Material</h1>\n    <p>This is a demo of a custom component that uses Ng2-Completer directives to create a material2 autocomplete component.</p>\n    <p>To use this compnent copy all completer-cmp-md files from the demo code</p>\n</div>\n<h2>Local data with image</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Local data of countries - using image, matchClass and maxLength</p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer-md [(ngModel)]=\"countryName\" [dataService]=\"dataService\" [minSearchLength]=\"0\" [maxChars]=\"4\" [placeholder]=\"'search country'\"\n                [matchClass]=\"'match'\">\n            </ng2-completer-md>\n        </div>\n        <div class=\"row\">\n            <p>Selected country: {{countryName}}</p>\n        </div>\n    </div>\n</div>\n"
 
 /***/ }),
 
-/***/ 927:
+/***/ 941:
 /***/ (function(module, exports) {
 
 module.exports = "/*\n * Top navigation\n * Hide default border to remove 1px line.\n */\n.navbar-fixed-top {\n  border: 0;\n}\n\n/*\n * Main content\n */\n\n.main {\n  padding: 5rem;\n}\n\n.completer-wrapper {\n    border-radius: 25px;\n    background: lightgray;\n}\n\n:host >>> .match {\n  color: orangered;\n}\n\n:host >>> .my-input-class {\n  color: #2e405b;\n}\n\n.completer-limit /deep/ .completer-dropdown {\n  overflow-y: auto;\n  max-height: 20rem;\n}"
 
 /***/ }),
 
-/***/ 928:
+/***/ 942:
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\n    <h1>Completer Native</h1>\n</div>\n<h2>Local data with image</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Local data of countries - using image, matchClass, maxLength, autofocus and limit of the dropdown length in CSS</p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer class=\"completer-limit\" [(ngModel)]=\"countryName\" [dataService]=\"dataService\" [minSearchLength]=\"0\"\n                [maxChars]=\"4\" [placeholder]=\"'search country'\" [matchClass]=\"'match'\" [autofocus]=\"true\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Selected country: {{countryName}}</p>\n        </div>\n    </div>\n</div>\n<h2>Local data with description</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Local data of quotes - using desription, textNoResults, matchClass and\n                selected event</p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer [dataService]=\"dataService2\" (selected)=\"onQuoteSelected($event)\"\n                [minSearchLength]=\"0\" [placeholder]=\"'search quote by author name'\" [textNoResults]=\"'No quotes found'\"\n                [matchClass]=\"'match'\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Quote: {{quote}}</p>\n        </div>\n    </div>\n</div>\n\n<h2>Remote data</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Remote data of countries with minSearchLength, textSearching and clearSelected</p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer [dataService]=\"dataRemote\" [minSearchLength]=\"3\" [placeholder]=\"'search country'\"\n                [clearSelected]=\"true\" (selected)=\"onCountrySelected($event)\" [textSearching]=\"'Please wait...'\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Selected country: {{countryName2}}</p>\n        </div>\n    </div>\n</div>\n\n<h2>Input disabled</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Async local data of countries - overrideSuggested, inputDisabled, inputClass and\n                fieldTabindex\n            </p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer [(ngModel)]=\"countryName3\" [dataService]=\"dataService3\" [minSearchLength]=\"0\"\n                [placeholder]=\"'search country'\" [overrideSuggested]=\"true\" [disableInput]=\"searchcb\"\n                [fieldTabindex]=\"-1\" [inputClass]=\"'my-input-class'\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Selected: {{countryName3}}</p>\n        </div>\n        <div class=\"row\">\n            <label>Disable search</label>\n            <input type=\"checkbox\" [(ngModel)]=\"searchcb\" />\n        </div>\n    </div>\n</div>\n\n<h2>Automatch</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <form>\n            <div class=\"row\">\n                <p>Local data of countries - autoMatch and required</p>\n            </div>\n            <div class=\"row\">\n                <ng2-completer name=\"countryRequired\" [dataService]=\"dataService4\" [(ngModel)]=\"countryName4\"\n                    [minSearchLength]=\"0\" [placeholder]=\"'search country'\" #countryRequired=\"ngModel\"\n                    [autoMatch]=\"true\" required>\n                </ng2-completer>\n                <div [hidden]=\"countryRequired.valid\" class=\"col-md-6 alert alert-danger\">\n                    Country is required\n                </div>\n            </div>\n            <div class=\"row\">\n                <p>Selected: {{countryName4}}</p>\n            </div>\n        </form>\n    </div>\n</div>\n\n<h2>Remote data with URL Formater and Headers</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Remote data from <a href=\"https://developers.google.com/maps/documentation/geocoding/start\">Google Maps API</a> - urlFormater, dataField, and headers</p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer [(ngModel)]=\"countryName5\" [dataService]=\"dataRemote2\" [minSearchLength]=\"3\"\n                [placeholder]=\"'search country'\" [textSearching]=\"'Please wait...'\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Selected country: {{countryName5}}</p>\n        </div>\n    </div>\n</div>\n\n<h2>Custom data provider</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Custom data provider. Seinfeld episodes data from <a href=\"https://mysafeinfo.com/\">mysafeinfo.com</a></p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer [(ngModel)]=\"seinfeldEpisode\" [dataService]=\"customData\" [minSearchLength]=\"3\"\n                [placeholder]=\"'search Seinfeld episode'\" [textSearching]=\"'Please wait...'\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Selected episode: {{seinfeldEpisode}}</p>\n        </div>\n    </div>\n</div>\n\n<h2>Open and close programmatically</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Local data of countries open and close from code</p>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-md-3\">\n                <ng2-completer #openCloseExample  [(ngModel)]=\"countryName6\" [dataService]=\"dataService5\" [minSearchLength]=\"0\" [placeholder]=\"'search country'\">\n                </ng2-completer>\n            </div>\n            <div class=\"col-md-1\">\n                <button (click)=\"onOpen()\">open</button>\n            </div>\n            <div class=\"col-md-1\">\n                <button (click)=\"onClose()\">close</button>\n            </div>\n        </div>\n        <div class=\"row\">\n            <p>Selected country: {{countryName6}}</p>\n        </div>\n    </div>\n</div>\n\n<h2>Do not set input value when item is highlighted</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Remote data of countries with minSearchLength, textSearching and fillHighlighted=false</p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer [dataService]=\"dataNoFill\" [minSearchLength]=\"1\" [placeholder]=\"'search country'\"\n                           [fillHighlighted]=\"false\" (selected)=\"onCountrySelected($event)\" [textSearching]=\"'Please wait...'\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Selected country: {{countryName2}}</p>\n        </div>\n    </div>\n</div>\n"
+module.exports = "<div class=\"row\">\n    <h1>Completer Native</h1>\n</div>\n<h2>Local data with image</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Local data of countries - using image, matchClass, maxLength, autofocus and limit of the dropdown length in CSS</p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer class=\"completer-limit\" [(ngModel)]=\"countryName\" [datasource]=\"dataService\" [minSearchLength]=\"0\"\n                [maxChars]=\"4\" [placeholder]=\"'search country'\" [matchClass]=\"'match'\" [autofocus]=\"true\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Selected country: {{countryName}}</p>\n        </div>\n    </div>\n</div>\n<h2>Local data with description</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Local data of quotes - using desription, textNoResults, matchClass and\n                selected event</p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer [datasource]=\"dataService2\" (selected)=\"onQuoteSelected($event)\"\n                [minSearchLength]=\"0\" [placeholder]=\"'search quote by author name'\" [textNoResults]=\"'No quotes found'\"\n                [matchClass]=\"'match'\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Quote: {{quote}}</p>\n        </div>\n    </div>\n</div>\n\n<h2>Remote data</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Remote data of countries with minSearchLength, textSearching and clearSelected</p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer [dataService]=\"dataRemote\" [minSearchLength]=\"3\" [placeholder]=\"'search country'\"\n                [clearSelected]=\"true\" (selected)=\"onCountrySelected($event)\" [textSearching]=\"'Please wait...'\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Selected country: {{countryName2}}</p>\n        </div>\n    </div>\n</div>\n\n<h2>Input disabled</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Async local data of countries - overrideSuggested, inputDisabled, inputClass and\n                fieldTabindex\n            </p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer [(ngModel)]=\"countryName3\" [datasource]=\"dataService3\" [minSearchLength]=\"0\"\n                [placeholder]=\"'search country'\" [overrideSuggested]=\"true\" [disableInput]=\"searchcb\"\n                [fieldTabindex]=\"-1\" [inputClass]=\"'my-input-class'\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Selected: {{countryName3}}</p>\n        </div>\n        <div class=\"row\">\n            <label>Disable search</label>\n            <input type=\"checkbox\" [(ngModel)]=\"searchcb\" />\n        </div>\n    </div>\n</div>\n\n<h2>Automatch</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <form>\n            <div class=\"row\">\n                <p>Local data of colors - autoMatch and required</p>\n            </div>\n            <div class=\"row\">\n                <ng2-completer name=\"colorRequired\" [datasource]=\"colors\" [(ngModel)]=\"color\"\n                    [minSearchLength]=\"0\" [placeholder]=\"'search color'\" #colorRequired=\"ngModel\"\n                    [autoMatch]=\"true\" required>\n                </ng2-completer>\n                <div [hidden]=\"colorRequired.valid\" class=\"col-md-6 alert alert-danger\">\n                    Color is required\n                </div>\n            </div>\n            <div class=\"row\">\n                <p>Selected: {{color}}</p>\n            </div>\n        </form>\n    </div>\n</div>\n\n<h2>Remote data with URL Formater and Headers</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Remote data from <a href=\"http://www.omdbapi.com\">The Open Movie Database</a> - urlFormater and dataField</p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer [(ngModel)]=\"countryName5\" [datasource]=\"dataRemote2\" [minSearchLength]=\"3\"\n                [placeholder]=\"'search moview'\" [textSearching]=\"'Please wait...'\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Selected country: {{countryName5}}</p>\n        </div>\n    </div>\n</div>\n\n<h2>Custom data provider</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Custom data provider. Seinfeld episodes data from <a href=\"https://mysafeinfo.com/\">mysafeinfo.com</a></p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer [(ngModel)]=\"seinfeldEpisode\" [datasource]=\"customData\" [minSearchLength]=\"3\"\n                [placeholder]=\"'search Seinfeld episode'\" [textSearching]=\"'Please wait...'\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Selected episode: {{seinfeldEpisode}}</p>\n        </div>\n    </div>\n</div>\n\n<h2>Open and close programmatically</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Local data of colors open and close from code</p>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-md-3\">\n                <ng2-completer #openCloseExample  [(ngModel)]=\"color2\" [datasource]=\"colors\" [minSearchLength]=\"0\" [placeholder]=\"'search color'\">\n                </ng2-completer>\n            </div>\n            <div class=\"col-md-1\">\n                <button (click)=\"onOpen()\">open</button>\n            </div>\n            <div class=\"col-md-1\">\n                <button (click)=\"onClose()\">close</button>\n            </div>\n        </div>\n        <div class=\"row\">\n            <p>Selected color: {{color2}}</p>\n        </div>\n    </div>\n</div>\n\n<h2>Do not set input value when item is highlighted</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Remote data of colors with minSearchLength, textSearching and fillHighlighted=false</p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer [datasource]=\"'https://raw.githubusercontent.com/oferh/ng2-completer/master/demo/res/data/colors.json?'\" [minSearchLength]=\"1\" [placeholder]=\"'search color'\"\n                           [fillHighlighted]=\"false\" (selected)=\"onCountrySelected($event)\" [textSearching]=\"'Please wait...'\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Selected color: {{countryName2}}</p>\n        </div>\n    </div>\n</div>\n"
 
 /***/ }),
 
-/***/ 93:
+/***/ 97:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3070,18 +3353,23 @@ CtrDropdown = __decorate([
 
 /***/ }),
 
-/***/ 94:
+/***/ 98:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_Subject__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_Subject__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_Subject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_rxjs_Subject__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CompleterBaseData; });
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 
 var CompleterBaseData = (function (_super) {
     __extends(CompleterBaseData, _super);
@@ -3089,7 +3377,7 @@ var CompleterBaseData = (function (_super) {
         return _super.call(this) || this;
     }
     CompleterBaseData.prototype.cancel = function () { };
-    CompleterBaseData.prototype.searchFieldss = function (searchFields) {
+    CompleterBaseData.prototype.searchFields = function (searchFields) {
         this._searchFields = searchFields;
         return this;
     };
@@ -3109,7 +3397,7 @@ var CompleterBaseData = (function (_super) {
         var _this = this;
         var matches = [];
         var searchFields = this._searchFields ? this._searchFields.split(",") : null;
-        if (term != "") {
+        if (this._searchFields !== null && this._searchFields !== undefined && term != "") {
             matches = data.filter(function (item) {
                 var values = searchFields ? searchFields.map(function (searchField) { return _this.extractValue(item, searchField); }).filter(function (value) { return !!value; }) : [item];
                 return values.some(function (value) { return value.toString().toLowerCase().indexOf(term.toString().toLowerCase()) >= 0; });
@@ -3184,20 +3472,14 @@ var CompleterBaseData = (function (_super) {
 
 /***/ }),
 
-/***/ 95:
+/***/ 99:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Observable__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_Observable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__completer_base_data__ = __webpack_require__(94);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LocalData; });
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__local_data__ = __webpack_require__(100);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__remote_data__ = __webpack_require__(101);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CompleterService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3207,130 +3489,48 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-
-
-
-var LocalData = (function (_super) {
-    __extends(LocalData, _super);
-    function LocalData() {
-        return _super.call(this) || this;
-    }
-    LocalData.prototype.data = function (data) {
-        var _this = this;
-        if (data instanceof __WEBPACK_IMPORTED_MODULE_1_rxjs_Observable__["Observable"]) {
-            data.subscribe(function (res) {
-                _this._data = res;
-                if (_this.savedTerm) {
-                    _this.search(_this.savedTerm);
-                }
-            });
-        }
-        else {
-            this._data = data;
-        }
-        return this;
-    };
-    LocalData.prototype.search = function (term) {
-        if (!this._data) {
-            this.savedTerm = term;
-        }
-        else {
-            this.savedTerm = null;
-            var matches = this.extractMatches(this._data, term);
-            this.next(this.processResults(matches));
-        }
-    };
-    return LocalData;
-}(__WEBPACK_IMPORTED_MODULE_2__completer_base_data__["a" /* CompleterBaseData */]));
-LocalData = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
-    __metadata("design:paramtypes", [])
-], LocalData);
-
-
-
-/***/ }),
-
-/***/ 96:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__(43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_add_operator_map__ = __webpack_require__(108);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_add_operator_map__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_catch__ = __webpack_require__(107);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_catch___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_catch__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__completer_base_data__ = __webpack_require__(94);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RemoteData; });
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
 };
 
 
 
-
-var RemoteData = (function (_super) {
-    __extends(RemoteData, _super);
-    function RemoteData(http) {
-        var _this = _super.call(this) || this;
-        _this.http = http;
-        _this._urlFormater = null;
-        _this._dataField = null;
-        return _this;
+var CompleterService = (function () {
+    function CompleterService(localDataFactory, // Using any instead of () => LocalData because on AoT errors
+        remoteDataFactory // Using any instead of () => LocalData because on AoT errors
+    ) {
+        this.localDataFactory = localDataFactory;
+        this.remoteDataFactory = remoteDataFactory; // Using any instead of () => LocalData because on AoT errors
     }
-    RemoteData.prototype.remoteUrl = function (remoteUrl) {
-        this._remoteUrl = remoteUrl;
-        return this;
+    CompleterService.prototype.local = function (data, searchFields, titleField) {
+        if (searchFields === void 0) { searchFields = ""; }
+        if (titleField === void 0) { titleField = ""; }
+        var localData = this.localDataFactory();
+        return localData
+            .data(data)
+            .searchFields(searchFields)
+            .titleField(titleField);
     };
-    RemoteData.prototype.urlFormater = function (urlFormater) {
-        this._urlFormater = urlFormater;
+    CompleterService.prototype.remote = function (url, searchFields, titleField) {
+        if (searchFields === void 0) { searchFields = ""; }
+        if (titleField === void 0) { titleField = ""; }
+        var remoteData = this.remoteDataFactory();
+        return remoteData
+            .remoteUrl(url)
+            .searchFields(searchFields)
+            .titleField(titleField);
     };
-    RemoteData.prototype.dataField = function (dataField) {
-        this._dataField = dataField;
-    };
-    RemoteData.prototype.headers = function (headers) {
-        this._headers = headers;
-    };
-    RemoteData.prototype.search = function (term) {
-        var _this = this;
-        this.cancel();
-        // let params = {};
-        var url = "";
-        if (this._urlFormater) {
-            url = this._urlFormater(term);
-        }
-        else {
-            url = this._remoteUrl + encodeURIComponent(term);
-        }
-        this.remoteSearch = this.http.get(url, { headers: this._headers || new __WEBPACK_IMPORTED_MODULE_0__angular_http__["Headers"]() })
-            .map(function (res) { return res.json(); })
-            .map(function (data) {
-            var matchaes = _this.extractValue(data, _this._dataField);
-            return _this.extractMatches(matchaes, term);
-        })
-            .map(function (matches) {
-            var results = _this.processResults(matches);
-            _this.next(results);
-            return results;
-        })
-            .catch(function (err) {
-            _this.error(err);
-            return null;
-        })
-            .subscribe();
-    };
-    RemoteData.prototype.cancel = function () {
-        if (this.remoteSearch) {
-            this.remoteSearch.unsubscribe();
-        }
-    };
-    return RemoteData;
-}(__WEBPACK_IMPORTED_MODULE_3__completer_base_data__["a" /* CompleterBaseData */]));
+    return CompleterService;
+}());
+CompleterService = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
+    __param(0, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Inject"])(__WEBPACK_IMPORTED_MODULE_1__local_data__["a" /* LocalData */])),
+    __param(1, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Inject"])(__WEBPACK_IMPORTED_MODULE_2__remote_data__["a" /* RemoteData */])),
+    __metadata("design:paramtypes", [Object, Object])
+], CompleterService);
 
 
 
 /***/ })
 
-},[1184]);
+},[1194]);
