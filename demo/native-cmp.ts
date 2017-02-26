@@ -17,6 +17,7 @@ let style = require("./native-cmp.css");
 })
 export class NativeCmp {
     public countries = require("./res/data/countries.json");
+    public colors = require("./res/data/colors.json");
     public quotes = [
         {
             qt: "Always forgive your enemies; nothing annoys them so much.",
@@ -60,6 +61,8 @@ export class NativeCmp {
         }
     ];
 
+
+
     @ViewChild("openCloseExample") private openCloseExample: CompleterCmp;
 
     private dataService: CompleterData;
@@ -69,8 +72,6 @@ export class NativeCmp {
     private dataRemote: CompleterData;
     private dataRemote2: RemoteData;
     private dataService3: CompleterData;
-    private dataService4: CompleterData;
-    private dataService5: CompleterData;
     private customData: CustomData;
     private dataNoFill: CompleterData;
 
@@ -93,8 +94,6 @@ export class NativeCmp {
         // let source = http.get("https://raw.githubusercontent.com/oferh/ng2-completer/master/demo/res/data/countries.json?").map((res: any) => res.json());
         let source = Observable.from([this.countries]).delay(3000);
         this.dataService3 = completerService.local(<Observable<any[]>>source, "name", "name");
-        this.dataService4 = completerService.local(this.countries, "name", "name");
-        this.dataService5 = completerService.local(this.countries.slice(1, 10) , "name", "name");
         this.customData = new CustomData(http);
         this.dataNoFill  = completerService.remote(
             "https://raw.githubusercontent.com/oferh/ng2-completer/master/demo/res/data/countries.json?",

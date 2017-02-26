@@ -19,7 +19,7 @@ export abstract class CompleterBaseData extends Subject<CompleterItem[]> impleme
 
     public cancel() { }
 
-    public searchFieldss(searchFields: string) {
+    public searchFields(searchFields: string) {
         this._searchFields = searchFields;
         return this;
     }
@@ -42,7 +42,7 @@ export abstract class CompleterBaseData extends Subject<CompleterItem[]> impleme
     protected extractMatches(data: any[], term: string) {
         let matches: any[] = [];
         const searchFields = this._searchFields ? this._searchFields.split(",") : null;
-        if (searchFields && term != "") {
+        if (this._searchFields !== null && this._searchFields !== undefined && term != "") {
             matches = data.filter(item => {
                 const values: any[] = searchFields ? searchFields.map(searchField => this.extractValue(item, searchField)).filter(value => !!value) : [item];
                 return values.some(value => value.toString().toLowerCase().indexOf(term.toString().toLowerCase()) >= 0);

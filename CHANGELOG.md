@@ -1,11 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## 1.2.0 (2017-02-24)
-
+## 1.2.0 (2017-02-26)
 
 ### Implemented enhancements
 - Replaced the source URL of remote formatter because of Google API limits
+- Replace `dataService` with `datasource` and accept Array or URL string as input for `datasource`. Note: `dataService` will be depreacated in future releases
 
 ### Fixed bugs
 - Since last commit searchFields does not behave as stated in the docs #144

@@ -91,7 +91,8 @@ Add the following to `System.js` map configuration:
 
 |Attribute|Description|Type|Required|Default|
 |:---    |:---        |:--- |:---      |:--- |
-|dataService|Autocomplete list data source.|CompleterData|Yes||
+|datasource|Autocomplete list data source can be an array of strigs or a URL that results in an array of strings or a CompleterData object|Array\<string\>\|string\|CompleterData|Yes||
+|dataService|**Depreacted**  use `datasource` instead. Autocomplete list data source.|CompleterData|Yes||
 |ngModel| see the angular [forms API](https://angular.io/docs/js/latest/guide/forms.html).|string|Yes||
 |autoMatch|Auto select an item if it is the only result and it is an exact match of the search text.|boolean|No|false
 |autofocus|Set input focus when the page loads|boolean|No|false

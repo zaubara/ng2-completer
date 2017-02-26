@@ -8,7 +8,7 @@
             <p>Local data of countries - using image, matchClass, maxLength, autofocus and limit of the dropdown length in CSS</p>
         </div>
         <div class="row">
-            <ng2-completer class="completer-limit" [(ngModel)]="countryName" [dataService]="dataService" [minSearchLength]="0"
+            <ng2-completer class="completer-limit" [(ngModel)]="countryName" [datasource]="dataService" [minSearchLength]="0"
                 [maxChars]="4" [placeholder]="'search country'" [matchClass]="'match'" [autofocus]="true">
             </ng2-completer>
         </div>
@@ -25,7 +25,7 @@
                 selected event</p>
         </div>
         <div class="row">
-            <ng2-completer [dataService]="dataService2" (selected)="onQuoteSelected($event)"
+            <ng2-completer [datasource]="dataService2" (selected)="onQuoteSelected($event)"
                 [minSearchLength]="0" [placeholder]="'search quote by author name'" [textNoResults]="'No quotes found'"
                 [matchClass]="'match'">
             </ng2-completer>
@@ -62,7 +62,7 @@
             </p>
         </div>
         <div class="row">
-            <ng2-completer [(ngModel)]="countryName3" [dataService]="dataService3" [minSearchLength]="0"
+            <ng2-completer [(ngModel)]="countryName3" [datasource]="dataService3" [minSearchLength]="0"
                 [placeholder]="'search country'" [overrideSuggested]="true" [disableInput]="searchcb"
                 [fieldTabindex]="-1" [inputClass]="'my-input-class'">
             </ng2-completer>
@@ -82,19 +82,19 @@
     <div class="col-md-offset-1">
         <form>
             <div class="row">
-                <p>Local data of countries - autoMatch and required</p>
+                <p>Local data of colors - autoMatch and required</p>
             </div>
             <div class="row">
-                <ng2-completer name="countryRequired" [dataService]="dataService4" [(ngModel)]="countryName4"
-                    [minSearchLength]="0" [placeholder]="'search country'" #countryRequired="ngModel"
+                <ng2-completer name="colorRequired" [datasource]="colors" [(ngModel)]="color"
+                    [minSearchLength]="0" [placeholder]="'search color'" #colorRequired="ngModel"
                     [autoMatch]="true" required>
                 </ng2-completer>
-                <div [hidden]="countryRequired.valid" class="col-md-6 alert alert-danger">
-                    Country is required
+                <div [hidden]="colorRequired.valid" class="col-md-6 alert alert-danger">
+                    Color is required
                 </div>
             </div>
             <div class="row">
-                <p>Selected: {{countryName4}}</p>
+                <p>Selected: {{color}}</p>
             </div>
         </form>
     </div>
@@ -107,7 +107,7 @@
             <p>Remote data from <a href="http://www.omdbapi.com">The Open Movie Database</a> - urlFormater and dataField</p>
         </div>
         <div class="row">
-            <ng2-completer [(ngModel)]="countryName5" [dataService]="dataRemote2" [minSearchLength]="3"
+            <ng2-completer [(ngModel)]="countryName5" [datasource]="dataRemote2" [minSearchLength]="3"
                 [placeholder]="'search moview'" [textSearching]="'Please wait...'">
             </ng2-completer>
         </div>
@@ -124,7 +124,7 @@
             <p>Custom data provider. Seinfeld episodes data from <a href="https://mysafeinfo.com/">mysafeinfo.com</a></p>
         </div>
         <div class="row">
-            <ng2-completer [(ngModel)]="seinfeldEpisode" [dataService]="customData" [minSearchLength]="3"
+            <ng2-completer [(ngModel)]="seinfeldEpisode" [datasource]="customData" [minSearchLength]="3"
                 [placeholder]="'search Seinfeld episode'" [textSearching]="'Please wait...'">
             </ng2-completer>
         </div>
@@ -138,11 +138,11 @@
 <div class="row completer-wrapper m-a-1">
     <div class="col-md-offset-1">
         <div class="row">
-            <p>Local data of countries open and close from code</p>
+            <p>Local data of colors open and close from code</p>
         </div>
         <div class="row">
             <div class="col-md-3">
-                <ng2-completer #openCloseExample  [(ngModel)]="countryName6" [dataService]="dataService5" [minSearchLength]="0" [placeholder]="'search country'">
+                <ng2-completer #openCloseExample  [(ngModel)]="color2" [datasource]="colors" [minSearchLength]="0" [placeholder]="'search color'">
                 </ng2-completer>
             </div>
             <div class="col-md-1">
@@ -153,7 +153,7 @@
             </div>
         </div>
         <div class="row">
-            <p>Selected country: {{countryName6}}</p>
+            <p>Selected color: {{color2}}</p>
         </div>
     </div>
 </div>
@@ -165,7 +165,7 @@
             <p>Remote data of countries with minSearchLength, textSearching and fillHighlighted=false</p>
         </div>
         <div class="row">
-            <ng2-completer [dataService]="dataNoFill" [minSearchLength]="1" [placeholder]="'search country'"
+            <ng2-completer [datasource]="dataNoFill" [minSearchLength]="1" [placeholder]="'search country'"
                            [fillHighlighted]="false" (selected)="onCountrySelected($event)" [textSearching]="'Please wait...'">
             </ng2-completer>
         </div>

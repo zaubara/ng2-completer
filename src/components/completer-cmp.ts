@@ -4,6 +4,7 @@ import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from "@angular/f
 
 import { CtrCompleter } from "../directives/ctr-completer";
 import { CompleterData } from "../services/completer-data";
+import { CompleterService } from "../services/completer-service";
 import { CompleterItem } from "./completer-item";
 import { MAX_CHARS, MIN_SEARCH_LENGTH, PAUSE, TEXT_SEARCHING, TEXT_NORESULTS } from "../globals";
 
@@ -101,6 +102,7 @@ const COMPLETER_CONTROL_VALUE_ACCESSOR = {
 })
 export class CompleterCmp implements OnInit, ControlValueAccessor {
     @Input() public dataService: CompleterData;
+    @Input() public datasource: CompleterData | string | Array<any>;
     @Input() public inputName = "";
     @Input() public pause = PAUSE;
     @Input() public minSearchLength = MIN_SEARCH_LENGTH;
@@ -131,7 +133,7 @@ export class CompleterCmp implements OnInit, ControlValueAccessor {
     private _onTouchedCallback: () => void = noop;
     private _onChangeCallback: (_: any) => void = noop;
 
-    constructor() { }
+    constructor(private completerService: CompleterService) { }
 
     get value(): any { return this.searchStr; };
 
@@ -160,6 +162,15 @@ export class CompleterCmp implements OnInit, ControlValueAccessor {
     }
 
     public ngOnInit() {
+        if (this.datasource) {
+            if (this.datasource instanceof Array) {
+                this.dataService = this.completerService.local(this.datasource);
+            } else if (typeof(this.datasource) === "string") {
+                this.dataService = this.completerService.remote(this.datasource);
+            } else {
+                this.dataService = this.datasource;
+            }
+        }
         this.completer.selected.subscribe((item: CompleterItem) => {
             let title = item ? item.title : "";
             this.selected.emit(item);
