@@ -3,10 +3,15 @@ All notable changes to this project will be documented in this file.
 
 ## 1.2.0 (2017-02-24)
 
+
+### Implemented enhancements
+- Replaced the source URL of remote formatter because of Google API limits
+
 ### Fixed bugs
 - Since last commit searchFields does not behave as stated in the docs #144
 - Fixed ionic build
 - Fix material design demo
+- Fix demo of remote URL formatter
 
 ## 1.1.0 (2017-02-10)
 

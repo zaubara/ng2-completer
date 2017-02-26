@@ -5,7 +5,7 @@ import { Observable } from "rxjs/Rx";
 
 import { CompleterCmp, CompleterData, CompleterService, CompleterItem, RemoteData } from "../src";
 import { CustomData } from "./custom-data";
-import { Http, Headers } from "@angular/http";
+import { Http } from "@angular/http";
 
 let template = require("./native-cmp.html");
 let style = require("./native-cmp.css");
@@ -84,12 +84,11 @@ export class NativeCmp {
         this.dataRemote2 = completerService.remote(
             null,
             null,
-            "formatted_address");
+            "Title");
         this.dataRemote2.urlFormater(term => {
-            return `https://maps.googleapis.com/maps/api/geocode/json?address=${term}`;
+            return `http://www.omdbapi.com/?s=${term}&type=movie`;
         });
-        this.dataRemote2.dataField("results");
-        this.dataRemote2.headers(new Headers({ "My-Header": "Hello World!" }));
+        this.dataRemote2.dataField("Search");
         // For async local the source can also be HTTP request
         // let source = http.get("https://raw.githubusercontent.com/oferh/ng2-completer/master/demo/res/data/countries.json?").map((res: any) => res.json());
         let source = Observable.from([this.countries]).delay(3000);
