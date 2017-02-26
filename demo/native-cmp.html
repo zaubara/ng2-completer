@@ -162,15 +162,15 @@
 <div class="row completer-wrapper m-a-1">
     <div class="col-md-offset-1">
         <div class="row">
-            <p>Remote data of countries with minSearchLength, textSearching and fillHighlighted=false</p>
+            <p>Remote data of colors with minSearchLength, textSearching and fillHighlighted=false</p>
         </div>
         <div class="row">
-            <ng2-completer [datasource]="dataNoFill" [minSearchLength]="1" [placeholder]="'search country'"
+            <ng2-completer [datasource]="'https://raw.githubusercontent.com/oferh/ng2-completer/master/demo/res/data/colors.json?'" [minSearchLength]="1" [placeholder]="'search color'"
                            [fillHighlighted]="false" (selected)="onCountrySelected($event)" [textSearching]="'Please wait...'">
             </ng2-completer>
         </div>
         <div class="row">
-            <p>Selected country: {{countryName2}}</p>
+            <p>Selected color: {{countryName2}}</p>
         </div>
     </div>
 </div>
