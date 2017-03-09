@@ -24,7 +24,7 @@ const COMPLETER_CONTROL_VALUE_ACCESSOR = {
     selector: "ng2-completer",
     template: `
         <div class="completer-holder" ctrCompleter>
-            <input #focus type="search" class="completer-input" ctrInput [ngClass]="inputClass" [(ngModel)]="searchStr" (ngModelChange)="onChange($event)" [attr.name]="inputName" [placeholder]="placeholder"
+            <input #ctrInput type="search" class="completer-input" ctrInput [ngClass]="inputClass" [(ngModel)]="searchStr" (ngModelChange)="onChange($event)" [attr.name]="inputName" [placeholder]="placeholder"
                 [attr.maxlength]="maxChars" [tabindex]="fieldTabindex" [disabled]="disableInput" [clearSelected]="clearSelected" [overrideSuggested]="overrideSuggested" 
                 [fillHighlighted]="fillHighlighted" (blur)="onBlur()" autocomplete="off" autocorrect="off" autocapitalize="off" />
 
@@ -132,7 +132,7 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewInit
     private displaySearching = true;
     private _onTouchedCallback: () => void = noop;
     private _onChangeCallback: (_: any) => void = noop;
-    @ViewChild("focus") private focus: ElementRef;
+    @ViewChild("ctrInput") private ctrInput: ElementRef;
 
     constructor(private completerService: CompleterService) { }
 
@@ -163,8 +163,8 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewInit
     }
 
     public ngAfterViewInit() {
-        if (this.autofocus && this.focus) {
-            this.focus.nativeElement.focus();
+        if (this.autofocus && this.ctrInput) {
+            this.ctrInput.nativeElement.focus();
         }
     }
 
