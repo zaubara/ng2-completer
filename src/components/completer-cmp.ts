@@ -1,5 +1,5 @@
 "use strict";
-import { Component, Input, Output, EventEmitter, OnInit, ViewChild, forwardRef } from "@angular/core";
+import { Component, Input, Output, EventEmitter, OnInit, ViewChild, forwardRef, AfterViewInit, ElementRef } from "@angular/core";
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from "@angular/forms";
 
 import { CtrCompleter } from "../directives/ctr-completer";
@@ -24,9 +24,9 @@ const COMPLETER_CONTROL_VALUE_ACCESSOR = {
     selector: "ng2-completer",
     template: `
         <div class="completer-holder" ctrCompleter>
-            <input type="search" class="completer-input" ctrInput [ngClass]="inputClass" [(ngModel)]="searchStr" (ngModelChange)="onChange($event)" [attr.name]="inputName" [placeholder]="placeholder"
+            <input #ctrInput type="search" class="completer-input" ctrInput [ngClass]="inputClass" [(ngModel)]="searchStr" (ngModelChange)="onChange($event)" [attr.name]="inputName" [placeholder]="placeholder"
                 [attr.maxlength]="maxChars" [tabindex]="fieldTabindex" [disabled]="disableInput" [clearSelected]="clearSelected" [overrideSuggested]="overrideSuggested" 
-                [fillHighlighted]="fillHighlighted" (blur)="onBlur()" [autofocus]="autofocus" autocomplete="off" autocorrect="off" autocapitalize="off" />
+                [fillHighlighted]="fillHighlighted" (blur)="onBlur()" autocomplete="off" autocorrect="off" autocapitalize="off" />
 
             <div class="completer-dropdown-holder" *ctrList="dataService; minSearchLength: minSearchLength; pause: pause; autoMatch: autoMatch; let items = results; let searchActive = searching; let isInitialized = searchInitialized;">
                 <div class="completer-dropdown" ctrDropdown *ngIf="isInitialized">
@@ -100,7 +100,7 @@ const COMPLETER_CONTROL_VALUE_ACCESSOR = {
     `],
     providers: [COMPLETER_CONTROL_VALUE_ACCESSOR]
 })
-export class CompleterCmp implements OnInit, ControlValueAccessor {
+export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewInit {
     @Input() public dataService: CompleterData;
     @Input() public datasource: CompleterData | string | Array<any>;
     @Input() public inputName = "";
@@ -132,6 +132,7 @@ export class CompleterCmp implements OnInit, ControlValueAccessor {
     private displaySearching = true;
     private _onTouchedCallback: () => void = noop;
     private _onChangeCallback: (_: any) => void = noop;
+    @ViewChild("ctrInput") private ctrInput: ElementRef;
 
     constructor(private completerService: CompleterService) { }
 
@@ -161,11 +162,17 @@ export class CompleterCmp implements OnInit, ControlValueAccessor {
         this._onTouchedCallback = fn;
     }
 
+    public ngAfterViewInit() {
+        if (this.autofocus && this.ctrInput) {
+            this.ctrInput.nativeElement.focus();
+        }
+    }
+
     public ngOnInit() {
         if (this.datasource) {
             if (this.datasource instanceof Array) {
                 this.dataService = this.completerService.local(this.datasource);
-            } else if (typeof(this.datasource) === "string") {
+            } else if (typeof (this.datasource) === "string") {
                 this.dataService = this.completerService.remote(this.datasource);
             } else {
                 this.dataService = this.datasource;
