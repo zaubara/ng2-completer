@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed bugs
 - Can't bind to 'selected' since it isn't a known property of 'ng2-completer'. #155
+- Autofocus does not work. #150
 
 ## 1.2.0 (2017-02-26)
 
