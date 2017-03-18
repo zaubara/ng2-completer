@@ -77,12 +77,6 @@ export class CtrInput {
             this.completer.clear();
         }
         else {
-            if (!this.searchStr) {
-                this.completer.onSelected(null);
-                this.completer.clear();
-                return;
-            }
-
             this.completer.search(this.searchStr);
         }
 

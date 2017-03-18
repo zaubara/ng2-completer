@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 1.2.1 (2017-03-18)
+
+### Fixed bugs
+- Can't bind to 'selected' since it isn't a known property of 'ng2-completer'. #155
+
 ## 1.2.0 (2017-02-26)
 
 ### Implemented enhancements

@@ -50,7 +50,9 @@ export class CtrCompleter implements OnInit {
 
     public onSelected(item: CompleterItem) {
         this.selected.emit(item);
-        this.hasSelected = true;
+        if (item) {
+            this.hasSelected = true;
+        }
         this.clear();
     }
 
