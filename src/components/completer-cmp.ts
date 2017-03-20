@@ -133,7 +133,7 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewInit
     private displaySearching = true;
     private _onTouchedCallback: () => void = noop;
     private _onChangeCallback: (_: any) => void = noop;
-    
+
     constructor(private completerService: CompleterService) { }
 
     get value(): any { return this.searchStr; };
