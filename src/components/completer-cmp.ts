@@ -125,6 +125,7 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewInit
     @Output() public blur = new EventEmitter<void>();
 
     @ViewChild(CtrCompleter) public completer: CtrCompleter;
+    @ViewChild("ctrInput") public ctrInput: ElementRef;
 
     public searchStr = "";
     public control = new FormControl("");
@@ -132,7 +133,6 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewInit
     private displaySearching = true;
     private _onTouchedCallback: () => void = noop;
     private _onChangeCallback: (_: any) => void = noop;
-    @ViewChild("ctrInput") private ctrInput: ElementRef;
 
     constructor(private completerService: CompleterService) { }
 
