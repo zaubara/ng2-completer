@@ -1,4 +1,4 @@
-import { EventEmitter, OnInit, AfterViewInit } from "@angular/core";
+import { EventEmitter, OnInit, AfterViewInit, ElementRef } from "@angular/core";
 import { ControlValueAccessor, FormControl } from "@angular/forms";
 import { CtrCompleter } from "../directives/ctr-completer";
 import { CompleterData } from "../services/completer-data";
@@ -29,12 +29,12 @@ export declare class CompleterCmp implements OnInit, ControlValueAccessor, After
     highlighted: EventEmitter<CompleterItem>;
     blur: EventEmitter<void>;
     completer: CtrCompleter;
+    ctrInput: ElementRef;
     searchStr: string;
     control: FormControl;
     private displaySearching;
     private _onTouchedCallback;
     private _onChangeCallback;
-    private ctrInput;
     constructor(completerService: CompleterService);
     value: any;
     onTouched(): void;
