@@ -14,35 +14,15 @@ h3 {
 }
 
 .card-block {
-  background-color: #f2f2f2;
+  background-color: #f7f5f2;
 }
 
-/*
- * Top navigation
- * Hide default border to remove 1px line.
- */
-.navbar-fixed-top {
-  border: 0;
-}
-
-/*
- * Main content
- */
 :host {
   padding: 5em 0;
 }
 
-.completer-wrapper {
-  border-radius: 25px;
-  background: lightgray;
-}
-
 :host > > > .match {
   color: darkred;
-}
-
-:host > > > .my-input-class {
-  color: #2e405b;
 }
 
 .completer-limit /deep/ .completer-dropdown {
