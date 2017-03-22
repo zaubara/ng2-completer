@@ -1,3 +1,22 @@
+h1 {
+  margin: 1em 0 .5em;
+
+}
+
+h3 {
+  color: #444;
+  border-bottom: 1px solid #efefef;
+  margin: 3em 0 1em;
+}
+
+.form-group:last-child {
+  margin-bottom: 0;
+}
+
+.card-block {
+  background-color: #f2f2f2;
+}
+
 /*
  * Top navigation
  * Hide default border to remove 1px line.
@@ -9,21 +28,20 @@
 /*
  * Main content
  */
-
-.main {
-  padding: 5rem;
+:host {
+  padding: 5em 0;
 }
 
 .completer-wrapper {
-    border-radius: 25px;
-    background: lightgray;
+  border-radius: 25px;
+  background: lightgray;
 }
 
-:host >>> .match {
-  color: orangered;
+:host > > > .match {
+  color: darkred;
 }
 
-:host >>> .my-input-class {
+:host > > > .my-input-class {
   color: #2e405b;
 }
 

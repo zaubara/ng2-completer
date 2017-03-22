@@ -1,176 +1,259 @@
-<div class="row">
-    <h1>Completer Native</h1>
-</div>
-<h2>Local data with image</h2>
-<div class="row completer-wrapper m-a-1">
-    <div class="col-md-offset-1">
-        <div class="row">
-            <p>Local data of countries - using image, matchClass, maxLength, autofocus and limit of the dropdown length in CSS</p>
-        </div>
-        <div class="row">
-            <ng2-completer class="completer-limit" [(ngModel)]="countryName" [datasource]="dataService" [minSearchLength]="0"
-                [maxChars]="4" [placeholder]="'search country'" [matchClass]="'match'" [autofocus]="true">
-            </ng2-completer>
-        </div>
-        <div class="row">
-            <p>Selected country: {{countryName}}</p>
-        </div>
-    </div>
-</div>
-<h2>Local data with description</h2>
-<div class="row completer-wrapper m-a-1">
-    <div class="col-md-offset-1">
-        <div class="row">
-            <p>Local data of quotes - using desription, textNoResults, matchClass and
-                selected event</p>
-        </div>
-        <div class="row">
-            <ng2-completer [datasource]="dataService2" (selected)="onQuoteSelected($event)"
-                [minSearchLength]="0" [placeholder]="'search quote by author name'" [textNoResults]="'No quotes found'"
-                [matchClass]="'match'">
-            </ng2-completer>
-        </div>
-        <div class="row">
-            <p>Quote: {{quote}}</p>
-        </div>
-    </div>
+<h1 style="margin-top: 1em;" class="page">Completer Native</h1>
+
+<h3>Local data with image</h3>
+<p>Local data with countries - using <code>image</code>,
+	<code>matchClass</code>,
+	<code>maxLength</code>, <code>autofocus</code> and limit of the dropdown length in CSS</p>
+
+<div class="card">
+	<div class="card-block">
+		<div class="form-group row">
+			<div class="col-5">
+				<ng2-completer class="completer-limit"
+											 [(ngModel)]="countryName"
+											 [datasource]="dataService"
+											 [minSearchLength]="0"
+											 [maxChars]="4"
+											 [inputClass]="'form-control'"
+											 [placeholder]="'Search country'"
+											 [matchClass]="'match'"
+											 [autofocus]="true">
+				</ng2-completer>
+			</div>
+			<div class="col-6">
+				<p class="form-control-static"><b>{{countryName || ''}}</b></p>
+			</div>
+		</div>
+	</div>
 </div>
 
-<h2>Remote data</h2>
-<div class="row completer-wrapper m-a-1">
-    <div class="col-md-offset-1">
-        <div class="row">
-            <p>Remote data of countries with minSearchLength, textSearching and clearSelected</p>
-        </div>
-        <div class="row">
-            <ng2-completer [dataService]="dataRemote" [minSearchLength]="3" [placeholder]="'search country'"
-                [clearSelected]="true" (selected)="onCountrySelected($event)" [textSearching]="'Please wait...'">
-            </ng2-completer>
-        </div>
-        <div class="row">
-            <p>Selected country: {{countryName2}}</p>
-        </div>
-    </div>
+
+<h3>Local data with description</h3>
+<p>Local data of quotes - using <code>desription</code>, <code>textNoResults</code>, <code>matchClass</code>
+	and
+	<code>selected</code> event</p>
+
+
+<div class="card">
+	<div class="card-block">
+		<div class="form-group row">
+			<div class="col-5">
+				<ng2-completer [datasource]="dataService2"
+											 (selected)="onQuoteSelected($event)"
+											 [minSearchLength]="0"
+											 [placeholder]="'Search quote by author name'"
+											 [textNoResults]="'No quotes found'"
+											 [inputClass]="'form-control'"
+											 [matchClass]="'match'">
+				</ng2-completer>
+			</div>
+			<div class="col-6">
+				<p class="form-control-static"><b>{{quote}}</b></p>
+			</div>
+		</div>
+	</div>
 </div>
 
-<h2>Input disabled</h2>
-<div class="row completer-wrapper m-a-1">
-    <div class="col-md-offset-1">
-        <div class="row">
-            <p>Async local data of countries - overrideSuggested, inputDisabled, inputClass and
-                fieldTabindex
-            </p>
-        </div>
-        <div class="row">
-            <ng2-completer [(ngModel)]="countryName3" [datasource]="dataService3" [minSearchLength]="0"
-                [placeholder]="'search country'" [overrideSuggested]="true" [disableInput]="searchcb"
-                [fieldTabindex]="-1" [inputClass]="'my-input-class'">
-            </ng2-completer>
-        </div>
-        <div class="row">
-            <p>Selected: {{countryName3}}</p>
-        </div>
-        <div class="row">
-            <label>Disable search</label>
-            <input type="checkbox" [(ngModel)]="searchcb" />
-        </div>
-    </div>
+<h3>Remote data</h3>
+<p>Remote data of countries with <code>minSearchLength</code>, <code>textSearching</code>
+	and <code>clearSelected</code>
+</p>
+
+
+<div class="card">
+	<div class="card-block">
+		<div class="form-group row">
+			<div class="col-5">
+				<ng2-completer [dataService]="dataRemote" [minSearchLength]="3"
+											 [placeholder]="'Search for country'"
+											 [clearSelected]="true" (selected)="onCountrySelected($event)"
+											 [inputClass]="'form-control'"
+											 [textSearching]="'Please wait...'">
+				</ng2-completer>
+			</div>
+			<div class="col-6">
+				<p class="form-control-static"><b> {{countryName2}}</b></p>
+			</div>
+		</div>
+	</div>
 </div>
 
-<h2>Automatch</h2>
-<div class="row completer-wrapper m-a-1">
-    <div class="col-md-offset-1">
-        <form>
-            <div class="row">
-                <p>Local data of colors - autoMatch and required</p>
-            </div>
-            <div class="row">
-                <ng2-completer name="colorRequired" [datasource]="colors" [(ngModel)]="color"
-                    [minSearchLength]="0" [placeholder]="'search color'" #colorRequired="ngModel"
-                    [autoMatch]="true" required>
-                </ng2-completer>
-                <div [hidden]="colorRequired.valid" class="col-md-6 alert alert-danger">
-                    Color is required
-                </div>
-            </div>
-            <div class="row">
-                <p>Selected: {{color}}</p>
-            </div>
-        </form>
-    </div>
+<h3>Input disabled</h3>
+<p>Async local data of countries - <code>overrideSuggested</code>, <code>inputDisabled</code>,
+	<code>inputClass</code> and <code>fieldTabindex</code>
+</p>
+
+<div class="card">
+	<div class="card-block">
+		<div class="form-group row">
+			<div class="col-5">
+				<ng2-completer [(ngModel)]="countryName3" [datasource]="dataService3" [minSearchLength]="0"
+											 [placeholder]="'search country'" [overrideSuggested]="true"
+											 [disableInput]="searchcb"
+											 [inputClass]="'form-control'"
+											 [fieldTabindex]="-1" [inputClass]="'my-input-class'">
+				</ng2-completer>
+			</div>
+			<div class="col-6">
+				<p class="form-control-static"><b> {{countryName3}}</b></p>
+			</div>
+		</div>
+		<div class="form-group row">
+			<div class="col">
+				<div class="form-check">
+					<label class="form-check-label">
+						<input class="form-check-input" type="checkbox" value="" [(ngModel)]="searchcb">
+						Disable input
+					</label>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
-<h2>Remote data with URL Formater and Headers</h2>
-<div class="row completer-wrapper m-a-1">
-    <div class="col-md-offset-1">
-        <div class="row">
-            <p>Remote data from <a href="http://www.omdbapi.com">The Open Movie Database</a> - urlFormater and dataField</p>
-        </div>
-        <div class="row">
-            <ng2-completer [(ngModel)]="countryName5" [datasource]="dataRemote2" [minSearchLength]="3"
-                [placeholder]="'search moview'" [textSearching]="'Please wait...'">
-            </ng2-completer>
-        </div>
-        <div class="row">
-            <p>Selected country: {{countryName5}}</p>
-        </div>
-    </div>
+<h3>Automatch</h3>
+<p>Local data of colors - <code>autoMatch</code> and <code>required</code></p>
+
+<div class="card">
+	<div class="card-block">
+		<div class="form-group row" [class.has-danger]="!colorRequired.valid">
+			<div class="col-5">
+				<ng2-completer name="colorRequired" [datasource]="colors" [(ngModel)]="color"
+											 [minSearchLength]="0" [placeholder]="'search color'" #colorRequired="ngModel"
+											 [autoMatch]="true"
+											 [inputClass]="(colorRequired.valid) ? 'form-control' : 'form-control form-control-danger'"
+											 required>
+				</ng2-completer>
+				<div *ngIf="!colorRequired.valid" class="form-control-feedback">Sorry, color is required
+				</div>
+			</div>
+			<div class="col-6">
+				<p class="form-control-static"><b> {{color}}</b></p>
+			</div>
+		</div>
+	</div>
 </div>
 
-<h2>Custom data provider</h2>
-<div class="row completer-wrapper m-a-1">
-    <div class="col-md-offset-1">
-        <div class="row">
-            <p>Custom data provider. Seinfeld episodes data from <a href="https://mysafeinfo.com/">mysafeinfo.com</a></p>
-        </div>
-        <div class="row">
-            <ng2-completer [(ngModel)]="seinfeldEpisode" [datasource]="customData" [minSearchLength]="3"
-                [placeholder]="'search Seinfeld episode'" [textSearching]="'Please wait...'">
-            </ng2-completer>
-        </div>
-        <div class="row">
-            <p>Selected episode: {{seinfeldEpisode}}</p>
-        </div>
-    </div>
+<h3>Remote data with URL Formater and Headers</h3>
+<p>Remote data from <a href="http://www.omdbapi.com">The Open Movie Database</a> with
+	<code>urlFormater</code> and <code>dataField</code></p>
+
+<div class="card">
+	<div class="card-block">
+		<div class="form-group row">
+			<div class="col-5">
+				<ng2-completer [(ngModel)]="countryName5"
+											 [datasource]="dataRemote2"
+											 [minSearchLength]="3"
+											 [placeholder]="'Search movie title'"
+											 [textSearching]="'Please wait...'"
+											 [inputClass]="'form-control'">
+				</ng2-completer>
+			</div>
+			<div class="col-6">
+				<p class="form-control-static"><b>{{countryName5}}</b></p>
+			</div>
+		</div>
+	</div>
 </div>
 
-<h2>Open and close programmatically</h2>
-<div class="row completer-wrapper m-a-1">
-    <div class="col-md-offset-1">
-        <div class="row">
-            <p>Local data of colors open and close from code</p>
-        </div>
-        <div class="row">
-            <div class="col-md-3">
-                <ng2-completer #openCloseExample  [(ngModel)]="color2" [datasource]="colors" [minSearchLength]="0" [placeholder]="'search color'">
-                </ng2-completer>
-            </div>
-            <div class="col-md-1">
-                <button (click)="onOpen()">open</button>
-            </div>
-            <div class="col-md-1">
-                <button (click)="onClose()">close</button>
-            </div>
-        </div>
-        <div class="row">
-            <p>Selected color: {{color2}}</p>
-        </div>
-    </div>
+<h3>Custom data provider</h3>
+<p>Custom data provider. Seinfeld episodes data from <a href="https://mysafeinfo.com/">mysafeinfo.com</a>
+</p>
+
+<div class="card">
+	<div class="card-block">
+		<div class="form-group row">
+			<div class="col-5">
+				<ng2-completer [(ngModel)]="seinfeldEpisode" [datasource]="customData" [minSearchLength]="3"
+											 [inputClass]="'form-control'"
+											 [placeholder]="'search Seinfeld episode'" [textSearching]="'Please wait...'">
+				</ng2-completer>
+			</div>
+			<div class="col-6">
+				<p class="form-control-static"><b> {{seinfeldEpisode}}</b></p>
+			</div>
+		</div>
+	</div>
 </div>
 
-<h2>Do not set input value when item is highlighted</h2>
-<div class="row completer-wrapper m-a-1">
-    <div class="col-md-offset-1">
-        <div class="row">
-            <p>Remote data of colors with minSearchLength, textSearching and fillHighlighted=false</p>
-        </div>
-        <div class="row">
-            <ng2-completer [datasource]="'https://raw.githubusercontent.com/oferh/ng2-completer/master/demo/res/data/colors.json?'" [minSearchLength]="1" [placeholder]="'search color'"
-                           [fillHighlighted]="false" (selected)="onCountrySelected($event)" [textSearching]="'Please wait...'">
-            </ng2-completer>
-        </div>
-        <div class="row">
-            <p>Selected color: {{countryName2}}</p>
-        </div>
-    </div>
+<h3>Open and close programmatically</h3>
+<p>Local data of colors; Open and close dropdown programmatically</p>
+
+
+<div class="card">
+	<div class="card-block">
+		<div class="form-group row">
+			<div class="col-3">
+				<ng2-completer #openCloseExample [(ngModel)]="color2" [datasource]="colors"
+											 [inputClass]="'form-control'"
+											 [minSearchLength]="0" [placeholder]="'search color'">
+				</ng2-completer>
+			</div>
+			<div class="col-2">
+				<button (click)="onOpen()" class="btn btn-primary">Open</button>
+				<button (click)="onClose()" class="btn btn-primary">Close</button>
+			</div>
+			<div class="col">
+				<p class="form-control-static"><b> {{color2}}</b></p>
+			</div>
+		</div>
+	</div>
 </div>
+
+
+<h3>Do not set input value when item is highlighted</h3>
+<p>Remote data of colors with <code>minSearchLength</code>, <code>textSearching</code> and <code>fillHighlighted
+	= false</code></p>
+
+<div class="card">
+	<div class="card-block">
+		<div class="form-group row">
+			<div class="col-5">
+				<ng2-completer
+						[datasource]="'https://raw.githubusercontent.com/oferh/ng2-completer/master/demo/res/data/colors.json?'"
+						[minSearchLength]="1" [placeholder]="'search color'"
+						[inputClass]="'form-control'"
+						[fillHighlighted]="false" (selected)="onCountrySelected($event)"
+						[textSearching]="'Please wait...'">
+				</ng2-completer>
+
+			</div>
+			<div class="col-6">
+				<p class="form-control-static"><b> {{countryName2}}</b></p>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<h3>Events</h3>
+<p>Event triggering with <code>onBlur</code> and <code>onFocus</code> events.</p>
+
+<div class="card">
+	<div class="card-block">
+		<div class="form-group row">
+			<div class="col-5">
+				<ng2-completer
+						[datasource]="'https://raw.githubusercontent.com/oferh/ng2-completer/master/demo/res/data/colors.json?'"
+						[minSearchLength]="1" [placeholder]="'search color'"
+						[inputClass]="'form-control'"
+						(focus)="focused = true; blurred = false;"
+						(blur)="focused = false; blurred = true;"
+						[fillHighlighted]="false" (selected)="onCountrySelected($event)"
+						[textSearching]="'Please wait...'">
+				</ng2-completer>
+			</div>
+			<div class="col">
+				<div class="alert alert-success" role="alert" *ngIf="focused">
+					<code>(focus)='...'</code> <b>onFocus</b> event emitted.
+				</div>
+				<div class="alert alert-success" role="alert" *ngIf="blurred">
+					<code>(blur)='...'</code> <b>onBlur</b> event emitted.
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<p style="margin-bottom: 10em;"></p>

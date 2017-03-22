@@ -1,14 +1,23 @@
-        <nav class="navbar navbar-dark navbar-static-top bg-inverse">
-            <a class="navbar-brand" href="#">ng2-completer demo</a>
-            <ul class="nav navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" routerLink="/native">JS Native</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" routerLink="/material">Material Design</a>
-                </li>
-            </ul>
-        </nav>
+<nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse sticky-top">
+	<div class="container">
+		<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+						data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+						aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<a class="navbar-brand" href="#"><strong>ng2-completer</strong> demo</a>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item">
+					<a class="nav-link" routerLink="/native" routerLinkActive="active">JS Native</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" routerLink="/material" routerLinkActive="active">Material Design</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>
 <div class="container main">
-    <router-outlet></router-outlet>
+	<router-outlet></router-outlet>
 </div>
