@@ -1,6 +1,13 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 1.3.0 ()
+
+### Implemented enhancements
+- Please add `focus` event along with `blur` one #175
+- Demo redo
+- No link to Github in demo #133
+
 ## 1.2.1 (2017-03-18)
 
 ### Fixed bugs
