@@ -3,6 +3,7 @@ import { HttpModule } from "@angular/http";
 import { FormsModule } from "@angular/forms";
 import { MaterialModule } from "@angular/material";
 import { BrowserModule } from "@angular/platform-browser";
+import { CollapseModule } from "ng2-bootstrap/collapse";
 
 import { AppComponent }  from "./app-cmp";
 import { MaterialCmp } from "./material-cmp";
@@ -19,7 +20,8 @@ import { CompleterCmpMd } from "./completer-cmp-md";
       MaterialModule,
       FormsModule,
       HttpModule,
-      routing
+      routing,
+      CollapseModule
   ],
   declarations: [ AppComponent, CompleterCmpMd, NativeCmp, MaterialCmp],
   bootstrap: [ AppComponent ]
