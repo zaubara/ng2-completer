@@ -19,7 +19,9 @@
         ]
     },
     "exclude": [
-        "node_modules"
+        "node_modules",
+        "bundles",
+        "dist"
     ] 
     //,
     // "awesomeTypescriptLoaderOptions": {
