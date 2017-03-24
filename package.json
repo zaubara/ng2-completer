@@ -61,6 +61,7 @@
     "html-webpack-plugin": "^2.24.1",
     "json-loader": "^0.5.4",
     "ncp": "^2.0.0",
+    "ng2-bootstrap": "^1.4.2",
     "node-zopfli": "^2.0.2",
     "object.assign": "^4.0.3",
     "raw-loader": "^0.5.1",

@@ -26,7 +26,7 @@ const COMPLETER_CONTROL_VALUE_ACCESSOR = {
         <div class="completer-holder" ctrCompleter>
             <input #ctrInput type="search" class="completer-input" ctrInput [ngClass]="inputClass" [(ngModel)]="searchStr" (ngModelChange)="onChange($event)" [attr.name]="inputName" [placeholder]="placeholder"
                 [attr.maxlength]="maxChars" [tabindex]="fieldTabindex" [disabled]="disableInput" [clearSelected]="clearSelected" [overrideSuggested]="overrideSuggested" 
-                [fillHighlighted]="fillHighlighted" (blur)="onBlur()" autocomplete="off" autocorrect="off" autocapitalize="off" />
+                [fillHighlighted]="fillHighlighted" (blur)="onBlur()" (focus)="onEventFocus()" autocomplete="off" autocorrect="off" autocapitalize="off" />
 
             <div class="completer-dropdown-holder" *ctrList="dataService; minSearchLength: minSearchLength; pause: pause; autoMatch: autoMatch; let items = results; let searchActive = searching; let isInitialized = searchInitialized;">
                 <div class="completer-dropdown" ctrDropdown *ngIf="isInitialized">
@@ -123,6 +123,7 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewInit
     @Output() public selected = new EventEmitter<CompleterItem>();
     @Output() public highlighted = new EventEmitter<CompleterItem>();
     @Output() public blur = new EventEmitter<void>();
+    @Output() public focus = new EventEmitter<void>();
 
     @ViewChild(CtrCompleter) public completer: CtrCompleter;
     @ViewChild("ctrInput") public ctrInput: ElementRef;
@@ -194,6 +195,11 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewInit
 
     public onBlur() {
         this.blur.emit();
+        this.onTouched();
+    }
+
+    public onEventFocus() {
+        this.focus.emit();
         this.onTouched();
     }
 
