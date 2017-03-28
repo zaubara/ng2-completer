@@ -1,5 +1,4 @@
 import { Directive, EventEmitter, OnInit, Output } from "@angular/core";
-// import { Observable } from "rxjs/Observable";
 
 
 // import { CompleterData } from "../components/ng2-completer/services/completer-data";
