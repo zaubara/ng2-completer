@@ -119,8 +119,9 @@ Add the following to `System.js` map configuration:
 
 |Method|Description|Parameters|
 |:---    |:---        |:--- |
-|Open(searchValue: string)|Open the dropdown and do search on a value|searchValue - string to search for default is ""|
-|Close()|Close the dropdown| |
+|open(searchValue: string)|Open the dropdown and do search on a value|searchValue - string to search for default is ""|
+|close()|Close the dropdown| |
+|focus()|Set the focus to the completer input| |
 
 ### Local data
 

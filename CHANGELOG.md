@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 - Please add `focus` event along with `blur` one #175
 - Demo redo
 - No link to Github in demo #133
+- added focus() method to completer component #152
 
 ## 1.2.1 (2017-03-18)
 

@@ -72,7 +72,7 @@ export class NativeCmp {
     private dataService3: CompleterData;
     private customData: CustomData;
     public seinfeldEpisode: any;
-    
+
     constructor(completerService: CompleterService, http: Http) {
         this.dataService = completerService.local(this.countries, "name", "name").imageField("flag");
         this.dataService2 = completerService.local(this.quotes, "nm", "nm").descriptionField("qt");
@@ -117,6 +117,10 @@ export class NativeCmp {
 
     public onClose() {
         this.openCloseExample.close();
+    }
+
+    public onFocus() {
+        this.openCloseExample.focus();
     }
 
 }
