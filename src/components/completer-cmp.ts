@@ -24,7 +24,7 @@ const COMPLETER_CONTROL_VALUE_ACCESSOR = {
     selector: "ng2-completer",
     template: `
         <div class="completer-holder" ctrCompleter>
-            <input #ctrInput type="search" class="completer-input" ctrInput [ngClass]="inputClass" [(ngModel)]="searchStr" (ngModelChange)="onChange($event)" [attr.name]="inputName" [placeholder]="placeholder"
+            <input #ctrInput [attr.id]="inputId.length > 0 ? inputId : null" type="search" class="completer-input" ctrInput [ngClass]="inputClass" [(ngModel)]="searchStr" (ngModelChange)="onChange($event)" [attr.name]="inputName" [placeholder]="placeholder"
                 [attr.maxlength]="maxChars" [tabindex]="fieldTabindex" [disabled]="disableInput" [clearSelected]="clearSelected" [overrideSuggested]="overrideSuggested" 
                 [fillHighlighted]="fillHighlighted" (blur)="onBlur()" (focus)="onEventFocus()" autocomplete="off" autocorrect="off" autocapitalize="off" />
 
@@ -104,6 +104,7 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewInit
     @Input() public dataService: CompleterData;
     @Input() public datasource: CompleterData | string | Array<any>;
     @Input() public inputName = "";
+    @Input() public inputId: string = "";
     @Input() public pause = PAUSE;
     @Input() public minSearchLength = MIN_SEARCH_LENGTH;
     @Input() public maxChars = MAX_CHARS;

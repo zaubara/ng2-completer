@@ -89,7 +89,7 @@ Add the following to `System.js` map configuration:
 
 ## API
 
-### ng2-completer directive
+### ng2-completer component
 
 |Attribute|Description|Type|Required|Default|
 |:---    |:---        |:--- |:---      |:--- |
@@ -101,6 +101,7 @@ Add the following to `System.js` map configuration:
 |clearSelected|Clear the input when a result is selected.|boolean|No|false|
 |disableInput|If true disable the input field.|boolean|No|false|
 |fieldTabindex|Set the `tabIndex` of the input.|number|No||
+|inputId|`id` attribute of the input element.|string|No||
 |inputName|`name` attribute of the input element.|string|No||
 |inputClass| `class` attribute of the input element.|string|No||
 |matchClass|CSS class to apply for matching part of the title and description.|string|No||
