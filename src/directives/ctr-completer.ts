@@ -28,6 +28,7 @@ export class CtrCompleter implements OnInit {
     private dropdown: CompleterDropdown;
     private _hasHighlited = false;
     private hasSelected = false;
+    private _cancelBlur = false;
 
     constructor() { }
 
@@ -96,5 +97,13 @@ export class CtrCompleter implements OnInit {
 
     public hasHighlited() {
         return this._hasHighlited;
+    }
+
+    public cancelBlur(cancel: boolean) {
+        this._cancelBlur = cancel;
+    }
+
+    public isCancelBlur() {
+        return this._cancelBlur;
     }
 }

@@ -1,4 +1,4 @@
-import { Directive, EventEmitter, Host, HostListener, Input, Output } from "@angular/core";
+import { Directive, ElementRef, EventEmitter, Host, HostListener, Input, Output } from "@angular/core";
 import { NgModel } from "@angular/forms";
 
 import { CompleterItem } from "../components/completer-item";
@@ -26,7 +26,7 @@ export class CtrInput {
     private _searchStr = "";
     private _displayStr = "";
 
-    constructor( @Host() private completer: CtrCompleter, private ngModel: NgModel) {
+    constructor( @Host() private completer: CtrCompleter, private ngModel: NgModel, private el: ElementRef) {
         this.completer.selected.subscribe((item: CompleterItem) => {
             if (!item) {
                 return;
@@ -107,6 +107,14 @@ export class CtrInput {
 
     @HostListener("blur", ["$event"])
     public onBlur(event: any) {
+        // Check if we need to cancel Blur for IE
+        if (this.completer.isCancelBlur()){
+            setImmediate(() => {
+                // get the focus back
+                this.el.nativeElement.focus();
+            })
+            return;
+        }
         setTimeout(
             () => {
                 if (this.overrideSuggested) {
