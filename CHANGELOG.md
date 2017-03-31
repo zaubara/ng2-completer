@@ -1,7 +1,7 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## 1.3.0 ()
+## 1.3.0 (2017-03-31)
 
 ### Implemented enhancements
 - Please add `focus` event along with `blur` one #175
