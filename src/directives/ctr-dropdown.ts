@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Host, OnDestroy, OnInit } from "@angular/core";
+import { Directive, ElementRef, Host, HostListener, OnDestroy, OnInit } from "@angular/core";
 
 import { CompleterItem } from "../components/completer-item";
 import { CtrCompleter, CompleterDropdown } from "./ctr-completer";
@@ -34,6 +34,14 @@ export class CtrDropdown implements CompleterDropdown, OnDestroy, OnInit {
 
     public ngOnDestroy() {
         this.completer.registerDropdown(null);
+    }
+
+    @HostListener("mousedown", ["$event"]) public onMouseDown(event: any) {
+        // Support for canceling blur on IE (issue #158)
+        this.completer.cancelBlur(true);
+        setImmediate(() => {
+            this.completer.cancelBlur(false);
+        })
     }
 
     public registerRow(row: CtrRowItem) {

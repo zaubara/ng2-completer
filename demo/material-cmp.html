@@ -1,20 +1,22 @@
 <div class="row">
-    <h1>Completer Material</h1>
-    <p>This is a demo of a custom component that uses Ng2-Completer directives to create a material2 autocomplete component.</p>
-    <p>To use this compnent copy all completer-cmp-md files from the demo code</p>
+     <div class="col-md-offset-1">
+        <h1>Completer Material</h1>
+        <p>This is a demo of a custom component that uses Ng2-Completer directives to create a material2 autocomplete component.</p>
+        <p>To use this compnent copy all completer-cmp-md files from the demo code</p>
+     </div>
 </div>
-<h2>Local data with image</h2>
-<div class="row completer-wrapper m-a-1">
+<h3>Local data with image</h3>
+<div class="completer-wrapper">
     <div class="col-md-offset-1">
-        <div class="row">
+        <div>
             <p>Local data of countries - using image, matchClass and maxLength</p>
         </div>
-        <div class="row">
+        <div class="ng-scope layout-row">
             <ng2-completer-md [(ngModel)]="countryName" [dataService]="dataService" [minSearchLength]="0" [maxChars]="4" [placeholder]="'search country'"
                 [matchClass]="'match'">
             </ng2-completer-md>
         </div>
-        <div class="row">
+        <div>
             <p>Selected country: {{countryName}}</p>
         </div>
     </div>

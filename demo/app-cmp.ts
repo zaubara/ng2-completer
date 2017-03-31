@@ -9,4 +9,6 @@ let template = require("./app-cmp.html");
     selector: "demo-app",
     template: template
 })
-export class AppComponent {}
+export class AppComponent {
+    public isCollapsed = false;
+}

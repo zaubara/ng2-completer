@@ -1,8 +1,5 @@
 import { Directive, EventEmitter, OnInit, Output } from "@angular/core";
-// import { Observable } from "rxjs/Observable";
 
-
-// import { CompleterData } from "../components/ng2-completer/services/completer-data";
 import { CompleterItem } from "../components/completer-item";
 
 export interface CompleterList {
@@ -28,6 +25,7 @@ export class CtrCompleter implements OnInit {
     private dropdown: CompleterDropdown;
     private _hasHighlited = false;
     private hasSelected = false;
+    private _cancelBlur = false;
 
     constructor() { }
 
@@ -96,5 +94,13 @@ export class CtrCompleter implements OnInit {
 
     public hasHighlited() {
         return this._hasHighlited;
+    }
+
+    public cancelBlur(cancel: boolean) {
+        this._cancelBlur = cancel;
+    }
+
+    public isCancelBlur() {
+        return this._cancelBlur;
     }
 }

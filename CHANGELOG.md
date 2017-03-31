@@ -1,6 +1,19 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 1.3.0 (2017-03-31)
+
+### Implemented enhancements
+- Please add `focus` event along with `blur` one #175
+- Demo redo
+- No link to Github in demo #133
+- added focus() method to completer component #152
+- Add inputId property to ng2-completer component (analogy to existing inputName property) #128
+
+### Fixed bugs
+- Relax peer dependencies to support Angular 4.0 #184
+- ng2-completer closes when scrollbar is clicked on IE browser #158
+
 ## 1.2.1 (2017-03-18)
 
 ### Fixed bugs
