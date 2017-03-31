@@ -1,5 +1,7 @@
+import "rxjs/add/observable/timer";
 import { ChangeDetectorRef, Directive, Host, Input, OnInit, TemplateRef, ViewContainerRef } from "@angular/core";
-import { Observable, Subscription } from "rxjs/Rx";
+import { Observable, } from "rxjs/Observable";
+import { Subscription } from "rxjs/Subscription";
 
 
 import { CtrCompleter, CompleterList } from "./ctr-completer";
@@ -136,7 +138,7 @@ export class CtrList implements OnInit, CompleterList {
         }
 
         if (console && console.error) {
-            console.error(errMsg); // log to console 
+            console.error(errMsg); // log to console
         }
         this.refreshTemplate();
 

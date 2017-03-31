@@ -112,13 +112,13 @@
 </div>
 
 <h3>Automatch</h3>
-<p>Local data of colors - <code>autoMatch</code> and <code>required</code></p>
+<p>Local data of colors - <code>autoMatch</code>, <code>inputId</code> and <code>required</code></p>
 
 <div class="card">
 	<div class="card-block">
 		<div class="form-group row" [class.has-danger]="!colorRequired.valid">
 			<div class="col-5">
-				<ng2-completer name="colorRequired" [datasource]="colors" [(ngModel)]="color"
+				<ng2-completer name="colorRequired" [inputId]="'completer1'" [datasource]="colors" [(ngModel)]="color"
 											 [minSearchLength]="0" [placeholder]="'search color'" #colorRequired="ngModel"
 											 [autoMatch]="true"
 											 [inputClass]="(colorRequired.valid) ? 'form-control' : 'form-control form-control-danger'"
