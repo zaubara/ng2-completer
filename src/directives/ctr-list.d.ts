@@ -1,3 +1,4 @@
+import "rxjs/add/observable/timer";
 import { ChangeDetectorRef, OnInit, TemplateRef, ViewContainerRef } from "@angular/core";
 import { CtrCompleter, CompleterList } from "./ctr-completer";
 import { CompleterData } from "../services/completer-data";

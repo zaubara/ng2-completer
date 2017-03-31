@@ -20,6 +20,7 @@ export declare class CtrDropdown implements CompleterDropdown, OnDestroy, OnInit
     constructor(completer: CtrCompleter, el: ElementRef);
     ngOnInit(): void;
     ngOnDestroy(): void;
+    onMouseDown(event: any): void;
     registerRow(row: CtrRowItem): void;
     highlightRow(index: number): void;
     clear(): void;

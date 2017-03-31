@@ -16,9 +16,11 @@ export declare class NativeCmp {
     private dataRemote2;
     private dataService3;
     private customData;
+    seinfeldEpisode: any;
     constructor(completerService: CompleterService, http: Http);
     onCountrySelected(selected: CompleterItem): void;
     onQuoteSelected(selected: CompleterItem): void;
     onOpen(): void;
     onClose(): void;
+    onFocus(): void;
 }

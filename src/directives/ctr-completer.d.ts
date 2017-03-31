@@ -17,6 +17,7 @@ export declare class CtrCompleter implements OnInit {
     private dropdown;
     private _hasHighlited;
     private hasSelected;
+    private _cancelBlur;
     constructor();
     ngOnInit(): void;
     registerList(list: CompleterList): void;
@@ -29,4 +30,6 @@ export declare class CtrCompleter implements OnInit {
     nextRow(): void;
     prevRow(): void;
     hasHighlited(): boolean;
+    cancelBlur(cancel: boolean): void;
+    isCancelBlur(): boolean;
 }

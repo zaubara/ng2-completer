@@ -1,15 +1,16 @@
-import { EventEmitter, OnInit, AfterViewInit, ElementRef } from "@angular/core";
+import { AfterViewChecked, EventEmitter, OnInit, AfterViewInit, ElementRef } from "@angular/core";
 import { ControlValueAccessor, FormControl } from "@angular/forms";
 import { CtrCompleter } from "../directives/ctr-completer";
 import { CompleterData } from "../services/completer-data";
 import { CompleterService } from "../services/completer-service";
 import { CompleterItem } from "./completer-item";
 import "rxjs/add/operator/catch";
-export declare class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewInit {
+export declare class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChecked, AfterViewInit {
     private completerService;
     dataService: CompleterData;
     datasource: CompleterData | string | Array<any>;
     inputName: string;
+    inputId: string;
     pause: number;
     minSearchLength: number;
     maxChars: number;
@@ -28,6 +29,7 @@ export declare class CompleterCmp implements OnInit, ControlValueAccessor, After
     selected: EventEmitter<CompleterItem>;
     highlighted: EventEmitter<CompleterItem>;
     blur: EventEmitter<void>;
+    focusEvent: EventEmitter<void>;
     completer: CtrCompleter;
     ctrInput: ElementRef;
     searchStr: string;
@@ -35,16 +37,20 @@ export declare class CompleterCmp implements OnInit, ControlValueAccessor, After
     private displaySearching;
     private _onTouchedCallback;
     private _onChangeCallback;
+    private _focus;
     constructor(completerService: CompleterService);
     value: any;
+    ngAfterViewInit(): void;
+    ngAfterViewChecked(): void;
     onTouched(): void;
     writeValue(value: any): void;
     registerOnChange(fn: any): void;
     registerOnTouched(fn: any): void;
-    ngAfterViewInit(): void;
     ngOnInit(): void;
     onBlur(): void;
+    onFocus(): void;
     onChange(value: string): void;
     open(searchValue?: string): void;
     close(): void;
+    focus(): void;
 }

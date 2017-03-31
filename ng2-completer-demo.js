@@ -1,1108 +1,22 @@
 webpackJsonp([0],{
 
-/***/ 100:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Observable__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_Observable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__completer_base_data__ = __webpack_require__(98);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LocalData; });
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-var LocalData = (function (_super) {
-    __extends(LocalData, _super);
-    function LocalData() {
-        return _super.call(this) || this;
-    }
-    LocalData.prototype.data = function (data) {
-        var _this = this;
-        if (data instanceof __WEBPACK_IMPORTED_MODULE_1_rxjs_Observable__["Observable"]) {
-            data.subscribe(function (res) {
-                _this._data = res;
-                if (_this.savedTerm) {
-                    _this.search(_this.savedTerm);
-                }
-            });
-        }
-        else {
-            this._data = data;
-        }
-        return this;
-    };
-    LocalData.prototype.search = function (term) {
-        if (!this._data) {
-            this.savedTerm = term;
-        }
-        else {
-            this.savedTerm = null;
-            var matches = this.extractMatches(this._data, term);
-            this.next(this.processResults(matches));
-        }
-    };
-    return LocalData;
-}(__WEBPACK_IMPORTED_MODULE_2__completer_base_data__["a" /* CompleterBaseData */]));
-LocalData = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
-    __metadata("design:paramtypes", [])
-], LocalData);
-
-
-
-/***/ }),
-
-/***/ 101:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__(43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_add_operator_map__ = __webpack_require__(113);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_add_operator_map__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_catch__ = __webpack_require__(112);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_catch___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_catch__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__completer_base_data__ = __webpack_require__(98);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RemoteData; });
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-
-
-
-
-var RemoteData = (function (_super) {
-    __extends(RemoteData, _super);
-    function RemoteData(http) {
-        var _this = _super.call(this) || this;
-        _this.http = http;
-        _this._urlFormater = null;
-        _this._dataField = null;
-        return _this;
-    }
-    RemoteData.prototype.remoteUrl = function (remoteUrl) {
-        this._remoteUrl = remoteUrl;
-        return this;
-    };
-    RemoteData.prototype.urlFormater = function (urlFormater) {
-        this._urlFormater = urlFormater;
-    };
-    RemoteData.prototype.dataField = function (dataField) {
-        this._dataField = dataField;
-    };
-    RemoteData.prototype.headers = function (headers) {
-        this._headers = headers;
-    };
-    RemoteData.prototype.search = function (term) {
-        var _this = this;
-        this.cancel();
-        // let params = {};
-        var url = "";
-        if (this._urlFormater) {
-            url = this._urlFormater(term);
-        }
-        else {
-            url = this._remoteUrl + encodeURIComponent(term);
-        }
-        this.remoteSearch = this.http.get(url, { headers: this._headers || new __WEBPACK_IMPORTED_MODULE_0__angular_http__["Headers"]() })
-            .map(function (res) { return res.json(); })
-            .map(function (data) {
-            var matchaes = _this.extractValue(data, _this._dataField);
-            return _this.extractMatches(matchaes, term);
-        })
-            .map(function (matches) {
-            var results = _this.processResults(matches);
-            _this.next(results);
-            return results;
-        })
-            .catch(function (err) {
-            _this.error(err);
-            return null;
-        })
-            .subscribe();
-    };
-    RemoteData.prototype.cancel = function () {
-        if (this.remoteSearch) {
-            this.remoteSearch.unsubscribe();
-        }
-    };
-    return RemoteData;
-}(__WEBPACK_IMPORTED_MODULE_3__completer_base_data__["a" /* CompleterBaseData */]));
-
-
-
-/***/ }),
-
-/***/ 115:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ng2_completer_module__ = __webpack_require__(317);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Ng2CompleterModule", function() { return __WEBPACK_IMPORTED_MODULE_0__ng2_completer_module__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_completer_cmp__ = __webpack_require__(157);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "CompleterCmp", function() { return __WEBPACK_IMPORTED_MODULE_1__components_completer_cmp__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_completer_list_item_cmp__ = __webpack_require__(158);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "CompleterListItemCmp", function() { return __WEBPACK_IMPORTED_MODULE_2__components_completer_list_item_cmp__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_completer_service__ = __webpack_require__(99);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "CompleterService", function() { return __WEBPACK_IMPORTED_MODULE_3__services_completer_service__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_completer_data_factory__ = __webpack_require__(162);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "localDataFactory", function() { return __WEBPACK_IMPORTED_MODULE_4__services_completer_data_factory__["c"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "LocalDataFactoryProvider", function() { return __WEBPACK_IMPORTED_MODULE_4__services_completer_data_factory__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "remoteDataFactory", function() { return __WEBPACK_IMPORTED_MODULE_4__services_completer_data_factory__["d"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "RemoteDataFactoryProvider", function() { return __WEBPACK_IMPORTED_MODULE_4__services_completer_data_factory__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__services_local_data__ = __webpack_require__(100);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "LocalData", function() { return __WEBPACK_IMPORTED_MODULE_5__services_local_data__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__services_remote_data__ = __webpack_require__(101);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "RemoteData", function() { return __WEBPACK_IMPORTED_MODULE_6__services_remote_data__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__services_completer_base_data__ = __webpack_require__(98);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "CompleterBaseData", function() { return __WEBPACK_IMPORTED_MODULE_7__services_completer_base_data__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__directives_ctr_completer__ = __webpack_require__(36);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "CtrCompleter", function() { return __WEBPACK_IMPORTED_MODULE_8__directives_ctr_completer__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__directives_ctr_dropdown__ = __webpack_require__(97);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "CtrDropdown", function() { return __WEBPACK_IMPORTED_MODULE_9__directives_ctr_dropdown__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__directives_ctr_input__ = __webpack_require__(159);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "CtrInput", function() { return __WEBPACK_IMPORTED_MODULE_10__directives_ctr_input__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__directives_ctr_list__ = __webpack_require__(160);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "CtrList", function() { return __WEBPACK_IMPORTED_MODULE_11__directives_ctr_list__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__directives_ctr_row__ = __webpack_require__(161);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "CtrRow", function() { return __WEBPACK_IMPORTED_MODULE_12__directives_ctr_row__["a"]; });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/***/ }),
-
-/***/ 1194:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__ = __webpack_require__(241);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__app_module__ = __webpack_require__(583);
-
-
-
-
-if (true) {
-    // Production
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["enableProdMode"])();
-}
-__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__["platformBrowserDynamic"])().bootstrapModule(__WEBPACK_IMPORTED_MODULE_2__app_module__["a" /* AppModule */]);
-
-
-/***/ }),
-
-/***/ 127:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return MAX_CHARS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MIN_SEARCH_LENGTH; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return PAUSE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return TEXT_SEARCHING; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return TEXT_NORESULTS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return CLEAR_TIMEOUT; });
-var MAX_CHARS = 524288; // the default max length per the html maxlength attribute
-// the default max length per the html maxlength attribute
-var MIN_SEARCH_LENGTH = 3;
-var PAUSE = 250;
-var TEXT_SEARCHING = "Searching...";
-var TEXT_NORESULTS = "No results found";
-var CLEAR_TIMEOUT = 100;
-
-
-/***/ }),
-
 /***/ 157:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__(23);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__directives_ctr_completer__ = __webpack_require__(36);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_completer_service__ = __webpack_require__(99);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__globals__ = __webpack_require__(127);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_catch__ = __webpack_require__(112);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_catch___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_catch__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CompleterCmp; });
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-
-
-var noop = function () { };
-var COMPLETER_CONTROL_VALUE_ACCESSOR = {
-    provide: __WEBPACK_IMPORTED_MODULE_1__angular_forms__["NG_VALUE_ACCESSOR"],
-    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["forwardRef"])(function () { return CompleterCmp; }),
-    multi: true
-};
-var CompleterCmp = (function () {
-    function CompleterCmp(completerService) {
-        this.completerService = completerService;
-        this.inputName = "";
-        this.pause = __WEBPACK_IMPORTED_MODULE_4__globals__["b" /* PAUSE */];
-        this.minSearchLength = __WEBPACK_IMPORTED_MODULE_4__globals__["a" /* MIN_SEARCH_LENGTH */];
-        this.maxChars = __WEBPACK_IMPORTED_MODULE_4__globals__["d" /* MAX_CHARS */];
-        this.overrideSuggested = false;
-        this.clearSelected = false;
-        this.fillHighlighted = true;
-        this.placeholder = "";
-        this.textSearching = __WEBPACK_IMPORTED_MODULE_4__globals__["e" /* TEXT_SEARCHING */];
-        this.textNoResults = __WEBPACK_IMPORTED_MODULE_4__globals__["f" /* TEXT_NORESULTS */];
-        this.autoMatch = false;
-        this.disableInput = false;
-        this.autofocus = false;
-        this.selected = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
-        this.highlighted = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
-        this.blur = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
-        this.searchStr = "";
-        this.control = new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormControl"]("");
-        this.displaySearching = true;
-        this._onTouchedCallback = noop;
-        this._onChangeCallback = noop;
-    }
-    Object.defineProperty(CompleterCmp.prototype, "value", {
-        get: function () { return this.searchStr; },
-        set: function (v) {
-            if (v !== this.searchStr) {
-                this.searchStr = v;
-            }
-            // Propagate the change in any case
-            this._onChangeCallback(v);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    ;
-    CompleterCmp.prototype.onTouched = function () {
-        this._onTouchedCallback();
-    };
-    CompleterCmp.prototype.writeValue = function (value) {
-        this.searchStr = value;
-    };
-    CompleterCmp.prototype.registerOnChange = function (fn) {
-        this._onChangeCallback = fn;
-    };
-    CompleterCmp.prototype.registerOnTouched = function (fn) {
-        this._onTouchedCallback = fn;
-    };
-    CompleterCmp.prototype.ngAfterViewInit = function () {
-        if (this.autofocus && this.ctrInput) {
-            this.ctrInput.nativeElement.focus();
-        }
-    };
-    CompleterCmp.prototype.ngOnInit = function () {
-        var _this = this;
-        if (this.datasource) {
-            if (this.datasource instanceof Array) {
-                this.dataService = this.completerService.local(this.datasource);
-            }
-            else if (typeof (this.datasource) === "string") {
-                this.dataService = this.completerService.remote(this.datasource);
-            }
-            else {
-                this.dataService = this.datasource;
-            }
-        }
-        this.completer.selected.subscribe(function (item) {
-            var title = item ? item.title : "";
-            _this.selected.emit(item);
-            _this._onChangeCallback(title);
-        });
-        this.completer.highlighted.subscribe(function (item) {
-            _this.highlighted.emit(item);
-        });
-        if (this.textSearching === "false") {
-            this.displaySearching = false;
-        }
-    };
-    CompleterCmp.prototype.onBlur = function () {
-        this.blur.emit();
-        this.onTouched();
-    };
-    CompleterCmp.prototype.onChange = function (value) {
-        this.value = value;
-    };
-    CompleterCmp.prototype.open = function (searchValue) {
-        if (searchValue === void 0) { searchValue = ""; }
-        this.completer.search(searchValue);
-    };
-    CompleterCmp.prototype.close = function () {
-        this.completer.clear();
-    };
-    return CompleterCmp;
-}());
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
-    __metadata("design:type", Object)
-], CompleterCmp.prototype, "dataService", void 0);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
-    __metadata("design:type", Object)
-], CompleterCmp.prototype, "datasource", void 0);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
-    __metadata("design:type", Object)
-], CompleterCmp.prototype, "inputName", void 0);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
-    __metadata("design:type", Object)
-], CompleterCmp.prototype, "pause", void 0);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
-    __metadata("design:type", Object)
-], CompleterCmp.prototype, "minSearchLength", void 0);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
-    __metadata("design:type", Object)
-], CompleterCmp.prototype, "maxChars", void 0);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
-    __metadata("design:type", Object)
-], CompleterCmp.prototype, "overrideSuggested", void 0);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
-    __metadata("design:type", Object)
-], CompleterCmp.prototype, "clearSelected", void 0);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
-    __metadata("design:type", Object)
-], CompleterCmp.prototype, "fillHighlighted", void 0);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
-    __metadata("design:type", Object)
-], CompleterCmp.prototype, "placeholder", void 0);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
-    __metadata("design:type", String)
-], CompleterCmp.prototype, "matchClass", void 0);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
-    __metadata("design:type", Object)
-], CompleterCmp.prototype, "textSearching", void 0);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
-    __metadata("design:type", Object)
-], CompleterCmp.prototype, "textNoResults", void 0);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
-    __metadata("design:type", Number)
-], CompleterCmp.prototype, "fieldTabindex", void 0);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
-    __metadata("design:type", Object)
-], CompleterCmp.prototype, "autoMatch", void 0);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
-    __metadata("design:type", Object)
-], CompleterCmp.prototype, "disableInput", void 0);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
-    __metadata("design:type", String)
-], CompleterCmp.prototype, "inputClass", void 0);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
-    __metadata("design:type", Object)
-], CompleterCmp.prototype, "autofocus", void 0);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
-    __metadata("design:type", Object)
-], CompleterCmp.prototype, "selected", void 0);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
-    __metadata("design:type", Object)
-], CompleterCmp.prototype, "highlighted", void 0);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
-    __metadata("design:type", Object)
-], CompleterCmp.prototype, "blur", void 0);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])(__WEBPACK_IMPORTED_MODULE_2__directives_ctr_completer__["a" /* CtrCompleter */]),
-    __metadata("design:type", __WEBPACK_IMPORTED_MODULE_2__directives_ctr_completer__["a" /* CtrCompleter */])
-], CompleterCmp.prototype, "completer", void 0);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])("ctrInput"),
-    __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"])
-], CompleterCmp.prototype, "ctrInput", void 0);
-CompleterCmp = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-        selector: "ng2-completer",
-        template: "\n        <div class=\"completer-holder\" ctrCompleter>\n            <input #ctrInput type=\"search\" class=\"completer-input\" ctrInput [ngClass]=\"inputClass\" [(ngModel)]=\"searchStr\" (ngModelChange)=\"onChange($event)\" [attr.name]=\"inputName\" [placeholder]=\"placeholder\"\n                [attr.maxlength]=\"maxChars\" [tabindex]=\"fieldTabindex\" [disabled]=\"disableInput\" [clearSelected]=\"clearSelected\" [overrideSuggested]=\"overrideSuggested\" \n                [fillHighlighted]=\"fillHighlighted\" (blur)=\"onBlur()\" autocomplete=\"off\" autocorrect=\"off\" autocapitalize=\"off\" />\n\n            <div class=\"completer-dropdown-holder\" *ctrList=\"dataService; minSearchLength: minSearchLength; pause: pause; autoMatch: autoMatch; let items = results; let searchActive = searching; let isInitialized = searchInitialized;\">\n                <div class=\"completer-dropdown\" ctrDropdown *ngIf=\"isInitialized\">\n                    <div *ngIf=\"searchActive && displaySearching\" class=\"completer-searching\">{{textSearching}}</div>\n                    <div *ngIf=\"!searchActive && (!items || items.length === 0)\" class=\"completer-no-results\">{{textNoResults}}</div>\n                    <div class=\"completer-row-wrapper\" *ngFor=\"let item of items; let rowIndex=index\">\n                        <div class=\"completer-row\" [ctrRow]=\"rowIndex\" [dataItem]=\"item\">\n                            <div *ngIf=\"item.image || item.image === ''\" class=\"completer-image-holder\">\n                                <img *ngIf=\"item.image != ''\" src=\"{{item.image}}\" class=\"completer-image\" />\n                                <div *ngIf=\"item.image === ''\" class=\"completer-image-default\"></div>\n                            </div>\n                            <div class=\"completer-item-text\" [ngClass]=\"{'completer-item-text-image': item.image || item.image === '' }\">\n                                <completer-list-item class=\"completer-title\" [text]=\"item.title\" [matchClass]=\"matchClass\" [searchStr]=\"searchStr\" [type]=\"'title'\"></completer-list-item>\n                                <completer-list-item *ngIf=\"item.description && item.description != ''\" class=\"completer-description\" [text]=\"item.description\"\n                                    [matchClass]=\"matchClass\" [searchStr]=\"searchStr\" [type]=\"'description'\">\n                                </completer-list-item>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    ",
-        styles: ["\n    .completer-dropdown {\n        border-color: #ececec;\n        border-width: 1px;\n        border-style: solid;\n        border-radius: 2px;\n        width: 250px;\n        padding: 6px;\n        cursor: pointer;\n        z-index: 9999;\n        position: absolute;\n        margin-top: -6px;\n        background-color: #ffffff;\n    }\n\n    .completer-row {\n        padding: 5px;\n        color: #000000;\n        margin-bottom: 4px;\n        clear: both;\n        display: inline-block;\n        width: 103%;\n    }\n\n    .completer-selected-row {\n        background-color: lightblue;\n        color: #ffffff;\n    }\n\n    .completer-description {\n        font-size: 14px;\n    }\n\n    .completer-image-default {\n        width: 16px; \n        height: 16px;\n        background-image: url(\"demo/res/img/default.png\");\n    }\n\n    .completer-image-holder {\n        float: left;\n        width: 10%;\n    }\n    .completer-item-text-image {\n        float: right;\n        width: 90%;\n    }\n    "],
-        providers: [COMPLETER_CONTROL_VALUE_ACCESSOR]
-    }),
-    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__services_completer_service__["a" /* CompleterService */]])
-], CompleterCmp);
-
-
-
-/***/ }),
-
-/***/ 158:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CompleterListItemCmp; });
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-var CompleterListItemCmp = (function () {
-    function CompleterListItemCmp() {
-        this.parts = [];
-    }
-    CompleterListItemCmp.prototype.ngOnInit = function () {
-        if (!this.searchStr) {
-            this.parts.push({ isMatch: false, text: this.text });
-            return;
-        }
-        var matchStr = this.text.toLowerCase();
-        var matchPos = matchStr.indexOf(this.searchStr.toLowerCase());
-        var startIndex = 0;
-        while (matchPos >= 0) {
-            var matchText = this.text.slice(matchPos, matchPos + this.searchStr.length);
-            if (matchPos === 0) {
-                this.parts.push({ isMatch: true, text: matchText });
-                startIndex += this.searchStr.length;
-            }
-            else if (matchPos > 0) {
-                var matchPart = this.text.slice(startIndex, matchPos);
-                this.parts.push({ isMatch: false, text: matchPart });
-                this.parts.push({ isMatch: true, text: matchText });
-                startIndex += this.searchStr.length + matchPart.length;
-            }
-            matchPos = matchStr.indexOf(this.searchStr.toLowerCase(), startIndex);
-        }
-        if (startIndex < this.text.length) {
-            this.parts.push({ isMatch: false, text: this.text.slice(startIndex, this.text.length) });
-        }
-    };
-    return CompleterListItemCmp;
-}());
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
-    __metadata("design:type", String)
-], CompleterListItemCmp.prototype, "text", void 0);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
-    __metadata("design:type", String)
-], CompleterListItemCmp.prototype, "searchStr", void 0);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
-    __metadata("design:type", String)
-], CompleterListItemCmp.prototype, "matchClass", void 0);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
-    __metadata("design:type", String)
-], CompleterListItemCmp.prototype, "type", void 0);
-CompleterListItemCmp = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-        selector: "completer-list-item",
-        template: "\n    <span class=\"completer-list-item-holder\" [ngClass]=\"{'completer-title': type === 'title', 'completer-description': type === 'description'}\" >\n        <span class=\"completer-list-item\" *ngFor=\"let part of parts\" [ngClass]=\"part.isMatch ? matchClass : null\">{{part.text}}</span>\n    </span>\n    "
-    })
-], CompleterListItemCmp);
-
-
-
-/***/ }),
-
-/***/ 159:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__(23);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ctr_completer__ = __webpack_require__(36);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CtrInput; });
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
-
-
-
-// keyboard events
-var KEY_DW = 40;
-var KEY_RT = 39;
-var KEY_UP = 38;
-var KEY_LF = 37;
-var KEY_ES = 27;
-var KEY_EN = 13;
-var KEY_TAB = 9;
-var CtrInput = (function () {
-    function CtrInput(completer, ngModel) {
-        var _this = this;
-        this.completer = completer;
-        this.ngModel = ngModel;
-        this.clearSelected = false;
-        this.overrideSuggested = false;
-        this.fillHighlighted = true;
-        this.ngModelChange = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
-        this._searchStr = "";
-        this._displayStr = "";
-        this.completer.selected.subscribe(function (item) {
-            if (!item) {
-                return;
-            }
-            if (_this.clearSelected) {
-                _this.searchStr = "";
-            }
-            else {
-                _this.searchStr = item.title;
-            }
-            _this.ngModelChange.emit(_this.searchStr);
-        });
-        this.completer.highlighted.subscribe(function (item) {
-            if (_this.fillHighlighted) {
-                if (item) {
-                    _this._displayStr = item.title;
-                    _this.ngModelChange.emit(item.title);
-                }
-                else {
-                    _this._displayStr = _this.searchStr;
-                    _this.ngModelChange.emit(_this.searchStr);
-                }
-            }
-        });
-        this.ngModel.valueChanges.subscribe(function (value) {
-            if (_this._displayStr != value) {
-                _this.searchStr = value;
-            }
-        });
-    }
-    CtrInput.prototype.keyupHandler = function (event) {
-        if (event.keyCode === KEY_LF || event.keyCode === KEY_RT || event.keyCode === KEY_TAB) {
-            // do nothing
-            return;
-        }
-        if (event.keyCode === KEY_UP || event.keyCode === KEY_EN) {
-            event.preventDefault();
-        }
-        else if (event.keyCode === KEY_DW) {
-            event.preventDefault();
-            this.completer.search(this.searchStr);
-        }
-        else if (event.keyCode === KEY_ES) {
-            this.restoreSearchValue();
-            this.completer.clear();
-        }
-        else {
-            this.completer.search(this.searchStr);
-        }
-    };
-    CtrInput.prototype.keydownHandler = function (event) {
-        if (event.keyCode === KEY_EN) {
-            if (this.completer.hasHighlited()) {
-                event.preventDefault();
-            }
-            this.handleSelection();
-        }
-        else if (event.keyCode === KEY_DW) {
-            event.preventDefault();
-            this.completer.nextRow();
-        }
-        else if (event.keyCode === KEY_UP) {
-            event.preventDefault();
-            this.completer.prevRow();
-        }
-        else if (event.keyCode === KEY_TAB) {
-            this.handleSelection();
-        }
-        else if (event.keyCode === KEY_ES) {
-            // This is very specific to IE10/11 #272
-            // without this, IE clears the input text
-            event.preventDefault();
-        }
-    };
-    CtrInput.prototype.onBlur = function (event) {
-        var _this = this;
-        setTimeout(function () {
-            if (_this.overrideSuggested) {
-                _this.completer.onSelected({ title: _this.searchStr, originalObject: null });
-            }
-            else {
-                _this.restoreSearchValue();
-            }
-            _this.completer.clear();
-        }, 200);
-    };
-    Object.defineProperty(CtrInput.prototype, "searchStr", {
-        get: function () {
-            return this._searchStr;
-        },
-        set: function (term) {
-            this._searchStr = term;
-            this._displayStr = term;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    CtrInput.prototype.handleSelection = function () {
-        if (this.overrideSuggested) {
-            this.completer.onSelected({ title: this.searchStr, originalObject: null });
-        }
-        else if (this.completer.hasHighlited()) {
-            this.completer.selectCurrent();
-        }
-        else {
-            this.completer.clear();
-        }
-    };
-    CtrInput.prototype.restoreSearchValue = function () {
-        if (this.fillHighlighted) {
-            // Restore searched value if there is no overrideSuggested
-            if (this._displayStr != this.searchStr) {
-                this._displayStr = this.searchStr;
-                this.ngModelChange.emit(this.searchStr);
-            }
-        }
-    };
-    return CtrInput;
-}());
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])("clearSelected"),
-    __metadata("design:type", Object)
-], CtrInput.prototype, "clearSelected", void 0);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])("overrideSuggested"),
-    __metadata("design:type", Object)
-], CtrInput.prototype, "overrideSuggested", void 0);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])("fillHighlighted"),
-    __metadata("design:type", Object)
-], CtrInput.prototype, "fillHighlighted", void 0);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
-    __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"])
-], CtrInput.prototype, "ngModelChange", void 0);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostListener"])("keyup", ["$event"]),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], CtrInput.prototype, "keyupHandler", null);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostListener"])("keydown", ["$event"]),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], CtrInput.prototype, "keydownHandler", null);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostListener"])("blur", ["$event"]),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], CtrInput.prototype, "onBlur", null);
-CtrInput = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Directive"])({
-        selector: "[ctrInput]",
-    }),
-    __param(0, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Host"])()),
-    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__ctr_completer__["a" /* CtrCompleter */], __WEBPACK_IMPORTED_MODULE_1__angular_forms__["NgModel"]])
-], CtrInput);
-
-
-
-/***/ }),
-
-/***/ 160:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__ = __webpack_require__(116);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ctr_completer__ = __webpack_require__(36);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__globals__ = __webpack_require__(127);
-/* unused harmony export CtrListContext */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CtrList; });
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
-
-
-
-
-var CtrListContext = (function () {
-    function CtrListContext(results, searching, searchInitialized) {
-        this.results = results;
-        this.searching = searching;
-        this.searchInitialized = searchInitialized;
-    }
-    return CtrListContext;
-}());
-
-var CtrList = CtrList_1 = (function () {
-    function CtrList(completer, templateRef, viewContainer, cd) {
-        this.completer = completer;
-        this.templateRef = templateRef;
-        this.viewContainer = viewContainer;
-        this.cd = cd;
-        this.ctrListMinSearchLength = __WEBPACK_IMPORTED_MODULE_3__globals__["a" /* MIN_SEARCH_LENGTH */];
-        this.ctrListPause = __WEBPACK_IMPORTED_MODULE_3__globals__["b" /* PAUSE */];
-        this.ctrListAutoMatch = false;
-        // private results: CompleterItem[] = [];
-        this.term = null;
-        // private searching = false;
-        this.searchTimer = null;
-        this.clearTimer = null;
-        this.ctx = new CtrListContext([], false, false);
-    }
-    CtrList.hasTerm = function (term) {
-        return term || term === "";
-    };
-    CtrList.prototype.ngOnInit = function () {
-        this.completer.registerList(this);
-        this.viewContainer.createEmbeddedView(this.templateRef, new CtrListContext([], false, false));
-    };
-    Object.defineProperty(CtrList.prototype, "dataService", {
-        set: function (newService) {
-            var _this = this;
-            this._dataService = newService;
-            if (this._dataService) {
-                this._dataService
-                    .catch(function (err) { return _this.handleError(err); })
-                    .subscribe(function (results) {
-                    _this.ctx.searchInitialized = true;
-                    _this.ctx.searching = false;
-                    _this.ctx.results = results;
-                    if (_this.ctrListAutoMatch && results.length === 1 && results[0].title && CtrList_1.hasTerm(_this.term) &&
-                        results[0].title.toLocaleLowerCase() === _this.term.toLocaleLowerCase()) {
-                        // Do automatch
-                        _this.completer.onSelected(results[0]);
-                    }
-                    _this.refreshTemplate();
-                });
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    CtrList.prototype.search = function (term) {
-        var _this = this;
-        if (CtrList_1.hasTerm(term) && term.length >= this.ctrListMinSearchLength && this.term !== term) {
-            if (this.searchTimer) {
-                this.searchTimer.unsubscribe();
-                this.searchTimer = null;
-            }
-            if (!this.ctx.searching) {
-                this.ctx.results = [];
-                this.ctx.searching = true;
-                this.ctx.searchInitialized = true;
-                this.refreshTemplate();
-            }
-            if (this.clearTimer) {
-                this.clearTimer.unsubscribe();
-            }
-            this.searchTimer = __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__["Observable"].timer(this.ctrListPause).subscribe(function () {
-                _this.searchTimerComplete(term);
-            });
-        }
-    };
-    CtrList.prototype.clear = function () {
-        var _this = this;
-        if (this.searchTimer) {
-            this.searchTimer.unsubscribe();
-        }
-        this.clearTimer = __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__["Observable"].timer(__WEBPACK_IMPORTED_MODULE_3__globals__["c" /* CLEAR_TIMEOUT */]).subscribe(function () {
-            _this._clear();
-        });
-    };
-    CtrList.prototype._clear = function () {
-        if (this.searchTimer) {
-            this.searchTimer.unsubscribe();
-            this.searchTimer = null;
-        }
-        if (this.dataService) {
-            this.dataService.cancel();
-        }
-        this.ctx.results = [];
-        this.ctx.searchInitialized = false;
-        this.term = null;
-        this.viewContainer.clear();
-    };
-    CtrList.prototype.searchTimerComplete = function (term) {
-        // Begin the search
-        if (!CtrList_1.hasTerm(term) || term.length < this.ctrListMinSearchLength) {
-            this.ctx.searching = false;
-            return;
-        }
-        this.term = term;
-        this._dataService.search(term);
-    };
-    CtrList.prototype.handleError = function (error) {
-        this.ctx.searching = false;
-        var errMsg = "search error";
-        if (error) {
-            errMsg = (error.message) ? error.message :
-                error.status ? error.status + " - " + error.statusText : "Server error";
-        }
-        if (console && console.error) {
-            console.error(errMsg); // log to console 
-        }
-        this.refreshTemplate();
-        return __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__["Observable"].throw(errMsg);
-    };
-    CtrList.prototype.refreshTemplate = function () {
-        // Recreate the template
-        this.viewContainer.clear();
-        this.viewContainer.createEmbeddedView(this.templateRef, this.ctx);
-        this.cd.markForCheck();
-    };
-    return CtrList;
-}());
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
-    __metadata("design:type", Object)
-], CtrList.prototype, "ctrListMinSearchLength", void 0);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
-    __metadata("design:type", Object)
-], CtrList.prototype, "ctrListPause", void 0);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
-    __metadata("design:type", Object)
-], CtrList.prototype, "ctrListAutoMatch", void 0);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])("ctrList"),
-    __metadata("design:type", Object),
-    __metadata("design:paramtypes", [Object])
-], CtrList.prototype, "dataService", null);
-CtrList = CtrList_1 = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Directive"])({
-        selector: "[ctrList]",
-    }),
-    __param(0, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Host"])()),
-    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__ctr_completer__["a" /* CtrCompleter */],
-        __WEBPACK_IMPORTED_MODULE_0__angular_core__["TemplateRef"],
-        __WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewContainerRef"],
-        __WEBPACK_IMPORTED_MODULE_0__angular_core__["ChangeDetectorRef"]])
-], CtrList);
-
-var CtrList_1;
-
-
-/***/ }),
-
-/***/ 161:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ctr_dropdown__ = __webpack_require__(97);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CtrRow; });
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
-
-
-var CtrRow = (function () {
-    function CtrRow(el, renderer, dropdown) {
-        this.el = el;
-        this.renderer = renderer;
-        this.dropdown = dropdown;
-        this.selected = false;
-    }
-    CtrRow.prototype.ngOnInit = function () {
-        this.dropdown.registerRow(new __WEBPACK_IMPORTED_MODULE_1__ctr_dropdown__["a" /* CtrRowItem */](this, this._rowIndex));
-    };
-    Object.defineProperty(CtrRow.prototype, "ctrRow", {
-        set: function (index) {
-            this._rowIndex = index;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(CtrRow.prototype, "dataItem", {
-        set: function (item) {
-            this._item = item;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    CtrRow.prototype.onClick = function (event) {
-        this.dropdown.onSelected(this._item);
-    };
-    CtrRow.prototype.onMouseEnter = function (event) {
-        this.dropdown.highlightRow(this._rowIndex);
-    };
-    CtrRow.prototype.setHighlited = function (selected) {
-        this.selected = selected;
-        this.renderer.setElementClass(this.el.nativeElement, "completer-selected-row", this.selected);
-    };
-    CtrRow.prototype.getNativeElement = function () {
-        return this.el.nativeElement;
-    };
-    CtrRow.prototype.getDataItem = function () {
-        return this._item;
-    };
-    return CtrRow;
-}());
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
-    __metadata("design:type", Number),
-    __metadata("design:paramtypes", [Number])
-], CtrRow.prototype, "ctrRow", null);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
-    __metadata("design:type", Object),
-    __metadata("design:paramtypes", [Object])
-], CtrRow.prototype, "dataItem", null);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostListener"])("click", ["$event"]),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], CtrRow.prototype, "onClick", null);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostListener"])("mouseenter", ["$event"]),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], CtrRow.prototype, "onMouseEnter", null);
-CtrRow = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Directive"])({
-        selector: "[ctrRow]",
-    }),
-    __param(2, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Host"])()),
-    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"], __WEBPACK_IMPORTED_MODULE_0__angular_core__["Renderer"], __WEBPACK_IMPORTED_MODULE_1__ctr_dropdown__["b" /* CtrDropdown */]])
-], CtrRow);
-
-
-
-/***/ }),
-
-/***/ 162:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__(43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__local_data__ = __webpack_require__(100);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__remote_data__ = __webpack_require__(101);
-/* harmony export (immutable) */ __webpack_exports__["c"] = localDataFactory;
-/* harmony export (immutable) */ __webpack_exports__["d"] = remoteDataFactory;
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LocalDataFactoryProvider; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return RemoteDataFactoryProvider; });
-
-
-
-function localDataFactory() {
-    return function () {
-        return new __WEBPACK_IMPORTED_MODULE_1__local_data__["a" /* LocalData */]();
-    };
-}
-function remoteDataFactory(http) {
-    return function () {
-        return new __WEBPACK_IMPORTED_MODULE_2__remote_data__["a" /* RemoteData */](http);
-    };
-}
-var LocalDataFactoryProvider = { provide: __WEBPACK_IMPORTED_MODULE_1__local_data__["a" /* LocalData */], useFactory: localDataFactory };
-var RemoteDataFactoryProvider = { provide: __WEBPACK_IMPORTED_MODULE_2__remote_data__["a" /* RemoteData */], useFactory: remoteDataFactory, deps: [__WEBPACK_IMPORTED_MODULE_0__angular_http__["Http"]] };
-
-
-/***/ }),
-
-/***/ 317:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__(23);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_http__ = __webpack_require__(43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_completer_cmp__ = __webpack_require__(157);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_completer_list_item_cmp__ = __webpack_require__(158);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__services_completer_service__ = __webpack_require__(99);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__services_completer_data_factory__ = __webpack_require__(162);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__directives_ctr_completer__ = __webpack_require__(36);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__directives_ctr_dropdown__ = __webpack_require__(97);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__directives_ctr_input__ = __webpack_require__(159);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__directives_ctr_list__ = __webpack_require__(160);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__directives_ctr_row__ = __webpack_require__(161);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__angular_common__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_http__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_completer_cmp__ = __webpack_require__(86);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_completer_list_item_cmp__ = __webpack_require__(87);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__services_completer_service__ = __webpack_require__(61);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__services_completer_data_factory__ = __webpack_require__(91);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__directives_ctr_completer__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__directives_ctr_dropdown__ = __webpack_require__(59);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__directives_ctr_input__ = __webpack_require__(88);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__directives_ctr_list__ = __webpack_require__(89);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__directives_ctr_row__ = __webpack_require__(90);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__angular_common__ = __webpack_require__(15);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Ng2CompleterModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1165,114 +79,14 @@ Ng2CompleterModule = __decorate([
 
 /***/ }),
 
-/***/ 36:
+/***/ 264:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CtrCompleter; });
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-var CtrCompleter = (function () {
-    function CtrCompleter() {
-        this.selected = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
-        this.highlighted = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
-        this._hasHighlited = false;
-        this.hasSelected = false;
-    }
-    CtrCompleter.prototype.ngOnInit = function () {
-        //
-    };
-    CtrCompleter.prototype.registerList = function (list) {
-        this.list = list;
-    };
-    CtrCompleter.prototype.registerDropdown = function (dropdown) {
-        this.dropdown = dropdown;
-    };
-    CtrCompleter.prototype.onHighlighted = function (item) {
-        this.highlighted.emit(item);
-        this._hasHighlited = !!item;
-    };
-    CtrCompleter.prototype.onSelected = function (item) {
-        this.selected.emit(item);
-        if (item) {
-            this.hasSelected = true;
-        }
-        this.clear();
-    };
-    CtrCompleter.prototype.search = function (term) {
-        if (this.hasSelected) {
-            this.selected.emit(null);
-            this.hasSelected = false;
-        }
-        if (this.list) {
-            this.list.search(term);
-        }
-    };
-    CtrCompleter.prototype.clear = function () {
-        if (this.dropdown) {
-            this.dropdown.clear();
-        }
-        if (this.list) {
-            this.list.clear();
-        }
-        this._hasHighlited = false;
-    };
-    CtrCompleter.prototype.selectCurrent = function () {
-        if (this.dropdown) {
-            this.dropdown.selectCurrent();
-        }
-    };
-    CtrCompleter.prototype.nextRow = function () {
-        if (this.dropdown) {
-            this.dropdown.nextRow();
-        }
-    };
-    CtrCompleter.prototype.prevRow = function () {
-        if (this.dropdown) {
-            this.dropdown.prevRow();
-        }
-    };
-    CtrCompleter.prototype.hasHighlited = function () {
-        return this._hasHighlited;
-    };
-    return CtrCompleter;
-}());
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
-    __metadata("design:type", Object)
-], CtrCompleter.prototype, "selected", void 0);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
-    __metadata("design:type", Object)
-], CtrCompleter.prototype, "highlighted", void 0);
-CtrCompleter = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Directive"])({
-        selector: "[ctrCompleter]",
-    }),
-    __metadata("design:paramtypes", [])
-], CtrCompleter);
-
-
-
-/***/ }),
-
-/***/ 509:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__ = __webpack_require__(116);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__ = __webpack_require__(102);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src__ = __webpack_require__(115);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src__ = __webpack_require__(76);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MaterialCmp; });
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -1287,11 +101,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var template = __webpack_require__(940);
+var template = __webpack_require__(595);
 // let style = require("./native-cmp.css");
 var MaterialCmp = (function () {
     function MaterialCmp(completerService) {
-        this.countries = __webpack_require__(541);
+        this.countries = __webpack_require__(296);
         this.dataService = completerService.local(this.countries, "name", "name").imageField("flag");
     }
     return MaterialCmp;
@@ -1308,16 +122,16 @@ MaterialCmp = __decorate([
 
 /***/ }),
 
-/***/ 510:
+/***/ 265:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__ = __webpack_require__(116);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__ = __webpack_require__(102);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src__ = __webpack_require__(115);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__custom_data__ = __webpack_require__(742);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_http__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src__ = __webpack_require__(76);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__custom_data__ = __webpack_require__(395);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_http__ = __webpack_require__(34);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NativeCmp; });
 
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -1334,12 +148,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var template = __webpack_require__(942);
-var style = __webpack_require__(941);
+var template = __webpack_require__(597);
+var style = __webpack_require__(596);
 var NativeCmp = (function () {
     function NativeCmp(completerService, http) {
-        this.countries = __webpack_require__(541);
-        this.colors = __webpack_require__(933);
+        this.countries = __webpack_require__(296);
+        this.colors = __webpack_require__(586);
         this.quotes = [
             {
                 qt: "Always forgive your enemies; nothing annoys them so much.",
@@ -1420,6 +234,9 @@ var NativeCmp = (function () {
     NativeCmp.prototype.onClose = function () {
         this.openCloseExample.close();
     };
+    NativeCmp.prototype.onFocus = function () {
+        this.openCloseExample.focus();
+    };
     return NativeCmp;
 }());
 __decorate([
@@ -1439,7 +256,114 @@ NativeCmp = __decorate([
 
 /***/ }),
 
-/***/ 541:
+/***/ 27:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CtrCompleter; });
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var CtrCompleter = (function () {
+    function CtrCompleter() {
+        this.selected = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
+        this.highlighted = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
+        this._hasHighlited = false;
+        this.hasSelected = false;
+        this._cancelBlur = false;
+    }
+    CtrCompleter.prototype.ngOnInit = function () {
+        //
+    };
+    CtrCompleter.prototype.registerList = function (list) {
+        this.list = list;
+    };
+    CtrCompleter.prototype.registerDropdown = function (dropdown) {
+        this.dropdown = dropdown;
+    };
+    CtrCompleter.prototype.onHighlighted = function (item) {
+        this.highlighted.emit(item);
+        this._hasHighlited = !!item;
+    };
+    CtrCompleter.prototype.onSelected = function (item) {
+        this.selected.emit(item);
+        if (item) {
+            this.hasSelected = true;
+        }
+        this.clear();
+    };
+    CtrCompleter.prototype.search = function (term) {
+        if (this.hasSelected) {
+            this.selected.emit(null);
+            this.hasSelected = false;
+        }
+        if (this.list) {
+            this.list.search(term);
+        }
+    };
+    CtrCompleter.prototype.clear = function () {
+        if (this.dropdown) {
+            this.dropdown.clear();
+        }
+        if (this.list) {
+            this.list.clear();
+        }
+        this._hasHighlited = false;
+    };
+    CtrCompleter.prototype.selectCurrent = function () {
+        if (this.dropdown) {
+            this.dropdown.selectCurrent();
+        }
+    };
+    CtrCompleter.prototype.nextRow = function () {
+        if (this.dropdown) {
+            this.dropdown.nextRow();
+        }
+    };
+    CtrCompleter.prototype.prevRow = function () {
+        if (this.dropdown) {
+            this.dropdown.prevRow();
+        }
+    };
+    CtrCompleter.prototype.hasHighlited = function () {
+        return this._hasHighlited;
+    };
+    CtrCompleter.prototype.cancelBlur = function (cancel) {
+        this._cancelBlur = cancel;
+    };
+    CtrCompleter.prototype.isCancelBlur = function () {
+        return this._cancelBlur;
+    };
+    return CtrCompleter;
+}());
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
+    __metadata("design:type", Object)
+], CtrCompleter.prototype, "selected", void 0);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
+    __metadata("design:type", Object)
+], CtrCompleter.prototype, "highlighted", void 0);
+CtrCompleter = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Directive"])({
+        selector: "[ctrCompleter]",
+    }),
+    __metadata("design:paramtypes", [])
+], CtrCompleter);
+
+
+
+/***/ }),
+
+/***/ 296:
 /***/ (function(module, exports) {
 
 module.exports = [
@@ -2662,21 +1586,131 @@ module.exports = [
 
 /***/ }),
 
-/***/ 583:
+/***/ 297:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(23);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_material__ = __webpack_require__(361);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_platform_browser__ = __webpack_require__(51);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__app_cmp__ = __webpack_require__(739);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__material_cmp__ = __webpack_require__(509);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__native_cmp__ = __webpack_require__(510);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__app_routing__ = __webpack_require__(740);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__src__ = __webpack_require__(115);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__completer_cmp_md__ = __webpack_require__(741);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CollapseDirective; });
+
+var CollapseDirective = (function () {
+    function CollapseDirective(_el, _renderer) {
+        /** This event fires as soon as content collapses */
+        this.collapsed = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
+        /** This event fires as soon as content becomes visible */
+        this.expanded = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
+        // shown
+        this.isExpanded = true;
+        // hidden
+        this.isCollapsed = false;
+        // stale state
+        this.isCollapse = true;
+        // animation state
+        this.isCollapsing = false;
+        this._el = _el;
+        this._renderer = _renderer;
+    }
+    Object.defineProperty(CollapseDirective.prototype, "collapse", {
+        get: function () {
+            return this.isExpanded;
+        },
+        /** A flag indicating visibility of content (shown or hidden) */
+        set: function (value) {
+            this.isExpanded = value;
+            this.toggle();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /** allows to manually toggle content visibility */
+    CollapseDirective.prototype.toggle = function () {
+        if (this.isExpanded) {
+            this.hide();
+        }
+        else {
+            this.show();
+        }
+    };
+    /** allows to manually hide content */
+    CollapseDirective.prototype.hide = function () {
+        this.isCollapse = false;
+        this.isCollapsing = true;
+        this.isExpanded = false;
+        this.isCollapsed = true;
+        this.isCollapse = true;
+        this.isCollapsing = false;
+        this.display = 'none';
+        this.collapsed.emit(this);
+    };
+    /** allows to manually show collapsed content */
+    CollapseDirective.prototype.show = function () {
+        this.isCollapse = false;
+        this.isCollapsing = true;
+        this.isExpanded = true;
+        this.isCollapsed = false;
+        this.display = 'block';
+        // this.height = 'auto';
+        this.isCollapse = true;
+        this.isCollapsing = false;
+        this._renderer.setElementStyle(this._el.nativeElement, 'overflow', 'visible');
+        this._renderer.setElementStyle(this._el.nativeElement, 'height', 'auto');
+        this.expanded.emit(this);
+    };
+    CollapseDirective.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Directive"], args: [{
+                    selector: '[collapse]',
+                    exportAs: 'bs-collapse',
+                    /* tslint:disable-next-line */
+                    host: { '[class.collapse]': 'true' } /*,
+                    animations: [
+                      trigger('active', [
+                        state('void', style({height: 0})),
+                        state('closed', style({height: 0})),
+                        state('open', style({height: '*'})),
+                        transition('void => closed', [animate(0)]),
+                        transition('closed => open', [animate('350ms ease-out')]),
+                        transition('open => closed', [animate('350ms ease-out')])
+                      ])
+                    ]*/
+                },] },
+    ];
+    /** @nocollapse */
+    CollapseDirective.ctorParameters = function () { return [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"], },
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Renderer"], },
+    ]; };
+    CollapseDirective.propDecorators = {
+        'collapsed': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"] },],
+        'expanded': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"] },],
+        'display': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["HostBinding"], args: ['style.display',] },],
+        'isExpanded': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["HostBinding"], args: ['class.in',] }, { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["HostBinding"], args: ['class.show',] }, { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["HostBinding"], args: ['attr.aria-expanded',] },],
+        'isCollapsed': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["HostBinding"], args: ['attr.aria-hidden',] },],
+        'isCollapse': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["HostBinding"], args: ['class.collapse',] },],
+        'isCollapsing': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["HostBinding"], args: ['class.collapsing',] },],
+        'collapse': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
+    };
+    return CollapseDirective;
+}());
+//# sourceMappingURL=collapse.directive.js.map
+
+/***/ }),
+
+/***/ 347:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_material__ = __webpack_require__(201);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_platform_browser__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ng2_bootstrap_collapse__ = __webpack_require__(588);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__app_cmp__ = __webpack_require__(391);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__material_cmp__ = __webpack_require__(264);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__native_cmp__ = __webpack_require__(265);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__app_routing__ = __webpack_require__(392);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__src__ = __webpack_require__(76);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__completer_cmp_md__ = __webpack_require__(394);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -2684,6 +1718,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -2704,14 +1739,15 @@ AppModule = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
         imports: [
             __WEBPACK_IMPORTED_MODULE_4__angular_platform_browser__["BrowserModule"],
-            __WEBPACK_IMPORTED_MODULE_9__src__["Ng2CompleterModule"],
+            __WEBPACK_IMPORTED_MODULE_10__src__["Ng2CompleterModule"],
             __WEBPACK_IMPORTED_MODULE_3__angular_material__["MaterialModule"],
             __WEBPACK_IMPORTED_MODULE_2__angular_forms__["FormsModule"],
             __WEBPACK_IMPORTED_MODULE_1__angular_http__["HttpModule"],
-            __WEBPACK_IMPORTED_MODULE_8__app_routing__["a" /* routing */]
+            __WEBPACK_IMPORTED_MODULE_9__app_routing__["a" /* routing */],
+            __WEBPACK_IMPORTED_MODULE_5_ng2_bootstrap_collapse__["a" /* CollapseModule */]
         ],
-        declarations: [__WEBPACK_IMPORTED_MODULE_5__app_cmp__["a" /* AppComponent */], __WEBPACK_IMPORTED_MODULE_10__completer_cmp_md__["a" /* CompleterCmpMd */], __WEBPACK_IMPORTED_MODULE_7__native_cmp__["a" /* NativeCmp */], __WEBPACK_IMPORTED_MODULE_6__material_cmp__["a" /* MaterialCmp */]],
-        bootstrap: [__WEBPACK_IMPORTED_MODULE_5__app_cmp__["a" /* AppComponent */]]
+        declarations: [__WEBPACK_IMPORTED_MODULE_6__app_cmp__["a" /* AppComponent */], __WEBPACK_IMPORTED_MODULE_11__completer_cmp_md__["a" /* CompleterCmpMd */], __WEBPACK_IMPORTED_MODULE_8__native_cmp__["a" /* NativeCmp */], __WEBPACK_IMPORTED_MODULE_7__material_cmp__["a" /* MaterialCmp */]],
+        bootstrap: [__WEBPACK_IMPORTED_MODULE_6__app_cmp__["a" /* AppComponent */]]
     })
 ], AppModule);
 
@@ -2719,12 +1755,12 @@ AppModule = __decorate([
 
 /***/ }),
 
-/***/ 739:
+/***/ 391:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__ = __webpack_require__(116);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__ = __webpack_require__(102);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppComponent; });
 
@@ -2736,9 +1772,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 
 
-var template = __webpack_require__(937);
+var template = __webpack_require__(592);
 var AppComponent = (function () {
     function AppComponent() {
+        this.isCollapsed = false;
     }
     return AppComponent;
 }());
@@ -2753,13 +1790,13 @@ AppComponent = __decorate([
 
 /***/ }),
 
-/***/ 740:
+/***/ 392:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_router__ = __webpack_require__(362);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__material_cmp__ = __webpack_require__(509);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__native_cmp__ = __webpack_require__(510);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_router__ = __webpack_require__(202);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__material_cmp__ = __webpack_require__(264);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__native_cmp__ = __webpack_require__(265);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return routing; });
 
 
@@ -2784,15 +1821,36 @@ var routing = __WEBPACK_IMPORTED_MODULE_0__angular_router__["RouterModule"].forR
 
 /***/ }),
 
-/***/ 741:
+/***/ 393:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__(23);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src__ = __webpack_require__(115);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__src_globals__ = __webpack_require__(127);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch__ = __webpack_require__(112);
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__ = __webpack_require__(135);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__app_module__ = __webpack_require__(347);
+
+
+
+
+if (true) {
+    // Production
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["enableProdMode"])();
+}
+__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__["platformBrowserDynamic"])().bootstrapModule(__WEBPACK_IMPORTED_MODULE_2__app_module__["a" /* AppModule */]);
+
+
+/***/ }),
+
+/***/ 394:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src__ = __webpack_require__(76);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__src_globals__ = __webpack_require__(79);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch__ = __webpack_require__(74);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CompleterCmpMd; });
 
@@ -2962,8 +2020,8 @@ __decorate([
 CompleterCmpMd = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: "ng2-completer-md",
-        template: __webpack_require__(939),
-        styles: [__webpack_require__(938)],
+        template: __webpack_require__(594),
+        styles: [__webpack_require__(593)],
         providers: [COMPLETER_CONTROL_VALUE_ACCESSOR]
     }),
     __metadata("design:paramtypes", [])
@@ -2973,11 +2031,11 @@ CompleterCmpMd = __decorate([
 
 /***/ }),
 
-/***/ 742:
+/***/ 395:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_Subject__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_Subject__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_Subject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_rxjs_Subject__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CustomData; });
 var __extends = (this && this.__extends) || (function () {
@@ -3023,7 +2081,7 @@ var CustomData = (function (_super) {
 
 /***/ }),
 
-/***/ 933:
+/***/ 586:
 /***/ (function(module, exports) {
 
 module.exports = [
@@ -3179,54 +2237,55 @@ module.exports = [
 
 /***/ }),
 
-/***/ 937:
-/***/ (function(module, exports) {
-
-module.exports = "        <nav class=\"navbar navbar-dark navbar-static-top bg-inverse\">\n            <a class=\"navbar-brand\" href=\"#\">ng2-completer demo</a>\n            <ul class=\"nav navbar-nav\">\n                <li class=\"nav-item\">\n                    <a class=\"nav-link\" routerLink=\"/native\">JS Native</a>\n                </li>\n                <li class=\"nav-item\">\n                    <a class=\"nav-link\" routerLink=\"/material\">Material Design</a>\n                </li>\n            </ul>\n        </nav>\n<div class=\"container main\">\n    <router-outlet></router-outlet>\n</div>"
-
-/***/ }),
-
-/***/ 938:
-/***/ (function(module, exports) {
-
-module.exports = ".completer-row {\n    display: inherit;\n}\n\n.completer-selected-row {\n    background-color: lightblue;\n    color: #ffffff;\n}\n\n.completer-row p {\n    position: relative;\n    top: 50%;\n    transform: translateY(50%);\n}\n\n.completer-dropdown-holder {\n    position: absolute;\n    background: white;\n}"
-
-/***/ }),
-
-/***/ 939:
-/***/ (function(module, exports) {
-
-module.exports = "<div class=\"completer-holder\" ctrCompleter>\n    <md-input-container class=\"completer-input\">\n        <input mdInput ctrInput=\"clearSelected=clearSelected; overrideSuggested=overrideSuggested; fillHighlighted=fillHighlighted\" [(ngModel)]=\"searchStr\" \n            [attr.name]=\"inputName\" [attr.maxlength]=\"maxChars\" [tabindex]=\"fieldTabindex\" [disabled]=\"disableInput\" (blur)=\"onBlur()\" [placeholder]=\"placeholder\"\n            autocomplete=\"off\" autocorrect=\"off\" autocapitalize=\"off\">\n    </md-input-container>\n\n    <div class=\"completer-dropdown-holder\" *ctrList=\"dataService; minSearchLength: minSearchLength; pause: pause; autoMatch: autoMatch; let items = results; let searchActive = searching; let isInitialized = searchInitialized;\">\n        <md-list class=\"completer-dropdown\" ctrDropdown *ngIf=\"isInitialized\">\n            <md-list-item *ngIf=\"searchActive && displaySearching\" class=\"completer-searching\">{{textSearching}}</md-list-item>\n            <md-list-item *ngIf=\"!searchActive && (!items || items.length === 0)\" class=\"completer-no-results\">{{textNoResults}}</md-list-item>\n            <md-list-item class=\"completer-row-wrapper\" *ngFor=\"let item of items; let rowIndex=index\">\n                <div class=\"completer-row\" [ctrRow]=\"rowIndex\" [dataItem]=\"item\">\n                    <span *ngIf=\"item.image || item.image === ''\" class=\"completer-image-holder\">\n                        <img md-list-avatar *ngIf=\"item.image != ''\" src=\"{{item.image}}\" class=\"completer-image\" />\n                        <span md-list-avatar *ngIf=\"item.image === ''\" class=\"completer-image-default\"></span>\n                    </span>\n                    <p md-line>\n                        <completer-list-item class=\"completer-title\" [text]=\"item.title\" [matchClass]=\"matchClass\" [searchStr]=\"searchStr\" [type]=\"'title'\"></completer-list-item>\n                        <completer-list-item *ngIf=\"item.description && item.description != ''\" class=\"completer-description\" [text]=\"item.description\"\n                            [matchClass]=\"matchClass\" [searchStr]=\"searchStr\" [type]=\"'description'\">\n                        </completer-list-item>\n                    </p>\n                </div>\n            </md-list-item>\n        </md-list>\n    </div>\n</div>"
-
-/***/ }),
-
-/***/ 940:
-/***/ (function(module, exports) {
-
-module.exports = "<div class=\"row\">\n    <h1>Completer Material</h1>\n    <p>This is a demo of a custom component that uses Ng2-Completer directives to create a material2 autocomplete component.</p>\n    <p>To use this compnent copy all completer-cmp-md files from the demo code</p>\n</div>\n<h2>Local data with image</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Local data of countries - using image, matchClass and maxLength</p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer-md [(ngModel)]=\"countryName\" [dataService]=\"dataService\" [minSearchLength]=\"0\" [maxChars]=\"4\" [placeholder]=\"'search country'\"\n                [matchClass]=\"'match'\">\n            </ng2-completer-md>\n        </div>\n        <div class=\"row\">\n            <p>Selected country: {{countryName}}</p>\n        </div>\n    </div>\n</div>\n"
-
-/***/ }),
-
-/***/ 941:
-/***/ (function(module, exports) {
-
-module.exports = "/*\n * Top navigation\n * Hide default border to remove 1px line.\n */\n.navbar-fixed-top {\n  border: 0;\n}\n\n/*\n * Main content\n */\n\n.main {\n  padding: 5rem;\n}\n\n.completer-wrapper {\n    border-radius: 25px;\n    background: lightgray;\n}\n\n:host >>> .match {\n  color: orangered;\n}\n\n:host >>> .my-input-class {\n  color: #2e405b;\n}\n\n.completer-limit /deep/ .completer-dropdown {\n  overflow-y: auto;\n  max-height: 20rem;\n}"
-
-/***/ }),
-
-/***/ 942:
-/***/ (function(module, exports) {
-
-module.exports = "<div class=\"row\">\n    <h1>Completer Native</h1>\n</div>\n<h2>Local data with image</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Local data of countries - using image, matchClass, maxLength, autofocus and limit of the dropdown length in CSS</p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer class=\"completer-limit\" [(ngModel)]=\"countryName\" [datasource]=\"dataService\" [minSearchLength]=\"0\"\n                [maxChars]=\"4\" [placeholder]=\"'search country'\" [matchClass]=\"'match'\" [autofocus]=\"true\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Selected country: {{countryName}}</p>\n        </div>\n    </div>\n</div>\n<h2>Local data with description</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Local data of quotes - using desription, textNoResults, matchClass and\n                selected event</p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer [datasource]=\"dataService2\" (selected)=\"onQuoteSelected($event)\"\n                [minSearchLength]=\"0\" [placeholder]=\"'search quote by author name'\" [textNoResults]=\"'No quotes found'\"\n                [matchClass]=\"'match'\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Quote: {{quote}}</p>\n        </div>\n    </div>\n</div>\n\n<h2>Remote data</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Remote data of countries with minSearchLength, textSearching and clearSelected</p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer [dataService]=\"dataRemote\" [minSearchLength]=\"3\" [placeholder]=\"'search country'\"\n                [clearSelected]=\"true\" (selected)=\"onCountrySelected($event)\" [textSearching]=\"'Please wait...'\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Selected country: {{countryName2}}</p>\n        </div>\n    </div>\n</div>\n\n<h2>Input disabled</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Async local data of countries - overrideSuggested, inputDisabled, inputClass and\n                fieldTabindex\n            </p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer [(ngModel)]=\"countryName3\" [datasource]=\"dataService3\" [minSearchLength]=\"0\"\n                [placeholder]=\"'search country'\" [overrideSuggested]=\"true\" [disableInput]=\"searchcb\"\n                [fieldTabindex]=\"-1\" [inputClass]=\"'my-input-class'\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Selected: {{countryName3}}</p>\n        </div>\n        <div class=\"row\">\n            <label>Disable search</label>\n            <input type=\"checkbox\" [(ngModel)]=\"searchcb\" />\n        </div>\n    </div>\n</div>\n\n<h2>Automatch</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <form>\n            <div class=\"row\">\n                <p>Local data of colors - autoMatch and required</p>\n            </div>\n            <div class=\"row\">\n                <ng2-completer name=\"colorRequired\" [datasource]=\"colors\" [(ngModel)]=\"color\"\n                    [minSearchLength]=\"0\" [placeholder]=\"'search color'\" #colorRequired=\"ngModel\"\n                    [autoMatch]=\"true\" required>\n                </ng2-completer>\n                <div [hidden]=\"colorRequired.valid\" class=\"col-md-6 alert alert-danger\">\n                    Color is required\n                </div>\n            </div>\n            <div class=\"row\">\n                <p>Selected: {{color}}</p>\n            </div>\n        </form>\n    </div>\n</div>\n\n<h2>Remote data with URL Formater and Headers</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Remote data from <a href=\"http://www.omdbapi.com\">The Open Movie Database</a> - urlFormater and dataField</p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer [(ngModel)]=\"countryName5\" [datasource]=\"dataRemote2\" [minSearchLength]=\"3\"\n                [placeholder]=\"'search moview'\" [textSearching]=\"'Please wait...'\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Selected country: {{countryName5}}</p>\n        </div>\n    </div>\n</div>\n\n<h2>Custom data provider</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Custom data provider. Seinfeld episodes data from <a href=\"https://mysafeinfo.com/\">mysafeinfo.com</a></p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer [(ngModel)]=\"seinfeldEpisode\" [datasource]=\"customData\" [minSearchLength]=\"3\"\n                [placeholder]=\"'search Seinfeld episode'\" [textSearching]=\"'Please wait...'\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Selected episode: {{seinfeldEpisode}}</p>\n        </div>\n    </div>\n</div>\n\n<h2>Open and close programmatically</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Local data of colors open and close from code</p>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-md-3\">\n                <ng2-completer #openCloseExample  [(ngModel)]=\"color2\" [datasource]=\"colors\" [minSearchLength]=\"0\" [placeholder]=\"'search color'\">\n                </ng2-completer>\n            </div>\n            <div class=\"col-md-1\">\n                <button (click)=\"onOpen()\">open</button>\n            </div>\n            <div class=\"col-md-1\">\n                <button (click)=\"onClose()\">close</button>\n            </div>\n        </div>\n        <div class=\"row\">\n            <p>Selected color: {{color2}}</p>\n        </div>\n    </div>\n</div>\n\n<h2>Do not set input value when item is highlighted</h2>\n<div class=\"row completer-wrapper m-a-1\">\n    <div class=\"col-md-offset-1\">\n        <div class=\"row\">\n            <p>Remote data of colors with minSearchLength, textSearching and fillHighlighted=false</p>\n        </div>\n        <div class=\"row\">\n            <ng2-completer [datasource]=\"'https://raw.githubusercontent.com/oferh/ng2-completer/master/demo/res/data/colors.json?'\" [minSearchLength]=\"1\" [placeholder]=\"'search color'\"\n                           [fillHighlighted]=\"false\" (selected)=\"onCountrySelected($event)\" [textSearching]=\"'Please wait...'\">\n            </ng2-completer>\n        </div>\n        <div class=\"row\">\n            <p>Selected color: {{countryName2}}</p>\n        </div>\n    </div>\n</div>\n"
-
-/***/ }),
-
-/***/ 97:
+/***/ 587:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ctr_completer__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__collapse_directive__ = __webpack_require__(297);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CollapseModule; });
+
+
+var CollapseModule = (function () {
+    function CollapseModule() {
+    }
+    CollapseModule.forRoot = function () {
+        return { ngModule: CollapseModule, providers: [] };
+    };
+    CollapseModule.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"], args: [{
+                    declarations: [__WEBPACK_IMPORTED_MODULE_1__collapse_directive__["a" /* CollapseDirective */]],
+                    exports: [__WEBPACK_IMPORTED_MODULE_1__collapse_directive__["a" /* CollapseDirective */]]
+                },] },
+    ];
+    /** @nocollapse */
+    CollapseModule.ctorParameters = function () { return []; };
+    return CollapseModule;
+}());
+//# sourceMappingURL=collapse.module.js.map
+
+/***/ }),
+
+/***/ 588:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__collapse_directive__ = __webpack_require__(297);
+/* unused harmony reexport CollapseDirective */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__collapse_module__ = __webpack_require__(587);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_1__collapse_module__["a"]; });
+
+
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ 59:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(setImmediate) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ctr_completer__ = __webpack_require__(27);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CtrRowItem; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return CtrDropdown; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -3264,6 +2323,14 @@ var CtrDropdown = (function () {
     };
     CtrDropdown.prototype.ngOnDestroy = function () {
         this.completer.registerDropdown(null);
+    };
+    CtrDropdown.prototype.onMouseDown = function (event) {
+        var _this = this;
+        // Support for canceling blur on IE (issue #158)
+        this.completer.cancelBlur(true);
+        setImmediate(function () {
+            _this.completer.cancelBlur(false);
+        });
     };
     CtrDropdown.prototype.registerRow = function (row) {
         this.rows.push(row);
@@ -3347,6 +2414,12 @@ var CtrDropdown = (function () {
     };
     return CtrDropdown;
 }());
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostListener"])("mousedown", ["$event"]),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], CtrDropdown.prototype, "onMouseDown", null);
 CtrDropdown = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Directive"])({
         selector: "[ctrDropdown]",
@@ -3356,14 +2429,57 @@ CtrDropdown = __decorate([
 ], CtrDropdown);
 
 
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(84).setImmediate))
 
 /***/ }),
 
-/***/ 98:
+/***/ 592:
+/***/ (function(module, exports) {
+
+module.exports = "<nav class=\"navbar navbar-toggleable-md navbar-inverse bg-inverse sticky-top\">\n\t\t<a href=\"https://github.com/oferh/ng2-completer\"><img style=\"position: absolute; top: 0; right: 0; border: 0;\" src=\"https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67\" alt=\"Fork me on GitHub\" data-canonical-src=\"https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png\"></a>\t<div class=\"container\">\n\t\t<button class=\"navbar-toggler navbar-toggler-right\" type=\"button\" data-toggle=\"collapse\"\n\t\t\t\t\t\tdata-target=\"#navbarSupportedContent\" aria-controls=\"navbarSupportedContent\"\n\t\t\t\t\t\taria-expanded=\"false\" aria-label=\"Toggle navigation\" (click)=\"isCollapsed = !isCollapsed\">\n\t\t\t<span class=\"navbar-toggler-icon\"></span>\n\t\t</button>\n\t\t<a class=\"navbar-brand\" href=\"#\"><strong>ng2-completer</strong> demo</a>\n\t\t<div class=\"collapse navbar-collapse\" id=\"navbarSupportedContent\" [collapse]=\"!isCollapsed\">\n\t\t\t<ul class=\"navbar-nav mr-auto\">\n\t\t\t\t<li class=\"nav-item\">\n\t\t\t\t\t<a class=\"nav-link\" routerLink=\"/native\" routerLinkActive=\"active\">JS Native</a>\n\t\t\t\t</li>\n\t\t\t\t<li class=\"nav-item\">\n\t\t\t\t\t<a class=\"nav-link\" routerLink=\"/material\" routerLinkActive=\"active\">Material Design</a>\n\t\t\t\t</li>\n\t\t\t</ul>\n\t\t</div>\n\t</div>\n</nav>\n<div class=\"container main\">\n\t<router-outlet></router-outlet>\n</div>\n"
+
+/***/ }),
+
+/***/ 593:
+/***/ (function(module, exports) {
+
+module.exports = ".completer-row {\n    display: inherit;\n}\n\n.completer-selected-row {\n    background-color: lightblue;\n    color: #ffffff;\n}\n\n.completer-row p {\n    position: relative;\n    top: 50%;\n    transform: translateY(50%);\n}\n\n.completer-dropdown-holder {\n    position: absolute;\n    background: white;\n}"
+
+/***/ }),
+
+/***/ 594:
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"completer-holder\" ctrCompleter>\n    <md-input-container class=\"completer-input\">\n        <input mdInput ctrInput=\"clearSelected=clearSelected; overrideSuggested=overrideSuggested; fillHighlighted=fillHighlighted\" [(ngModel)]=\"searchStr\" \n            [attr.name]=\"inputName\" [attr.maxlength]=\"maxChars\" [tabindex]=\"fieldTabindex\" [disabled]=\"disableInput\" (blur)=\"onBlur()\" [placeholder]=\"placeholder\"\n            autocomplete=\"off\" autocorrect=\"off\" autocapitalize=\"off\">\n    </md-input-container>\n\n    <div class=\"completer-dropdown-holder\" *ctrList=\"dataService; minSearchLength: minSearchLength; pause: pause; autoMatch: autoMatch; let items = results; let searchActive = searching; let isInitialized = searchInitialized;\">\n        <md-list class=\"completer-dropdown\" ctrDropdown *ngIf=\"isInitialized\">\n            <md-list-item *ngIf=\"searchActive && displaySearching\" class=\"completer-searching\">{{textSearching}}</md-list-item>\n            <md-list-item *ngIf=\"!searchActive && (!items || items.length === 0)\" class=\"completer-no-results\">{{textNoResults}}</md-list-item>\n            <md-list-item class=\"completer-row-wrapper\" *ngFor=\"let item of items; let rowIndex=index\">\n                <div class=\"completer-row\" [ctrRow]=\"rowIndex\" [dataItem]=\"item\">\n                    <span *ngIf=\"item.image || item.image === ''\" class=\"completer-image-holder\">\n                        <img md-list-avatar *ngIf=\"item.image != ''\" src=\"{{item.image}}\" class=\"completer-image\" />\n                        <span md-list-avatar *ngIf=\"item.image === ''\" class=\"completer-image-default\"></span>\n                    </span>\n                    <p md-line>\n                        <completer-list-item class=\"completer-title\" [text]=\"item.title\" [matchClass]=\"matchClass\" [searchStr]=\"searchStr\" [type]=\"'title'\"></completer-list-item>\n                        <completer-list-item *ngIf=\"item.description && item.description != ''\" class=\"completer-description\" [text]=\"item.description\"\n                            [matchClass]=\"matchClass\" [searchStr]=\"searchStr\" [type]=\"'description'\">\n                        </completer-list-item>\n                    </p>\n                </div>\n            </md-list-item>\n        </md-list>\n    </div>\n</div>"
+
+/***/ }),
+
+/***/ 595:
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"row\">\n     <div class=\"col-md-offset-1\">\n        <h1>Completer Material</h1>\n        <p>This is a demo of a custom component that uses Ng2-Completer directives to create a material2 autocomplete component.</p>\n        <p>To use this compnent copy all completer-cmp-md files from the demo code</p>\n     </div>\n</div>\n<h3>Local data with image</h3>\n<div class=\"completer-wrapper\">\n    <div class=\"col-md-offset-1\">\n        <div>\n            <p>Local data of countries - using image, matchClass and maxLength</p>\n        </div>\n        <div class=\"ng-scope layout-row\">\n            <ng2-completer-md [(ngModel)]=\"countryName\" [dataService]=\"dataService\" [minSearchLength]=\"0\" [maxChars]=\"4\" [placeholder]=\"'search country'\"\n                [matchClass]=\"'match'\">\n            </ng2-completer-md>\n        </div>\n        <div>\n            <p>Selected country: {{countryName}}</p>\n        </div>\n    </div>\n</div>\n"
+
+/***/ }),
+
+/***/ 596:
+/***/ (function(module, exports) {
+
+module.exports = "h1 {\n  margin: 1em 0 .5em;\n\n}\n\nh3 {\n  color: #444;\n  border-bottom: 1px solid #efefef;\n  margin: 3em 0 1em;\n}\n\n.form-group:last-child {\n  margin-bottom: 0;\n}\n\n.card-block {\n  background-color: #f7f5f2;\n}\n\n:host {\n  padding: 5em 0;\n}\n\n:host > > > .match {\n  color: darkred;\n}\n\n.completer-limit /deep/ .completer-dropdown {\n  overflow-y: auto;\n  max-height: 20rem;\n}"
+
+/***/ }),
+
+/***/ 597:
+/***/ (function(module, exports) {
+
+module.exports = "<h1 style=\"margin-top: 1em;\" class=\"page\">Completer Native</h1>\n\n<h3>Local data with image</h3>\n<p>Local data with countries - using <code>image</code>,\n\t<code>matchClass</code>,\n\t<code>maxLength</code>, <code>autofocus</code> and limit of the dropdown length in CSS</p>\n\n<div class=\"card\">\n\t<div class=\"card-block\">\n\t\t<div class=\"form-group row\">\n\t\t\t<div class=\"col-5\">\n\t\t\t\t<ng2-completer class=\"completer-limit\"\n\t\t\t\t\t\t\t\t\t\t\t [(ngModel)]=\"countryName\"\n\t\t\t\t\t\t\t\t\t\t\t [datasource]=\"dataService\"\n\t\t\t\t\t\t\t\t\t\t\t [minSearchLength]=\"0\"\n\t\t\t\t\t\t\t\t\t\t\t [maxChars]=\"4\"\n\t\t\t\t\t\t\t\t\t\t\t [inputClass]=\"'form-control'\"\n\t\t\t\t\t\t\t\t\t\t\t [placeholder]=\"'Search country'\"\n\t\t\t\t\t\t\t\t\t\t\t [matchClass]=\"'match'\"\n\t\t\t\t\t\t\t\t\t\t\t [autofocus]=\"true\">\n\t\t\t\t</ng2-completer>\n\t\t\t</div>\n\t\t\t<div class=\"col-6\">\n\t\t\t\t<p class=\"form-control-static\"><b>{{countryName || ''}}</b></p>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n\n\n<h3>Local data with description</h3>\n<p>Local data of quotes - using <code>desription</code>, <code>textNoResults</code>, <code>matchClass</code>\n\tand\n\t<code>selected</code> event</p>\n\n\n<div class=\"card\">\n\t<div class=\"card-block\">\n\t\t<div class=\"form-group row\">\n\t\t\t<div class=\"col-5\">\n\t\t\t\t<ng2-completer [datasource]=\"dataService2\"\n\t\t\t\t\t\t\t\t\t\t\t (selected)=\"onQuoteSelected($event)\"\n\t\t\t\t\t\t\t\t\t\t\t [minSearchLength]=\"0\"\n\t\t\t\t\t\t\t\t\t\t\t [placeholder]=\"'Search quote by author name'\"\n\t\t\t\t\t\t\t\t\t\t\t [textNoResults]=\"'No quotes found'\"\n\t\t\t\t\t\t\t\t\t\t\t [inputClass]=\"'form-control'\"\n\t\t\t\t\t\t\t\t\t\t\t [matchClass]=\"'match'\">\n\t\t\t\t</ng2-completer>\n\t\t\t</div>\n\t\t\t<div class=\"col-6\">\n\t\t\t\t<p class=\"form-control-static\"><b>{{quote}}</b></p>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n\n<h3>Remote data</h3>\n<p>Remote data of countries with <code>minSearchLength</code>, <code>textSearching</code>\n\tand <code>clearSelected</code>\n</p>\n\n\n<div class=\"card\">\n\t<div class=\"card-block\">\n\t\t<div class=\"form-group row\">\n\t\t\t<div class=\"col-5\">\n\t\t\t\t<ng2-completer [dataService]=\"dataRemote\" [minSearchLength]=\"3\"\n\t\t\t\t\t\t\t\t\t\t\t [placeholder]=\"'Search for country'\"\n\t\t\t\t\t\t\t\t\t\t\t [clearSelected]=\"true\" (selected)=\"onCountrySelected($event)\"\n\t\t\t\t\t\t\t\t\t\t\t [inputClass]=\"'form-control'\"\n\t\t\t\t\t\t\t\t\t\t\t [textSearching]=\"'Please wait...'\">\n\t\t\t\t</ng2-completer>\n\t\t\t</div>\n\t\t\t<div class=\"col-6\">\n\t\t\t\t<p class=\"form-control-static\"><b> {{countryName2}}</b></p>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n\n<h3>Input disabled</h3>\n<p>Async local data of countries - <code>overrideSuggested</code>, <code>inputDisabled</code>,\n\t<code>inputClass</code> and <code>fieldTabindex</code>\n</p>\n\n<div class=\"card\">\n\t<div class=\"card-block\">\n\t\t<div class=\"form-group row\">\n\t\t\t<div class=\"col-5\">\n\t\t\t\t<ng2-completer [(ngModel)]=\"countryName3\" [datasource]=\"dataService3\" [minSearchLength]=\"0\"\n\t\t\t\t\t\t\t\t\t\t\t [placeholder]=\"'search country'\" [overrideSuggested]=\"true\"\n\t\t\t\t\t\t\t\t\t\t\t [disableInput]=\"searchcb\"\n\t\t\t\t\t\t\t\t\t\t\t [inputClass]=\"'form-control'\"\n\t\t\t\t\t\t\t\t\t\t\t [fieldTabindex]=\"-1\" [inputClass]=\"'my-input-class'\">\n\t\t\t\t</ng2-completer>\n\t\t\t</div>\n\t\t\t<div class=\"col-6\">\n\t\t\t\t<p class=\"form-control-static\"><b> {{countryName3}}</b></p>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"form-group row\">\n\t\t\t<div class=\"col\">\n\t\t\t\t<div class=\"form-check\">\n\t\t\t\t\t<label class=\"form-check-label\">\n\t\t\t\t\t\t<input class=\"form-check-input\" type=\"checkbox\" value=\"\" [(ngModel)]=\"searchcb\">\n\t\t\t\t\t\tDisable input\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n\n<h3>Automatch</h3>\n<p>Local data of colors - <code>autoMatch</code>, <code>inputId</code> and <code>required</code></p>\n\n<div class=\"card\">\n\t<div class=\"card-block\">\n\t\t<div class=\"form-group row\" [class.has-danger]=\"!colorRequired.valid\">\n\t\t\t<div class=\"col-5\">\n\t\t\t\t<ng2-completer name=\"colorRequired\" [inputId]=\"'completer1'\" [datasource]=\"colors\" [(ngModel)]=\"color\"\n\t\t\t\t\t\t\t\t\t\t\t [minSearchLength]=\"0\" [placeholder]=\"'search color'\" #colorRequired=\"ngModel\"\n\t\t\t\t\t\t\t\t\t\t\t [autoMatch]=\"true\"\n\t\t\t\t\t\t\t\t\t\t\t [inputClass]=\"(colorRequired.valid) ? 'form-control' : 'form-control form-control-danger'\"\n\t\t\t\t\t\t\t\t\t\t\t required>\n\t\t\t\t</ng2-completer>\n\t\t\t\t<div *ngIf=\"!colorRequired.valid\" class=\"form-control-feedback\">Sorry, color is required\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class=\"col-6\">\n\t\t\t\t<p class=\"form-control-static\"><b> {{color}}</b></p>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n\n<h3>Remote data with URL Formater and Headers</h3>\n<p>Remote data from <a href=\"http://www.omdbapi.com\">The Open Movie Database</a> with\n\t<code>urlFormater</code> and <code>dataField</code></p>\n\n<div class=\"card\">\n\t<div class=\"card-block\">\n\t\t<div class=\"form-group row\">\n\t\t\t<div class=\"col-5\">\n\t\t\t\t<ng2-completer [(ngModel)]=\"countryName5\"\n\t\t\t\t\t\t\t\t\t\t\t [datasource]=\"dataRemote2\"\n\t\t\t\t\t\t\t\t\t\t\t [minSearchLength]=\"3\"\n\t\t\t\t\t\t\t\t\t\t\t [placeholder]=\"'Search movie title'\"\n\t\t\t\t\t\t\t\t\t\t\t [textSearching]=\"'Please wait...'\"\n\t\t\t\t\t\t\t\t\t\t\t [inputClass]=\"'form-control'\">\n\t\t\t\t</ng2-completer>\n\t\t\t</div>\n\t\t\t<div class=\"col-6\">\n\t\t\t\t<p class=\"form-control-static\"><b>{{countryName5}}</b></p>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n\n<h3>Custom data provider</h3>\n<p>Custom data provider. Seinfeld episodes data from <a href=\"https://mysafeinfo.com/\">mysafeinfo.com</a>\n</p>\n\n<div class=\"card\">\n\t<div class=\"card-block\">\n\t\t<div class=\"form-group row\">\n\t\t\t<div class=\"col-5\">\n\t\t\t\t<ng2-completer [(ngModel)]=\"seinfeldEpisode\" [datasource]=\"customData\" [minSearchLength]=\"3\"\n\t\t\t\t\t\t\t\t\t\t\t [inputClass]=\"'form-control'\"\n\t\t\t\t\t\t\t\t\t\t\t [placeholder]=\"'search Seinfeld episode'\" [textSearching]=\"'Please wait...'\">\n\t\t\t\t</ng2-completer>\n\t\t\t</div>\n\t\t\t<div class=\"col-6\">\n\t\t\t\t<p class=\"form-control-static\"><b> {{seinfeldEpisode}}</b></p>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n\n<h3>Open, close and focus programmatically</h3>\n<p>Local data of colors; Open, Close and Focus programmatically</p>\n\n\n<div class=\"card\">\n\t<div class=\"card-block\">\n\t\t<div class=\"form-group row\">\n\t\t\t<div class=\"col-3\">\n\t\t\t\t<ng2-completer #openCloseExample [(ngModel)]=\"color2\" [datasource]=\"colors\"\n\t\t\t\t\t\t\t\t\t\t\t [inputClass]=\"'form-control'\"\n\t\t\t\t\t\t\t\t\t\t\t [minSearchLength]=\"0\" [placeholder]=\"'search color'\">\n\t\t\t\t</ng2-completer>\n\t\t\t</div>\n\t\t\t<div class=\"col-3\">\n\t\t\t\t<button (click)=\"onOpen()\" class=\"btn btn-primary\">Open</button>\n\t\t\t\t<button (click)=\"onClose()\" class=\"btn btn-primary\">Close</button>\n\t\t\t\t<button (click)=\"onFocus()\" class=\"btn btn-primary\">Focus</button>\n\t\t\t</div>\n\t\t\t<div class=\"col\">\n\t\t\t\t<p class=\"form-control-static\"><b> {{color2}}</b></p>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n\n\n<h3>Do not set input value when item is highlighted</h3>\n<p>Remote data of colors with <code>minSearchLength</code>, <code>textSearching</code> and <code>fillHighlighted\n\t= false</code></p>\n\n<div class=\"card\">\n\t<div class=\"card-block\">\n\t\t<div class=\"form-group row\">\n\t\t\t<div class=\"col-5\">\n\t\t\t\t<ng2-completer\n\t\t\t\t\t\t[datasource]=\"'https://raw.githubusercontent.com/oferh/ng2-completer/master/demo/res/data/colors.json?'\"\n\t\t\t\t\t\t[minSearchLength]=\"1\" [placeholder]=\"'search color'\"\n\t\t\t\t\t\t[inputClass]=\"'form-control'\"\n\t\t\t\t\t\t[fillHighlighted]=\"false\" (selected)=\"onCountrySelected($event)\"\n\t\t\t\t\t\t[textSearching]=\"'Please wait...'\">\n\t\t\t\t</ng2-completer>\n\n\t\t\t</div>\n\t\t\t<div class=\"col-6\">\n\t\t\t\t<p class=\"form-control-static\"><b> {{countryName2}}</b></p>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n\n\n<h3>Events</h3>\n<p>Event triggering with <code>onBlur</code> and <code>onFocus</code> events.</p>\n\n<div class=\"card\">\n\t<div class=\"card-block\">\n\t\t<div class=\"form-group row\">\n\t\t\t<div class=\"col-5\">\n\t\t\t\t<ng2-completer\n\t\t\t\t\t\t[datasource]=\"'https://raw.githubusercontent.com/oferh/ng2-completer/master/demo/res/data/colors.json?'\"\n\t\t\t\t\t\t[minSearchLength]=\"1\" [placeholder]=\"'search color'\"\n\t\t\t\t\t\t[inputClass]=\"'form-control'\"\n\t\t\t\t\t\t(focus)=\"focused = true; blurred = false;\"\n\t\t\t\t\t\t(blur)=\"focused = false; blurred = true;\"\n\t\t\t\t\t\t[fillHighlighted]=\"false\" (selected)=\"onCountrySelected($event)\"\n\t\t\t\t\t\t[textSearching]=\"'Please wait...'\">\n\t\t\t\t</ng2-completer>\n\t\t\t</div>\n\t\t\t<div class=\"col\">\n\t\t\t\t<div class=\"alert alert-success\" role=\"alert\" *ngIf=\"focused\">\n\t\t\t\t\t<code>(focus)='...'</code> <b>onFocus</b> event emitted.\n\t\t\t\t</div>\n\t\t\t\t<div class=\"alert alert-success\" role=\"alert\" *ngIf=\"blurred\">\n\t\t\t\t\t<code>(blur)='...'</code> <b>onBlur</b> event emitted.\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n\n<p style=\"margin-bottom: 10em;\"></p>"
+
+/***/ }),
+
+/***/ 60:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_Subject__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_Subject__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_Subject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_rxjs_Subject__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CompleterBaseData; });
 var __extends = (this && this.__extends) || (function () {
@@ -3478,13 +2594,13 @@ var CompleterBaseData = (function (_super) {
 
 /***/ }),
 
-/***/ 99:
+/***/ 61:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__local_data__ = __webpack_require__(100);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__remote_data__ = __webpack_require__(101);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__local_data__ = __webpack_require__(62);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__remote_data__ = __webpack_require__(63);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CompleterService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -3537,6 +2653,1113 @@ CompleterService = __decorate([
 
 
 
+/***/ }),
+
+/***/ 62:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Observable__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_Observable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__completer_base_data__ = __webpack_require__(60);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LocalData; });
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var LocalData = (function (_super) {
+    __extends(LocalData, _super);
+    function LocalData() {
+        return _super.call(this) || this;
+    }
+    LocalData.prototype.data = function (data) {
+        var _this = this;
+        if (data instanceof __WEBPACK_IMPORTED_MODULE_1_rxjs_Observable__["Observable"]) {
+            data.subscribe(function (res) {
+                _this._data = res;
+                if (_this.savedTerm) {
+                    _this.search(_this.savedTerm);
+                }
+            });
+        }
+        else {
+            this._data = data;
+        }
+        return this;
+    };
+    LocalData.prototype.search = function (term) {
+        if (!this._data) {
+            this.savedTerm = term;
+        }
+        else {
+            this.savedTerm = null;
+            var matches = this.extractMatches(this._data, term);
+            this.next(this.processResults(matches));
+        }
+    };
+    return LocalData;
+}(__WEBPACK_IMPORTED_MODULE_2__completer_base_data__["a" /* CompleterBaseData */]));
+LocalData = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
+    __metadata("design:paramtypes", [])
+], LocalData);
+
+
+
+/***/ }),
+
+/***/ 63:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_add_operator_map__ = __webpack_require__(75);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_add_operator_map__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_catch__ = __webpack_require__(74);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_catch___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_catch__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__completer_base_data__ = __webpack_require__(60);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RemoteData; });
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+
+
+
+
+var RemoteData = (function (_super) {
+    __extends(RemoteData, _super);
+    function RemoteData(http) {
+        var _this = _super.call(this) || this;
+        _this.http = http;
+        _this._urlFormater = null;
+        _this._dataField = null;
+        return _this;
+    }
+    RemoteData.prototype.remoteUrl = function (remoteUrl) {
+        this._remoteUrl = remoteUrl;
+        return this;
+    };
+    RemoteData.prototype.urlFormater = function (urlFormater) {
+        this._urlFormater = urlFormater;
+    };
+    RemoteData.prototype.dataField = function (dataField) {
+        this._dataField = dataField;
+    };
+    RemoteData.prototype.headers = function (headers) {
+        this._headers = headers;
+    };
+    RemoteData.prototype.search = function (term) {
+        var _this = this;
+        this.cancel();
+        // let params = {};
+        var url = "";
+        if (this._urlFormater) {
+            url = this._urlFormater(term);
+        }
+        else {
+            url = this._remoteUrl + encodeURIComponent(term);
+        }
+        this.remoteSearch = this.http.get(url, { headers: this._headers || new __WEBPACK_IMPORTED_MODULE_0__angular_http__["Headers"]() })
+            .map(function (res) { return res.json(); })
+            .map(function (data) {
+            var matchaes = _this.extractValue(data, _this._dataField);
+            return _this.extractMatches(matchaes, term);
+        })
+            .map(function (matches) {
+            var results = _this.processResults(matches);
+            _this.next(results);
+            return results;
+        })
+            .catch(function (err) {
+            _this.error(err);
+            return null;
+        })
+            .subscribe();
+    };
+    RemoteData.prototype.cancel = function () {
+        if (this.remoteSearch) {
+            this.remoteSearch.unsubscribe();
+        }
+    };
+    return RemoteData;
+}(__WEBPACK_IMPORTED_MODULE_3__completer_base_data__["a" /* CompleterBaseData */]));
+
+
+
+/***/ }),
+
+/***/ 76:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ng2_completer_module__ = __webpack_require__(157);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Ng2CompleterModule", function() { return __WEBPACK_IMPORTED_MODULE_0__ng2_completer_module__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_completer_cmp__ = __webpack_require__(86);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "CompleterCmp", function() { return __WEBPACK_IMPORTED_MODULE_1__components_completer_cmp__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_completer_list_item_cmp__ = __webpack_require__(87);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "CompleterListItemCmp", function() { return __WEBPACK_IMPORTED_MODULE_2__components_completer_list_item_cmp__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_completer_service__ = __webpack_require__(61);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "CompleterService", function() { return __WEBPACK_IMPORTED_MODULE_3__services_completer_service__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_completer_data_factory__ = __webpack_require__(91);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "localDataFactory", function() { return __WEBPACK_IMPORTED_MODULE_4__services_completer_data_factory__["c"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "LocalDataFactoryProvider", function() { return __WEBPACK_IMPORTED_MODULE_4__services_completer_data_factory__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "remoteDataFactory", function() { return __WEBPACK_IMPORTED_MODULE_4__services_completer_data_factory__["d"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "RemoteDataFactoryProvider", function() { return __WEBPACK_IMPORTED_MODULE_4__services_completer_data_factory__["b"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__services_local_data__ = __webpack_require__(62);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "LocalData", function() { return __WEBPACK_IMPORTED_MODULE_5__services_local_data__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__services_remote_data__ = __webpack_require__(63);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "RemoteData", function() { return __WEBPACK_IMPORTED_MODULE_6__services_remote_data__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__services_completer_base_data__ = __webpack_require__(60);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "CompleterBaseData", function() { return __WEBPACK_IMPORTED_MODULE_7__services_completer_base_data__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__directives_ctr_completer__ = __webpack_require__(27);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "CtrCompleter", function() { return __WEBPACK_IMPORTED_MODULE_8__directives_ctr_completer__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__directives_ctr_dropdown__ = __webpack_require__(59);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "CtrDropdown", function() { return __WEBPACK_IMPORTED_MODULE_9__directives_ctr_dropdown__["b"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__directives_ctr_input__ = __webpack_require__(88);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "CtrInput", function() { return __WEBPACK_IMPORTED_MODULE_10__directives_ctr_input__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__directives_ctr_list__ = __webpack_require__(89);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "CtrList", function() { return __WEBPACK_IMPORTED_MODULE_11__directives_ctr_list__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__directives_ctr_row__ = __webpack_require__(90);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "CtrRow", function() { return __WEBPACK_IMPORTED_MODULE_12__directives_ctr_row__["a"]; });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***/ }),
+
+/***/ 79:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return MAX_CHARS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MIN_SEARCH_LENGTH; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return PAUSE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return TEXT_SEARCHING; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return TEXT_NORESULTS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return CLEAR_TIMEOUT; });
+var MAX_CHARS = 524288; // the default max length per the html maxlength attribute
+// the default max length per the html maxlength attribute
+var MIN_SEARCH_LENGTH = 3;
+var PAUSE = 250;
+var TEXT_SEARCHING = "Searching...";
+var TEXT_NORESULTS = "No results found";
+var CLEAR_TIMEOUT = 100;
+
+
+/***/ }),
+
+/***/ 86:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__directives_ctr_completer__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_completer_service__ = __webpack_require__(61);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__globals__ = __webpack_require__(79);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_catch__ = __webpack_require__(74);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_catch___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_catch__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CompleterCmp; });
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+var noop = function () { };
+var COMPLETER_CONTROL_VALUE_ACCESSOR = {
+    provide: __WEBPACK_IMPORTED_MODULE_1__angular_forms__["NG_VALUE_ACCESSOR"],
+    useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["forwardRef"])(function () { return CompleterCmp; }),
+    multi: true
+};
+var CompleterCmp = (function () {
+    function CompleterCmp(completerService) {
+        this.completerService = completerService;
+        this.inputName = "";
+        this.inputId = "";
+        this.pause = __WEBPACK_IMPORTED_MODULE_4__globals__["b" /* PAUSE */];
+        this.minSearchLength = __WEBPACK_IMPORTED_MODULE_4__globals__["a" /* MIN_SEARCH_LENGTH */];
+        this.maxChars = __WEBPACK_IMPORTED_MODULE_4__globals__["d" /* MAX_CHARS */];
+        this.overrideSuggested = false;
+        this.clearSelected = false;
+        this.fillHighlighted = true;
+        this.placeholder = "";
+        this.textSearching = __WEBPACK_IMPORTED_MODULE_4__globals__["e" /* TEXT_SEARCHING */];
+        this.textNoResults = __WEBPACK_IMPORTED_MODULE_4__globals__["f" /* TEXT_NORESULTS */];
+        this.autoMatch = false;
+        this.disableInput = false;
+        this.autofocus = false;
+        this.selected = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
+        this.highlighted = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
+        this.blur = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
+        this.focusEvent = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
+        this.searchStr = "";
+        this.control = new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormControl"]("");
+        this.displaySearching = true;
+        this._onTouchedCallback = noop;
+        this._onChangeCallback = noop;
+        this._focus = false;
+    }
+    Object.defineProperty(CompleterCmp.prototype, "value", {
+        get: function () { return this.searchStr; },
+        set: function (v) {
+            if (v !== this.searchStr) {
+                this.searchStr = v;
+            }
+            // Propagate the change in any case
+            this._onChangeCallback(v);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    ;
+    CompleterCmp.prototype.ngAfterViewInit = function () {
+        if (this.autofocus) {
+            this._focus = true;
+        }
+    };
+    CompleterCmp.prototype.ngAfterViewChecked = function () {
+        if (this._focus) {
+            this.ctrInput.nativeElement.focus();
+            this._focus = false;
+        }
+    };
+    CompleterCmp.prototype.onTouched = function () {
+        this._onTouchedCallback();
+    };
+    CompleterCmp.prototype.writeValue = function (value) {
+        this.searchStr = value;
+    };
+    CompleterCmp.prototype.registerOnChange = function (fn) {
+        this._onChangeCallback = fn;
+    };
+    CompleterCmp.prototype.registerOnTouched = function (fn) {
+        this._onTouchedCallback = fn;
+    };
+    CompleterCmp.prototype.ngOnInit = function () {
+        var _this = this;
+        if (this.datasource) {
+            if (this.datasource instanceof Array) {
+                this.dataService = this.completerService.local(this.datasource);
+            }
+            else if (typeof (this.datasource) === "string") {
+                this.dataService = this.completerService.remote(this.datasource);
+            }
+            else {
+                this.dataService = this.datasource;
+            }
+        }
+        this.completer.selected.subscribe(function (item) {
+            var title = item ? item.title : "";
+            _this.selected.emit(item);
+            _this._onChangeCallback(title);
+        });
+        this.completer.highlighted.subscribe(function (item) {
+            _this.highlighted.emit(item);
+        });
+        if (this.textSearching === "false") {
+            this.displaySearching = false;
+        }
+    };
+    CompleterCmp.prototype.onBlur = function () {
+        this.blur.emit();
+        this.onTouched();
+    };
+    CompleterCmp.prototype.onFocus = function () {
+        this.focusEvent.emit();
+        this.onTouched();
+    };
+    CompleterCmp.prototype.onChange = function (value) {
+        this.value = value;
+    };
+    CompleterCmp.prototype.open = function (searchValue) {
+        if (searchValue === void 0) { searchValue = ""; }
+        this.completer.search(searchValue);
+    };
+    CompleterCmp.prototype.close = function () {
+        this.completer.clear();
+    };
+    CompleterCmp.prototype.focus = function () {
+        if (this.ctrInput) {
+            this.ctrInput.nativeElement.focus();
+        }
+        else {
+            this._focus = true;
+        }
+    };
+    return CompleterCmp;
+}());
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+    __metadata("design:type", Object)
+], CompleterCmp.prototype, "dataService", void 0);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+    __metadata("design:type", Object)
+], CompleterCmp.prototype, "datasource", void 0);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+    __metadata("design:type", Object)
+], CompleterCmp.prototype, "inputName", void 0);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+    __metadata("design:type", String)
+], CompleterCmp.prototype, "inputId", void 0);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+    __metadata("design:type", Object)
+], CompleterCmp.prototype, "pause", void 0);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+    __metadata("design:type", Object)
+], CompleterCmp.prototype, "minSearchLength", void 0);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+    __metadata("design:type", Object)
+], CompleterCmp.prototype, "maxChars", void 0);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+    __metadata("design:type", Object)
+], CompleterCmp.prototype, "overrideSuggested", void 0);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+    __metadata("design:type", Object)
+], CompleterCmp.prototype, "clearSelected", void 0);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+    __metadata("design:type", Object)
+], CompleterCmp.prototype, "fillHighlighted", void 0);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+    __metadata("design:type", Object)
+], CompleterCmp.prototype, "placeholder", void 0);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+    __metadata("design:type", String)
+], CompleterCmp.prototype, "matchClass", void 0);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+    __metadata("design:type", Object)
+], CompleterCmp.prototype, "textSearching", void 0);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+    __metadata("design:type", Object)
+], CompleterCmp.prototype, "textNoResults", void 0);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+    __metadata("design:type", Number)
+], CompleterCmp.prototype, "fieldTabindex", void 0);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+    __metadata("design:type", Object)
+], CompleterCmp.prototype, "autoMatch", void 0);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+    __metadata("design:type", Object)
+], CompleterCmp.prototype, "disableInput", void 0);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+    __metadata("design:type", String)
+], CompleterCmp.prototype, "inputClass", void 0);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+    __metadata("design:type", Object)
+], CompleterCmp.prototype, "autofocus", void 0);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
+    __metadata("design:type", Object)
+], CompleterCmp.prototype, "selected", void 0);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
+    __metadata("design:type", Object)
+], CompleterCmp.prototype, "highlighted", void 0);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
+    __metadata("design:type", Object)
+], CompleterCmp.prototype, "blur", void 0);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])("focus"),
+    __metadata("design:type", Object)
+], CompleterCmp.prototype, "focusEvent", void 0);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])(__WEBPACK_IMPORTED_MODULE_2__directives_ctr_completer__["a" /* CtrCompleter */]),
+    __metadata("design:type", __WEBPACK_IMPORTED_MODULE_2__directives_ctr_completer__["a" /* CtrCompleter */])
+], CompleterCmp.prototype, "completer", void 0);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])("ctrInput"),
+    __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"])
+], CompleterCmp.prototype, "ctrInput", void 0);
+CompleterCmp = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+        selector: "ng2-completer",
+        template: "\n        <div class=\"completer-holder\" ctrCompleter>\n            <input #ctrInput [attr.id]=\"inputId.length > 0 ? inputId : null\" type=\"search\" class=\"completer-input\" ctrInput [ngClass]=\"inputClass\" [(ngModel)]=\"searchStr\" (ngModelChange)=\"onChange($event)\" [attr.name]=\"inputName\" [placeholder]=\"placeholder\"\n                [attr.maxlength]=\"maxChars\" [tabindex]=\"fieldTabindex\" [disabled]=\"disableInput\" [clearSelected]=\"clearSelected\" [overrideSuggested]=\"overrideSuggested\" \n                [fillHighlighted]=\"fillHighlighted\" (blur)=\"onBlur()\" (focus)=\"onFocus()\" autocomplete=\"off\" autocorrect=\"off\" autocapitalize=\"off\" />\n\n            <div class=\"completer-dropdown-holder\" *ctrList=\"dataService; minSearchLength: minSearchLength; pause: pause; autoMatch: autoMatch; let items = results; let searchActive = searching; let isInitialized = searchInitialized;\">\n                <div class=\"completer-dropdown\" ctrDropdown *ngIf=\"isInitialized\">\n                    <div *ngIf=\"searchActive && displaySearching\" class=\"completer-searching\">{{textSearching}}</div>\n                    <div *ngIf=\"!searchActive && (!items || items.length === 0)\" class=\"completer-no-results\">{{textNoResults}}</div>\n                    <div class=\"completer-row-wrapper\" *ngFor=\"let item of items; let rowIndex=index\">\n                        <div class=\"completer-row\" [ctrRow]=\"rowIndex\" [dataItem]=\"item\">\n                            <div *ngIf=\"item.image || item.image === ''\" class=\"completer-image-holder\">\n                                <img *ngIf=\"item.image != ''\" src=\"{{item.image}}\" class=\"completer-image\" />\n                                <div *ngIf=\"item.image === ''\" class=\"completer-image-default\"></div>\n                            </div>\n                            <div class=\"completer-item-text\" [ngClass]=\"{'completer-item-text-image': item.image || item.image === '' }\">\n                                <completer-list-item class=\"completer-title\" [text]=\"item.title\" [matchClass]=\"matchClass\" [searchStr]=\"searchStr\" [type]=\"'title'\"></completer-list-item>\n                                <completer-list-item *ngIf=\"item.description && item.description != ''\" class=\"completer-description\" [text]=\"item.description\"\n                                    [matchClass]=\"matchClass\" [searchStr]=\"searchStr\" [type]=\"'description'\">\n                                </completer-list-item>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    ",
+        styles: ["\n    .completer-dropdown {\n        border-color: #ececec;\n        border-width: 1px;\n        border-style: solid;\n        border-radius: 2px;\n        width: 250px;\n        padding: 6px;\n        cursor: pointer;\n        z-index: 9999;\n        position: absolute;\n        margin-top: -6px;\n        background-color: #ffffff;\n    }\n\n    .completer-row {\n        padding: 5px;\n        color: #000000;\n        margin-bottom: 4px;\n        clear: both;\n        display: inline-block;\n        width: 103%;\n    }\n\n    .completer-selected-row {\n        background-color: lightblue;\n        color: #ffffff;\n    }\n\n    .completer-description {\n        font-size: 14px;\n    }\n\n    .completer-image-default {\n        width: 16px; \n        height: 16px;\n        background-image: url(\"demo/res/img/default.png\");\n    }\n\n    .completer-image-holder {\n        float: left;\n        width: 10%;\n    }\n    .completer-item-text-image {\n        float: right;\n        width: 90%;\n    }\n    "],
+        providers: [COMPLETER_CONTROL_VALUE_ACCESSOR]
+    }),
+    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__services_completer_service__["a" /* CompleterService */]])
+], CompleterCmp);
+
+
+
+/***/ }),
+
+/***/ 87:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CompleterListItemCmp; });
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var CompleterListItemCmp = (function () {
+    function CompleterListItemCmp() {
+        this.parts = [];
+    }
+    CompleterListItemCmp.prototype.ngOnInit = function () {
+        if (!this.searchStr) {
+            this.parts.push({ isMatch: false, text: this.text });
+            return;
+        }
+        var matchStr = this.text.toLowerCase();
+        var matchPos = matchStr.indexOf(this.searchStr.toLowerCase());
+        var startIndex = 0;
+        while (matchPos >= 0) {
+            var matchText = this.text.slice(matchPos, matchPos + this.searchStr.length);
+            if (matchPos === 0) {
+                this.parts.push({ isMatch: true, text: matchText });
+                startIndex += this.searchStr.length;
+            }
+            else if (matchPos > 0) {
+                var matchPart = this.text.slice(startIndex, matchPos);
+                this.parts.push({ isMatch: false, text: matchPart });
+                this.parts.push({ isMatch: true, text: matchText });
+                startIndex += this.searchStr.length + matchPart.length;
+            }
+            matchPos = matchStr.indexOf(this.searchStr.toLowerCase(), startIndex);
+        }
+        if (startIndex < this.text.length) {
+            this.parts.push({ isMatch: false, text: this.text.slice(startIndex, this.text.length) });
+        }
+    };
+    return CompleterListItemCmp;
+}());
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+    __metadata("design:type", String)
+], CompleterListItemCmp.prototype, "text", void 0);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+    __metadata("design:type", String)
+], CompleterListItemCmp.prototype, "searchStr", void 0);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+    __metadata("design:type", String)
+], CompleterListItemCmp.prototype, "matchClass", void 0);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+    __metadata("design:type", String)
+], CompleterListItemCmp.prototype, "type", void 0);
+CompleterListItemCmp = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+        selector: "completer-list-item",
+        template: "\n    <span class=\"completer-list-item-holder\" [ngClass]=\"{'completer-title': type === 'title', 'completer-description': type === 'description'}\" >\n        <span class=\"completer-list-item\" *ngFor=\"let part of parts\" [ngClass]=\"part.isMatch ? matchClass : null\">{{part.text}}</span>\n    </span>\n    "
+    })
+], CompleterListItemCmp);
+
+
+
+/***/ }),
+
+/***/ 88:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(setImmediate) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ctr_completer__ = __webpack_require__(27);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CtrInput; });
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+
+
+
+// keyboard events
+var KEY_DW = 40;
+var KEY_RT = 39;
+var KEY_UP = 38;
+var KEY_LF = 37;
+var KEY_ES = 27;
+var KEY_EN = 13;
+var KEY_TAB = 9;
+var CtrInput = (function () {
+    function CtrInput(completer, ngModel, el) {
+        var _this = this;
+        this.completer = completer;
+        this.ngModel = ngModel;
+        this.el = el;
+        this.clearSelected = false;
+        this.overrideSuggested = false;
+        this.fillHighlighted = true;
+        this.ngModelChange = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
+        this._searchStr = "";
+        this._displayStr = "";
+        this.completer.selected.subscribe(function (item) {
+            if (!item) {
+                return;
+            }
+            if (_this.clearSelected) {
+                _this.searchStr = "";
+            }
+            else {
+                _this.searchStr = item.title;
+            }
+            _this.ngModelChange.emit(_this.searchStr);
+        });
+        this.completer.highlighted.subscribe(function (item) {
+            if (_this.fillHighlighted) {
+                if (item) {
+                    _this._displayStr = item.title;
+                    _this.ngModelChange.emit(item.title);
+                }
+                else {
+                    _this._displayStr = _this.searchStr;
+                    _this.ngModelChange.emit(_this.searchStr);
+                }
+            }
+        });
+        this.ngModel.valueChanges.subscribe(function (value) {
+            if (_this._displayStr != value) {
+                _this.searchStr = value;
+            }
+        });
+    }
+    CtrInput.prototype.keyupHandler = function (event) {
+        if (event.keyCode === KEY_LF || event.keyCode === KEY_RT || event.keyCode === KEY_TAB) {
+            // do nothing
+            return;
+        }
+        if (event.keyCode === KEY_UP || event.keyCode === KEY_EN) {
+            event.preventDefault();
+        }
+        else if (event.keyCode === KEY_DW) {
+            event.preventDefault();
+            this.completer.search(this.searchStr);
+        }
+        else if (event.keyCode === KEY_ES) {
+            this.restoreSearchValue();
+            this.completer.clear();
+        }
+        else {
+            this.completer.search(this.searchStr);
+        }
+    };
+    CtrInput.prototype.keydownHandler = function (event) {
+        if (event.keyCode === KEY_EN) {
+            if (this.completer.hasHighlited()) {
+                event.preventDefault();
+            }
+            this.handleSelection();
+        }
+        else if (event.keyCode === KEY_DW) {
+            event.preventDefault();
+            this.completer.nextRow();
+        }
+        else if (event.keyCode === KEY_UP) {
+            event.preventDefault();
+            this.completer.prevRow();
+        }
+        else if (event.keyCode === KEY_TAB) {
+            this.handleSelection();
+        }
+        else if (event.keyCode === KEY_ES) {
+            // This is very specific to IE10/11 #272
+            // without this, IE clears the input text
+            event.preventDefault();
+        }
+    };
+    CtrInput.prototype.onBlur = function (event) {
+        var _this = this;
+        // Check if we need to cancel Blur for IE
+        if (this.completer.isCancelBlur()) {
+            setImmediate(function () {
+                // get the focus back
+                _this.el.nativeElement.focus();
+            });
+            return;
+        }
+        setTimeout(function () {
+            if (_this.overrideSuggested) {
+                _this.completer.onSelected({ title: _this.searchStr, originalObject: null });
+            }
+            else {
+                _this.restoreSearchValue();
+            }
+            _this.completer.clear();
+        }, 200);
+    };
+    Object.defineProperty(CtrInput.prototype, "searchStr", {
+        get: function () {
+            return this._searchStr;
+        },
+        set: function (term) {
+            this._searchStr = term;
+            this._displayStr = term;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    CtrInput.prototype.handleSelection = function () {
+        if (this.overrideSuggested) {
+            this.completer.onSelected({ title: this.searchStr, originalObject: null });
+        }
+        else if (this.completer.hasHighlited()) {
+            this.completer.selectCurrent();
+        }
+        else {
+            this.completer.clear();
+        }
+    };
+    CtrInput.prototype.restoreSearchValue = function () {
+        if (this.fillHighlighted) {
+            // Restore searched value if there is no overrideSuggested
+            if (this._displayStr != this.searchStr) {
+                this._displayStr = this.searchStr;
+                this.ngModelChange.emit(this.searchStr);
+            }
+        }
+    };
+    return CtrInput;
+}());
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])("clearSelected"),
+    __metadata("design:type", Object)
+], CtrInput.prototype, "clearSelected", void 0);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])("overrideSuggested"),
+    __metadata("design:type", Object)
+], CtrInput.prototype, "overrideSuggested", void 0);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])("fillHighlighted"),
+    __metadata("design:type", Object)
+], CtrInput.prototype, "fillHighlighted", void 0);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
+    __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"])
+], CtrInput.prototype, "ngModelChange", void 0);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostListener"])("keyup", ["$event"]),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], CtrInput.prototype, "keyupHandler", null);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostListener"])("keydown", ["$event"]),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], CtrInput.prototype, "keydownHandler", null);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostListener"])("blur", ["$event"]),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], CtrInput.prototype, "onBlur", null);
+CtrInput = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Directive"])({
+        selector: "[ctrInput]",
+    }),
+    __param(0, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Host"])()),
+    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__ctr_completer__["a" /* CtrCompleter */], __WEBPACK_IMPORTED_MODULE_1__angular_forms__["NgModel"], __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"]])
+], CtrInput);
+
+
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(84).setImmediate))
+
+/***/ }),
+
+/***/ 89:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_add_observable_timer__ = __webpack_require__(190);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_add_observable_timer___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_rxjs_add_observable_timer__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ctr_completer__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__globals__ = __webpack_require__(79);
+/* unused harmony export CtrListContext */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CtrList; });
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+
+
+
+
+
+var CtrListContext = (function () {
+    function CtrListContext(results, searching, searchInitialized) {
+        this.results = results;
+        this.searching = searching;
+        this.searchInitialized = searchInitialized;
+    }
+    return CtrListContext;
+}());
+
+var CtrList = CtrList_1 = (function () {
+    function CtrList(completer, templateRef, viewContainer, cd) {
+        this.completer = completer;
+        this.templateRef = templateRef;
+        this.viewContainer = viewContainer;
+        this.cd = cd;
+        this.ctrListMinSearchLength = __WEBPACK_IMPORTED_MODULE_4__globals__["a" /* MIN_SEARCH_LENGTH */];
+        this.ctrListPause = __WEBPACK_IMPORTED_MODULE_4__globals__["b" /* PAUSE */];
+        this.ctrListAutoMatch = false;
+        // private results: CompleterItem[] = [];
+        this.term = null;
+        // private searching = false;
+        this.searchTimer = null;
+        this.clearTimer = null;
+        this.ctx = new CtrListContext([], false, false);
+    }
+    CtrList.hasTerm = function (term) {
+        return term || term === "";
+    };
+    CtrList.prototype.ngOnInit = function () {
+        this.completer.registerList(this);
+        this.viewContainer.createEmbeddedView(this.templateRef, new CtrListContext([], false, false));
+    };
+    Object.defineProperty(CtrList.prototype, "dataService", {
+        set: function (newService) {
+            var _this = this;
+            this._dataService = newService;
+            if (this._dataService) {
+                this._dataService
+                    .catch(function (err) { return _this.handleError(err); })
+                    .subscribe(function (results) {
+                    _this.ctx.searchInitialized = true;
+                    _this.ctx.searching = false;
+                    _this.ctx.results = results;
+                    if (_this.ctrListAutoMatch && results.length === 1 && results[0].title && CtrList_1.hasTerm(_this.term) &&
+                        results[0].title.toLocaleLowerCase() === _this.term.toLocaleLowerCase()) {
+                        // Do automatch
+                        _this.completer.onSelected(results[0]);
+                    }
+                    _this.refreshTemplate();
+                });
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    CtrList.prototype.search = function (term) {
+        var _this = this;
+        if (CtrList_1.hasTerm(term) && term.length >= this.ctrListMinSearchLength && this.term !== term) {
+            if (this.searchTimer) {
+                this.searchTimer.unsubscribe();
+                this.searchTimer = null;
+            }
+            if (!this.ctx.searching) {
+                this.ctx.results = [];
+                this.ctx.searching = true;
+                this.ctx.searchInitialized = true;
+                this.refreshTemplate();
+            }
+            if (this.clearTimer) {
+                this.clearTimer.unsubscribe();
+            }
+            this.searchTimer = __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["Observable"].timer(this.ctrListPause).subscribe(function () {
+                _this.searchTimerComplete(term);
+            });
+        }
+    };
+    CtrList.prototype.clear = function () {
+        var _this = this;
+        if (this.searchTimer) {
+            this.searchTimer.unsubscribe();
+        }
+        this.clearTimer = __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["Observable"].timer(__WEBPACK_IMPORTED_MODULE_4__globals__["c" /* CLEAR_TIMEOUT */]).subscribe(function () {
+            _this._clear();
+        });
+    };
+    CtrList.prototype._clear = function () {
+        if (this.searchTimer) {
+            this.searchTimer.unsubscribe();
+            this.searchTimer = null;
+        }
+        if (this.dataService) {
+            this.dataService.cancel();
+        }
+        this.ctx.results = [];
+        this.ctx.searchInitialized = false;
+        this.term = null;
+        this.viewContainer.clear();
+    };
+    CtrList.prototype.searchTimerComplete = function (term) {
+        // Begin the search
+        if (!CtrList_1.hasTerm(term) || term.length < this.ctrListMinSearchLength) {
+            this.ctx.searching = false;
+            return;
+        }
+        this.term = term;
+        this._dataService.search(term);
+    };
+    CtrList.prototype.handleError = function (error) {
+        this.ctx.searching = false;
+        var errMsg = "search error";
+        if (error) {
+            errMsg = (error.message) ? error.message :
+                error.status ? error.status + " - " + error.statusText : "Server error";
+        }
+        if (console && console.error) {
+            console.error(errMsg); // log to console
+        }
+        this.refreshTemplate();
+        return __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["Observable"].throw(errMsg);
+    };
+    CtrList.prototype.refreshTemplate = function () {
+        // Recreate the template
+        this.viewContainer.clear();
+        this.viewContainer.createEmbeddedView(this.templateRef, this.ctx);
+        this.cd.markForCheck();
+    };
+    return CtrList;
+}());
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Input"])(),
+    __metadata("design:type", Object)
+], CtrList.prototype, "ctrListMinSearchLength", void 0);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Input"])(),
+    __metadata("design:type", Object)
+], CtrList.prototype, "ctrListPause", void 0);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Input"])(),
+    __metadata("design:type", Object)
+], CtrList.prototype, "ctrListAutoMatch", void 0);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Input"])("ctrList"),
+    __metadata("design:type", Object),
+    __metadata("design:paramtypes", [Object])
+], CtrList.prototype, "dataService", null);
+CtrList = CtrList_1 = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Directive"])({
+        selector: "[ctrList]",
+    }),
+    __param(0, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Host"])()),
+    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__ctr_completer__["a" /* CtrCompleter */],
+        __WEBPACK_IMPORTED_MODULE_1__angular_core__["TemplateRef"],
+        __WEBPACK_IMPORTED_MODULE_1__angular_core__["ViewContainerRef"],
+        __WEBPACK_IMPORTED_MODULE_1__angular_core__["ChangeDetectorRef"]])
+], CtrList);
+
+var CtrList_1;
+
+
+/***/ }),
+
+/***/ 90:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ctr_dropdown__ = __webpack_require__(59);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CtrRow; });
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+
+
+var CtrRow = (function () {
+    function CtrRow(el, renderer, dropdown) {
+        this.el = el;
+        this.renderer = renderer;
+        this.dropdown = dropdown;
+        this.selected = false;
+    }
+    CtrRow.prototype.ngOnInit = function () {
+        this.dropdown.registerRow(new __WEBPACK_IMPORTED_MODULE_1__ctr_dropdown__["a" /* CtrRowItem */](this, this._rowIndex));
+    };
+    Object.defineProperty(CtrRow.prototype, "ctrRow", {
+        set: function (index) {
+            this._rowIndex = index;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CtrRow.prototype, "dataItem", {
+        set: function (item) {
+            this._item = item;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    CtrRow.prototype.onClick = function (event) {
+        this.dropdown.onSelected(this._item);
+    };
+    CtrRow.prototype.onMouseEnter = function (event) {
+        this.dropdown.highlightRow(this._rowIndex);
+    };
+    CtrRow.prototype.setHighlited = function (selected) {
+        this.selected = selected;
+        this.renderer.setElementClass(this.el.nativeElement, "completer-selected-row", this.selected);
+    };
+    CtrRow.prototype.getNativeElement = function () {
+        return this.el.nativeElement;
+    };
+    CtrRow.prototype.getDataItem = function () {
+        return this._item;
+    };
+    return CtrRow;
+}());
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+    __metadata("design:type", Number),
+    __metadata("design:paramtypes", [Number])
+], CtrRow.prototype, "ctrRow", null);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+    __metadata("design:type", Object),
+    __metadata("design:paramtypes", [Object])
+], CtrRow.prototype, "dataItem", null);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostListener"])("click", ["$event"]),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], CtrRow.prototype, "onClick", null);
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostListener"])("mouseenter", ["$event"]),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], CtrRow.prototype, "onMouseEnter", null);
+CtrRow = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Directive"])({
+        selector: "[ctrRow]",
+    }),
+    __param(2, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Host"])()),
+    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"], __WEBPACK_IMPORTED_MODULE_0__angular_core__["Renderer"], __WEBPACK_IMPORTED_MODULE_1__ctr_dropdown__["b" /* CtrDropdown */]])
+], CtrRow);
+
+
+
+/***/ }),
+
+/***/ 91:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__local_data__ = __webpack_require__(62);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__remote_data__ = __webpack_require__(63);
+/* harmony export (immutable) */ __webpack_exports__["c"] = localDataFactory;
+/* harmony export (immutable) */ __webpack_exports__["d"] = remoteDataFactory;
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LocalDataFactoryProvider; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return RemoteDataFactoryProvider; });
+
+
+
+function localDataFactory() {
+    return function () {
+        return new __WEBPACK_IMPORTED_MODULE_1__local_data__["a" /* LocalData */]();
+    };
+}
+function remoteDataFactory(http) {
+    return function () {
+        return new __WEBPACK_IMPORTED_MODULE_2__remote_data__["a" /* RemoteData */](http);
+    };
+}
+var LocalDataFactoryProvider = { provide: __WEBPACK_IMPORTED_MODULE_1__local_data__["a" /* LocalData */], useFactory: localDataFactory };
+var RemoteDataFactoryProvider = { provide: __WEBPACK_IMPORTED_MODULE_2__remote_data__["a" /* RemoteData */], useFactory: remoteDataFactory, deps: [__WEBPACK_IMPORTED_MODULE_0__angular_http__["Http"]] };
+
+
 /***/ })
 
-},[1194]);
+},[393]);
