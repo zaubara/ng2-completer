@@ -108,11 +108,14 @@ export class CtrInput {
     @HostListener("blur", ["$event"])
     public onBlur(event: any) {
         // Check if we need to cancel Blur for IE
-        if (this.completer.isCancelBlur()){
-            setImmediate(() => {
-                // get the focus back
-                this.el.nativeElement.focus();
-            })
+        if (this.completer.isCancelBlur()) {
+            setTimeout(
+                () => {
+                    // get the focus back
+                    this.el.nativeElement.focus();
+                },
+                0
+            );
             return;
         }
         setTimeout(

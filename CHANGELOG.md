@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 1.3.1 (2017-04-06)
+
+### Fixed bugs
+- onselect gives setImmediate is not defined #187
+
 ## 1.3.0 (2017-03-31)
 
 ### Implemented enhancements
