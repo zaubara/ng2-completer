@@ -41,7 +41,6 @@ export class CtrDropdown implements CompleterDropdown, OnDestroy, OnInit {
         this.completer.cancelBlur(true);
         setTimeout(
             () => {
-                console.log("4");
                 this.completer.cancelBlur(false);
             },
             0
