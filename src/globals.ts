@@ -5,3 +5,7 @@ export const PAUSE = 250;
 export const TEXT_SEARCHING = "Searching...";
 export const TEXT_NORESULTS = "No results found";
 export const CLEAR_TIMEOUT = 100;
+
+export function isNil(value: string) {
+    return typeof value === "undefined" || value === null;
+};

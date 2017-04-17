@@ -39,6 +39,34 @@ export abstract class CompleterBaseData extends Subject<CompleterItem[]> impleme
         return this;
     }
 
+    public convertToItem(data: any) {
+        let image: string = null;
+        let formattedText: string;
+        let formattedDesc: string;
+
+        if (this._titleField) {
+            formattedText = this.extractTitle(data);
+        } else {
+            formattedText = data;
+        }
+
+        if (this._descriptionField) {
+            formattedDesc = this.extractValue(data, this._descriptionField);
+        }
+
+        if (this._imageField) {
+            image = this.extractValue(data, this._imageField);
+        }
+
+        return {
+            title: formattedText,
+            description: formattedDesc,
+            image: image,
+            originalObject: data
+        } as CompleterItem;
+
+    }
+
     protected extractMatches(data: any[], term: string) {
         let matches: any[] = [];
         const searchFields = this._searchFields ? this._searchFields.split(",") : null;
@@ -84,37 +112,13 @@ export abstract class CompleterBaseData extends Subject<CompleterItem[]> impleme
 
     protected processResults(matches: string[]): CompleterItem[] {
         let i: number;
-        let description: string = "";
-        let image: string = null;
-        let formattedText: string;
-        let formattedDesc: string;
         let results: CompleterItem[] = [];
 
         if (matches && matches.length > 0) {
-
             for (i = 0; i < matches.length; i++) {
-                if (this._titleField) {
-                    formattedText = this.extractTitle(matches[i]);
-                } else {
-                    formattedText =  matches[i];
-                }
-
-                if (this._descriptionField) {
-                    description = formattedDesc = this.extractValue(matches[i], this._descriptionField);
-                }
-
-                if (this._imageField) {
-                    image = this.extractValue(matches[i], this._imageField);
-                }
-
-                results.push({
-                    title: formattedText,
-                    description: formattedDesc,
-                    image: image,
-                    originalObject: matches[i]
-                });
+                const item = this.convertToItem(matches[i]);
+                results.push(item);
             }
-
         }
         return results;
     }

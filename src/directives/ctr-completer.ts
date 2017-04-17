@@ -50,12 +50,14 @@ export class CtrCompleter implements OnInit {
         this._hasHighlited = !!item;
     }
 
-    public onSelected(item: CompleterItem) {
+    public onSelected(item: CompleterItem, clearList = true) {
         this.selected.emit(item);
         if (item) {
             this.hasSelected = true;
         }
-        this.clear();
+        if (clearList) {
+            this.clear();
+        }
     }
 
     public search(term: string) {

@@ -3,8 +3,9 @@ import {Subscription} from "rxjs/Subscription";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
 
-
 import {CompleterBaseData} from "./completer-base-data";
+import { CompleterItem } from "../components/completer-item";
+
 
 export class RemoteData extends CompleterBaseData {
     private _remoteUrl: string;
@@ -70,5 +71,7 @@ export class RemoteData extends CompleterBaseData {
         }
     }
 
-
+    public convertToItem(data: any): CompleterItem {
+        return super.convertToItem(data);
+    }
 }

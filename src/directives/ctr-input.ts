@@ -5,6 +5,8 @@ import { Subscription } from "rxjs/Subscription";
 
 import { CompleterItem } from "../components/completer-item";
 import { CtrCompleter } from "./ctr-completer";
+import { isNil } from "../globals";
+
 
 
 // keyboard events
@@ -24,6 +26,7 @@ export class CtrInput {
     @Input("overrideSuggested") public overrideSuggested = false;
     @Input("fillHighlighted") public fillHighlighted = true;
     @Input("openOnFocus") public openOnFocus = false;
+
     @Output() public ngModelChange: EventEmitter<any> = new EventEmitter();
 
     private _searchStr = "";
@@ -54,8 +57,8 @@ export class CtrInput {
             }
         });
         this.ngModel.valueChanges.subscribe(value => {
-            if (this._displayStr != value) {
-                if (this.searchStr != value) {
+            if (!isNil(value) && this._displayStr !== value) {
+                if (this.searchStr !== value) {
                     this.completer.search(value);
                 }
                 this.searchStr = value;
