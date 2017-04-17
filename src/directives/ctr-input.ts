@@ -1,5 +1,7 @@
 import { Directive, ElementRef, EventEmitter, Host, HostListener, Input, Output } from "@angular/core";
 import { NgModel } from "@angular/forms";
+import { Observable } from "rxjs/Observable";
+import { Subscription } from "rxjs/Subscription";
 
 import { CompleterItem } from "../components/completer-item";
 import { CtrCompleter } from "./ctr-completer";
@@ -21,10 +23,12 @@ export class CtrInput {
     @Input("clearSelected") public clearSelected = false;
     @Input("overrideSuggested") public overrideSuggested = false;
     @Input("fillHighlighted") public fillHighlighted = true;
+    @Input("openOnFocus") public openOnFocus = false;
     @Output() public ngModelChange: EventEmitter<any> = new EventEmitter();
 
     private _searchStr = "";
     private _displayStr = "";
+    private blurTimer: Subscription = null;
 
     constructor( @Host() private completer: CtrCompleter, private ngModel: NgModel, private el: ElementRef) {
         this.completer.selected.subscribe((item: CompleterItem) => {
@@ -51,6 +55,9 @@ export class CtrInput {
         });
         this.ngModel.valueChanges.subscribe(value => {
             if (this._displayStr != value) {
+                if (this.searchStr != value) {
+                    this.completer.search(value);
+                }
                 this.searchStr = value;
             }
         });
@@ -84,7 +91,6 @@ export class CtrInput {
 
     @HostListener("keydown", ["$event"])
     public keydownHandler(event: any) {
-
         if (event.keyCode === KEY_EN) {
             if (this.completer.hasHighlited()) {
                 event.preventDefault();
@@ -92,6 +98,7 @@ export class CtrInput {
             this.handleSelection();
         } else if (event.keyCode === KEY_DW) {
             event.preventDefault();
+            this.completer.open();
             this.completer.nextRow();
         } else if (event.keyCode === KEY_UP) {
             event.preventDefault();
@@ -102,6 +109,8 @@ export class CtrInput {
             // This is very specific to IE10/11 #272
             // without this, IE clears the input text
             event.preventDefault();
+        } else {
+            this.completer.open();
         }
     }
 
@@ -118,17 +127,29 @@ export class CtrInput {
             );
             return;
         }
-        setTimeout(
+        this.blurTimer = Observable.timer(200).subscribe(
             () => {
+                this.blurTimer.unsubscribe();
+                this.blurTimer = null;
                 if (this.overrideSuggested) {
                     this.completer.onSelected({ title: this.searchStr, originalObject: null });
                 } else {
                     this.restoreSearchValue();
                 }
                 this.completer.clear();
-            },
-            200
+            }
         );
+    }
+
+    @HostListener("focus", ["$event"])
+    public onfocus() {
+        if (this.blurTimer) {
+            this.blurTimer.unsubscribe();
+            this.blurTimer = null;
+        }
+        if (this.openOnFocus) {
+            this.completer.open();
+        }
     }
 
     public get searchStr() {
@@ -144,6 +165,7 @@ export class CtrInput {
         if (this.overrideSuggested) {
             this.completer.onSelected({ title: this.searchStr, originalObject: null });
         } else if (this.completer.hasHighlited()) {
+            this._searchStr = "";
             this.completer.selectCurrent();
         } else {
             this.completer.clear();

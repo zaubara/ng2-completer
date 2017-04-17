@@ -4,6 +4,8 @@ import { CompleterItem } from "../components/completer-item";
 
 export interface CompleterList {
     search(term: string): void;
+    open(): void;
+    isOpen(open: boolean): void;
     clear(): void;
 }
 
@@ -20,12 +22,14 @@ export interface CompleterDropdown {
 export class CtrCompleter implements OnInit {
     @Output() public selected = new EventEmitter<CompleterItem>();
     @Output() public highlighted = new EventEmitter<CompleterItem>();
+    @Output() public opened = new EventEmitter<boolean>();
 
     private list: CompleterList;
     private dropdown: CompleterDropdown;
     private _hasHighlited = false;
     private hasSelected = false;
     private _cancelBlur = false;
+    private _isOpen = false;
 
     constructor() { }
 
@@ -72,6 +76,7 @@ export class CtrCompleter implements OnInit {
             this.list.clear();
         }
         this._hasHighlited = false;
+        this.isOpen = false;
     }
 
     public selectCurrent() {
@@ -102,5 +107,24 @@ export class CtrCompleter implements OnInit {
 
     public isCancelBlur() {
         return this._cancelBlur;
+    }
+
+    public open() {
+        if (!this._isOpen) {
+            this.isOpen = true;
+            this.list.open();
+        }
+    }
+
+    public get isOpen() {
+        return this._isOpen;
+    }
+
+    public set isOpen(open: boolean) {
+        this._isOpen = open;
+        this.opened.emit(this._isOpen);
+        if (this.list) {
+            this.list.isOpen(open);
+        }
     }
 }

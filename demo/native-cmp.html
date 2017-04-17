@@ -178,21 +178,28 @@
 </div>
 
 <h3>Open, close and focus programmatically</h3>
-<p>Local data of colors; Open, Close and Focus programmatically</p>
+<p>Local data of colors; Open, Close and Focus programmatically and set ngModel to an initial value with <code>openOnFocus</code> and <code>opened</code></p>
 
 
 <div class="card">
 	<div class="card-block">
 		<div class="form-group row">
-			<div class="col-3">
+			<div class="col-3 pr-0 border-right-0 with-chevron">
 				<ng2-completer #openCloseExample [(ngModel)]="color2" [datasource]="colors"
 											 [inputClass]="'form-control'"
+											 [openOnFocus]="true"
+											 (opened)="onOpened($event)"
+											 (focus)="openCloseFocused = true"
+											 (blur)="openCloseFocused = flase"
 											 [minSearchLength]="0" [placeholder]="'search color'">
 				</ng2-completer>
 			</div>
-			<div class="col-3">
-				<button (click)="onOpen()" class="btn btn-primary">Open</button>
-				<button (click)="onClose()" class="btn btn-primary">Close</button>
+			<div class="col-1 p-0">
+				<div class="w-25 chevron-holder" [ngClass]="{'dropdown-open': openCloseFocused}">
+					<span class="chevron fa" [ngClass]="{'fa-chevron-down': !isOpen, 'fa-chevron-up': isOpen}" (click)="onToggle()"></span>
+				</div>
+			</div>
+			<div class="col-1">
 				<button (click)="onFocus()" class="btn btn-primary">Focus</button>
 			</div>
 			<div class="col">

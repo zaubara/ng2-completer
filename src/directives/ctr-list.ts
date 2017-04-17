@@ -1,6 +1,6 @@
 import "rxjs/add/observable/timer";
 import { ChangeDetectorRef, Directive, Host, Input, OnInit, TemplateRef, ViewContainerRef } from "@angular/core";
-import { Observable, } from "rxjs/Observable";
+import { Observable } from "rxjs/Observable";
 import { Subscription } from "rxjs/Subscription";
 
 
@@ -14,7 +14,8 @@ export class CtrListContext {
     constructor(
         public results: CompleterItem[],
         public searching: boolean,
-        public searchInitialized: boolean
+        public searchInitialized: boolean,
+        public isOpen: boolean
     ) { }
 }
 
@@ -32,7 +33,7 @@ export class CtrList implements OnInit, CompleterList {
     // private searching = false;
     private searchTimer: Subscription = null;
     private clearTimer: Subscription = null;
-    private ctx = new CtrListContext([], false, false);
+    private ctx = new CtrListContext([], false, false, false);
 
     private static hasTerm(term: string) {
         return term || term === "";
@@ -48,7 +49,7 @@ export class CtrList implements OnInit, CompleterList {
         this.completer.registerList(this);
         this.viewContainer.createEmbeddedView(
             this.templateRef,
-            new CtrListContext([], false, false)
+            new CtrListContext([], false, false, false)
         );
     }
 
@@ -84,13 +85,14 @@ export class CtrList implements OnInit, CompleterList {
                 this.ctx.searchInitialized = true;
                 this.refreshTemplate();
             }
-
             if (this.clearTimer) {
                 this.clearTimer.unsubscribe();
             }
             this.searchTimer = Observable.timer(this.ctrListPause).subscribe(() => {
                 this.searchTimerComplete(term);
             });
+        } else if (CtrList.hasTerm(term) && term.length < this.ctrListMinSearchLength) {
+            this.clear();
         }
     }
 
@@ -103,7 +105,16 @@ export class CtrList implements OnInit, CompleterList {
         });
     }
 
+    public open() {
+        if (!this.ctx.searchInitialized) {
+            this.search("");
+        }
+        this.refreshTemplate();
+    }
 
+    public isOpen(open: boolean) {
+        this.ctx.isOpen = open;
+    }
 
     private _clear() {
         if (this.searchTimer) {
@@ -113,8 +124,7 @@ export class CtrList implements OnInit, CompleterList {
         if (this.dataService) {
             this.dataService.cancel();
         }
-        this.ctx.results = [];
-        this.ctx.searchInitialized = false;
+
         this.term = null;
         this.viewContainer.clear();
     }
