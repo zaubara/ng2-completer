@@ -163,6 +163,7 @@ Create remote data provider by calling `CompleterService.remote`.
 |urlFormater|(term: string) => string|Function that get's the searchterm and returns the search url before each search.|
 |dataField|string|The field in the response that includes the data.|
 |headers|Headers (@angular/http)|HTTP request headers that should be sent with the search request.
+|withCredentials|boolean|Enable use credentials for a Request.
 
 ### CSS classes
 

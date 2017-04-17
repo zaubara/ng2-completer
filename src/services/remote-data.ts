@@ -12,6 +12,7 @@ export class RemoteData extends CompleterBaseData {
     private _urlFormater: (term: string) => string = null;
     private _dataField: string = null;
     private _headers: Headers;
+    private _withCredentials: boolean = false;
 
 
     constructor(private http: Http) {
@@ -35,6 +36,10 @@ export class RemoteData extends CompleterBaseData {
         this._headers = headers;
     }
 
+    public withCredentials(withCredentials: boolean) {
+        this._withCredentials = withCredentials;
+    }
+
     public search(term: string): void {
         this.cancel();
         // let params = {};
@@ -45,7 +50,7 @@ export class RemoteData extends CompleterBaseData {
             url = this._remoteUrl + encodeURIComponent(term);
         }
 
-        this.remoteSearch = this.http.get(url, { headers: this._headers || new Headers()})
+        this.remoteSearch = this.http.get(url, { headers: this._headers || new Headers(), withCredentials: this._withCredentials })
             .map((res: Response) => res.json())
             .map((data: any) => {
                 let matchaes = this.extractValue(data, this._dataField);
