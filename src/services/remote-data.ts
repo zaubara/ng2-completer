@@ -1,4 +1,4 @@
-import { Http, Response, Headers } from "@angular/http";
+import { Http, Response, RequestOptions } from "@angular/http";
 import {Subscription} from "rxjs/Subscription";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
@@ -11,8 +11,7 @@ export class RemoteData extends CompleterBaseData {
     private remoteSearch: Subscription;
     private _urlFormater: (term: string) => string = null;
     private _dataField: string = null;
-    private _headers: Headers;
-    private _withCredentials: boolean = false;
+    private _requestOptions: RequestOptions;
 
 
     constructor(private http: Http) {
@@ -32,12 +31,8 @@ export class RemoteData extends CompleterBaseData {
         this._dataField = dataField;
     }
 
-    public headers(headers: Headers) {
-        this._headers = headers;
-    }
-
-    public withCredentials(withCredentials: boolean) {
-        this._withCredentials = withCredentials;
+    public requestOptions(requestOptions: RequestOptions) {
+        this._requestOptions = requestOptions;
     }
 
     public search(term: string): void {
@@ -50,7 +45,7 @@ export class RemoteData extends CompleterBaseData {
             url = this._remoteUrl + encodeURIComponent(term);
         }
 
-        this.remoteSearch = this.http.get(url, { headers: this._headers || new Headers(), withCredentials: this._withCredentials })
+        this.remoteSearch = this.http.get(url, this._requestOptions || new RequestOptions())
             .map((res: Response) => res.json())
             .map((data: any) => {
                 let matchaes = this.extractValue(data, this._dataField);
