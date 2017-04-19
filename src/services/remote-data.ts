@@ -1,11 +1,10 @@
-import { Http, Response, Headers } from "@angular/http";
-import {Subscription} from "rxjs/Subscription";
+import { Http, Response, Headers, RequestOptions } from "@angular/http";
+import { Subscription } from "rxjs/Subscription";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
 
-import {CompleterBaseData} from "./completer-base-data";
+import { CompleterBaseData } from "./completer-base-data";
 import { CompleterItem } from "../components/completer-item";
-
 
 export class RemoteData extends CompleterBaseData {
     private _remoteUrl: string;
@@ -13,6 +12,7 @@ export class RemoteData extends CompleterBaseData {
     private _urlFormater: (term: string) => string = null;
     private _dataField: string = null;
     private _headers: Headers;
+    private _requestOptions: RequestOptions;
 
 
     constructor(private http: Http) {
@@ -32,8 +32,15 @@ export class RemoteData extends CompleterBaseData {
         this._dataField = dataField;
     }
 
+    /**
+     * @deprecated Please use the requestOptions to pass headers with the search request
+     */
     public headers(headers: Headers) {
         this._headers = headers;
+    }
+
+    public requestOptions(requestOptions: RequestOptions) {
+        this._requestOptions = requestOptions;
     }
 
     public search(term: string): void {
@@ -46,11 +53,22 @@ export class RemoteData extends CompleterBaseData {
             url = this._remoteUrl + encodeURIComponent(term);
         }
 
-        this.remoteSearch = this.http.get(url, { headers: this._headers || new Headers()})
+        /*
+         * If requestOptions are provided, they will override anything set in headers.
+         *
+         * If no requestOptions are provided, a new RequestOptions object will be instantiated,
+         * and either the provided headers or a new Headers() object will be sent.
+         */
+        if (!this._requestOptions) {
+            this._requestOptions = new RequestOptions();
+            this._requestOptions.headers = this._headers || new Headers();
+        }
+
+        this.remoteSearch = this.http.get(url, this._requestOptions)
             .map((res: Response) => res.json())
             .map((data: any) => {
-                let matchaes = this.extractValue(data, this._dataField);
-                return this.extractMatches(matchaes, term);
+                let matches = this.extractValue(data, this._dataField);
+                return this.extractMatches(matches, term);
             })
             .map(
             (matches: any[]) => {

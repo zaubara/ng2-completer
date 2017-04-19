@@ -94,7 +94,7 @@ Add the following to `System.js` map configuration:
 |Attribute|Description|Type|Required|Default|
 |:---    |:---        |:--- |:---      |:--- |
 |datasource|Autocomplete list data source can be an array of strigs or a URL that results in an array of strings or a CompleterData object|Array\<string\>\|string\|CompleterData|Yes||
-|dataService|**Depreacted**  use `datasource` instead. Autocomplete list data source.|CompleterData|Yes||
+|dataService|**Deprecated**  use `datasource` instead. Autocomplete list data source.|CompleterData|Yes||
 |ngModel| see the angular [forms API](https://angular.io/docs/js/latest/guide/forms.html).|string|Yes||
 |autoMatch|Auto select an item if it is the only result and it is an exact match of the search text.|boolean|No|false
 |autofocus|Set input focus when the page loads|boolean|No|false
@@ -175,7 +175,8 @@ Create remote data provider by calling `CompleterService.remote`.
 |imageField|string|Name of the field to use as image url for the list item.|
 |urlFormater|(term: string) => string|Function that get's the searchterm and returns the search url before each search.|
 |dataField|string|The field in the response that includes the data.|
-|headers|Headers (@angular/http)|HTTP request headers that should be sent with the search request.
+|headers|Headers (@angular/http)|**Deprecated**  use `requestOptions` instead. HTTP request headers that should be sent with the search request.
+|requestOptions|RequestOptions (@angular/http)|HTTP request options that should be sent with the search request.|
 
 ### CSS classes
 
