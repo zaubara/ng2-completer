@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs/Observable";
 
 import { CompleterBaseData } from "./completer-base-data";
+import { CompleterItem } from "../components/completer-item";
 
 @Injectable()
 export class LocalData extends CompleterBaseData {
@@ -36,5 +37,9 @@ export class LocalData extends CompleterBaseData {
             let matches: any[] = this.extractMatches(this._data, term);
             this.next(this.processResults(matches));
         }
+    }
+
+    public convertToItem(data: any): CompleterItem {
+        return super.convertToItem(data);
     }
 }

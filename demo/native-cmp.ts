@@ -60,6 +60,8 @@ export class NativeCmp {
             nm: "W. Somerset Maugham"
         }
     ];
+    public seinfeldEpisode: any;
+    public color2: string = "lig";
 
     @ViewChild("openCloseExample") private openCloseExample: CompleterCmp;
 
@@ -71,7 +73,7 @@ export class NativeCmp {
     private dataRemote2: RemoteData;
     private dataService3: CompleterData;
     private customData: CustomData;
-    public seinfeldEpisode: any;
+    private isOpen: boolean = false;
 
     constructor(completerService: CompleterService, http: Http) {
         this.dataService = completerService.local(this.countries, "name", "name").imageField("flag");
@@ -111,12 +113,17 @@ export class NativeCmp {
         }
     }
 
-    public onOpen() {
-        this.openCloseExample.open();
+    public onOpened(isOpen: boolean) {
+        this.isOpen = isOpen;
     }
 
-    public onClose() {
-        this.openCloseExample.close();
+    public onToggle() {
+        if (this.isOpen) {
+            this.openCloseExample.close();
+        } else {
+            this.openCloseExample.open();
+            this.openCloseExample.focus();
+        }
     }
 
     public onFocus() {

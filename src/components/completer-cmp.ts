@@ -24,12 +24,14 @@ const COMPLETER_CONTROL_VALUE_ACCESSOR = {
     selector: "ng2-completer",
     template: `
         <div class="completer-holder" ctrCompleter>
-            <input #ctrInput [attr.id]="inputId.length > 0 ? inputId : null" type="search" class="completer-input" ctrInput [ngClass]="inputClass" [(ngModel)]="searchStr" (ngModelChange)="onChange($event)" [attr.name]="inputName" [placeholder]="placeholder"
-                [attr.maxlength]="maxChars" [tabindex]="fieldTabindex" [disabled]="disableInput" [clearSelected]="clearSelected" [overrideSuggested]="overrideSuggested" 
+            <input #ctrInput [attr.id]="inputId.length > 0 ? inputId : null" type="search" class="completer-input" ctrInput [ngClass]="inputClass" 
+                [(ngModel)]="searchStr" (ngModelChange)="onChange($event)" [attr.name]="inputName" [placeholder]="placeholder"
+                [attr.maxlength]="maxChars" [tabindex]="fieldTabindex" [disabled]="disableInput" 
+                [clearSelected]="clearSelected" [overrideSuggested]="overrideSuggested" [openOnFocus]="openOnFocus"
                 [fillHighlighted]="fillHighlighted" (blur)="onBlur()" (focus)="onFocus()" autocomplete="off" autocorrect="off" autocapitalize="off" />
 
-            <div class="completer-dropdown-holder" *ctrList="dataService; minSearchLength: minSearchLength; pause: pause; autoMatch: autoMatch; let items = results; let searchActive = searching; let isInitialized = searchInitialized;">
-                <div class="completer-dropdown" ctrDropdown *ngIf="isInitialized">
+            <div class="completer-dropdown-holder" *ctrList="dataService; minSearchLength: minSearchLength; pause: pause; autoMatch: autoMatch; initialValue: initialValue; let items = results; let searchActive = searching; let isInitialized = searchInitialized; let isOpen = isOpen">
+                <div class="completer-dropdown" ctrDropdown *ngIf="isInitialized && isOpen">
                     <div *ngIf="searchActive && displaySearching" class="completer-searching">{{textSearching}}</div>
                     <div *ngIf="!searchActive && (!items || items.length === 0)" class="completer-no-results">{{textNoResults}}</div>
                     <div class="completer-row-wrapper" *ngFor="let item of items; let rowIndex=index">
@@ -120,11 +122,14 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
     @Input() public disableInput = false;
     @Input() public inputClass: string;
     @Input() public autofocus = false;
+    @Input() public openOnFocus = false;
+    @Input() public initialValue: any;
 
     @Output() public selected = new EventEmitter<CompleterItem>();
     @Output() public highlighted = new EventEmitter<CompleterItem>();
     @Output() public blur = new EventEmitter<void>();
     @Output("focus") public focusEvent = new EventEmitter<void>();
+    @Output() public opened = new EventEmitter<boolean>();
 
     @ViewChild(CtrCompleter) public completer: CtrCompleter;
     @ViewChild("ctrInput") public ctrInput: ElementRef;
@@ -136,6 +141,7 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
     private _onTouchedCallback: () => void = noop;
     private _onChangeCallback: (_: any) => void = noop;
     private _focus: boolean = false;
+    private _open: boolean = false;
 
     constructor(private completerService: CompleterService) { }
 
@@ -196,6 +202,10 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
         this.completer.highlighted.subscribe((item: CompleterItem) => {
             this.highlighted.emit(item);
         });
+        this.completer.opened.subscribe((isOpen: boolean) => {
+            this._open = isOpen;
+            this.opened.emit(isOpen);
+        });
 
         if (this.textSearching === "false") {
             this.displaySearching = false;
@@ -213,22 +223,26 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
     }
 
     public onChange(value: string) {
-    this.value = value;
-}
+        this.value = value;
+    }
 
-    public open(searchValue = "") {
-    this.completer.search(searchValue);
-}
+    public open() {
+        this.completer.open();
+    }
 
     public close() {
-    this.completer.clear();
-}
+        this.completer.clear();
+    }
 
     public focus(): void {
-    if(this.ctrInput) {
-        this.ctrInput.nativeElement.focus();
-    } else {
-        this._focus = true;
+        if (this.ctrInput) {
+            this.ctrInput.nativeElement.focus();
+        } else {
+            this._focus = true;
+        }
     }
-}
+
+    public isOpen() {
+        return this._open;
+    }
 }

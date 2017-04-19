@@ -1,6 +1,18 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 1.4.0 ()
+
+### Implemented enhancements
+- Events for when dropdown is opened and closed and property to interrogate current state #146
+- openOnFocus - automatically open the dropdown and perform search when the input gets focus
+- Setting `ngModel` now triggers search
+- Search doesn't open the dropdown only focus or open via API will do that
+- Add option for preselected value #191
+
+### Fixed bugs
+- Completer doesn't close when the field is cleared #194
+
 ## 1.3.1 (2017-04-06)
 
 ### Fixed bugs

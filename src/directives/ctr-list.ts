@@ -1,20 +1,21 @@
 import "rxjs/add/observable/timer";
 import { ChangeDetectorRef, Directive, Host, Input, OnInit, TemplateRef, ViewContainerRef } from "@angular/core";
-import { Observable, } from "rxjs/Observable";
+import { Observable } from "rxjs/Observable";
 import { Subscription } from "rxjs/Subscription";
 
 
 import { CtrCompleter, CompleterList } from "./ctr-completer";
 import { CompleterData } from "../services/completer-data";
 import { CompleterItem } from "../components/completer-item";
-import { MIN_SEARCH_LENGTH, PAUSE, CLEAR_TIMEOUT } from "../globals";
+import { MIN_SEARCH_LENGTH, PAUSE, CLEAR_TIMEOUT, isNil } from "../globals";
 
 
 export class CtrListContext {
     constructor(
         public results: CompleterItem[],
         public searching: boolean,
-        public searchInitialized: boolean
+        public searchInitialized: boolean,
+        public isOpen: boolean
     ) { }
 }
 
@@ -32,11 +33,8 @@ export class CtrList implements OnInit, CompleterList {
     // private searching = false;
     private searchTimer: Subscription = null;
     private clearTimer: Subscription = null;
-    private ctx = new CtrListContext([], false, false);
-
-    private static hasTerm(term: string) {
-        return term || term === "";
-    }
+    private ctx = new CtrListContext([], false, false, false);
+    private _initialValue: any = null;
 
     constructor(
         @Host() private completer: CtrCompleter,
@@ -48,12 +46,12 @@ export class CtrList implements OnInit, CompleterList {
         this.completer.registerList(this);
         this.viewContainer.createEmbeddedView(
             this.templateRef,
-            new CtrListContext([], false, false)
+            new CtrListContext([], false, false, false)
         );
     }
 
     @Input("ctrList")
-    set dataService(newService: CompleterData) {
+    public set dataService(newService: CompleterData) {
         this._dataService = newService;
         if (this._dataService) {
             this._dataService
@@ -62,18 +60,34 @@ export class CtrList implements OnInit, CompleterList {
                     this.ctx.searchInitialized = true;
                     this.ctx.searching = false;
                     this.ctx.results = results;
-                    if (this.ctrListAutoMatch && results.length === 1 && results[0].title && CtrList.hasTerm(this.term) &&
+                    if (this.ctrListAutoMatch && results.length === 1 && results[0].title && !isNil(this.term) &&
                         results[0].title.toLocaleLowerCase() === this.term.toLocaleLowerCase()) {
                         // Do automatch
                         this.completer.onSelected(results[0]);
+                    }
+                    if (this._initialValue) {
+                        this.initialValue = this._initialValue;
+                        this._initialValue = null;
                     }
                     this.refreshTemplate();
                 });
         }
     }
 
+    @Input("ctrListInitialValue")
+    public set initialValue(value: any) {
+        if (this._dataService && typeof this._dataService.convertToItem === "function") {
+            setTimeout(() => {
+                const initialItem = this._dataService.convertToItem(value);
+                this.completer.onSelected(initialItem, false);
+            });
+        } else if (!this._dataService) {
+            this._initialValue = value;
+        }
+    }
+
     public search(term: string) {
-        if (CtrList.hasTerm(term) && term.length >= this.ctrListMinSearchLength && this.term !== term) {
+        if (!isNil(term) && term.length >= this.ctrListMinSearchLength && this.term !== term) {
             if (this.searchTimer) {
                 this.searchTimer.unsubscribe();
                 this.searchTimer = null;
@@ -84,13 +98,14 @@ export class CtrList implements OnInit, CompleterList {
                 this.ctx.searchInitialized = true;
                 this.refreshTemplate();
             }
-
             if (this.clearTimer) {
                 this.clearTimer.unsubscribe();
             }
             this.searchTimer = Observable.timer(this.ctrListPause).subscribe(() => {
                 this.searchTimerComplete(term);
             });
+        } else if (!isNil(term) && term.length < this.ctrListMinSearchLength) {
+            this.clear();
         }
     }
 
@@ -103,7 +118,16 @@ export class CtrList implements OnInit, CompleterList {
         });
     }
 
+    public open() {
+        if (!this.ctx.searchInitialized) {
+            this.search("");
+        }
+        this.refreshTemplate();
+    }
 
+    public isOpen(open: boolean) {
+        this.ctx.isOpen = open;
+    }
 
     private _clear() {
         if (this.searchTimer) {
@@ -113,15 +137,14 @@ export class CtrList implements OnInit, CompleterList {
         if (this.dataService) {
             this.dataService.cancel();
         }
-        this.ctx.results = [];
-        this.ctx.searchInitialized = false;
+
         this.term = null;
         this.viewContainer.clear();
     }
 
     private searchTimerComplete(term: string) {
         // Begin the search
-        if (!CtrList.hasTerm(term) || term.length < this.ctrListMinSearchLength) {
+        if (isNil(term) || term.length < this.ctrListMinSearchLength) {
             this.ctx.searching = false;
             return;
         }

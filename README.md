@@ -101,6 +101,7 @@ Add the following to `System.js` map configuration:
 |clearSelected|Clear the input when a result is selected.|boolean|No|false|
 |disableInput|If true disable the input field.|boolean|No|false|
 |fieldTabindex|Set the `tabIndex` of the input.|number|No||
+|initialValue|Initial value for the component. Value is parsed using: titleField, descriptionField and imageField and used as selected value|any|No||
 |inputId|`id` attribute of the input element.|string|No||
 |inputName|`name` attribute of the input element.|string|No||
 |inputClass| `class` attribute of the input element.|string|No||
@@ -108,21 +109,33 @@ Add the following to `System.js` map configuration:
 |maxChars|Maximal number of characters that the user can type in the component.|number|No|524288|
 |minSearchLength|Minimal number of characters required for searching.|number|No|3|
 |overrideSuggested|If true will override suggested and set the model with the value in the input field.|boolean|No|false|
+|openOnFocus|If true will open the dropdown and perform search when the input gets the focus.|boolean|No|false|
 |fillHighlighted|If true will set the model with the value in the input field when item is highlighted.|boolean|No|true|
 |pause|Number of msec. to wait before searching.|number|No|250|
 |placeholder|Placeholder text for the search field.|string|No||
-|selected|Event handler that is called when an item is selected.|(selected: CompleterItem): void|No||
-|highlighted|Event handler that is called when an item is highlighted.|(highlighted: CompleterItem): void|No||
 |textNoResults|Text displayed when the search returned no results.|string|No|
 |textSearching|Text displayed while search is active.|string|No|Searching...|
+
+### ng2-completer events
+
+|Name|Description|Type|
+|:---    |:---        |:--- |
+|selected|emitted when an item is selected.|(selected: CompleterItem): void|
+|highlighted|emitted when an item is highlighted.|(highlighted: CompleterItem): void|
+|focus|emitted when the input gets focus|(): void|
+|blur|emitted when the input looses focus|(): void|
+|opened|emitted when the dropdown is opened or closed|(isOpen: boolean): void|
+
+
 
 ### ng2-completer methods
 
 |Method|Description|Parameters|
 |:---    |:---        |:--- |
-|open(searchValue: string)|Open the dropdown and do search on a value|searchValue - string to search for default is ""|
+|open()|Open the dropdown| |
 |close()|Close the dropdown| |
 |focus()|Set the focus to the completer input| |
+|isOpen()|Returns the state of the dropdown| |
 
 ### Local data
 
