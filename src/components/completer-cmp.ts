@@ -6,7 +6,7 @@ import { CtrCompleter } from "../directives/ctr-completer";
 import { CompleterData } from "../services/completer-data";
 import { CompleterService } from "../services/completer-service";
 import { CompleterItem } from "./completer-item";
-import { MAX_CHARS, MIN_SEARCH_LENGTH, PAUSE, TEXT_SEARCHING, TEXT_NORESULTS } from "../globals";
+import { MAX_CHARS, MIN_SEARCH_LENGTH, PAUSE, TEXT_SEARCHING, TEXT_NO_RESULTS } from "../globals";
 
 
 import "rxjs/add/operator/catch";
@@ -104,7 +104,6 @@ const COMPLETER_CONTROL_VALUE_ACCESSOR = {
 })
 export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChecked, AfterViewInit {
     @Input() public dataService: CompleterData;
-    @Input() public datasource: CompleterData | string | Array<any>;
     @Input() public inputName = "";
     @Input() public inputId: string = "";
     @Input() public pause = PAUSE;
@@ -116,7 +115,7 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
     @Input() public placeholder = "";
     @Input() public matchClass: string;
     @Input() public textSearching = TEXT_SEARCHING;
-    @Input() public textNoResults = TEXT_NORESULTS;
+    @Input() public textNoResults = TEXT_NO_RESULTS;
     @Input() public fieldTabindex: number;
     @Input() public autoMatch = false;
     @Input() public disableInput = false;
@@ -184,16 +183,20 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
         this._onTouchedCallback = fn;
     }
 
-    public ngOnInit() {
-        if (this.datasource) {
-            if (this.datasource instanceof Array) {
-                this.dataService = this.completerService.local(this.datasource);
-            } else if (typeof (this.datasource) === "string") {
-                this.dataService = this.completerService.remote(this.datasource);
+    @Input()
+    public set datasource(source: CompleterData | string | Array<any>) {
+        if (source) {
+            if (source instanceof Array) {
+                this.dataService = this.completerService.local(source);
+            } else if (typeof (source) === "string") {
+                this.dataService = this.completerService.remote(source);
             } else {
-                this.dataService = this.datasource;
+                this.dataService = source;
             }
         }
+    }
+
+    public ngOnInit() {
         this.completer.selected.subscribe((item: CompleterItem) => {
             let title = item ? item.title : "";
             this.selected.emit(item);

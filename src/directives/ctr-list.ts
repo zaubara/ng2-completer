@@ -79,7 +79,9 @@ export class CtrList implements OnInit, CompleterList {
         if (this._dataService && typeof this._dataService.convertToItem === "function") {
             setTimeout(() => {
                 const initialItem = this._dataService.convertToItem(value);
-                this.completer.onSelected(initialItem, false);
+                if (initialItem) {
+                    this.completer.onSelected(initialItem, false);
+                }
             });
         } else if (!this._dataService) {
             this._initialValue = value;

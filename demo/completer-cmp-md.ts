@@ -3,7 +3,7 @@ import { Component, Input, Output, EventEmitter, OnInit, ViewChild, forwardRef }
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
 import { CtrCompleter, CompleterData, CompleterItem } from "../src";
-import { MAX_CHARS, MIN_SEARCH_LENGTH, PAUSE, TEXT_SEARCHING, TEXT_NORESULTS } from "../src/globals";
+import { MAX_CHARS, MIN_SEARCH_LENGTH, PAUSE, TEXT_SEARCHING, TEXT_NO_RESULTS } from "../src/globals";
 
 
 import "rxjs/add/operator/catch";
@@ -36,7 +36,7 @@ export class CompleterCmpMd implements OnInit, ControlValueAccessor {
     @Input() public placeholder = "";
     @Input() public matchClass: string;
     @Input() public textSearching = TEXT_SEARCHING;
-    @Input() public textNoResults = TEXT_NORESULTS;
+    @Input() public textNoResults = TEXT_NO_RESULTS;
     @Input() public fieldTabindex: number;
     @Input() public autoMatch = false;
     @Input() public disableInput = false;

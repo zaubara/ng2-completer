@@ -2,6 +2,7 @@ import { Subject } from "rxjs/Subject";
 
 import { CompleterItem } from "../components/completer-item";
 import { CompleterData } from "./completer-data";
+import { isNil } from "../globals";
 
 export abstract class CompleterBaseData extends Subject<CompleterItem[]> implements CompleterData {
 
@@ -58,6 +59,10 @@ export abstract class CompleterBaseData extends Subject<CompleterItem[]> impleme
             image = this.extractValue(data, this._imageField);
         }
 
+        if (isNil(formattedText)) {
+            return null;
+        }
+
         return {
             title: formattedText,
             description: formattedDesc,
@@ -89,7 +94,7 @@ export abstract class CompleterBaseData extends Subject<CompleterItem[]> impleme
             .map((field) => {
                 return this.extractValue(item, field);
             })
-            .join(" ");
+            .reduce((acc, titlePart) => acc ? `${acc} ${titlePart}` : titlePart);
     }
 
     protected extractValue(obj: any, key: string) {
@@ -117,7 +122,9 @@ export abstract class CompleterBaseData extends Subject<CompleterItem[]> impleme
         if (matches && matches.length > 0) {
             for (i = 0; i < matches.length; i++) {
                 const item = this.convertToItem(matches[i]);
-                results.push(item);
+                if (item) {
+                    results.push(item);
+                }
             }
         }
         return results;

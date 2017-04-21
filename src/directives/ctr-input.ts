@@ -165,11 +165,11 @@ export class CtrInput {
     }
 
     private handleSelection() {
-        if (this.overrideSuggested) {
-            this.completer.onSelected({ title: this.searchStr, originalObject: null });
-        } else if (this.completer.hasHighlited()) {
+        if (this.completer.hasHighlited()) {
             this._searchStr = "";
             this.completer.selectCurrent();
+        } else if (this.overrideSuggested) {
+            this.completer.onSelected({ title: this.searchStr, originalObject: null });
         } else {
             this.completer.clear();
         }

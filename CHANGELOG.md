@@ -9,9 +9,11 @@ All notable changes to this project will be documented in this file.
 - Setting `ngModel` now triggers search
 - Search doesn't open the dropdown only focus or open via API will do that
 - Add option for preselected value #191
+- Support for `datasource` changes
 
 ### Fixed bugs
 - Completer doesn't close when the field is cleared #194
+- Item not selected using keys with `overideSuggested`
 
 ## 1.3.1 (2017-04-06)
 
