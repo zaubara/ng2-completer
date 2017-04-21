@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 - Search doesn't open the dropdown only focus or open via API will do that
 - Add option for preselected value #191
 - Support for `datasource` changes
+- Add `autoHighlight` option that will auto highlight the best matching result
 
 ### Fixed bugs
 - Completer doesn't close when the field is cleared #194

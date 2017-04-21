@@ -30,7 +30,8 @@ const COMPLETER_CONTROL_VALUE_ACCESSOR = {
                 [clearSelected]="clearSelected" [overrideSuggested]="overrideSuggested" [openOnFocus]="openOnFocus"
                 [fillHighlighted]="fillHighlighted" (blur)="onBlur()" (focus)="onFocus()" autocomplete="off" autocorrect="off" autocapitalize="off" />
 
-            <div class="completer-dropdown-holder" *ctrList="dataService; minSearchLength: minSearchLength; pause: pause; autoMatch: autoMatch; initialValue: initialValue; let items = results; let searchActive = searching; let isInitialized = searchInitialized; let isOpen = isOpen">
+            <div class="completer-dropdown-holder" *ctrList="dataService; minSearchLength: minSearchLength; pause: pause; autoMatch: autoMatch; initialValue: initialValue; autoHighlight: autoHighlight;
+                                                            let items = results; let searchActive = searching; let isInitialized = searchInitialized; let isOpen = isOpen;">
                 <div class="completer-dropdown" ctrDropdown *ngIf="isInitialized && isOpen">
                     <div *ngIf="searchActive && displaySearching" class="completer-searching">{{textSearching}}</div>
                     <div *ngIf="!searchActive && (!items || items.length === 0)" class="completer-no-results">{{textNoResults}}</div>
@@ -123,6 +124,7 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
     @Input() public autofocus = false;
     @Input() public openOnFocus = false;
     @Input() public initialValue: any;
+    @Input() public autoHighlight = false;
 
     @Output() public selected = new EventEmitter<CompleterItem>();
     @Output() public highlighted = new EventEmitter<CompleterItem>();

@@ -115,6 +115,7 @@ Add the following to `System.js` map configuration:
 |placeholder|Placeholder text for the search field.|string|No||
 |textNoResults|Text displayed when the search returned no results.|string|No|
 |textSearching|Text displayed while search is active.|string|No|Searching...|
+|autoHighlight|Automatically highlight the best matching search result when the input changes. the "best match" is selected by: exact match, starts with and finally includes|boolean|No|false|
 
 ### ng2-completer events
 

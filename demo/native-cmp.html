@@ -178,20 +178,27 @@
 </div>
 
 <h3>Open, close and focus programmatically</h3>
-<p>Local data of colors; Open, Close and Focus programmatically and set ngModel to an initial value with <code>openOnFocus</code> and <code>opened</code></p>
+<p>Local data of colors; Open, Close and Focus programmatically and set ngModel to an initial value with <code>openOnFocus</code>,  <code>autoHighlight</code>, 
+	<code>fillHighlighted</code> and <code>opened</code>
+</p>
 
 
 <div class="card">
 	<div class="card-block">
 		<div class="form-group row">
 			<div class="col-3 pr-0 border-right-0 with-chevron">
-				<ng2-completer #openCloseExample [(ngModel)]="color2" [datasource]="colors"
+				<ng2-completer #openCloseExample class="completer-limit"
+											 [(ngModel)]="color2" 
+											 [datasource]="dataService4"
 											 [inputClass]="'form-control'"
 											 [openOnFocus]="true"
 											 (opened)="onOpened($event)"
 											 (focus)="openCloseFocused = true"
 											 (blur)="openCloseFocused = flase"
-											 [minSearchLength]="0" [placeholder]="'search color'">
+											 [minSearchLength]="0" 
+											 [placeholder]="'search color'"
+											 [autoHighlight]="true"
+											 [fillHighlighted]="false">
 				</ng2-completer>
 			</div>
 			<div class="col-1 p-0">

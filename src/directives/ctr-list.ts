@@ -26,6 +26,7 @@ export class CtrList implements OnInit, CompleterList {
     @Input() public ctrListMinSearchLength = MIN_SEARCH_LENGTH;
     @Input() public ctrListPause = PAUSE;
     @Input() public ctrListAutoMatch = false;
+    @Input() public ctrListAutoHighlight = false;
 
     private _dataService: CompleterData;
     // private results: CompleterItem[] = [];
@@ -68,6 +69,9 @@ export class CtrList implements OnInit, CompleterList {
                     if (this._initialValue) {
                         this.initialValue = this._initialValue;
                         this._initialValue = null;
+                    }
+                    if (this.ctrListAutoHighlight) {
+                        this.completer.autoHighlightIndex = this.getBestMatchIndex();
                     }
                     this.refreshTemplate();
                 });
@@ -173,11 +177,32 @@ export class CtrList implements OnInit, CompleterList {
     private refreshTemplate() {
         // Recreate the template
         this.viewContainer.clear();
-        this.viewContainer.createEmbeddedView(
-            this.templateRef,
-            this.ctx
-        );
+        if (this.ctx.results && this.ctx.isOpen) {
+            this.viewContainer.createEmbeddedView(
+                this.templateRef,
+                this.ctx
+            );
+        }
         this.cd.markForCheck();
+    }
+
+    private getBestMatchIndex() {
+        if (!this.ctx.results) {
+            return null;
+        }
+
+        // First try to find the exact term
+        let bestMatch = this.ctx.results.findIndex(item => item.title.toLowerCase() === this.term.toLocaleLowerCase());
+        // If not try to find the first item that starts with the term
+        if (bestMatch < 0) {
+            bestMatch = this.ctx.results.findIndex(item => item.title.toLowerCase().startsWith(this.term.toLocaleLowerCase()));
+        }
+        // If not try to find the first item that includes the term
+        if (bestMatch < 0) {
+            bestMatch = this.ctx.results.findIndex(item => item.title.toLowerCase().includes(this.term.toLocaleLowerCase()));
+        }
+
+        return bestMatch < 0 ? null : bestMatch;
     }
 
 }

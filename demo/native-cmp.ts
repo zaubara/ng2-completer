@@ -72,6 +72,7 @@ export class NativeCmp {
     private dataRemote: CompleterData;
     private dataRemote2: RemoteData;
     private dataService3: CompleterData;
+    private dataService4: CompleterData;
     private customData: CustomData;
     private isOpen: boolean = false;
 
@@ -95,6 +96,7 @@ export class NativeCmp {
         let source = Observable.from([this.countries]).delay(3000);
         this.dataService3 = completerService.local(<Observable<any[]>>source, "name", "name");
         this.customData = new CustomData(http);
+        this.dataService4 = completerService.local(this.colors, null, null);
     }
 
     public onCountrySelected(selected: CompleterItem) {

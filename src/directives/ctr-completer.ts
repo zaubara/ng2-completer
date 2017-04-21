@@ -1,4 +1,4 @@
-import { Directive, EventEmitter, OnInit, Output } from "@angular/core";
+import { Directive, EventEmitter, Output } from "@angular/core";
 
 import { CompleterItem } from "../components/completer-item";
 
@@ -19,7 +19,7 @@ export interface CompleterDropdown {
 @Directive({
     selector: "[ctrCompleter]",
 })
-export class CtrCompleter implements OnInit {
+export class CtrCompleter {
     @Output() public selected = new EventEmitter<CompleterItem>();
     @Output() public highlighted = new EventEmitter<CompleterItem>();
     @Output() public opened = new EventEmitter<boolean>();
@@ -30,12 +30,7 @@ export class CtrCompleter implements OnInit {
     private hasSelected = false;
     private _cancelBlur = false;
     private _isOpen = false;
-
-    constructor() { }
-
-    public ngOnInit() {
-        //
-    }
+    private _autoHighlightIndex: number;
 
     public registerList(list: CompleterList) {
         this.list = list;
@@ -128,5 +123,13 @@ export class CtrCompleter implements OnInit {
         if (this.list) {
             this.list.isOpen(open);
         }
+    }
+
+    public get autoHighlightIndex() {
+        return this._autoHighlightIndex;
+    }
+
+    public set autoHighlightIndex(index: number) {
+        this._autoHighlightIndex = index;
     }
 }

@@ -36,7 +36,7 @@ export class CtrRow implements CtrRowElement, OnInit {
         this.dropdown.highlightRow(this._rowIndex);
     }
 
-    public setHighlited(selected: boolean) {
+    public setHighlighted(selected: boolean) {
         this.selected = selected;
         this.renderer.setElementClass(this.el.nativeElement, "completer-selected-row", this.selected);
     }
