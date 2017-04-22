@@ -11,10 +11,11 @@ All notable changes to this project will be documented in this file.
 - Add option for preselected value #191
 - Support for `datasource` changes
 - Add `autoHighlight` option that will auto highlight the best matching result
+- Feature request: option to hide the drop-down if there are no results found #189
 
 ### Fixed bugs
 - Completer doesn't close when the field is cleared #194
-- Item not selected using keys with `overideSuggested`
+- Setting overrideSuggested = true gives different behavior when selecting with mouse or tab/keyboard #200
 
 ## 1.3.1 (2017-04-06)
 

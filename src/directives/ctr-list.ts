@@ -144,7 +144,6 @@ export class CtrList implements OnInit, CompleterList {
             this.dataService.cancel();
         }
 
-        this.term = null;
         this.viewContainer.clear();
     }
 

@@ -30,11 +30,20 @@ const COMPLETER_CONTROL_VALUE_ACCESSOR = {
                 [clearSelected]="clearSelected" [overrideSuggested]="overrideSuggested" [openOnFocus]="openOnFocus"
                 [fillHighlighted]="fillHighlighted" (blur)="onBlur()" (focus)="onFocus()" autocomplete="off" autocorrect="off" autocapitalize="off" />
 
-            <div class="completer-dropdown-holder" *ctrList="dataService; minSearchLength: minSearchLength; pause: pause; autoMatch: autoMatch; initialValue: initialValue; autoHighlight: autoHighlight;
-                                                            let items = results; let searchActive = searching; let isInitialized = searchInitialized; let isOpen = isOpen;">
-                <div class="completer-dropdown" ctrDropdown *ngIf="isInitialized && isOpen">
-                    <div *ngIf="searchActive && displaySearching" class="completer-searching">{{textSearching}}</div>
-                    <div *ngIf="!searchActive && (!items || items.length === 0)" class="completer-no-results">{{textNoResults}}</div>
+            <div class="completer-dropdown-holder"
+                *ctrList="dataService;
+                    minSearchLength: minSearchLength;
+                    pause: pause;
+                    autoMatch: autoMatch;
+                    initialValue: initialValue;
+                    autoHighlight: autoHighlight;
+                    let items = results;
+                    let searchActive = searching;
+                    let isInitialized = searchInitialized;
+                    let isOpen = isOpen;">
+                <div class="completer-dropdown" ctrDropdown *ngIf="isInitialized && isOpen && ((items.length > 0 || displayNoResults) || (searchActive && displaySearching))">
+                    <div *ngIf="searchActive && displaySearching" class="completer-searching">{{_textSearching}}</div>
+                    <div *ngIf="!searchActive && (!items || items.length === 0)" class="completer-no-results">{{_textNoResults}}</div>
                     <div class="completer-row-wrapper" *ngFor="let item of items; let rowIndex=index">
                         <div class="completer-row" [ctrRow]="rowIndex" [dataItem]="item">
                             <div *ngIf="item.image || item.image === ''" class="completer-image-holder">
@@ -115,8 +124,6 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
     @Input() public fillHighlighted = true;
     @Input() public placeholder = "";
     @Input() public matchClass: string;
-    @Input() public textSearching = TEXT_SEARCHING;
-    @Input() public textNoResults = TEXT_NO_RESULTS;
     @Input() public fieldTabindex: number;
     @Input() public autoMatch = false;
     @Input() public disableInput = false;
@@ -139,10 +146,13 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
     public control = new FormControl("");
 
     private displaySearching = true;
+    private displayNoResults = true;
     private _onTouchedCallback: () => void = noop;
     private _onChangeCallback: (_: any) => void = noop;
     private _focus: boolean = false;
     private _open: boolean = false;
+    private _textNoResults = TEXT_NO_RESULTS;
+    private _textSearching = TEXT_SEARCHING;
 
     constructor(private completerService: CompleterService) { }
 
@@ -198,6 +208,27 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
         }
     }
 
+    @Input()
+    public set textNoResults(text: string) {
+        if (this._textNoResults != text) {
+            this._textNoResults = text;
+            if (this._textNoResults === "false") {
+                this.displayNoResults = false;
+            }
+        }
+    }
+
+    @Input()
+    public set textSearching(text: string) {
+        if (this._textSearching != text) {
+            console.log("textSearching", text);
+            this._textSearching = text;
+            if (this._textSearching === "false") {
+                this.displaySearching = false;
+            }
+        }
+    }
+
     public ngOnInit() {
         this.completer.selected.subscribe((item: CompleterItem) => {
             let title = item ? item.title : "";
@@ -211,10 +242,6 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
             this._open = isOpen;
             this.opened.emit(isOpen);
         });
-
-        if (this.textSearching === "false") {
-            this.displaySearching = false;
-        }
     }
 
     public onBlur() {

@@ -80,7 +80,7 @@
 
 <h3>Input disabled</h3>
 <p>Async local data of countries - <code>overrideSuggested</code>, <code>inputDisabled</code>,
-	<code>inputClass</code> and <code>fieldTabindex</code>
+	<code>inputClass</code>, <code>textNoResults</code> set to 'false' and <code>fieldTabindex</code>
 </p>
 
 <div class="card">
@@ -91,7 +91,9 @@
 											 [placeholder]="'search country'" [overrideSuggested]="true"
 											 [disableInput]="searchcb"
 											 [inputClass]="'form-control'"
-											 [fieldTabindex]="-1" [inputClass]="'my-input-class'">
+											 [fieldTabindex]="-1" 
+											 [inputClass]="'my-input-class'"
+											 [textNoResults]="'false'">
 				</ng2-completer>
 			</div>
 			<div class="col-6">
