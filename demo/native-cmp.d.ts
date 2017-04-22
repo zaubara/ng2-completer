@@ -7,6 +7,8 @@ export declare class NativeCmp {
         qt: string;
         nm: string;
     }[];
+    seinfeldEpisode: any;
+    color2: string;
     private openCloseExample;
     private dataService;
     private dataService2;
@@ -15,12 +17,13 @@ export declare class NativeCmp {
     private dataRemote;
     private dataRemote2;
     private dataService3;
+    private dataService4;
     private customData;
-    seinfeldEpisode: any;
+    private isOpen;
     constructor(completerService: CompleterService, http: Http);
     onCountrySelected(selected: CompleterItem): void;
     onQuoteSelected(selected: CompleterItem): void;
-    onOpen(): void;
-    onClose(): void;
+    onOpened(isOpen: boolean): void;
+    onToggle(): void;
     onFocus(): void;
 }

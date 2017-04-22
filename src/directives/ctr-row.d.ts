@@ -14,7 +14,7 @@ export declare class CtrRow implements CtrRowElement, OnInit {
     dataItem: CompleterItem;
     onClick(event: any): void;
     onMouseEnter(event: any): void;
-    setHighlited(selected: boolean): void;
+    setHighlighted(selected: boolean): void;
     getNativeElement(): any;
     getDataItem(): CompleterItem;
 }

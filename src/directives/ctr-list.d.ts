@@ -7,7 +7,8 @@ export declare class CtrListContext {
     results: CompleterItem[];
     searching: boolean;
     searchInitialized: boolean;
-    constructor(results: CompleterItem[], searching: boolean, searchInitialized: boolean);
+    isOpen: boolean;
+    constructor(results: CompleterItem[], searching: boolean, searchInitialized: boolean, isOpen: boolean);
 }
 export declare class CtrList implements OnInit, CompleterList {
     private completer;
@@ -17,19 +18,24 @@ export declare class CtrList implements OnInit, CompleterList {
     ctrListMinSearchLength: number;
     ctrListPause: number;
     ctrListAutoMatch: boolean;
+    ctrListAutoHighlight: boolean;
     private _dataService;
     private term;
     private searchTimer;
     private clearTimer;
     private ctx;
-    private static hasTerm(term);
+    private _initialValue;
     constructor(completer: CtrCompleter, templateRef: TemplateRef<CtrListContext>, viewContainer: ViewContainerRef, cd: ChangeDetectorRef);
     ngOnInit(): void;
     dataService: CompleterData;
+    initialValue: any;
     search(term: string): void;
     clear(): void;
+    open(): void;
+    isOpen(open: boolean): void;
     private _clear();
     private searchTimerComplete(term);
     private handleError(error);
     private refreshTemplate();
+    private getBestMatchIndex();
 }
