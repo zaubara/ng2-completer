@@ -212,20 +212,15 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
     public set textNoResults(text: string) {
         if (this._textNoResults != text) {
             this._textNoResults = text;
-            if (this._textNoResults === "false") {
-                this.displayNoResults = false;
-            }
+            this.displayNoResults = this._textNoResults && this._textNoResults !== "false";
         }
     }
 
     @Input()
     public set textSearching(text: string) {
         if (this._textSearching != text) {
-            console.log("textSearching", text);
             this._textSearching = text;
-            if (this._textSearching === "false") {
-                this.displaySearching = false;
-            }
+            this.displaySearching = this._textSearching && this._textSearching !== "false";
         }
     }
 
