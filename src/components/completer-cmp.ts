@@ -28,7 +28,9 @@ const COMPLETER_CONTROL_VALUE_ACCESSOR = {
                 [(ngModel)]="searchStr" (ngModelChange)="onChange($event)" [attr.name]="inputName" [placeholder]="placeholder"
                 [attr.maxlength]="maxChars" [tabindex]="fieldTabindex" [disabled]="disableInput" 
                 [clearSelected]="clearSelected" [overrideSuggested]="overrideSuggested" [openOnFocus]="openOnFocus"
-                [fillHighlighted]="fillHighlighted" (blur)="onBlur()" (focus)="onFocus()" autocomplete="off" autocorrect="off" autocapitalize="off" />
+                [fillHighlighted]="fillHighlighted" 
+                (blur)="onBlur()" (focus)="onFocus()" (keyup)="onKeyup($event)" (keydown)="onKeydown($event)"
+                autocomplete="off" autocorrect="off" autocapitalize="off" />
 
             <div class="completer-dropdown-holder"
                 *ctrList="dataService;
@@ -138,6 +140,8 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
     @Output() public blur = new EventEmitter<void>();
     @Output("focus") public focusEvent = new EventEmitter<void>();
     @Output() public opened = new EventEmitter<boolean>();
+    @Output() public keyup: EventEmitter<any> = new EventEmitter();
+    @Output() public keydown: EventEmitter<any> = new EventEmitter();
 
     @ViewChild(CtrCompleter) public completer: CtrCompleter;
     @ViewChild("ctrInput") public ctrInput: ElementRef;
@@ -245,6 +249,14 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
     public onFocus() {
         this.focusEvent.emit();
         this.onTouched();
+    }
+
+    public onKeyup(event: any) {
+        this.keyup.emit(event);
+    }
+
+    public onKeydown(event: any) {
+        this.keydown.emit(event);
     }
 
     public onChange(value: string) {

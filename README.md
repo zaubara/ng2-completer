@@ -126,8 +126,8 @@ Add the following to `System.js` map configuration:
 |focus|emitted when the input gets focus|(): void|
 |blur|emitted when the input looses focus|(): void|
 |opened|emitted when the dropdown is opened or closed|(isOpen: boolean): void|
-
-
+|keyup|emitted when the input emits keyup|(event: any): void|
+|keydown|emitted when the input emits keydown|(event: any): void|
 
 ### ng2-completer methods
 

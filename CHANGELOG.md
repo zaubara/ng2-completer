@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file.
 - Support for `datasource` changes
 - Add `autoHighlight` option that will auto highlight the best matching result
 - Feature request: option to hide the drop-down if there are no results found #189
+- feature proposal: keyUp output event #186
 
 ### Fixed bugs
 - Completer doesn't close when the field is cleared #194

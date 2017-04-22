@@ -68,7 +68,6 @@ export class CtrInput {
 
     @HostListener("keyup", ["$event"])
     public keyupHandler(event: any) {
-
         if (event.keyCode === KEY_LF || event.keyCode === KEY_RT || event.keyCode === KEY_TAB) {
             // do nothing
             return;
@@ -91,7 +90,6 @@ export class CtrInput {
                 this.completer.open();
             }
         }
-
     }
 
     @HostListener("keydown", ["$event"])
