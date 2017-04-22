@@ -1,7 +1,7 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## 1.4.0 ()
+## 1.4.0 (2017-04-22)
 
 ### Implemented enhancements
 - Events for when dropdown is opened and closed and property to interrogate current state #146
