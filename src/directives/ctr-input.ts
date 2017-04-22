@@ -87,7 +87,9 @@ export class CtrInput {
             this.completer.clear();
         }
         else {
-            this.completer.search(this.searchStr);
+            if (this.searchStr) {
+                this.completer.open();
+            }
         }
 
     }
@@ -95,7 +97,7 @@ export class CtrInput {
     @HostListener("keydown", ["$event"])
     public keydownHandler(event: any) {
         if (event.keyCode === KEY_EN) {
-            if (this.completer.hasHighlited()) {
+            if (this.completer.hasHighlighted()) {
                 event.preventDefault();
             }
             this.handleSelection();
@@ -112,8 +114,6 @@ export class CtrInput {
             // This is very specific to IE10/11 #272
             // without this, IE clears the input text
             event.preventDefault();
-        } else {
-            this.completer.open();
         }
     }
 
@@ -165,7 +165,7 @@ export class CtrInput {
     }
 
     private handleSelection() {
-        if (this.completer.hasHighlited()) {
+        if (this.completer.hasHighlighted()) {
             this._searchStr = "";
             this.completer.selectCurrent();
         } else if (this.overrideSuggested) {

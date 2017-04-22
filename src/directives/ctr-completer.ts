@@ -26,7 +26,7 @@ export class CtrCompleter {
 
     private list: CompleterList;
     private dropdown: CompleterDropdown;
-    private _hasHighlited = false;
+    private _hasHighlighted = false;
     private hasSelected = false;
     private _cancelBlur = false;
     private _isOpen = false;
@@ -42,7 +42,7 @@ export class CtrCompleter {
 
     public onHighlighted(item: CompleterItem) {
         this.highlighted.emit(item);
-        this._hasHighlited = !!item;
+        this._hasHighlighted = !!item;
     }
 
     public onSelected(item: CompleterItem, clearList = true) {
@@ -72,7 +72,7 @@ export class CtrCompleter {
         if (this.list) {
             this.list.clear();
         }
-        this._hasHighlited = false;
+        this._hasHighlighted = false;
         this.isOpen = false;
     }
 
@@ -94,8 +94,8 @@ export class CtrCompleter {
         }
     }
 
-    public hasHighlited() {
-        return this._hasHighlited;
+    public hasHighlighted() {
+        return this._hasHighlighted;
     }
 
     public cancelBlur(cancel: boolean) {

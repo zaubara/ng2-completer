@@ -226,9 +226,7 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
 
     public ngOnInit() {
         this.completer.selected.subscribe((item: CompleterItem) => {
-            let title = item ? item.title : "";
             this.selected.emit(item);
-            this._onChangeCallback(title);
         });
         this.completer.highlighted.subscribe((item: CompleterItem) => {
             this.highlighted.emit(item);
