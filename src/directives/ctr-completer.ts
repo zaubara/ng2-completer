@@ -27,7 +27,7 @@ export class CtrCompleter {
     private list: CompleterList;
     private dropdown: CompleterDropdown;
     private _hasHighlighted = false;
-    private hasSelected = false;
+    private _hasSelected = false;
     private _cancelBlur = false;
     private _isOpen = false;
     private _autoHighlightIndex: number;
@@ -48,7 +48,7 @@ export class CtrCompleter {
     public onSelected(item: CompleterItem, clearList = true) {
         this.selected.emit(item);
         if (item) {
-            this.hasSelected = true;
+            this._hasSelected = true;
         }
         if (clearList) {
             this.clear();
@@ -56,9 +56,9 @@ export class CtrCompleter {
     }
 
     public search(term: string) {
-        if (this.hasSelected) {
+        if (this._hasSelected) {
             this.selected.emit(null);
-            this.hasSelected = false;
+            this._hasSelected = false;
         }
         if (this.list) {
             this.list.search(term);
@@ -131,5 +131,9 @@ export class CtrCompleter {
 
     public set autoHighlightIndex(index: number) {
         this._autoHighlightIndex = index;
+    }
+
+    public get hasSelected() {
+        return this._hasSelected;
     }
 }

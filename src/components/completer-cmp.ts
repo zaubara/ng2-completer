@@ -27,8 +27,8 @@ const COMPLETER_CONTROL_VALUE_ACCESSOR = {
             <input #ctrInput [attr.id]="inputId.length > 0 ? inputId : null" type="search" class="completer-input" ctrInput [ngClass]="inputClass" 
                 [(ngModel)]="searchStr" (ngModelChange)="onChange($event)" [attr.name]="inputName" [placeholder]="placeholder"
                 [attr.maxlength]="maxChars" [tabindex]="fieldTabindex" [disabled]="disableInput" 
-                [clearSelected]="clearSelected" [overrideSuggested]="overrideSuggested" [openOnFocus]="openOnFocus"
-                [fillHighlighted]="fillHighlighted" 
+                [clearSelected]="clearSelected" [clearUnselected]="clearUnselected"
+                [overrideSuggested]="overrideSuggested" [openOnFocus]="openOnFocus" [fillHighlighted]="fillHighlighted" 
                 (blur)="onBlur()" (focus)="onFocus()" (keyup)="onKeyup($event)" (keydown)="onKeydown($event)"
                 autocomplete="off" autocorrect="off" autocapitalize="off" />
 
@@ -123,6 +123,7 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
     @Input() public maxChars = MAX_CHARS;
     @Input() public overrideSuggested = false;
     @Input() public clearSelected = false;
+    @Input() public clearUnselected = false;
     @Input() public fillHighlighted = true;
     @Input() public placeholder = "";
     @Input() public matchClass: string;

@@ -23,6 +23,7 @@ const KEY_TAB = 9;
 })
 export class CtrInput {
     @Input("clearSelected") public clearSelected = false;
+    @Input("clearUnselected") public clearUnselected = false;
     @Input("overrideSuggested") public overrideSuggested = false;
     @Input("fillHighlighted") public fillHighlighted = true;
     @Input("openOnFocus") public openOnFocus = false;
@@ -135,7 +136,12 @@ export class CtrInput {
                 if (this.overrideSuggested) {
                     this.completer.onSelected({ title: this.searchStr, originalObject: null });
                 } else {
-                    this.restoreSearchValue();
+                    if (this.clearUnselected && !this.completer.hasSelected) {
+                        this.searchStr = "";
+                        this.ngModelChange.emit(this.searchStr);
+                    } else {
+                        this.restoreSearchValue();
+                    }
                 }
                 this.completer.clear();
             }
@@ -175,7 +181,6 @@ export class CtrInput {
 
     private restoreSearchValue() {
         if (this.fillHighlighted) {
-            // Restore searched value if there is no overrideSuggested
             if (this._displayStr != this.searchStr) {
                 this._displayStr = this.searchStr;
                 this.ngModelChange.emit(this.searchStr);

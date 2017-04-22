@@ -66,7 +66,8 @@
 			<div class="col-5">
 				<ng2-completer [dataService]="dataRemote" [minSearchLength]="3"
 											 [placeholder]="'Search for country'"
-											 [clearSelected]="true" (selected)="onCountrySelected($event)"
+											 [clearSelected]="true" 
+											 (selected)="onCountrySelected($event)"
 											 [inputClass]="'form-control'"
 											 [textSearching]="'Please wait...'">
 				</ng2-completer>
@@ -114,7 +115,7 @@
 </div>
 
 <h3>Automatch</h3>
-<p>Local data of colors - <code>autoMatch</code>, <code>inputId</code> and <code>required</code></p>
+<p>Local data of colors - <code>autoMatch</code>, <code>inputId</code> and <code>required</code> and <code>clearUnselected</code></p>
 
 <div class="card">
 	<div class="card-block">
@@ -124,6 +125,7 @@
 											 [minSearchLength]="0" [placeholder]="'search color'" #colorRequired="ngModel"
 											 [autoMatch]="true"
 											 [inputClass]="(colorRequired.valid) ? 'form-control' : 'form-control form-control-danger'"
+											 [clearUnselected]="true"
 											 required>
 				</ng2-completer>
 				<div *ngIf="!colorRequired.valid" class="form-control-feedback">Sorry, color is required
