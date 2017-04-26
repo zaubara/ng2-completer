@@ -1,5 +1,5 @@
 "use strict";
-import { AfterViewChecked, Component, Input, Output, EventEmitter, OnInit, ViewChild, forwardRef, AfterViewInit, ElementRef } from "@angular/core";
+import { AfterViewChecked, ChangeDetectorRef, Component, Input, Output, EventEmitter, OnInit, ViewChild, forwardRef, AfterViewInit, ElementRef } from "@angular/core";
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from "@angular/forms";
 
 import { CtrCompleter } from "../directives/ctr-completer";
@@ -159,7 +159,7 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
     private _textNoResults = TEXT_NO_RESULTS;
     private _textSearching = TEXT_SEARCHING;
 
-    constructor(private completerService: CompleterService) { }
+    constructor(private completerService: CompleterService, private cdr: ChangeDetectorRef) { }
 
     get value(): any { return this.searchStr; };
 
@@ -179,8 +179,13 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
 
     public ngAfterViewChecked(): void {
         if (this._focus) {
-            this.ctrInput.nativeElement.focus();
-            this._focus = false;
+            setTimeout(
+                () => {
+                    this.ctrInput.nativeElement.focus();
+                    this._focus = false;
+                },
+                0
+            );
         }
     }
 
@@ -245,6 +250,7 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
     public onBlur() {
         this.blur.emit();
         this.onTouched();
+        this.cdr.detectChanges();
     }
 
     public onFocus() {

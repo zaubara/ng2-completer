@@ -83,8 +83,12 @@ export class CtrInput {
             this.completer.search(this.searchStr);
         }
         else if (event.keyCode === KEY_ES) {
-            this.restoreSearchValue();
-            this.completer.clear();
+            if (this.completer.isOpen) {
+                this.restoreSearchValue();
+                this.completer.clear();
+                event.stopPropagation();
+                event.preventDefault();
+            }
         }
         else {
             if (this.searchStr) {
@@ -113,6 +117,9 @@ export class CtrInput {
             // This is very specific to IE10/11 #272
             // without this, IE clears the input text
             event.preventDefault();
+            if (this.completer.isOpen) {
+                event.stopPropagation();
+            }
         }
     }
 
@@ -129,23 +136,9 @@ export class CtrInput {
             );
             return;
         }
-        this.blurTimer = Observable.timer(200).subscribe(
-            () => {
-                this.blurTimer.unsubscribe();
-                this.blurTimer = null;
-                if (this.overrideSuggested) {
-                    this.completer.onSelected({ title: this.searchStr, originalObject: null });
-                } else {
-                    if (this.clearUnselected && !this.completer.hasSelected) {
-                        this.searchStr = "";
-                        this.ngModelChange.emit(this.searchStr);
-                    } else {
-                        this.restoreSearchValue();
-                    }
-                }
-                this.completer.clear();
-            }
-        );
+        if (this.completer.isOpen) {
+            this.blurTimer = Observable.timer(200).subscribe(() => this.doBlur());
+        }
     }
 
     @HostListener("focus", ["$event"])
@@ -186,5 +179,21 @@ export class CtrInput {
                 this.ngModelChange.emit(this.searchStr);
             }
         }
+    }
+
+    private doBlur() {
+        this.blurTimer.unsubscribe();
+        this.blurTimer = null;
+        if (this.overrideSuggested) {
+            this.completer.onSelected({ title: this.searchStr, originalObject: null });
+        } else {
+            if (this.clearUnselected && !this.completer.hasSelected) {
+                this.searchStr = "";
+                this.ngModelChange.emit(this.searchStr);
+            } else {
+                this.restoreSearchValue();
+            }
+        }
+        this.completer.clear();
     }
 }

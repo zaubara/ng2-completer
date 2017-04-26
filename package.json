@@ -26,6 +26,12 @@
     "ng2"
   ],
   "author": "Ofer Herman <oferhe@gmail.com>",
+  "contributors": [
+    {
+      "name": "Andrew Rumm",
+      "email": "rayz@rayz.ru"
+    }
+  ],
   "bugs": {
     "url": "https://github.com/oferh/ng2-completer/issues"
   },
