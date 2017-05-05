@@ -22,7 +22,7 @@ export class CustomData extends Subject<CompleterItem[]> implements CompleterDat
         // Handle cancel
     }
 
-    public convertToItem(data: any): CompleterItem {
+    public convertToItem(data: any): CompleterItem | null {
         if (!data) {
             return null;
         }

@@ -30,10 +30,10 @@ export class CtrList implements OnInit, CompleterList {
 
     private _dataService: CompleterData;
     // private results: CompleterItem[] = [];
-    private term: string = null;
+    private term: string | null = null;
     // private searching = false;
-    private searchTimer: Subscription = null;
-    private clearTimer: Subscription = null;
+    private searchTimer: Subscription | null = null;
+    private clearTimer: Subscription | null = null;
     private ctx = new CtrListContext([], false, false, false);
     private _initialValue: any = null;
 
@@ -62,7 +62,7 @@ export class CtrList implements OnInit, CompleterList {
                     this.ctx.searching = false;
                     this.ctx.results = results;
                     if (this.ctrListAutoMatch && results.length === 1 && results[0].title && !isNil(this.term) &&
-                        results[0].title.toLocaleLowerCase() === this.term.toLocaleLowerCase()) {
+                        results[0].title.toLocaleLowerCase() === this.term!.toLocaleLowerCase()) {
                         // Do automatch
                         this.completer.onSelected(results[0]);
                     }
@@ -82,7 +82,7 @@ export class CtrList implements OnInit, CompleterList {
     public set initialValue(value: any) {
         if (this._dataService && typeof this._dataService.convertToItem === "function") {
             setTimeout(() => {
-                const initialItem = this._dataService.convertToItem(value);
+                const initialItem = this._dataService.convertToItem!(value);
                 if (initialItem) {
                     this.completer.onSelected(initialItem, false);
                 }
@@ -186,19 +186,19 @@ export class CtrList implements OnInit, CompleterList {
     }
 
     private getBestMatchIndex() {
-        if (!this.ctx.results) {
+        if (!this.ctx.results || !this.term) {
             return null;
         }
 
         // First try to find the exact term
-        let bestMatch = this.ctx.results.findIndex(item => item.title.toLowerCase() === this.term.toLocaleLowerCase());
+        let bestMatch = this.ctx.results.findIndex(item => item.title.toLowerCase() === this.term!.toLocaleLowerCase());
         // If not try to find the first item that starts with the term
         if (bestMatch < 0) {
-            bestMatch = this.ctx.results.findIndex(item => item.title.toLowerCase().startsWith(this.term.toLocaleLowerCase()));
+            bestMatch = this.ctx.results.findIndex(item => item.title.toLowerCase().startsWith(this.term!.toLocaleLowerCase()));
         }
         // If not try to find the first item that includes the term
         if (bestMatch < 0) {
-            bestMatch = this.ctx.results.findIndex(item => item.title.toLowerCase().includes(this.term.toLocaleLowerCase()));
+            bestMatch = this.ctx.results.findIndex(item => item.title.toLowerCase().includes(this.term!.toLocaleLowerCase()));
         }
 
         return bestMatch < 0 ? null : bestMatch;

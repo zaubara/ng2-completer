@@ -32,7 +32,7 @@ export class CtrInput {
 
     private _searchStr = "";
     private _displayStr = "";
-    private blurTimer: Subscription = null;
+    private blurTimer: Subscription | null = null;
 
     constructor( @Host() private completer: CtrCompleter, private ngModel: NgModel, private el: ElementRef) {
         this.completer.selected.subscribe((item: CompleterItem) => {
@@ -57,14 +57,17 @@ export class CtrInput {
                 }
             }
         });
-        this.ngModel.valueChanges.subscribe(value => {
-            if (!isNil(value) && this._displayStr !== value) {
-                if (this.searchStr !== value) {
-                    this.completer.search(value);
+
+        if (this.ngModel.valueChanges) {
+            this.ngModel.valueChanges.subscribe(value => {
+                if (!isNil(value) && this._displayStr !== value) {
+                    if (this.searchStr !== value) {
+                        this.completer.search(value);
+                    }
+                    this.searchStr = value;
                 }
-                this.searchStr = value;
-            }
-        });
+            });
+        }
     }
 
     @HostListener("keyup", ["$event"])
@@ -136,6 +139,7 @@ export class CtrInput {
             );
             return;
         }
+
         if (this.completer.isOpen) {
             this.blurTimer = Observable.timer(200).subscribe(() => this.doBlur());
         }
@@ -147,6 +151,7 @@ export class CtrInput {
             this.blurTimer.unsubscribe();
             this.blurTimer = null;
         }
+
         if (this.openOnFocus) {
             this.completer.open();
         }
@@ -182,8 +187,11 @@ export class CtrInput {
     }
 
     private doBlur() {
-        this.blurTimer.unsubscribe();
-        this.blurTimer = null;
+        if (this.blurTimer) {
+            this.blurTimer.unsubscribe();
+            this.blurTimer = null;
+        }
+
         if (this.overrideSuggested) {
             this.completer.onSelected({ title: this.searchStr, originalObject: null });
         } else {
@@ -194,6 +202,7 @@ export class CtrInput {
                 this.restoreSearchValue();
             }
         }
+
         this.completer.clear();
     }
 }

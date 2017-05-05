@@ -68,7 +68,7 @@ export class NativeCmp {
     private dataService: CompleterData;
     private dataService2: CompleterData;
     private countryName2 = "";
-    private quote = "";
+    private quote: string | undefined = "";
     private dataRemote: CompleterData;
     private dataRemote2: RemoteData;
     private dataService3: CompleterData;

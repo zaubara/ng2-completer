@@ -222,7 +222,7 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
     public set textNoResults(text: string) {
         if (this._textNoResults != text) {
             this._textNoResults = text;
-            this.displayNoResults = this._textNoResults && this._textNoResults !== "false";
+            this.displayNoResults = !!this._textNoResults && this._textNoResults !== "false";
         }
     }
 
@@ -230,7 +230,7 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
     public set textSearching(text: string) {
         if (this._textSearching != text) {
             this._textSearching = text;
-            this.displaySearching = this._textSearching && this._textSearching !== "false";
+            this.displaySearching = !!this._textSearching && this._textSearching !== "false";
         }
     }
 

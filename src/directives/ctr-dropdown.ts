@@ -20,7 +20,7 @@ export class CtrRowItem {
 export class CtrDropdown implements CompleterDropdown, OnDestroy, OnInit, AfterViewInit {
 
     private rows: CtrRowItem[] = [];
-    private currHighlighted: CtrRowItem;
+    private currHighlighted: CtrRowItem | undefined;
     private isScrollOn: boolean;
 
     constructor( @Host() private completer: CtrCompleter, private el: ElementRef) {
@@ -29,7 +29,7 @@ export class CtrDropdown implements CompleterDropdown, OnDestroy, OnInit, AfterV
 
     public ngOnInit() {
         let css = getComputedStyle(this.el.nativeElement);
-        this.isScrollOn = css.maxHeight && css.overflowY === "auto";
+        this.isScrollOn = !!css.maxHeight && css.overflowY === "auto";
     }
 
     public ngOnDestroy() {
@@ -38,6 +38,7 @@ export class CtrDropdown implements CompleterDropdown, OnDestroy, OnInit, AfterV
 
     public ngAfterViewInit() {
         const autoHighlightIndex = this.completer.autoHighlightIndex;
+
         if (autoHighlightIndex) {
             setTimeout(
                 () => {
@@ -90,6 +91,11 @@ export class CtrDropdown implements CompleterDropdown, OnDestroy, OnInit, AfterV
 
         if (this.isScrollOn && this.currHighlighted) {
             const rowTop = this.dropdownRowTop();
+
+            if (!rowTop) {
+                return;
+            }
+
             if (rowTop < 0) {
                 this.dropdownScrollTopTo(rowTop - 1);
             } else {
@@ -97,7 +103,7 @@ export class CtrDropdown implements CompleterDropdown, OnDestroy, OnInit, AfterV
                 if (this.dropdownHeight() < row.getBoundingClientRect().bottom) {
                     this.dropdownScrollTopTo(this.dropdownRowOffsetHeight(row));
                     if (this.el.nativeElement.getBoundingClientRect().bottom - this.dropdownRowOffsetHeight(row) < row.getBoundingClientRect().top) {
-                        this.dropdownScrollTopTo(row.getBoundingClientRect().top - (this.el.nativeElement.getBoundingClientRect().top + parseInt(getComputedStyle(this.el.nativeElement).paddingTop, 10)));
+                        this.dropdownScrollTopTo(row.getBoundingClientRect().top - (this.el.nativeElement.getBoundingClientRect().top + parseInt(getComputedStyle(this.el.nativeElement).paddingTop as string, 10)));
                     }
                 }
             }
@@ -123,17 +129,21 @@ export class CtrDropdown implements CompleterDropdown, OnDestroy, OnInit, AfterV
 
     public nextRow() {
         let nextRowIndex = 0;
+
         if (this.currHighlighted) {
             nextRowIndex = this.currHighlighted.index + 1;
         }
+
         this.highlightRow(nextRowIndex);
     }
 
     public prevRow() {
         let nextRowIndex = -1;
+
         if (this.currHighlighted) {
             nextRowIndex = this.currHighlighted.index - 1;
         }
+
         this.highlightRow(nextRowIndex);
     }
 
@@ -142,19 +152,23 @@ export class CtrDropdown implements CompleterDropdown, OnDestroy, OnInit, AfterV
     }
 
     private dropdownRowTop() {
+        if (!this.currHighlighted) {
+            return;
+        }
+
         return this.currHighlighted.row.getNativeElement().getBoundingClientRect().top -
             (this.el.nativeElement.getBoundingClientRect().top +
-                parseInt(getComputedStyle(this.el.nativeElement).paddingTop, 10));
+                parseInt(getComputedStyle(this.el.nativeElement).paddingTop as string, 10));
     }
 
     private dropdownHeight() {
         return this.el.nativeElement.getBoundingClientRect().top +
-            parseInt(getComputedStyle(this.el.nativeElement).maxHeight, 10);
+            parseInt(getComputedStyle(this.el.nativeElement).maxHeight as string, 10);
     }
 
     private dropdownRowOffsetHeight(row: any) {
         let css = getComputedStyle(row);
         return row.offsetHeight +
-            parseInt(css.marginTop, 10) + parseInt(css.marginBottom, 10);
+            parseInt(css.marginTop as string, 10) + parseInt(css.marginBottom as string, 10);
     }
 }
