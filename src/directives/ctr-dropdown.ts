@@ -1,7 +1,8 @@
-import { AfterViewInit, Directive, ElementRef, Host, HostListener, OnDestroy, OnInit } from "@angular/core";
+import { AfterViewInit, Directive, ElementRef, Host, HostListener, OnDestroy } from "@angular/core";
 
 import { CompleterItem } from "../components/completer-item";
 import { CtrCompleter, CompleterDropdown } from "./ctr-completer";
+import { isNil } from "../globals";
 
 
 export interface CtrRowElement {
@@ -17,7 +18,7 @@ export class CtrRowItem {
 @Directive({
     selector: "[ctrDropdown]",
 })
-export class CtrDropdown implements CompleterDropdown, OnDestroy, OnInit, AfterViewInit {
+export class CtrDropdown implements CompleterDropdown, OnDestroy, AfterViewInit {
 
     private rows: CtrRowItem[] = [];
     private currHighlighted: CtrRowItem | undefined;
@@ -27,18 +28,15 @@ export class CtrDropdown implements CompleterDropdown, OnDestroy, OnInit, AfterV
         this.completer.registerDropdown(this);
     }
 
-    public ngOnInit() {
-        let css = getComputedStyle(this.el.nativeElement);
-        this.isScrollOn = !!css.maxHeight && css.overflowY === "auto";
-    }
-
     public ngOnDestroy() {
         this.completer.registerDropdown(null);
     }
 
     public ngAfterViewInit() {
+        const css = getComputedStyle(this.el.nativeElement);
         const autoHighlightIndex = this.completer.autoHighlightIndex;
 
+        this.isScrollOn = !!css.maxHeight && css.overflowY === "auto";
         if (autoHighlightIndex) {
             setTimeout(
                 () => {
@@ -61,14 +59,26 @@ export class CtrDropdown implements CompleterDropdown, OnDestroy, OnInit, AfterV
     }
 
     public registerRow(row: CtrRowItem) {
-        this.rows.push(row);
+        const arrIndex = this.rows.findIndex(_row => _row.index === row.index);
+        if (arrIndex >= 0) {
+            this.rows[arrIndex] = row;
+        } else {
+            this.rows.push(row);
+        }
     }
 
-    public highlightRow(index: number) {
+    public unregisterRow(rowIndex: number) {
+        const arrIndex = this.rows.findIndex(_row => _row.index === rowIndex);
+        this.rows.splice(arrIndex, 1);
+        if (this.currHighlighted && rowIndex === this.currHighlighted.index) {
+            this.highlightRow(null);
+        }
+    }
 
+    public highlightRow(index: number | null) {
         const highlighted = this.rows.find(row => row.index === index);
 
-        if (index < 0) {
+        if (isNil(index) || index! < 0) {
             if (this.currHighlighted) {
                 this.currHighlighted.row.setHighlighted(false);
             }

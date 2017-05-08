@@ -11,6 +11,7 @@
         "noImplicitAny": true,
         "listFiles": false,
         "noLib": false,
+        "outDir": ".tmp/es5",
         "forceConsistentCasingInFileName": true,
         "noUnusedLocals": true,
         "lib": [

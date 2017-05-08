@@ -93,11 +93,6 @@ export class CtrInput {
                 event.preventDefault();
             }
         }
-        else {
-            if (this.searchStr) {
-                this.completer.open();
-            }
-        }
     }
 
     @HostListener("keydown", ["$event"])
@@ -122,6 +117,10 @@ export class CtrInput {
             event.preventDefault();
             if (this.completer.isOpen) {
                 event.stopPropagation();
+            }
+        } else {
+            if (this.searchStr) {
+                this.completer.open();
             }
         }
     }

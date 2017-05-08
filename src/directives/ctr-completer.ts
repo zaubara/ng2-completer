@@ -14,6 +14,7 @@ export interface CompleterDropdown {
     selectCurrent(): void;
     nextRow(): void;
     prevRow(): void;
+    highlightRow(index: number | null): void;
 }
 
 @Directive({
@@ -66,14 +67,16 @@ export class CtrCompleter {
     }
 
     public clear() {
+        this._hasHighlighted = false;
+        this.isOpen = false;
+
         if (this.dropdown) {
             this.dropdown.clear();
         }
+
         if (this.list) {
             this.list.clear();
         }
-        this._hasHighlighted = false;
-        this.isOpen = false;
     }
 
     public selectCurrent() {
@@ -131,6 +134,9 @@ export class CtrCompleter {
 
     public set autoHighlightIndex(index: number | null) {
         this._autoHighlightIndex = index;
+        if (this.dropdown) {
+            this.dropdown.highlightRow(this._autoHighlightIndex);
+        }
     }
 
     public get hasSelected() {

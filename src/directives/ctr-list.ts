@@ -1,5 +1,5 @@
 import "rxjs/add/observable/timer";
-import { ChangeDetectorRef, Directive, Host, Input, OnInit, TemplateRef, ViewContainerRef } from "@angular/core";
+import { ChangeDetectorRef, Directive, EmbeddedViewRef, Host, Input, OnInit, TemplateRef, ViewContainerRef } from "@angular/core";
 import { Observable } from "rxjs/Observable";
 import { Subscription } from "rxjs/Subscription";
 
@@ -27,6 +27,7 @@ export class CtrList implements OnInit, CompleterList {
     @Input() public ctrListPause = PAUSE;
     @Input() public ctrListAutoMatch = false;
     @Input() public ctrListAutoHighlight = false;
+    @Input() public ctrListDisplaySearching = true;
 
     private _dataService: CompleterData;
     // private results: CompleterItem[] = [];
@@ -36,6 +37,7 @@ export class CtrList implements OnInit, CompleterList {
     private clearTimer: Subscription | null = null;
     private ctx = new CtrListContext([], false, false, false);
     private _initialValue: any = null;
+    private viewRef: EmbeddedViewRef<CtrListContext> | null = null;
 
     constructor(
         @Host() private completer: CtrCompleter,
@@ -45,7 +47,7 @@ export class CtrList implements OnInit, CompleterList {
 
     public ngOnInit() {
         this.completer.registerList(this);
-        this.viewContainer.createEmbeddedView(
+        this.viewRef = this.viewContainer.createEmbeddedView(
             this.templateRef,
             new CtrListContext([], false, false, false)
         );
@@ -61,19 +63,24 @@ export class CtrList implements OnInit, CompleterList {
                     this.ctx.searchInitialized = true;
                     this.ctx.searching = false;
                     this.ctx.results = results;
+
                     if (this.ctrListAutoMatch && results.length === 1 && results[0].title && !isNil(this.term) &&
                         results[0].title.toLocaleLowerCase() === this.term!.toLocaleLowerCase()) {
                         // Do automatch
                         this.completer.onSelected(results[0]);
+                        return;
                     }
+
                     if (this._initialValue) {
                         this.initialValue = this._initialValue;
                         this._initialValue = null;
                     }
+
+                    this.refreshTemplate();
+
                     if (this.ctrListAutoHighlight) {
                         this.completer.autoHighlightIndex = this.getBestMatchIndex();
                     }
-                    this.refreshTemplate();
                 });
         }
     }
@@ -99,7 +106,9 @@ export class CtrList implements OnInit, CompleterList {
                 this.searchTimer = null;
             }
             if (!this.ctx.searching) {
-                this.ctx.results = [];
+                if (this.ctrListDisplaySearching) {
+                    this.ctx.results = [];
+                }
                 this.ctx.searching = true;
                 this.ctx.searchInitialized = true;
                 this.refreshTemplate();
@@ -145,6 +154,7 @@ export class CtrList implements OnInit, CompleterList {
         }
 
         this.viewContainer.clear();
+        this.viewRef = null;
     }
 
     private searchTimerComplete(term: string) {
@@ -174,13 +184,19 @@ export class CtrList implements OnInit, CompleterList {
     }
 
     private refreshTemplate() {
-        // Recreate the template
-        this.viewContainer.clear();
-        if (this.ctx.results && this.ctx.isOpen) {
-            this.viewContainer.createEmbeddedView(
+        // create the template if it doesn't exist
+        if (!this.viewRef) {
+            this.viewRef = this.viewContainer.createEmbeddedView(
                 this.templateRef,
                 this.ctx
             );
+        } else {
+            // refresh the template
+            this.viewRef!.context.isOpen = this.ctx.isOpen;
+            this.viewRef!.context.results = this.ctx.results;
+            this.viewRef!.context.searching = this.ctx.searching;
+            this.viewRef!.context.searchInitialized = this.ctx.searchInitialized;
+            this.viewRef.detectChanges();
         }
         this.cd.markForCheck();
     }

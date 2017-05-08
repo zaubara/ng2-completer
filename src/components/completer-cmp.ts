@@ -39,6 +39,7 @@ const COMPLETER_CONTROL_VALUE_ACCESSOR = {
                     autoMatch: autoMatch;
                     initialValue: initialValue;
                     autoHighlight: autoHighlight;
+                    displaySearching: displaySearching;
                     let items = results;
                     let searchActive = searching;
                     let isInitialized = searchInitialized;
