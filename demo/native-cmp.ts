@@ -1,7 +1,7 @@
 "use strict";
 import { Component, ViewChild } from "@angular/core";
 
-import { Observable } from "rxjs/Rx";
+import { Observable } from "rxjs/Observable";
 
 import { CompleterCmp, CompleterData, CompleterService, CompleterItem, RemoteData } from "../src";
 import { CustomData } from "./custom-data";
