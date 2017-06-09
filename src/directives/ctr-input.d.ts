@@ -22,4 +22,5 @@ export declare class CtrInput {
     searchStr: string;
     private handleSelection();
     private restoreSearchValue();
+    private doBlur();
 }

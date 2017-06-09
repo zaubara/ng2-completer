@@ -6,4 +6,5 @@ export declare class CustomData extends Subject<CompleterItem[]> implements Comp
     constructor(http: Http);
     search(term: string): void;
     cancel(): void;
+    convertToItem(data: any): CompleterItem | null;
 }
