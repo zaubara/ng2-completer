@@ -1,6 +1,21 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.0.0 ()
+
+### Implemented enhancements
+- Add strict null check to tsconfig.json #201
+- performance improvements
+- prevent flickering when not using `textSearching`
+- add `setDisabledState` to component
+
+### Fixed bugs
+- prevent esc key from bubbling up when dropdown is open
+- autofocus causing an error
+- AOT build issue with `onFocus`
+- searching the same term twice causes different results #216
+- minimum search length behavior weird. #232
+
 ## 1.4.0 (2017-04-22)
 
 ### Implemented enhancements

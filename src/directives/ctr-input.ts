@@ -32,7 +32,7 @@ export class CtrInput {
 
     private _searchStr = "";
     private _displayStr = "";
-    private blurTimer: Subscription = null;
+    private blurTimer: Subscription | null = null;
 
     constructor( @Host() private completer: CtrCompleter, private ngModel: NgModel, private el: ElementRef) {
         this.completer.selected.subscribe((item: CompleterItem) => {
@@ -57,14 +57,17 @@ export class CtrInput {
                 }
             }
         });
-        this.ngModel.valueChanges.subscribe(value => {
-            if (!isNil(value) && this._displayStr !== value) {
-                if (this.searchStr !== value) {
-                    this.completer.search(value);
+
+        if (this.ngModel.valueChanges) {
+            this.ngModel.valueChanges.subscribe(value => {
+                if (!isNil(value) && this._displayStr !== value) {
+                    if (this.searchStr !== value) {
+                        this.completer.search(value);
+                    }
+                    this.searchStr = value;
                 }
-                this.searchStr = value;
-            }
-        });
+            });
+        }
     }
 
     @HostListener("keyup", ["$event"])
@@ -83,12 +86,11 @@ export class CtrInput {
             this.completer.search(this.searchStr);
         }
         else if (event.keyCode === KEY_ES) {
-            this.restoreSearchValue();
-            this.completer.clear();
-        }
-        else {
-            if (this.searchStr) {
-                this.completer.open();
+            if (this.completer.isOpen) {
+                this.restoreSearchValue();
+                this.completer.clear();
+                event.stopPropagation();
+                event.preventDefault();
             }
         }
     }
@@ -113,6 +115,13 @@ export class CtrInput {
             // This is very specific to IE10/11 #272
             // without this, IE clears the input text
             event.preventDefault();
+            if (this.completer.isOpen) {
+                event.stopPropagation();
+            }
+        } else {
+            if (this.searchStr) {
+                this.completer.open();
+            }
         }
     }
 
@@ -129,31 +138,19 @@ export class CtrInput {
             );
             return;
         }
-        this.blurTimer = Observable.timer(200).subscribe(
-            () => {
-                this.blurTimer.unsubscribe();
-                this.blurTimer = null;
-                if (this.overrideSuggested) {
-                    this.completer.onSelected({ title: this.searchStr, originalObject: null });
-                } else {
-                    if (this.clearUnselected && !this.completer.hasSelected) {
-                        this.searchStr = "";
-                        this.ngModelChange.emit(this.searchStr);
-                    } else {
-                        this.restoreSearchValue();
-                    }
-                }
-                this.completer.clear();
-            }
-        );
+
+        if (this.completer.isOpen) {
+            this.blurTimer = Observable.timer(200).subscribe(() => this.doBlur());
+        }
     }
 
-    @HostListener("focus", ["$event"])
+    @HostListener("focus", [])
     public onfocus() {
         if (this.blurTimer) {
             this.blurTimer.unsubscribe();
             this.blurTimer = null;
         }
+
         if (this.openOnFocus) {
             this.completer.open();
         }
@@ -186,5 +183,25 @@ export class CtrInput {
                 this.ngModelChange.emit(this.searchStr);
             }
         }
+    }
+
+    private doBlur() {
+        if (this.blurTimer) {
+            this.blurTimer.unsubscribe();
+            this.blurTimer = null;
+        }
+
+        if (this.overrideSuggested) {
+            this.completer.onSelected({ title: this.searchStr, originalObject: null });
+        } else {
+            if (this.clearUnselected && !this.completer.hasSelected) {
+                this.searchStr = "";
+                this.ngModelChange.emit(this.searchStr);
+            } else {
+                this.restoreSearchValue();
+            }
+        }
+
+        this.completer.clear();
     }
 }

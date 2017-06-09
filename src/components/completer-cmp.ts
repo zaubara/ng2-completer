@@ -1,5 +1,5 @@
 "use strict";
-import { AfterViewChecked, Component, Input, Output, EventEmitter, OnInit, ViewChild, forwardRef, AfterViewInit, ElementRef } from "@angular/core";
+import { AfterViewChecked, ChangeDetectorRef, Component, Input, Output, EventEmitter, OnInit, ViewChild, forwardRef, AfterViewInit, ElementRef } from "@angular/core";
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from "@angular/forms";
 
 import { CtrCompleter } from "../directives/ctr-completer";
@@ -39,6 +39,7 @@ const COMPLETER_CONTROL_VALUE_ACCESSOR = {
                     autoMatch: autoMatch;
                     initialValue: initialValue;
                     autoHighlight: autoHighlight;
+                    displaySearching: displaySearching;
                     let items = results;
                     let searchActive = searching;
                     let isInitialized = searchInitialized;
@@ -159,7 +160,7 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
     private _textNoResults = TEXT_NO_RESULTS;
     private _textSearching = TEXT_SEARCHING;
 
-    constructor(private completerService: CompleterService) { }
+    constructor(private completerService: CompleterService, private cdr: ChangeDetectorRef) { }
 
     get value(): any { return this.searchStr; };
 
@@ -179,8 +180,13 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
 
     public ngAfterViewChecked(): void {
         if (this._focus) {
-            this.ctrInput.nativeElement.focus();
-            this._focus = false;
+            setTimeout(
+                () => {
+                    this.ctrInput.nativeElement.focus();
+                    this._focus = false;
+                },
+                0
+            );
         }
     }
 
@@ -200,6 +206,10 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
         this._onTouchedCallback = fn;
     }
 
+    public setDisabledState(isDisabled: boolean): void {
+        this.disableInput = isDisabled;
+    }
+
     @Input()
     public set datasource(source: CompleterData | string | Array<any>) {
         if (source) {
@@ -217,7 +227,7 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
     public set textNoResults(text: string) {
         if (this._textNoResults != text) {
             this._textNoResults = text;
-            this.displayNoResults = this._textNoResults && this._textNoResults !== "false";
+            this.displayNoResults = !!this._textNoResults && this._textNoResults !== "false";
         }
     }
 
@@ -225,7 +235,7 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
     public set textSearching(text: string) {
         if (this._textSearching != text) {
             this._textSearching = text;
-            this.displaySearching = this._textSearching && this._textSearching !== "false";
+            this.displaySearching = !!this._textSearching && this._textSearching !== "false";
         }
     }
 
@@ -245,6 +255,7 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
     public onBlur() {
         this.blur.emit();
         this.onTouched();
+        this.cdr.detectChanges();
     }
 
     public onFocus() {
