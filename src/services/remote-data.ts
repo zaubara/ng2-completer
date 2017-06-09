@@ -66,7 +66,7 @@ export class RemoteData extends CompleterBaseData {
             this._requestOptions.headers = this._headers || new Headers();
         }
 
-        this.remoteSearch = this.http.get(url, this._requestOptions)
+        this.remoteSearch = this.http.get(url, this._requestOptions.merge())
             .map((res: Response) => res.json())
             .map((data: any) => {
                 let matches = this.extractValue(data, this._dataField);
