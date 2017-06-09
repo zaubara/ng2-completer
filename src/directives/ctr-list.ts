@@ -121,6 +121,7 @@ export class CtrList implements OnInit, CompleterList {
             });
         } else if (!isNil(term) && term.length < this.ctrListMinSearchLength) {
             this.clear();
+            this.term = "";
         }
     }
 

@@ -206,6 +206,10 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
         this._onTouchedCallback = fn;
     }
 
+    public setDisabledState(isDisabled: boolean): void {
+        this.disableInput = isDisabled;
+    }
+
     @Input()
     public set datasource(source: CompleterData | string | Array<any>) {
         if (source) {
