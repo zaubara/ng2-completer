@@ -14,6 +14,7 @@ All notable changes to this project will be documented in this file.
 - autofocus causing an error
 - AOT build issue with `onFocus`
 - searching the same term twice causes different results #216
+- minimum search length behavior weird. #232
 
 ## 1.4.0 (2017-04-22)
 
