@@ -95,6 +95,11 @@ export class CtrInput {
         }
     }
 
+    @HostListener("keypress", ["$event"])
+    public keypressHandler(event: any) {
+        this.completer.open();
+    }
+
     @HostListener("keydown", ["$event"])
     public keydownHandler(event: any) {
         if (event.keyCode === KEY_EN) {
@@ -117,10 +122,6 @@ export class CtrInput {
             event.preventDefault();
             if (this.completer.isOpen) {
                 event.stopPropagation();
-            }
-        } else {
-            if (this.searchStr) {
-                this.completer.open();
             }
         }
     }
