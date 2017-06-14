@@ -177,8 +177,8 @@ export class CtrDropdown implements CompleterDropdown, OnDestroy, AfterViewInit 
     }
 
     private dropdownRowOffsetHeight(row: any) {
-        let css = getComputedStyle(row);
-        return row.offsetHeight +
+        let css = getComputedStyle(row.parentElement);
+        return row.parentElement.offsetHeight +
             parseInt(css.marginTop as string, 10) + parseInt(css.marginBottom as string, 10);
     }
 }
