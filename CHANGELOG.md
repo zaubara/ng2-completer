@@ -1,7 +1,13 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## 2.0.0 ()
+## 1.5.1 (2017-06-14)
+
+### Fixed bugs
+- Dropdown doesn't open when typing one character #255
+- Scroll issues
+
+## 1.5.0 (2017-06-09)
 
 ### Implemented enhancements
 - Add strict null check to tsconfig.json #201
