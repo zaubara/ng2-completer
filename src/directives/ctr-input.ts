@@ -60,10 +60,8 @@ export class CtrInput {
 
         if (this.ngModel.valueChanges) {
             this.ngModel.valueChanges.subscribe(value => {
-                console.log("input", value, this._displayStr, this.searchStr);
                 if (!isNil(value) && this._displayStr !== value) {
                     if (this.searchStr !== value) {
-                        console.log("input call search", value, this._displayStr);
                         this.completer.search(value);
                     }
                     this.searchStr = value;
@@ -99,7 +97,6 @@ export class CtrInput {
 
     @HostListener("keypress", ["$event"])
     public keypressHandler(event: any) {
-        console.log("keypress", event);
         this.completer.open();
     }
 
