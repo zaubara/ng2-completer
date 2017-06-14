@@ -100,6 +100,7 @@ export class CtrList implements OnInit, CompleterList {
     }
 
     public search(term: string) {
+        console.log("list", term, this.ctrListMinSearchLength, this.term);
         if (!isNil(term) && term.length >= this.ctrListMinSearchLength && this.term !== term) {
             if (this.searchTimer) {
                 this.searchTimer.unsubscribe();
@@ -159,6 +160,7 @@ export class CtrList implements OnInit, CompleterList {
     }
 
     private searchTimerComplete(term: string) {
+        console.log("searchTimerComplete", term, this.ctrListMinSearchLength);
         // Begin the search
         if (isNil(term) || term.length < this.ctrListMinSearchLength) {
             this.ctx.searching = false;
