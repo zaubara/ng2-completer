@@ -150,9 +150,9 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
 
     public searchStr = "";
     public control = new FormControl("");
+    public displaySearching = true;
+    public displayNoResults = true;
 
-    private displaySearching = true;
-    private displayNoResults = true;
     private _onTouchedCallback: () => void = noop;
     private _onChangeCallback: (_: any) => void = noop;
     private _focus: boolean = false;
