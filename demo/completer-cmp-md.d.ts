@@ -21,9 +21,9 @@ export declare class CompleterCmpMd implements OnInit, ControlValueAccessor {
     selected: EventEmitter<CompleterItem>;
     highlighted: EventEmitter<CompleterItem>;
     blur: EventEmitter<void>;
+    displaySearching: boolean;
+    searchStr: string;
     private completer;
-    private displaySearching;
-    private searchStr;
     private _onTouchedCallback;
     private _onChangeCallback;
     constructor();

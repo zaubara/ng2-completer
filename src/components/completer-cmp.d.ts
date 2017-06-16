@@ -39,8 +39,8 @@ export declare class CompleterCmp implements OnInit, ControlValueAccessor, After
     ctrInput: ElementRef;
     searchStr: string;
     control: FormControl;
-    private displaySearching;
-    private displayNoResults;
+    displaySearching: boolean;
+    displayNoResults: boolean;
     private _onTouchedCallback;
     private _onChangeCallback;
     private _focus;
