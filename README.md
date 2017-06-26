@@ -111,7 +111,7 @@ Add the following to `System.js` map configuration:
 |minSearchLength|Minimal number of characters required for searching.|number|No|3|
 |overrideSuggested|If true will override suggested and set the model with the value in the input field.|boolean|No|false|
 |openOnFocus|If true will open the dropdown and perform search when the input gets the focus.|boolean|No|false|
-|openOnClick|If true will open and close the dropdown by click .|boolean|No|false|
+|openOnClick|If true will open and close the dropdown by click.|boolean|No|false|
 |fillHighlighted|If true will set the model with the value in the input field when item is highlighted.|boolean|No|true|
 |pause|Number of msec. to wait before searching.|number|No|250|
 |placeholder|Placeholder text for the search field.|string|No||
