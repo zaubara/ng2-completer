@@ -159,7 +159,7 @@ export class CtrInput {
     }
 
     @HostListener("click", ["$event"])
-    public onClick(event: any) {
+    public selectOnClick(event: any) {
         this.el.nativeElement.select();
 
         if (this.openOnClick) {
