@@ -96,6 +96,11 @@ export class CtrInput {
         }
     }
 
+    @HostListener("paste", ["$event"])
+    public pasteHandler(event: any) {
+        this.completer.open();
+    }
+
     @HostListener("keypress", ["$event"])
     public keypressHandler(event: any) {
         this.completer.open();
