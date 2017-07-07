@@ -44,15 +44,18 @@ export class CtrInput {
             } else {
                 this.searchStr = item.title;
             }
+            console.log("emit 1", this.searchStr);
             this.ngModelChange.emit(this.searchStr);
         });
         this.completer.highlighted.subscribe((item: CompleterItem) => {
             if (this.fillHighlighted) {
                 if (item) {
                     this._displayStr = item.title;
+                    console.log("emit 2");
                     this.ngModelChange.emit(item.title);
                 } else {
                     this._displayStr = this.searchStr;
+                    console.log("emit 3");
                     this.ngModelChange.emit(this.searchStr);
                 }
             }
@@ -181,6 +184,7 @@ export class CtrInput {
         if (this.fillHighlighted) {
             if (this._displayStr != this.searchStr) {
                 this._displayStr = this.searchStr;
+                console.log("emit 4");
                 this.ngModelChange.emit(this.searchStr);
             }
         }
