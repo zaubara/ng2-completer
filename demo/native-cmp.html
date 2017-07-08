@@ -82,7 +82,7 @@
 </div>
 
 <h3>Input disabled</h3>
-<p>Async local data of countries - <code>overrideSuggested</code>,ÏDisabled</code>,
+<p>Async local data of countries - <code>overrideSuggested</code>, <code>inputDisabled</code>,
 	<code>inputClass</code>, <code>textNoResults = null</code> and <code>fieldTabindex</code>
 </p>
 
@@ -242,7 +242,7 @@
 </div>
 
 <h3>Open, close and select all text by click</h3>
-<p>Local data of colors; Open, close and select all text by click with <code>openOnClick = true</code> and <code>openOnFocus = false</code></p>
+<p>Local data of colors; Open, close and select all text by click with <code>openOnClick</code>, <code>selectOnClick</code>	and <code>openOnFocus</code></p>
 
 <div class="card">
 	<div class="card-block">
@@ -254,6 +254,7 @@
 				               [datasource]="dataService4"
 				               [inputClass]="'form-control'"
 				               [openOnClick]="true"
+				               [selectOnClick]="true"
 				               [openOnFocus]="false"
 				               [minSearchLength]="0"
 				               [placeholder]="'search color'"

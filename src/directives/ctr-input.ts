@@ -29,6 +29,7 @@ export class CtrInput {
     @Input("fillHighlighted") public fillHighlighted = true;
     @Input("openOnFocus") public openOnFocus = false;
     @Input("openOnClick") public openOnClick = false;
+    @Input("selectOnClick") public selectOnClick = false;
 
     @Output() public ngModelChange: EventEmitter<any> = new EventEmitter();
 
@@ -168,7 +169,9 @@ export class CtrInput {
 
     @HostListener("click", ["$event"])
     public onClick(event: any) {
-        this.el.nativeElement.select();
+        if (this.selectOnClick) {
+            this.el.nativeElement.select();
+        }
 
         if (this.openOnClick) {
             if (this.completer.isOpen) {
