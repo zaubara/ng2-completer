@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, EventEmitter } from "@angular/core";
 import { Observable } from "rxjs/Observable";
 
 import { CompleterBaseData } from "./completer-base-data";
@@ -6,6 +6,8 @@ import { CompleterItem } from "../components/completer-item";
 
 @Injectable()
 export class LocalData extends CompleterBaseData {
+
+    public dataSourceChange: EventEmitter<void> = new EventEmitter<void>();
 
     private _data: any[];
     private savedTerm: string | null;
@@ -21,10 +23,13 @@ export class LocalData extends CompleterBaseData {
                 if (this.savedTerm) {
                     this.search(this.savedTerm);
                 }
+                this.dataSourceChange.emit();
             });
         } else {
             this._data = <any[]>data;
         }
+
+        this.dataSourceChange.emit();
 
         return this;
     }
