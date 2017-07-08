@@ -139,7 +139,7 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
 
     @Output() public selected = new EventEmitter<CompleterItem>();
     @Output() public highlighted = new EventEmitter<CompleterItem>();
-    @Output() public blur = new EventEmitter<void>();
+    @Output("blur") public blurEvent = new EventEmitter<void>();
     @Output("focus") public focusEvent = new EventEmitter<void>();
     @Output() public opened = new EventEmitter<boolean>();
     @Output() public keyup: EventEmitter<any> = new EventEmitter();
@@ -253,7 +253,7 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
     }
 
     public onBlur() {
-        this.blur.emit();
+        this.blurEvent.emit();
         this.onTouched();
         this.cdr.detectChanges();
     }
@@ -288,6 +288,14 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
             this.ctrInput.nativeElement.focus();
         } else {
             this._focus = true;
+        }
+    }
+
+    public blur(): void {
+        if (this.ctrInput) {
+            this.ctrInput.nativeElement.blur();
+        } else {
+            this._focus = false;
         }
     }
 

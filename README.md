@@ -137,6 +137,7 @@ Add the following to `System.js` map configuration:
 |open()|Open the dropdown| |
 |close()|Close the dropdown| |
 |focus()|Set the focus to the completer input| |
+|blur()|Remove the focus from the completer input| |
 |isOpen()|Returns the state of the dropdown| |
 
 ### Local data

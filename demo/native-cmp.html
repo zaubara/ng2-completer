@@ -57,7 +57,7 @@
 </div>
 
 <h3>Remote data</h3>
-<p>Remote data of countries with <code>minSearchLength</code>, <code>textSearching</code> and <code>clearSelected</code>
+<p>Remote data of countries and blur on selected with <code>minSearchLength</code>, <code>textSearching</code> and <code>clearSelected</code>
 </p>
 
 
@@ -65,7 +65,8 @@
 	<div class="card-block">
 		<div class="form-group row">
 			<div class="col-5">
-				<ng2-completer [dataService]="dataRemote"
+				<ng2-completer #remoteDataExample
+				               [dataService]="dataRemote"
 				               [minSearchLength]="3"
 				               [placeholder]="'Search for country'"
 				               [clearSelected]="true"
