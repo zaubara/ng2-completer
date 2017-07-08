@@ -28,6 +28,7 @@ export class CtrInput {
     @Input("overrideSuggested") public overrideSuggested = false;
     @Input("fillHighlighted") public fillHighlighted = true;
     @Input("openOnFocus") public openOnFocus = false;
+    @Input("openOnClick") public openOnClick = false;
 
     @Output() public ngModelChange: EventEmitter<any> = new EventEmitter();
 
@@ -162,6 +163,19 @@ export class CtrInput {
 
         if (this.openOnFocus) {
             this.completer.open();
+        }
+    }
+
+    @HostListener("click", ["$event"])
+    public onClick(event: any) {
+        this.el.nativeElement.select();
+
+        if (this.openOnClick) {
+            if (this.completer.isOpen) {
+                this.completer.clear();
+            } else {
+                this.completer.open();
+            }
         }
     }
 
