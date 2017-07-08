@@ -134,8 +134,4 @@ export class NativeCmp {
         this.openCloseExample.focus();
     }
 
-    public valueChanged(event: any) {
-        console.log("value changed", event);
-    }
-
 }
