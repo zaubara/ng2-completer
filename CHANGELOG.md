@@ -1,7 +1,7 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## 1.5.3 (2017-07-08)
+## 1.5.3 (2017-07-14)
 
 ### Implemented enhancements
 - Add a blur() method? #217
