@@ -1,7 +1,7 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## 1.5.3 (2017-07-08)
+## 1.5.3 (2017-07-14)
 
 ### Implemented enhancements
 - Add a blur() method? #217
@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 - Dropdown is not opened when using backspace after a value is selected #261
 - On text paste the search doesn't get triggered #265
 - "flase" should be "false" on line 202 @ ng2-completer/demo/native-cmp.html #271
+- Demo not working on Android Chrome 59 #270
 
 ## 1.5.2 (2017-06-16)
 

@@ -8,7 +8,6 @@ import { CtrCompleter } from "./ctr-completer";
 import { isNil } from "../globals";
 
 
-
 // keyboard events
 const KEY_DW = 40;
 const KEY_RT = 39;
@@ -18,6 +17,10 @@ const KEY_ES = 27;
 const KEY_EN = 13;
 const KEY_TAB = 9;
 const KEY_BK = 8;
+const KEY_SH = 16;
+const KEY_CL = 20;
+const KEY_F1 = 112;
+const KEY_F12 = 123;
 
 @Directive({
     selector: "[ctrInput]",
@@ -28,6 +31,8 @@ export class CtrInput {
     @Input("overrideSuggested") public overrideSuggested = false;
     @Input("fillHighlighted") public fillHighlighted = true;
     @Input("openOnFocus") public openOnFocus = false;
+    @Input("openOnClick") public openOnClick = false;
+    @Input("selectOnClick") public selectOnClick = false;
 
     @Output() public ngModelChange: EventEmitter<any> = new EventEmitter();
 
@@ -101,35 +106,38 @@ export class CtrInput {
         this.completer.open();
     }
 
-    @HostListener("keypress", ["$event"])
-    public keypressHandler(event: any) {
-        this.completer.open();
-    }
-
     @HostListener("keydown", ["$event"])
     public keydownHandler(event: any) {
-        if (event.keyCode === KEY_EN) {
+        const keyCode = event.keyCode || event.which;
+        if (keyCode === KEY_EN) {
             if (this.completer.hasHighlighted()) {
                 event.preventDefault();
             }
             this.handleSelection();
-        } else if (event.keyCode === KEY_DW) {
+        } else if (keyCode === KEY_DW) {
             event.preventDefault();
             this.completer.open();
             this.completer.nextRow();
-        } else if (event.keyCode === KEY_UP) {
+        } else if (keyCode === KEY_UP) {
             event.preventDefault();
             this.completer.prevRow();
-        } else if (event.keyCode === KEY_TAB) {
+        } else if (keyCode === KEY_TAB) {
             this.handleSelection();
-        } else if (event.keyCode === KEY_BK) {
+        } else if (keyCode === KEY_BK) {
             this.completer.open();
-        } else if (event.keyCode === KEY_ES) {
+        } else if (keyCode === KEY_ES) {
             // This is very specific to IE10/11 #272
             // without this, IE clears the input text
             event.preventDefault();
             if (this.completer.isOpen) {
                 event.stopPropagation();
+            }
+        } else {
+            if (keyCode !== 0 && keyCode !== KEY_SH && keyCode !== KEY_CL &&
+                (keyCode <= KEY_F1 || keyCode >= KEY_F12) &&
+                !event.ctrlKey && !event.metaKey && !event.altKey
+            ) {
+                this.completer.open();
             }
         }
     }
@@ -162,6 +170,21 @@ export class CtrInput {
 
         if (this.openOnFocus) {
             this.completer.open();
+        }
+    }
+
+    @HostListener("click", ["$event"])
+    public onClick(event: any) {
+        if (this.selectOnClick) {
+            this.el.nativeElement.select();
+        }
+
+        if (this.openOnClick) {
+            if (this.completer.isOpen) {
+                this.completer.clear();
+            } else {
+                this.completer.open();
+            }
         }
     }
 
