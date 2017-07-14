@@ -83,6 +83,12 @@ export class CtrList implements OnInit, CompleterList {
                     }
                 });
         }
+
+        if (this._dataService.dataSourceChange) {
+            this._dataService.dataSourceChange.subscribe(() => {
+                this.term = null;
+            });
+        }
     }
 
     @Input("ctrListInitialValue")

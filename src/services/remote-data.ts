@@ -1,3 +1,4 @@
+import { EventEmitter } from "@angular/core";
 import { Http, Response, Headers, RequestOptions } from "@angular/http";
 import { Observable } from "rxjs/Observable";
 import { Subscription } from "rxjs/Subscription";
@@ -9,6 +10,8 @@ import { CompleterBaseData } from "./completer-base-data";
 import { CompleterItem } from "../components/completer-item";
 
 export class RemoteData extends CompleterBaseData {
+    public dataSourceChange: EventEmitter<void> = new EventEmitter<void>();
+
     private _remoteUrl: string;
     private remoteSearch: Subscription;
     private _urlFormater: ((term: string) => string) | null = null;
@@ -23,6 +26,8 @@ export class RemoteData extends CompleterBaseData {
 
     public remoteUrl(remoteUrl: string) {
         this._remoteUrl = remoteUrl;
+        this.dataSourceChange.emit();
+
         return this;
     }
 
