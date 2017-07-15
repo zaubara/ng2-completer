@@ -164,7 +164,6 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
     private _focus: boolean = false;
     private _open: boolean = false;
 
-
     constructor(private completerService: CompleterService, private cdr: ChangeDetectorRef) { }
 
     get value(): any { return this.searchStr; };
