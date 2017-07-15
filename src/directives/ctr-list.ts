@@ -82,12 +82,12 @@ export class CtrList implements OnInit, CompleterList {
                         this.completer.autoHighlightIndex = this.getBestMatchIndex();
                     }
                 });
-        }
 
-        if (this._dataService.dataSourceChange) {
-            this._dataService.dataSourceChange.subscribe(() => {
-                this.term = null;
-            });
+            if (this._dataService.dataSourceChange) {
+                this._dataService.dataSourceChange.subscribe(() => {
+                    this.term = null;
+                });
+            }
         }
     }
 
