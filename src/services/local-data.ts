@@ -18,13 +18,16 @@ export class LocalData extends CompleterBaseData {
 
     public data(data: any[] | Observable<any[]>) {
         if (data instanceof Observable) {
-            (<Observable<any[]>>data).subscribe((res) => {
-                this._data = res;
-                if (this.savedTerm) {
-                    this.search(this.savedTerm);
-                }
-                this.dataSourceChange.emit();
-            });
+            const data$ = <Observable<any[]>>data;
+            data$
+                .catch(() => [])
+                .subscribe((res) => {
+                    this._data = res;
+                    if (this.savedTerm) {
+                        this.search(this.savedTerm);
+                    }
+                    this.dataSourceChange.emit();
+                });
         } else {
             this._data = <any[]>data;
         }

@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## 1.5.5 (2017-07-15)
 
+### Implemented enhancements
+- Clear selected and input value when `dataSourceChange` emits
+
 ### Fixed bugs
 - Cannot read property 'dataSourceChange' of undefined #279
 

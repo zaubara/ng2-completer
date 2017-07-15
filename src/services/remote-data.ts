@@ -77,17 +77,11 @@ export class RemoteData extends CompleterBaseData {
                 let matches = this.extractValue(data, this._dataField);
                 return this.extractMatches(matches, term);
             })
-            .map(
-            (matches: any[]) => {
+            .catch(() => [])
+            .subscribe((matches: any[]) => {
                 let results = this.processResults(matches);
                 this.next(results);
-                return results;
-            })
-            .catch((err) => {
-                this.error(err);
-                return Observable.of(null);
-            })
-            .subscribe();
+            });
     }
 
     public cancel() {
