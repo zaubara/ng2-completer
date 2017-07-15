@@ -1,5 +1,6 @@
 import { Injectable, EventEmitter } from "@angular/core";
 import { Observable } from "rxjs/Observable";
+import "rxjs/add/operator/catch";
 
 import { CompleterBaseData } from "./completer-base-data";
 import { CompleterItem } from "../components/completer-item";
