@@ -6,6 +6,9 @@ All notable changes to this project will be documented in this file.
 ### Implemented enhancements
 - Clear selected and input value when `dataSourceChange` emits
 
+### Implemented enhancements
+- Clear selected and input value when `dataSourceChange` emits
+
 ### Fixed bugs
 - Cannot read property 'dataSourceChange' of undefined #279
 - RemoteData search - dropdown list not showing after first http request error (e.g. no Internet connection) #131
