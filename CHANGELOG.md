@@ -1,10 +1,14 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## 1.5.5 (2017-07-15)
+## 1.6.0 (2017-07-15)
+
+### Implemented enhancements
+- Clear selected and input value when `dataSourceChange` emits
 
 ### Fixed bugs
 - Cannot read property 'dataSourceChange' of undefined #279
+- RemoteData search - dropdown list not showing after first http request error (e.g. no Internet connection) #131
 
 ## 1.5.4 (2017-07-14)
 
