@@ -45,9 +45,9 @@ const COMPLETER_CONTROL_VALUE_ACCESSOR = {
                     let searchActive = searching;
                     let isInitialized = searchInitialized;
                     let isOpen = isOpen;">
-                <div class="completer-dropdown" ctrDropdown *ngIf="isInitialized && isOpen && ((items.length > 0 || (displayNoResults && !searchActive)) || (searchActive && displaySearching))">
+                <div class="completer-dropdown" ctrDropdown *ngIf="isInitialized && isOpen && (( items?.length > 0|| (displayNoResults && !searchActive)) || (searchActive && displaySearching))">
                     <div *ngIf="searchActive && displaySearching" class="completer-searching">{{_textSearching}}</div>
-                    <div *ngIf="!searchActive && (!items || items.length === 0)" class="completer-no-results">{{_textNoResults}}</div>
+                    <div *ngIf="!searchActive && (!items || items?.length === 0)" class="completer-no-results">{{_textNoResults}}</div>
                     <div class="completer-row-wrapper" *ngFor="let item of items; let rowIndex=index">
                         <div class="completer-row" [ctrRow]="rowIndex" [dataItem]="item">
                             <div *ngIf="item.image || item.image === ''" class="completer-image-holder">
@@ -156,13 +156,13 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
     public control = new FormControl("");
     public displaySearching = true;
     public displayNoResults = true;
+    public _textNoResults = TEXT_NO_RESULTS;
+    public _textSearching = TEXT_SEARCHING;
 
     private _onTouchedCallback: () => void = noop;
     private _onChangeCallback: (_: any) => void = noop;
     private _focus: boolean = false;
     private _open: boolean = false;
-    private _textNoResults = TEXT_NO_RESULTS;
-    private _textSearching = TEXT_SEARCHING;
 
     constructor(private completerService: CompleterService, private cdr: ChangeDetectorRef) { }
 

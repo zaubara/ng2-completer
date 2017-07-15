@@ -1,5 +1,6 @@
 import { Injectable, EventEmitter } from "@angular/core";
 import { Observable } from "rxjs/Observable";
+import "rxjs/add/operator/catch";
 
 import { CompleterBaseData } from "./completer-base-data";
 import { CompleterItem } from "../components/completer-item";
@@ -18,13 +19,16 @@ export class LocalData extends CompleterBaseData {
 
     public data(data: any[] | Observable<any[]>) {
         if (data instanceof Observable) {
-            (<Observable<any[]>>data).subscribe((res) => {
-                this._data = res;
-                if (this.savedTerm) {
-                    this.search(this.savedTerm);
-                }
-                this.dataSourceChange.emit();
-            });
+            const data$ = <Observable<any[]>>data;
+            data$
+                .catch(() => [])
+                .subscribe((res) => {
+                    this._data = res;
+                    if (this.savedTerm) {
+                        this.search(this.savedTerm);
+                    }
+                    this.dataSourceChange.emit();
+                });
         } else {
             this._data = <any[]>data;
         }

@@ -1,10 +1,8 @@
 import { EventEmitter } from "@angular/core";
 import { Http, Response, Headers, RequestOptions } from "@angular/http";
-import { Observable } from "rxjs/Observable";
 import { Subscription } from "rxjs/Subscription";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
-import "rxjs/add/observable/of";
 
 import { CompleterBaseData } from "./completer-base-data";
 import { CompleterItem } from "../components/completer-item";
@@ -77,17 +75,11 @@ export class RemoteData extends CompleterBaseData {
                 let matches = this.extractValue(data, this._dataField);
                 return this.extractMatches(matches, term);
             })
-            .map(
-            (matches: any[]) => {
+            .catch(() => [])
+            .subscribe((matches: any[]) => {
                 let results = this.processResults(matches);
                 this.next(results);
-                return results;
-            })
-            .catch((err) => {
-                this.error(err);
-                return Observable.of(null);
-            })
-            .subscribe();
+            });
     }
 
     public cancel() {

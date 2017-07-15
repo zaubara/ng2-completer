@@ -52,6 +52,7 @@ export class CtrInput {
             }
             this.ngModelChange.emit(this.searchStr);
         });
+
         this.completer.highlighted.subscribe((item: CompleterItem) => {
             if (this.fillHighlighted) {
                 if (item) {
@@ -62,6 +63,11 @@ export class CtrInput {
                     this.ngModelChange.emit(this.searchStr);
                 }
             }
+        });
+
+        this.completer.dataSourceChange.subscribe(() => {
+            this.searchStr = "";
+            this.ngModelChange.emit(this.searchStr);
         });
 
         if (this.ngModel.valueChanges) {
