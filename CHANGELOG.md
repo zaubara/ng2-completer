@@ -1,6 +1,14 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 1.6.1 (2017-08-11)
+
+### Fixed bugs
+- Material design demo is not working #293
+- Duplicate keyup event #284
+- Fix package dependencies #288
+- Error: ViewDestroyedError #266
+
 ## 1.6.0 (2017-07-15)
 
 ### Implemented enhancements

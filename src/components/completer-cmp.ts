@@ -274,10 +274,12 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
 
     public onKeyup(event: any) {
         this.keyup.emit(event);
+        event.stopPropagation();
     }
 
     public onKeydown(event: any) {
         this.keydown.emit(event);
+        event.stopPropagation();
     }
 
     public onChange(value: string) {
