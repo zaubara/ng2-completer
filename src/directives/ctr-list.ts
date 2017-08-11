@@ -150,7 +150,7 @@ export class CtrList implements OnInit, CompleterList {
                 this.templateRef,
                 this.ctx
             );
-        } else {
+        } else if (!this.viewRef.destroyed) {
             // refresh the template
             this.viewRef!.context.isOpen = this.ctx.isOpen;
             this.viewRef!.context.results = this.ctx.results;
