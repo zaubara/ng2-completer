@@ -62,20 +62,20 @@ export class NativeCmp {
     ];
     public seinfeldEpisode: any;
     public color2: string = "lig";
+    public dataService: CompleterData;
+    public dataService2: CompleterData;
+    public countryName2 = "";
+    public countryName3 = "";
+    public quote: string | undefined = "";
+    public dataRemote: CompleterData;
+    public dataRemote2: RemoteData;
+    public dataService3: CompleterData;
+    public dataService4: CompleterData;
+    public customData: CustomData;
+    public isOpen: boolean = false;
 
     @ViewChild("openCloseExample") private openCloseExample: CompleterCmp;
     @ViewChild("remoteDataExample") private remoteDataExample: CompleterCmp;
-
-    private dataService: CompleterData;
-    private dataService2: CompleterData;
-    private countryName2 = "";
-    private quote: string | undefined = "";
-    private dataRemote: CompleterData;
-    private dataRemote2: RemoteData;
-    private dataService3: CompleterData;
-    private dataService4: CompleterData;
-    private customData: CustomData;
-    private isOpen: boolean = false;
 
     constructor(completerService: CompleterService, http: Http) {
         this.dataService = completerService.local(this.countries, "name", "name").imageField("flag");
@@ -133,5 +133,4 @@ export class NativeCmp {
     public onFocus() {
         this.openCloseExample.focus();
     }
-
 }
