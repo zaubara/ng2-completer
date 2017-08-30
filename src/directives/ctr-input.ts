@@ -164,7 +164,6 @@ export class CtrInput {
         }
 
         if (this.completer.isOpen) {
-            console.log("open");
             this.blurTimer = Observable.timer(200).subscribe(() => this.doBlur());
         }
     }

@@ -10,8 +10,8 @@ export class LocalData extends CompleterBaseData {
 
     public dataSourceChange: EventEmitter<void> = new EventEmitter<void>();
 
-    private _data: any[];
-    private savedTerm: string | null;
+    protected _data: any[];
+    protected savedTerm: string | null;
 
     constructor() {
         super();
