@@ -164,6 +164,7 @@ export class CtrInput {
         }
 
         if (this.completer.isOpen) {
+            console.log("open");
             this.blurTimer = Observable.timer(200).subscribe(() => this.doBlur());
         }
     }
@@ -215,6 +216,10 @@ export class CtrInput {
         } else if (this.overrideSuggested) {
             this.completer.onSelected({ title: this.searchStr, originalObject: null });
         } else {
+            if (this.clearUnselected) {
+                this.searchStr = "";
+                this.ngModelChange.emit(this.searchStr);
+            }
             this.completer.clear();
         }
     }
