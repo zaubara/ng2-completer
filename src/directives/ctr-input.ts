@@ -33,6 +33,7 @@ export class CtrInput {
     @Input("openOnFocus") public openOnFocus = false;
     @Input("openOnClick") public openOnClick = false;
     @Input("selectOnClick") public selectOnClick = false;
+    @Input("selectOnFocus") public selectOnFocus = false;
 
     @Output() public ngModelChange: EventEmitter<any> = new EventEmitter();
 
@@ -174,6 +175,10 @@ export class CtrInput {
             this.blurTimer = null;
         }
 
+        if (this.selectOnFocus) {
+            this.el.nativeElement.select();
+        }
+
         if (this.openOnFocus) {
             this.completer.open();
         }
@@ -210,6 +215,10 @@ export class CtrInput {
         } else if (this.overrideSuggested) {
             this.completer.onSelected({ title: this.searchStr, originalObject: null });
         } else {
+            if (this.clearUnselected) {
+                this.searchStr = "";
+                this.ngModelChange.emit(this.searchStr);
+            }
             this.completer.clear();
         }
     }

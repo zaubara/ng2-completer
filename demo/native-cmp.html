@@ -200,7 +200,7 @@
 <h3>Open, close and focus programmatically</h3>
 <p>Local data of colors; Open, Close and Focus programmatically and set ngModel to an initial value with <code>openOnFocus</code>,
     <code>autoHighlight</code>,
-    <code>fillHighlighted</code> and <code>opened</code>
+    <code>fillHighlighted</code>, <code>selectOnFocus</code> and <code>opened</code>
 </p>
 
 
@@ -220,6 +220,7 @@
                                [minSearchLength]="0"
                                [placeholder]="'search color'"
                                [autoHighlight]="true"
+                               [selectOnFocus]="true"
                                [fillHighlighted]="false">
                 </ng2-completer>
             </div>

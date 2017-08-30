@@ -1,6 +1,14 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 1.6.2 (2017-08-30)
+
+### Implemented enhancements
+- Add selectOnFocus
+
+### Fixed bugs
+- 'clearUnselected' attribute not working when using tab key #287
+
 ## 1.6.1 (2017-08-11)
 
 ### Fixed bugs
