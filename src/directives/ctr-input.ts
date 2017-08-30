@@ -33,6 +33,7 @@ export class CtrInput {
     @Input("openOnFocus") public openOnFocus = false;
     @Input("openOnClick") public openOnClick = false;
     @Input("selectOnClick") public selectOnClick = false;
+    @Input("selectOnFocus") public selectOnFocus = false;
 
     @Output() public ngModelChange: EventEmitter<any> = new EventEmitter();
 
@@ -172,6 +173,10 @@ export class CtrInput {
         if (this.blurTimer) {
             this.blurTimer.unsubscribe();
             this.blurTimer = null;
+        }
+
+        if (this.selectOnFocus) {
+            this.el.nativeElement.select();
         }
 
         if (this.openOnFocus) {
