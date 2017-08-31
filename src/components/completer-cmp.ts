@@ -6,7 +6,7 @@ import { CtrCompleter } from "../directives/ctr-completer";
 import { CompleterData } from "../services/completer-data";
 import { CompleterService } from "../services/completer-service";
 import { CompleterItem } from "./completer-item";
-import { MAX_CHARS, MIN_SEARCH_LENGTH, PAUSE, TEXT_SEARCHING, TEXT_NO_RESULTS } from "../globals";
+import { MAX_CHARS, MIN_SEARCH_LENGTH, PAUSE, TEXT_SEARCHING, TEXT_NO_RESULTS, isNil } from "../globals";
 
 
 import "rxjs/add/operator/catch";
@@ -153,7 +153,6 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
     @ViewChild(CtrCompleter) public completer: CtrCompleter;
     @ViewChild("ctrInput") public ctrInput: ElementRef;
 
-    public searchStr = "";
     public control = new FormControl("");
     public displaySearching = true;
     public displayNoResults = true;
@@ -164,17 +163,30 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
     private _onChangeCallback: (_: any) => void = noop;
     private _focus: boolean = false;
     private _open: boolean = false;
+    private _searchStr = "";
 
     constructor(private completerService: CompleterService, private cdr: ChangeDetectorRef) { }
 
-    get value(): any { return this.searchStr; };
+    public get value(): any { return this.searchStr; };
 
-    set value(v: any) {
+    public set value(v: any) {
         if (v !== this.searchStr) {
             this.searchStr = v;
         }
         // Propagate the change in any case
         this._onChangeCallback(v);
+    }
+
+    public get searchStr() {
+        return this._searchStr;
+    }
+
+    public set searchStr(value: string) {
+        if (typeof value === "string" || isNil(value)) {
+            this._searchStr = value;
+        } else {
+            this._searchStr = JSON.stringify(value);
+        }
     }
 
     public ngAfterViewInit() {
