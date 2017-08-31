@@ -51,6 +51,10 @@ export abstract class CompleterBaseData extends Subject<CompleterItem[] | null> 
             formattedText = data;
         }
 
+        if (typeof formattedText !== "string") {
+            formattedText = JSON.stringify(formattedText);
+        }
+
         if (this._descriptionField) {
             formattedDesc = this.extractValue(data, this._descriptionField);
         }
