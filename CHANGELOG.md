@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 1.6.3 (2017-09-01)
+
+### Fixed bugs
+- Using number on presenting text is causing an 'is not function' error #220
+- Error when ngModel initialized with a non string value #307
+
 ## 1.6.2 (2017-08-30)
 
 ### Implemented enhancements
