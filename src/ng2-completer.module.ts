@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { HttpModule } from "@angular/http";
+import { HttpClientModule } from "@angular/common/http";
 import { CompleterCmp } from "./components/completer-cmp";
 import { CompleterListItemCmp } from "./components/completer-list-item-cmp";
 import { CompleterService } from "./services/completer-service";
@@ -16,7 +16,7 @@ import { CommonModule } from "@angular/common";
     imports: [
         CommonModule,
         FormsModule,
-        HttpModule
+        HttpClientModule
     ],
     declarations: [
         CompleterListItemCmp,

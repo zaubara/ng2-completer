@@ -1,4 +1,4 @@
-import {Http} from "@angular/http";
+import { HttpClient } from "@angular/common/http";
 
 import {LocalData} from "./local-data";
 import {RemoteData} from "./remote-data";
@@ -10,11 +10,11 @@ export function localDataFactory () {
     };
 }
 
-export function remoteDataFactory (http: Http) {
+export function remoteDataFactory (http: HttpClient) {
     return () => {
         return new RemoteData(http);
     };
 }
 
 export let LocalDataFactoryProvider = {provide: LocalData, useFactory: localDataFactory};
-export let RemoteDataFactoryProvider = {provide: RemoteData, useFactory: remoteDataFactory, deps: [Http]};
+export let RemoteDataFactoryProvider = {provide: RemoteData, useFactory: remoteDataFactory, deps: [HttpClient]};

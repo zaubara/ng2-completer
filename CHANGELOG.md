@@ -1,6 +1,13 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.0.0 ()
+
+### Breaking changes
+- Use Angular 4 `HttpClient`
+- Removed `RemoteData.headers` method. Use `RemoteData.requestOptions({headers: HttpHeaders})` instead.
+
+
 ## 1.6.3 (2017-09-01)
 
 ### Fixed bugs

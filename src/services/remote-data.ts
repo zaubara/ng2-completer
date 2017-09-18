@@ -1,5 +1,5 @@
 import { EventEmitter } from "@angular/core";
-import { Http, Response, Headers, RequestOptions } from "@angular/http";
+import { HttpClient } from "@angular/common/http";
 import { Subscription } from "rxjs/Subscription";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
@@ -14,11 +14,10 @@ export class RemoteData extends CompleterBaseData {
     private remoteSearch: Subscription;
     private _urlFormater: ((term: string) => string) | null = null;
     private _dataField: string | null = null;
-    private _headers: Headers;
-    private _requestOptions: RequestOptions;
+    private _requestOptions: any;
 
 
-    constructor(private http: Http) {
+    constructor(private http: HttpClient ) {
         super();
     }
 
@@ -37,14 +36,7 @@ export class RemoteData extends CompleterBaseData {
         this._dataField = dataField;
     }
 
-    /**
-     * @deprecated Please use the requestOptions to pass headers with the search request
-     */
-    public headers(headers: Headers) {
-        this._headers = headers;
-    }
-
-    public requestOptions(requestOptions: RequestOptions) {
+    public requestOptions(requestOptions: any) {
         this._requestOptions = requestOptions;
     }
 
@@ -58,19 +50,7 @@ export class RemoteData extends CompleterBaseData {
             url = this._remoteUrl + encodeURIComponent(term);
         }
 
-        /*
-         * If requestOptions are provided, they will override anything set in headers.
-         *
-         * If no requestOptions are provided, a new RequestOptions object will be instantiated,
-         * and either the provided headers or a new Headers() object will be sent.
-         */
-        if (!this._requestOptions) {
-            this._requestOptions = new RequestOptions();
-            this._requestOptions.headers = this._headers || new Headers();
-        }
-
-        this.remoteSearch = this.http.get(url, this._requestOptions.merge())
-            .map((res: Response) => res.json())
+        this.remoteSearch = this.http.get(url, Object.assign({}, this._requestOptions))
             .map((data: any) => {
                 let matches = this.extractValue(data, this._dataField);
                 return this.extractMatches(matches, term);
