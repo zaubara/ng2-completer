@@ -2,6 +2,8 @@ import { Directive, ElementRef, EventEmitter, Host, HostListener, Input, Output 
 import { NgModel } from "@angular/forms";
 import { Observable } from "rxjs/Observable";
 import { Subscription } from "rxjs/Subscription";
+import "rxjs/add/operator/take";
+import "rxjs/add/observable/timer";
 
 import { CompleterItem } from "../components/completer-item";
 import { CtrCompleter } from "./ctr-completer";
@@ -67,7 +69,8 @@ export class CtrInput {
         });
 
         this.completer.dataSourceChange.subscribe(() => {
-            this.completer.search(this.searchStr);
+            this.searchStr = "";
+            this.ngModelChange.emit(this.searchStr);
         });
 
         if (this.ngModel.valueChanges) {
@@ -162,7 +165,7 @@ export class CtrInput {
         }
 
         if (this.completer.isOpen) {
-            this.blurTimer = Observable.timer(200).subscribe(() => this.doBlur());
+            this.blurTimer = Observable.timer(200).take(1).subscribe(() => this.doBlur());
         }
     }
 
