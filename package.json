@@ -1,6 +1,6 @@
 {
   "name": "ng2-completer",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "ng2 autocomplete/typeahead component",
   "main": "bundles/ng2-completer.js",
   "scripts": {

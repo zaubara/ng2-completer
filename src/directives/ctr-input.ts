@@ -67,8 +67,7 @@ export class CtrInput {
         });
 
         this.completer.dataSourceChange.subscribe(() => {
-            this.searchStr = "";
-            this.ngModelChange.emit(this.searchStr);
+            this.completer.search(this.searchStr);
         });
 
         if (this.ngModel.valueChanges) {
