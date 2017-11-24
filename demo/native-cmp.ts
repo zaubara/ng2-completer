@@ -5,7 +5,7 @@ import { Observable } from "rxjs/Observable";
 
 import { CompleterCmp, CompleterData, CompleterService, CompleterItem, RemoteData } from "../src";
 import { CustomData } from "./custom-data";
-import { Http } from "@angular/http";
+import { HttpClient } from "@angular/common/http";
 
 let template = require("./native-cmp.html");
 let style = require("./native-cmp.css");
@@ -77,7 +77,7 @@ export class NativeCmp {
     @ViewChild("openCloseExample") private openCloseExample: CompleterCmp;
     @ViewChild("remoteDataExample") private remoteDataExample: CompleterCmp;
 
-    constructor(completerService: CompleterService, http: Http) {
+    constructor(completerService: CompleterService, http: HttpClient) {
         this.dataService = completerService.local(this.countries, "name", "name").imageField("flag");
         this.dataService2 = completerService.local(this.quotes, "nm", "nm").descriptionField("qt");
         this.dataRemote = completerService.remote(
