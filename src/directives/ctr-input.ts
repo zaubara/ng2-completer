@@ -1,9 +1,8 @@
 import { Directive, ElementRef, EventEmitter, Host, HostListener, Input, Output } from "@angular/core";
 import { NgModel } from "@angular/forms";
-import { Observable } from "rxjs/Observable";
 import { Subscription } from "rxjs/Subscription";
-import "rxjs/add/operator/take";
-import "rxjs/add/observable/timer";
+import { timer } from "rxjs/observable/timer";
+import { take } from "rxjs/operators";
 
 import { CompleterItem } from "../components/completer-item";
 import { CtrCompleter } from "./ctr-completer";
@@ -164,7 +163,7 @@ export class CtrInput {
         }
 
         if (this.completer.isOpen) {
-            this.blurTimer = Observable.timer(200).take(1).subscribe(() => this.doBlur());
+            this.blurTimer = timer(200).pipe(take(1)).subscribe(() => this.doBlur());
         }
     }
 

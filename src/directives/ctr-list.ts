@@ -1,10 +1,7 @@
 import { ChangeDetectorRef, Directive, EmbeddedViewRef, Host, Input, OnInit, TemplateRef, ViewContainerRef } from "@angular/core";
-import { Observable } from "rxjs/Observable";
 import { Subscription } from "rxjs/Subscription";
-import "rxjs/add/operator/retryWhen";
-import "rxjs/add/operator/do";
-import "rxjs/add/operator/take";
-import "rxjs/add/observable/timer";
+import { timer } from "rxjs/observable/timer";
+import { take } from "rxjs/operators";
 
 import { CtrCompleter, CompleterList } from "./ctr-completer";
 import { CompleterData } from "../services/completer-data";
@@ -92,7 +89,7 @@ export class CtrList implements OnInit, CompleterList {
             if (this.clearTimer) {
                 this.clearTimer.unsubscribe();
             }
-            this.searchTimer = Observable.timer(this.ctrListPause).take(1).subscribe(() => {
+            this.searchTimer = timer(this.ctrListPause).pipe(take(1)).subscribe(() => {
                 this.searchTimerComplete(term);
             });
         } else if (!isNil(term) && term.length < this.ctrListMinSearchLength) {
@@ -105,7 +102,7 @@ export class CtrList implements OnInit, CompleterList {
         if (this.searchTimer) {
             this.searchTimer.unsubscribe();
         }
-        this.clearTimer = Observable.timer(CLEAR_TIMEOUT).take(1).subscribe(() => {
+        this.clearTimer = timer(CLEAR_TIMEOUT).pipe(take(1)).subscribe(() => {
             this._clear();
         });
     }

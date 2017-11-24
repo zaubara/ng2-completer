@@ -1,8 +1,7 @@
 import { EventEmitter } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Subscription } from "rxjs/Subscription";
-import "rxjs/add/operator/map";
-import "rxjs/add/operator/catch";
+import { catchError, map } from "rxjs/operators";
 
 import { CompleterBaseData } from "./completer-base-data";
 import { CompleterItem } from "../components/completer-item";
@@ -17,7 +16,7 @@ export class RemoteData extends CompleterBaseData {
     private _requestOptions: any;
 
 
-    constructor(private http: HttpClient ) {
+    constructor(private http: HttpClient) {
         super();
     }
 
@@ -50,12 +49,15 @@ export class RemoteData extends CompleterBaseData {
             url = this._remoteUrl + encodeURIComponent(term);
         }
 
-        this.remoteSearch = this.http.get(url, Object.assign({}, this._requestOptions))
-            .map((data: any) => {
-                let matches = this.extractValue(data, this._dataField);
-                return this.extractMatches(matches, term);
-            })
-            .catch(() => [])
+        this.remoteSearch = this.http
+            .get(url, Object.assign({}, this._requestOptions))
+            .pipe(
+                map((data: any) => {
+                    let matches = this.extractValue(data, this._dataField);
+                    return this.extractMatches(matches, term);
+                }),
+                catchError(() => [])
+            )
             .subscribe((matches: any[]) => {
                 let results = this.processResults(matches);
                 this.next(results);

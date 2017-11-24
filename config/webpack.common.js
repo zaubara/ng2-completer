@@ -33,11 +33,6 @@ module.exports = {
                 exclude: helpers.root('demo/index.html'),
                 loader: 'html-loader'
             },
-            // {
-            //     test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
-            //     loader: 'file-loader?name=assets/[name].[hash].[ext]',
-            //     include: helpers.root('demo', 'res'),
-            // },
             {
                 test: /\.css$/,
                 exclude: [helpers.root('demo'), helpers.root('src')],
@@ -54,9 +49,7 @@ module.exports = {
     plugins: [
         // Workaround for angular/angular#11580
         new webpack.ContextReplacementPlugin(
-            // The (\\|\/) piece accounts for path separators in *nix and Windows
-            // /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
-            /angular(\\|\/)core(\\|\/)@angular/,
+            /angular(\\|\/)core(\\|\/)(@angular|esm5)/,
             helpers.root('./demo'), // location of your src
             {} // a map of your routes
         ),
