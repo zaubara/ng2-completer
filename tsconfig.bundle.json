@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "module": "es2015",
-        "target": "ES5",
+        "target": "es2015",
         "noImplicitAny": true,
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
@@ -22,7 +22,8 @@
     "angularCompilerOptions": {
         "genDir": ".tmp",
         "debug": false,
-        "skipMetadataEmit": false
+        "strictMetadataEmit": true,
+        "skipTemplateCodegen": true
     },
     "include": [
         "src/**/*"
