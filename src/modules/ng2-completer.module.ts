@@ -1,29 +1,27 @@
 import { NgModule, ModuleWithProviders } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
-import { CompleterCmp } from "./components/completer-cmp";
-import { CompleterListItemCmp } from "./components/completer-list-item-cmp";
-import { CompleterService } from "./services/completer-service";
-import { LocalDataFactoryProvider, RemoteDataFactoryProvider } from "./services/completer-data-factory";
-import { CtrCompleter } from "./directives/ctr-completer";
-import { CtrDropdown } from "./directives/ctr-dropdown";
-import { CtrInput } from "./directives/ctr-input";
-import { CtrList } from "./directives/ctr-list";
-import { CtrRow } from "./directives/ctr-row";
 import { CommonModule } from "@angular/common";
+
+import { CompleterCmp } from "../components/completer-cmp";
+import { CompleterListItemCmp } from "../components/completer-list-item-cmp";
+import { LocalDataFactory } from "../services/local-data-factory";
+import { RemoteDataFactory } from "../services/remote-data-factory";
+import { CompleterService } from "../services/completer-service";
+
+import { CtrCompleter } from "../directives/ctr-completer";
+import { CtrDropdown } from "../directives/ctr-dropdown";
+import { CtrInput } from "../directives/ctr-input";
+import { CtrList } from "../directives/ctr-list";
+import { CtrRow } from "../directives/ctr-row";
 
 const providers = [
     CompleterService,
-    LocalDataFactoryProvider,
-    RemoteDataFactoryProvider
+    LocalDataFactory,
+    RemoteDataFactory
 ];
 
 @NgModule({
-    imports: [
-        CommonModule,
-        FormsModule,
-        HttpClientModule
-    ],
     declarations: [
         CompleterListItemCmp,
         CtrCompleter,
@@ -34,13 +32,18 @@ const providers = [
         CompleterCmp
     ],
     exports: [
-        CompleterCmp,
         CompleterListItemCmp,
         CtrCompleter,
         CtrDropdown,
         CtrInput,
         CtrList,
-        CtrRow
+        CtrRow,
+        CompleterCmp
+    ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        HttpClientModule
     ],
     providers
 })
