@@ -214,7 +214,7 @@ export class CtrInput {
         } else if (this.overrideSuggested) {
             this.completer.onSelected({ title: this.searchStr, originalObject: null });
         } else {
-            if (this.clearUnselected) {
+            if (this.clearUnselected && !this.completer.hasSelected) {
                 this.searchStr = "";
                 this.ngModelChange.emit(this.searchStr);
             }
