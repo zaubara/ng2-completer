@@ -24,8 +24,7 @@
             true,
             "element",
             [
-                "cmp-prefix1",
-                "cmp-prefix2"
+                "ctr"
             ],
             "kebab-case"
         ],
@@ -56,10 +55,16 @@
             false
         ],
         "quotemark": [
-            false
+            true,
+            "single",
+            "avoid-escape"
         ],
         "trailing-comma": [
             false
+        ],
+        "variable-name": [
+            true,
+            "allow-leading-underscore"
         ]
     }
 }

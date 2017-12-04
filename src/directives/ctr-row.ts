@@ -1,12 +1,12 @@
-import { Directive, ElementRef, Host, HostListener, Input, Renderer, OnDestroy } from "@angular/core";
+import { Directive, ElementRef, Host, HostListener, Input, Renderer, OnDestroy } from '@angular/core';
 
-import { CompleterItem } from "../components/completer-item";
-import { CtrDropdown, CtrRowElement, CtrRowItem } from "./ctr-dropdown";
+import { CompleterItem } from '../components/completer-item';
+import { CtrDropdown } from './ctr-dropdown';
 
 @Directive({
-    selector: "[ctrRow]",
+    selector: '[ctrRow]',
 })
-export class CtrRow implements CtrRowElement, OnDestroy {
+export class CtrRow implements OnDestroy {
 
     private selected = false;
     private _rowIndex: number;
@@ -23,7 +23,7 @@ export class CtrRow implements CtrRowElement, OnDestroy {
     @Input()
     set ctrRow(index: number) {
         this._rowIndex = index;
-        this.dropdown.registerRow(new CtrRowItem(this, this._rowIndex));
+        // this.dropdown.registerRow(new CtrRowItem(this, this._rowIndex));
     }
 
     @Input()
@@ -31,21 +31,21 @@ export class CtrRow implements CtrRowElement, OnDestroy {
         this._item = item;
     }
 
-    @HostListener("click", ["$event"]) public onClick(event: any) {
+    @HostListener('click', ['$event']) public onClick(event: any) {
         this.dropdown.onSelected(this._item);
     }
 
-    @HostListener("mouseenter", ["$event"]) public onMouseEnter(event: any) {
+    @HostListener('mouseenter', ['$event']) public onMouseEnter(event: any) {
         this.dropdown.highlightRow(this._rowIndex);
     }
 
-    @HostListener("mousedown", ["$event"]) public onMouseDown(event: any) {
+    @HostListener('mousedown', ['$event']) public onMouseDown(event: any) {
         this.dropdown.rowMouseDown();
     }
 
     public setHighlighted(selected: boolean) {
         this.selected = selected;
-        this.renderer.setElementClass(this.el.nativeElement, "completer-selected-row", this.selected);
+        this.renderer.setElementClass(this.el.nativeElement, 'completer-selected-row', this.selected);
     }
 
     public getNativeElement() {

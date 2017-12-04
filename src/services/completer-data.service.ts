@@ -7,7 +7,7 @@ import { LocalDataFactory } from "./local-data-factory";
 import { RemoteDataFactory } from "./remote-data-factory";
 
 @Injectable()
-export class CompleterService {
+export class CompleterDataService {
     constructor(
         private localDataFactory: LocalDataFactory, // Using any instead of () => LocalData because of AoT errors
         private remoteDataFactory: RemoteDataFactory // Using any instead of () => LocalData because of AoT errors

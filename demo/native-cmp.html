@@ -10,7 +10,7 @@
     <div class="card-block">
         <div class="form-group row">
             <div class="col-5">
-                <ng2-completer class="completer-limit"
+                <ctr-completer class="completer-limit"
                                [(ngModel)]="countryName"
                                [datasource]="dataService"
                                [minSearchLength]="0"
@@ -20,7 +20,7 @@
                                [matchClass]="'match'"
                                [autofocus]="true"
                                [textSearching]="false">
-                </ng2-completer>
+                </ctr-completer>
             </div>
             <div class="col-6">
                 <p class="form-control-static"><b>{{countryName || ''}}</b></p>
@@ -40,14 +40,14 @@
     <div class="card-block">
         <div class="form-group row">
             <div class="col-5">
-                <ng2-completer [datasource]="dataService2"
+                <ctr-completer [datasource]="dataService2"
                                (selected)="onQuoteSelected($event)"
                                [minSearchLength]="0"
                                [placeholder]="'Search quote by author name'"
                                [textNoResults]="'No quotes found'"
                                [inputClass]="'form-control'"
                                [matchClass]="'match'">
-                </ng2-completer>
+                </ctr-completer>
             </div>
             <div class="col-6">
                 <p class="form-control-static"><b>{{quote}}</b></p>
@@ -65,7 +65,7 @@
     <div class="card-block">
         <div class="form-group row">
             <div class="col-5">
-                <ng2-completer #remoteDataExample
+                <ctr-completer #remoteDataExample
                                [dataService]="dataRemote"
                                [minSearchLength]="3"
                                [placeholder]="'Search for country'"
@@ -73,7 +73,7 @@
                                (selected)="onCountrySelected($event)"
                                [inputClass]="'form-control'"
                                [textSearching]="'Please wait...'">
-                </ng2-completer>
+                </ctr-completer>
             </div>
             <div class="col-6">
                 <p class="form-control-static"><b> {{countryName2}}</b></p>
@@ -91,7 +91,7 @@
     <div class="card-block">
         <div class="form-group row">
             <div class="col-5">
-                <ng2-completer [(ngModel)]="countryName3"
+                <ctr-completer [(ngModel)]="countryName3"
                                [datasource]="dataService3"
                                [minSearchLength]="0"
                                [placeholder]="'search country'"
@@ -101,7 +101,7 @@
                                [fieldTabindex]="-1"
                                [inputClass]="'my-input-class'"
                                [textNoResults]="null">
-                </ng2-completer>
+                </ctr-completer>
             </div>
             <div class="col-6">
                 <p class="form-control-static"><b> {{countryName3}}</b></p>
@@ -128,7 +128,7 @@
         <div class="form-group row"
              [class.has-danger]="!colorRequired.valid">
             <div class="col-5">
-                <ng2-completer name="colorRequired"
+                <ctr-completer name="colorRequired"
                                [inputId]="'completer1'"
                                [datasource]="colors"
                                [(ngModel)]="color"
@@ -139,7 +139,7 @@
                                [inputClass]="(colorRequired.valid) ? 'form-control' : 'form-control form-control-danger'"
                                [clearUnselected]="true"
                                required>
-                </ng2-completer>
+                </ctr-completer>
                 <div *ngIf="!colorRequired.valid"
                      class="form-control-feedback">Sorry, color is required
                 </div>
@@ -159,13 +159,13 @@
     <div class="card-block">
         <div class="form-group row">
             <div class="col-5">
-                <ng2-completer [(ngModel)]="countryName5"
+                <ctr-completer [(ngModel)]="countryName5"
                                [datasource]="dataRemote2"
                                [minSearchLength]="3"
                                [placeholder]="'Search movie title'"
                                [textSearching]="'Please wait...'"
                                [inputClass]="'form-control'">
-                </ng2-completer>
+                </ctr-completer>
             </div>
             <div class="col-6">
                 <p class="form-control-static"><b>{{countryName5}}</b></p>
@@ -182,13 +182,13 @@
     <div class="card-block">
         <div class="form-group row">
             <div class="col-5">
-                <ng2-completer [(ngModel)]="seinfeldEpisode"
+                <ctr-completer [(ngModel)]="seinfeldEpisode"
                                [datasource]="customData"
                                [minSearchLength]="3"
                                [inputClass]="'form-control'"
                                [placeholder]="'search Seinfeld episode'"
                                [textSearching]="'Please wait...'">
-                </ng2-completer>
+                </ctr-completer>
             </div>
             <div class="col-6">
                 <p class="form-control-static"><b> {{seinfeldEpisode}}</b></p>
@@ -208,7 +208,7 @@
     <div class="card-block">
         <div class="form-group row">
             <div class="col-3 pr-0 border-right-0 with-chevron">
-                <ng2-completer #openCloseExample
+                <ctr-completer #openCloseExample
                                class="completer-limit"
                                [(ngModel)]="color2"
                                [datasource]="dataService4"
@@ -222,7 +222,7 @@
                                [autoHighlight]="true"
                                [selectOnFocus]="true"
                                [fillHighlighted]="false">
-                </ng2-completer>
+                </ctr-completer>
             </div>
             <div class="col-1 p-0">
                 <div class="w-25 chevron-holder"
@@ -250,7 +250,7 @@
     <div class="card-block">
         <div class="form-group row">
             <div class="col-4">
-                <ng2-completer #openCloseExample
+                <ctr-completer #openCloseExample
                                class="completer-limit"
                                [(ngModel)]="color3"
                                [datasource]="dataService4"
@@ -262,7 +262,7 @@
                                [placeholder]="'search color'"
                                [autoHighlight]="true"
                                [fillHighlighted]="false">
-                </ng2-completer>
+                </ctr-completer>
             </div>
         </div>
     </div>
@@ -276,14 +276,14 @@
     <div class="card-block">
         <div class="form-group row">
             <div class="col-5">
-                <ng2-completer [datasource]="'https://raw.githubusercontent.com/oferh/ng2-completer/master/demo/res/data/colors.json?'"
+                <ctr-completer [datasource]="'https://raw.githubusercontent.com/oferh/ctr-completer/master/demo/res/data/colors.json?'"
                                [minSearchLength]="1"
                                [placeholder]="'search color'"
                                [inputClass]="'form-control'"
                                [fillHighlighted]="false"
                                [(ngModel)]="color4"
                                [textSearching]="'Please wait...'">
-                </ng2-completer>
+                </ctr-completer>
 
             </div>
             <div class="col-6">
@@ -301,7 +301,7 @@
     <div class="card-block">
         <div class="form-group row">
             <div class="col-5">
-                <ng2-completer [datasource]="'https://raw.githubusercontent.com/oferh/ng2-completer/master/demo/res/data/colors.json?'"
+                <ctr-completer [datasource]="'https://raw.githubusercontent.com/oferh/ctr-completer/master/demo/res/data/colors.json?'"
                                [minSearchLength]="1"
                                [placeholder]="'search color'"
                                [inputClass]="'form-control'"
@@ -309,7 +309,7 @@
                                (blur)="focused = false; blurred = true;"
                                [fillHighlighted]="false"
                                [textSearching]="'Please wait...'">
-                </ng2-completer>
+                </ctr-completer>
             </div>
             <div class="col">
                 <div class="alert alert-success"
@@ -334,12 +334,12 @@
     <div class="card-block">
         <div class="form-group row">
             <div class="col-3">
-                <ng2-completer [datasource]="colors"
+                <ctr-completer [datasource]="colors"
                                [(ngModel)]="color3"
                                [minSearchLength]="0"
                                [placeholder]="'search color'"
                                [initialValue]="'red'">
-                </ng2-completer>
+                </ctr-completer>
             </div>
             <div class="col-2">
                 <p class="form-control-static"><b> {{color3}}</b></p>

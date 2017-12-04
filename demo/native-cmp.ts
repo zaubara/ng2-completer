@@ -7,7 +7,7 @@ import { from } from "rxjs/observable/from";
 import {
     CompleterCmp,
     CompleterData,
-    CompleterService,
+    CompleterDataService,
     CompleterItem,
     RemoteData
 } from "../src/ng2-completer";
@@ -84,7 +84,7 @@ export class NativeCmp {
     @ViewChild("openCloseExample") private openCloseExample: CompleterCmp;
     @ViewChild("remoteDataExample") private remoteDataExample: CompleterCmp;
 
-    constructor(completerService: CompleterService, http: HttpClient) {
+    constructor(completerService: CompleterDataService, http: HttpClient) {
         this.dataService = completerService.local(this.countries, "name", "name").imageField("flag");
         this.dataService2 = completerService.local(this.quotes, "nm", "nm").descriptionField("qt");
         this.dataRemote = completerService.remote(

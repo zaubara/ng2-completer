@@ -1,22 +1,24 @@
-import { NgModule, ModuleWithProviders } from "@angular/core";
-import { FormsModule } from "@angular/forms";
-import { HttpClientModule } from "@angular/common/http";
-import { CommonModule } from "@angular/common";
+import { NgModule, ModuleWithProviders } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
+import { OverlayModule } from '@angular/cdk/overlay';
 
-import { CompleterCmp } from "../components/completer-cmp";
-import { CompleterListItemCmp } from "../components/completer-list-item-cmp";
-import { LocalDataFactory } from "../services/local-data-factory";
-import { RemoteDataFactory } from "../services/remote-data-factory";
-import { CompleterService } from "../services/completer-service";
+import { CompleterCmp } from '../components/completer-cmp';
+import { CompleterListItemCmp } from '../components/completer-list-item-cmp';
+import { LocalDataFactory } from '../services/local-data-factory';
+import { RemoteDataFactory } from '../services/remote-data-factory';
+import { CompleterDataService } from '../services/completer-data.service';
 
-import { CtrCompleter } from "../directives/ctr-completer";
-import { CtrDropdown } from "../directives/ctr-dropdown";
-import { CtrInput } from "../directives/ctr-input";
-import { CtrList } from "../directives/ctr-list";
-import { CtrRow } from "../directives/ctr-row";
+import { CtrCompleter } from '../directives/ctr-completer';
+import { CtrDropdown } from '../directives/ctr-dropdown';
+import { CtrInput } from '../directives/ctr-input.directive';
+import { CtrList } from '../directives/ctr-list';
+import { CtrRow } from '../directives/ctr-row';
+import { CompleterContainerComponent } from '../components/completer-container.component';
 
 const providers = [
-    CompleterService,
+    CompleterDataService,
     LocalDataFactory,
     RemoteDataFactory
 ];
@@ -29,7 +31,8 @@ const providers = [
         CtrInput,
         CtrList,
         CtrRow,
-        CompleterCmp
+        CompleterCmp,
+        CompleterContainerComponent
     ],
     exports: [
         CompleterListItemCmp,
@@ -38,12 +41,14 @@ const providers = [
         CtrInput,
         CtrList,
         CtrRow,
-        CompleterCmp
+        CompleterCmp,
+        CompleterContainerComponent
     ],
     imports: [
         CommonModule,
         FormsModule,
-        HttpClientModule
+        HttpClientModule,
+        OverlayModule
     ],
     providers
 })

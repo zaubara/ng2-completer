@@ -9,3 +9,7 @@ export const CLEAR_TIMEOUT = 50;
 export function isNil(value: any) {
     return typeof value === "undefined" || value === null;
 }
+
+export function noop() {
+    return;
+}
