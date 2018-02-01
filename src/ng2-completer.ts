@@ -14,6 +14,6 @@ export { CtrRow } from './directives/ctr-row';
 
 export { CompleterItem } from './components/completer-item';
 export { CompleterListItemCmp } from './components/completer-list-item-cmp';
-export { CompleterCmp } from './components/completer-cmp';
+export { CompleterComponent } from './components/completer.component';
 
 export { Ng2CompleterModule } from './modules/ng2-completer.module';

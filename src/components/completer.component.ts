@@ -26,7 +26,7 @@ import 'rxjs/add/operator/catch';
 const COMPLETER_CONTROL_VALUE_ACCESSOR = {
     multi: true,
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => CompleterCmp),
+    useExisting: forwardRef(() => CompleterComponent),
 };
 
 @Component({
@@ -34,17 +34,13 @@ const COMPLETER_CONTROL_VALUE_ACCESSOR = {
     providers: [COMPLETER_CONTROL_VALUE_ACCESSOR],
     selector: 'ctr-completer',
     styles: [`
-    .completer-dropdown {
+    .ctr-autocomplete {
         border-color: #ececec;
         border-width: 1px;
         border-style: solid;
         border-radius: 2px;
-        width: 250px;
         padding: 6px;
         cursor: pointer;
-        z-index: 9999;
-        position: absolute;
-        margin-top: -6px;
         background-color: #ffffff;
     }
 
@@ -94,8 +90,7 @@ const COMPLETER_CONTROL_VALUE_ACCESSOR = {
         </ctr-container>
     `
 })
-export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChecked, AfterViewInit {
-    @Input() public dataService: CompleterData;
+export class CompleterComponent implements OnInit, ControlValueAccessor, AfterViewChecked, AfterViewInit {
     @Input() public inputName = '';
     @Input() public inputId: string = '';
     @Input() public pause = PAUSE;
@@ -142,10 +137,12 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
     private _focus: boolean = false;
     private _open: boolean = false;
     private _searchStr = '';
+    private dataService: CompleterData;
 
     constructor(private completerService: CompleterDataService, private cdr: ChangeDetectorRef) { }
 
     public get value(): any {
+        return '';
         // return this.searchStr;
     }
 
@@ -169,13 +166,13 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
     //     }
     // }
 
-    // public ngAfterViewInit() {
+    public ngAfterViewInit() {
     //     if (this.autofocus) {
     //         this._focus = true;
     //     }
-    // }
+    }
 
-    // public ngAfterViewChecked(): void {
+    public ngAfterViewChecked(): void {
     //     if (this._focus) {
     //         setTimeout(
     //             () => {
@@ -185,7 +182,7 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
     //             0
     //         );
     //     }
-    // }
+    }
 
     public onTouched() {
         this._onTouchedCallback();
@@ -209,15 +206,15 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
 
     @Input()
     public set datasource(source: CompleterData | string | any[]) {
-        // if (source) {
-        //     if (source instanceof Array) {
-        //         this.dataService = this.completerService.local(source);
-        //     } else if (typeof (source) === 'string') {
-        //         this.dataService = this.completerService.remote(source);
-        //     } else {
-        //         this.dataService = source as CompleterData;
-        //     }
-        // }
+        if (source) {
+            if (source instanceof Array) {
+                this.dataService = this.completerService.local(source);
+            } else if (typeof (source) === 'string') {
+                this.dataService = this.completerService.remote(source);
+            } else {
+                this.dataService = source as CompleterData;
+            }
+        }
     }
 
     @Input()
@@ -236,9 +233,9 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
         // }
     }
 
-    // public ngOnInit() {
+    public ngOnInit() {
     // this.completer.selected.subscribe((item: CompleterItem) => {
-    //     this.selected.emit(item);
+        // this.selected.emit(item);
     // });
     // this.completer.highlighted.subscribe((item: CompleterItem) => {
     //     this.highlighted.emit(item);
@@ -247,7 +244,7 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
     //     this._open = isOpen;
     //     this.opened.emit(isOpen);
     // });
-    // }
+    }
 
     // public onBlur() {
     //     this.blurEvent.emit();

@@ -39,8 +39,8 @@ export class CompleterContainerComponent implements AfterViewInit {
     }
 
     private onFocusChanged(prevState: CompleterState, newState: CompleterState) {
-        if (!prevState.focus && newState.focus && !newState.open) {
-            this.storeService.update('open', true);
+        if (prevState.focus !== newState.focus && newState.focus !== newState.open) {
+            this.storeService.update('open', newState.focus);
         }
     }
 }

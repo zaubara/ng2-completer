@@ -40,7 +40,7 @@ describe('CompleterContainerComponent', () => {
     );
 
     it(
-        'should set open state to open when focus state changes to true',
+        'should set open state to true when focus state changes to true',
         fakeAsync(() => {
             expect(store.state.open).toBe(false);
 
@@ -71,6 +71,19 @@ describe('CompleterContainerComponent', () => {
             spyOn(store, 'update');
             tick();
             expect(store.update).not.toHaveBeenCalled();
+        })
+    );
+
+    it(
+        'should set open state to false when focus state changes to false',
+        fakeAsync(() => {
+            store.update('open', true);
+            store.update('focus', true);
+            tick();
+
+            store.update('focus', false);
+            tick();
+            expect(store.state.open).toBe(false);
         })
     );
 });

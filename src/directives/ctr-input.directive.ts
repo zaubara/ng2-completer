@@ -1,4 +1,16 @@
-import { Directive, ElementRef, EventEmitter, Host, HostListener, Input, Output, OnDestroy, ViewContainerRef, TemplateRef } from '@angular/core';
+import {
+    Directive,
+    ElementRef,
+    EventEmitter,
+    Host,
+    HostListener,
+    Input,
+    Output,
+    OnDestroy,
+    ViewContainerRef,
+    TemplateRef,
+    ChangeDetectorRef
+} from '@angular/core';
 import {
     ConnectedPositionStrategy,
     Overlay,
@@ -18,6 +30,7 @@ import { StoreService } from './../store/store.service';
 import { CompleterItem } from '../components/completer-item';
 import { CtrCompleter } from './ctr-completer';
 import { isNil } from '../globals';
+import { CompleterState } from './../store/completer-state';
 
 // keyboard events
 const KEY_DW = 40;
@@ -63,11 +76,20 @@ export class CtrInput implements OnDestroy {
 
     public ngOnDestroy() {
         this.subscription.unsubscribe();
+        if (this.overlayRef) {
+            this.overlayRef.dispose();
+        }
     }
 
     @HostListener('focus', [])
     public onfocus() {
+        console.log('onfocus');
         this.storeService.update('focus', true);
+    }
+
+    @HostListener('blur', [])
+    public onblur() {
+        this.storeService.update('focus', false);
     }
 
     private subscribeToState() {
@@ -76,38 +98,60 @@ export class CtrInput implements OnDestroy {
                 tap((states) => {
                     const prevState = states[0];
                     const newState = states[1];
-                    if (!prevState.open && newState.open) {
-                        this.openDropdown();
-                    }
+                    this.checkState(prevState, newState);
                 })
             )
                 .subscribe()
         );
     }
 
+    private checkState(prevState: CompleterState, newState: CompleterState) {
+        console.log('checkState', prevState.open, newState.open);
+        if (prevState.open !== newState.open) {
+            if (newState.open) {
+                this.openDropdown();
+            } else {
+                this.closeDropdown();
+            }
+        }
+    }
+
     private openDropdown() {
+
+        if (!this.overlayRef) {
+            this.createPortal();
+
+            const width = this.element.nativeElement.getBoundingClientRect().width;
+
+            const overlayConfig = new OverlayConfig({
+                direction: 'ltr',
+                positionStrategy: this.createOverlayPositionStrategy(),
+                scrollStrategy: this.overlay.scrollStrategies.reposition(),
+                width
+            });
+            this.overlayRef = this.overlay.create(overlayConfig);
+        }
+
+        this.overlayRef.attach(this.portal);
+    }
+
+    private closeDropdown() {
+        if (this.overlayRef && this.overlayRef.hasAttached()) {
+            const res = this.overlayRef.detach();
+        }
+    }
+
+    private createPortal() {
         this.portal = new TemplatePortal(
             this.storeService.state.templateRef as TemplateRef<any>,
             this.viewContainerRef
         );
+    }
 
-        const positionStrategy = this.overlay.position().connectedTo(
-            this.element,
-            { originX: 'start', originY: 'bottom' }, { overlayX: 'start', overlayY: 'top' })
-            .withFallbackPosition(
-            { originX: 'start', originY: 'top' }, { overlayX: 'start', overlayY: 'bottom' }
-            );
-
-        const width = this.element.nativeElement.getBoundingClientRect().width;
-
-        const overlayConfig = new OverlayConfig({
-            direction: 'ltr',
-            positionStrategy,
-            scrollStrategy: this.overlay.scrollStrategies.reposition(),
-            width
-        });
-        this.overlayRef = this.overlay.create(overlayConfig);
-        this.overlayRef.attach(this.portal);
+    private createOverlayPositionStrategy() {
+        return this.overlay.position()
+            .connectedTo(this.element, { originX: 'start', originY: 'bottom' }, { overlayX: 'start', overlayY: 'top' })
+            .withFallbackPosition({ originX: 'start', originY: 'top' }, { overlayX: 'start', overlayY: 'bottom' });
     }
 
     // private _searchStr = "";

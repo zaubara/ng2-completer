@@ -17,7 +17,8 @@ import { isNil } from '../globals';
 @Directive({
     selector: '[ctrDropdown]',
 })
-export class CtrDropdown implements CompleterDropdown, OnDestroy, AfterViewInit {
+// export class CtrDropdown implements CompleterDropdown, OnDestroy, AfterViewInit {
+export class CtrDropdown {
 
     // private rows: CtrRowItem[] = [];
     // private currHighlighted: CtrRowItem | undefined;

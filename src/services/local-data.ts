@@ -1,9 +1,9 @@
-import { EventEmitter } from "@angular/core";
-import { Observable } from "rxjs/Observable";
-import { catchError } from "rxjs/operators";
+import { EventEmitter } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { catchError } from 'rxjs/operators';
 
-import { CompleterBaseData } from "./completer-base-data";
-import { CompleterItem } from "../components/completer-item";
+import { CompleterBaseData } from './completer-base-data';
+import { CompleterItem } from '../components/completer-item';
 
 export class LocalData extends CompleterBaseData {
 

@@ -20,7 +20,8 @@ import { MIN_SEARCH_LENGTH, PAUSE, CLEAR_TIMEOUT, isNil } from '../globals';
 @Directive({
     selector: '[ctrList]',
 })
-export class CtrList implements OnInit, CompleterList {
+// export class CtrList implements OnInit, CompleterList {
+export class CtrList {
     @Input() public ctrListMinSearchLength = MIN_SEARCH_LENGTH;
     @Input() public ctrListPause = PAUSE;
     @Input() public ctrListAutoMatch = false;

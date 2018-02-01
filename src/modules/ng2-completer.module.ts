@@ -4,7 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { OverlayModule } from '@angular/cdk/overlay';
 
-import { CompleterCmp } from '../components/completer-cmp';
+import { CompleterComponent } from '../components/completer.component';
 import { CompleterListItemCmp } from '../components/completer-list-item-cmp';
 import { LocalDataFactory } from '../services/local-data-factory';
 import { RemoteDataFactory } from '../services/remote-data-factory';
@@ -31,7 +31,7 @@ const providers = [
         CtrInput,
         CtrList,
         CtrRow,
-        CompleterCmp,
+        CompleterComponent,
         CompleterContainerComponent
     ],
     exports: [
@@ -41,7 +41,7 @@ const providers = [
         CtrInput,
         CtrList,
         CtrRow,
-        CompleterCmp,
+        CompleterComponent,
         CompleterContainerComponent
     ],
     imports: [
