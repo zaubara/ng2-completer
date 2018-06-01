@@ -9,7 +9,6 @@ import { CompleterItem } from "./completer-item";
 import { MAX_CHARS, MIN_SEARCH_LENGTH, PAUSE, TEXT_SEARCHING, TEXT_NO_RESULTS, isNil } from "../globals";
 
 
-import "rxjs/add/operator/catch";
 
 const noop = () => { };
 

@@ -1,5 +1,6 @@
 import { Http, Response } from "@angular/http";
-import { Subject } from "rxjs/Subject";
+import { Subject } from "rxjs";
+import { map } from "rxjs/operators";
 
 import { CompleterData, CompleterItem } from "../src";
 
@@ -9,12 +10,12 @@ export class CustomData extends Subject<CompleterItem[]> implements CompleterDat
     }
     public search(term: string): void {
         this.http.get("http://mysafeinfo.com/api/data?list=seinfeldepisodes&format=json&nm=" + term + ",contains")
-            .map((res: Response) => {
+            .pipe(map((res: Response) => {
                 // Convert the result to CompleterItem[]
                 let data = res.json();
                 let matches: CompleterItem[] = data.map((episode: any) => this.convertToItem(episode));
                 this.next(matches);
-            })
+            }))
             .subscribe();
     }
 

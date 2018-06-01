@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { HttpModule } from "@angular/http";
 import { FormsModule } from "@angular/forms";
-import { MdInputModule, MdListModule } from "@angular/material";
+import { MatInputModule, MatListModule } from "@angular/material";
 import { BrowserModule } from "@angular/platform-browser";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { CollapseModule } from "ng2-bootstrap/collapse";
@@ -19,8 +19,8 @@ import { CompleterCmpMd } from "./completer-cmp-md";
     BrowserModule,
     BrowserAnimationsModule,
     Ng2CompleterModule,
-    MdInputModule,
-    MdListModule,
+    MatInputModule,
+    MatListModule,
     FormsModule,
     HttpModule,
     routing,

@@ -6,7 +6,6 @@ import { CtrCompleter, CompleterData, CompleterItem } from "../src";
 import { MAX_CHARS, MIN_SEARCH_LENGTH, PAUSE, TEXT_SEARCHING, TEXT_NO_RESULTS } from "../src/globals";
 
 
-import "rxjs/add/operator/catch";
 
 
 const noop = () => { };

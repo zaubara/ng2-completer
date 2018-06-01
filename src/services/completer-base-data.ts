@@ -1,4 +1,4 @@
-import { Subject } from "rxjs/Subject";
+import { Subject } from "rxjs";
 
 import { CompleterItem } from "../components/completer-item";
 import { CompleterData } from "./completer-data";

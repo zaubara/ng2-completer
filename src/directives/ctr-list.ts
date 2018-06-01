@@ -1,9 +1,5 @@
-import "rxjs/add/observable/timer";
 import { ChangeDetectorRef, Directive, EmbeddedViewRef, Host, Input, OnInit, TemplateRef, ViewContainerRef } from "@angular/core";
-import { Observable } from "rxjs/Observable";
-import { Subscription } from "rxjs/Subscription";
-import "rxjs/add/operator/retryWhen";
-import "rxjs/add/operator/do";
+import { Subscription, timer } from "rxjs";
 
 import { CtrCompleter, CompleterList } from "./ctr-completer";
 import { CompleterData } from "../services/completer-data";
@@ -91,7 +87,7 @@ export class CtrList implements OnInit, CompleterList {
             if (this.clearTimer) {
                 this.clearTimer.unsubscribe();
             }
-            this.searchTimer = Observable.timer(this.ctrListPause).subscribe(() => {
+            this.searchTimer = timer(this.ctrListPause).subscribe(() => {
                 this.searchTimerComplete(term);
             });
         } else if (!isNil(term) && term.length < this.ctrListMinSearchLength) {
@@ -104,7 +100,7 @@ export class CtrList implements OnInit, CompleterList {
         if (this.searchTimer) {
             this.searchTimer.unsubscribe();
         }
-        this.clearTimer = Observable.timer(CLEAR_TIMEOUT).subscribe(() => {
+        this.clearTimer = timer(CLEAR_TIMEOUT).subscribe(() => {
             this._clear();
         });
     }
@@ -183,34 +179,36 @@ export class CtrList implements OnInit, CompleterList {
     private dataServiceSubscribe() {
         if (this._dataService) {
             this._dataService
-                .catch(err => {
-                    console.error(err);
-                    console.error("Unexpected error in dataService: errors should be handled by the dataService Observable");
-                    return [];
-                })
-                .subscribe(results => {
-                    this.ctx.searchInitialized = true;
-                    this.ctx.searching = false;
-                    this.ctx.results = results;
+                .subscribe(
+                    (results: any) => {
+                        this.ctx.searchInitialized = true;
+                        this.ctx.searching = false;
+                        this.ctx.results = results;
 
-                    if (this.ctrListAutoMatch && results && results.length === 1 && results[0].title && !isNil(this.term) &&
-                        results[0].title.toLocaleLowerCase() === this.term!.toLocaleLowerCase()) {
-                        // Do automatch
-                        this.completer.onSelected(results[0]);
-                        return;
+                        if (this.ctrListAutoMatch && results && results.length === 1 && results[0].title && !isNil(this.term) &&
+                            results[0].title.toLocaleLowerCase() === this.term!.toLocaleLowerCase()) {
+                            // Do automatch
+                            this.completer.onSelected(results[0]);
+                            return;
+                        }
+
+                        if (this._initialValue) {
+                            this.initialValue = this._initialValue;
+                            this._initialValue = null;
+                        }
+
+                        this.refreshTemplate();
+
+                        if (this.ctrListAutoHighlight) {
+                            this.completer.autoHighlightIndex = this.getBestMatchIndex();
+                        }
+                    },
+                    (error: any) => {
+                        console.error(error);
+                        console.error("Unexpected error in dataService: errors should be handled by the dataService Observable");
+                        return [];
                     }
-
-                    if (this._initialValue) {
-                        this.initialValue = this._initialValue;
-                        this._initialValue = null;
-                    }
-
-                    this.refreshTemplate();
-
-                    if (this.ctrListAutoHighlight) {
-                        this.completer.autoHighlightIndex = this.getBestMatchIndex();
-                    }
-                });
+                );
 
             if (this._dataService.dataSourceChange) {
                 this._dataService.dataSourceChange.subscribe(() => {

@@ -1,9 +1,9 @@
 import { Injectable, EventEmitter } from "@angular/core";
-import { Observable } from "rxjs/Observable";
-import "rxjs/add/operator/catch";
+import { Observable } from "rxjs";
 
 import { CompleterBaseData } from "./completer-base-data";
 import { CompleterItem } from "../components/completer-item";
+import { catchError } from "rxjs/operators";
 
 @Injectable()
 export class LocalData extends CompleterBaseData {
@@ -21,7 +21,7 @@ export class LocalData extends CompleterBaseData {
         if (data instanceof Observable) {
             const data$ = <Observable<any[]>>data;
             data$
-                .catch(() => [])
+                .pipe(catchError(() => []))
                 .subscribe((res) => {
                     this._data = res;
                     if (this.savedTerm) {
