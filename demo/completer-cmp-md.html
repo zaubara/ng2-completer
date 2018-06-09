@@ -1,9 +1,9 @@
 <div class="completer-holder" ctrCompleter>
-    <mat-input-container class="completer-input">
+    <mat-form-field class="completer-input">
         <input matInput ctrInput="clearSelected=clearSelected; overrideSuggested=overrideSuggested; fillHighlighted=fillHighlighted" [(ngModel)]="searchStr" 
             [attr.name]="inputName" [attr.maxlength]="maxChars" [tabindex]="fieldTabindex" [disabled]="disableInput" (blur)="onBlur()" [placeholder]="placeholder"
             autocomplete="off" autocorrect="off" autocapitalize="off">
-    </mat-input-container>
+    </mat-form-field>
 
     <div class="completer-dropdown-holder" *ctrList="dataService; minSearchLength: minSearchLength; pause: pause; autoMatch: autoMatch; let items = results; let searchActive = searching; let isInitialized = searchInitialized;">
         <mat-list class="completer-dropdown" ctrDropdown *ngIf="isInitialized">

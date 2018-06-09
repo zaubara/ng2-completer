@@ -4,7 +4,7 @@ import { FormsModule } from "@angular/forms";
 import { MatInputModule, MatListModule } from "@angular/material";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { CollapseModule } from "ng2-bootstrap/collapse";
+import { CollapseModule } from "ngx-bootstrap/collapse";
 
 import { AppComponent } from "./app-cmp";
 import { MaterialCmp } from "./material-cmp";

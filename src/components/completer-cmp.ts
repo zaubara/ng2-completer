@@ -127,7 +127,7 @@ const COMPLETER_CONTROL_VALUE_ACCESSOR = {
     providers: [COMPLETER_CONTROL_VALUE_ACCESSOR]
 })
 export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChecked, AfterViewInit {
-    @Input() public dataService: CompleterData;
+    @Input() public dataService: CompleterData | undefined;
     @Input() public inputName = "";
     @Input() public inputId: string = "";
     @Input() public pause = PAUSE;
@@ -138,11 +138,11 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
     @Input() public clearUnselected = false;
     @Input() public fillHighlighted = true;
     @Input() public placeholder = "";
-    @Input() public matchClass: string;
-    @Input() public fieldTabindex: number;
+    @Input() public matchClass: string | undefined;
+    @Input() public fieldTabindex: number | undefined;
     @Input() public autoMatch = false;
     @Input() public disableInput = false;
-    @Input() public inputClass: string;
+    @Input() public inputClass: string | undefined;
     @Input() public autofocus = false;
     @Input() public openOnFocus = false;
     @Input() public openOnClick = false;
@@ -160,8 +160,8 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
     @Output() public keyup: EventEmitter<any> = new EventEmitter();
     @Output() public keydown: EventEmitter<any> = new EventEmitter();
 
-    @ViewChild(CtrCompleter) public completer: CtrCompleter;
-    @ViewChild("ctrInput") public ctrInput: ElementRef;
+    @ViewChild(CtrCompleter) public completer: CtrCompleter | undefined;
+    @ViewChild("ctrInput") public ctrInput: ElementRef | undefined;
 
     public control = new FormControl("");
     public displaySearching = true;
@@ -209,8 +209,10 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
         if (this._focus) {
             setTimeout(
                 () => {
-                    this.ctrInput.nativeElement.focus();
-                    this._focus = false;
+                    if (!!this.ctrInput) {
+                        this.ctrInput.nativeElement.focus();
+                        this._focus = false;
+                    }
                 },
                 0
             );
@@ -267,6 +269,11 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
     }
 
     public ngOnInit() {
+
+        if (!this.completer) {
+            return;
+        }
+
         this.completer.selected.subscribe((item: CompleterItem) => {
             this.selected.emit(item);
         });
@@ -310,10 +317,18 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
     }
 
     public open() {
+        if (!this.completer) {
+            return;
+        }
+
         this.completer.open();
     }
 
     public close() {
+        if (!this.completer) {
+            return;
+        }
+
         this.completer.clear();
     }
 
