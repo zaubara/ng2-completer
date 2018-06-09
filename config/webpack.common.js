@@ -33,11 +33,6 @@ module.exports = {
                 exclude: helpers.root('demo/index.html'),
                 loader: 'html-loader'
             },
-            // {
-            //     test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
-            //     loader: 'file-loader?name=assets/[name].[hash].[ext]',
-            //     include: helpers.root('demo', 'res'),
-            // },
             {
                 test: /\.css$/,
                 exclude: [helpers.root('demo'), helpers.root('src')],

@@ -1,19 +1,17 @@
-import { Http, Response } from "@angular/http";
+import { HttpClient } from "@angular/common/http";
 import { Subject } from "rxjs";
 import { map } from "rxjs/operators";
 
-import { CompleterData, CompleterItem } from "../src";
+import { CompleterData, CompleterItem } from "../src/ng2-completer";
 
 export class CustomData extends Subject<CompleterItem[]> implements CompleterData {
-    constructor(private http: Http) {
+    constructor(private http: HttpClient) {
         super();
     }
     public search(term: string): void {
         this.http.get("http://mysafeinfo.com/api/data?list=seinfeldepisodes&format=json&nm=" + term + ",contains")
-            .pipe(map((res: Response) => {
-                // Convert the result to CompleterItem[]
-                let data = res.json();
-                let matches: CompleterItem[] = data.map((episode: any) => this.convertToItem(episode));
+            .pipe(map(data => {
+                let matches = (<Array<any>>data).map((episode: any) => this.convertToItem(episode)).filter(episode => !!episode) as CompleterItem[];
                 this.next(matches);
             }))
             .subscribe();

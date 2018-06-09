@@ -1,5 +1,5 @@
 "use strict";
-import {Component, Input, OnInit} from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 
 export interface MatchPart {
     isMatch: boolean;
@@ -8,8 +8,8 @@ export interface MatchPart {
 
 @Component({
     selector: "completer-list-item",
-    template: `<span class="completer-list-item-holder" [ngClass]="{'completer-title': type === 'title', 'completer-description': type === 'description'}" >
-        <span class="completer-list-item" *ngFor="let part of parts" [ngClass]="part.isMatch ? matchClass : null">{{part.text}}</span>
+    template: `<span class="completer-list-item-holder" [ngClass]= "{'completer-title': type === 'title', 'completer-description': type === 'description'}" >
+        <span class="completer-list-item" *ngFor="let part of parts" [ngClass]= "part.isMatch ? matchClass : null">{{part.text}}</span>
     </span>`
 })
 export class CompleterListItemCmp implements OnInit {
@@ -41,7 +41,7 @@ export class CompleterListItemCmp implements OnInit {
             matchPos = matchStr.indexOf(this.searchStr.toLowerCase(), startIndex);
         }
         if (startIndex < this.text.length) {
-             this.parts.push({ isMatch: false, text: this.text.slice(startIndex, this.text.length) });
+            this.parts.push({ isMatch: false, text: this.text.slice(startIndex, this.text.length) });
         }
     }
 }

@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Directive, EmbeddedViewRef, Host, Input, OnInit, TemplateRef, ViewContainerRef } from "@angular/core";
 import { Subscription, timer } from "rxjs";
+import { take } from "rxjs/operators";
 
 import { CtrCompleter, CompleterList } from "./ctr-completer";
 import { CompleterData } from "../services/completer-data";
@@ -26,7 +27,7 @@ export class CtrList implements OnInit, CompleterList {
     @Input() public ctrListAutoHighlight = false;
     @Input() public ctrListDisplaySearching = true;
 
-    private _dataService: CompleterData;
+    private _dataService: CompleterData | null = null;
     // private results: CompleterItem[] = [];
     private term: string | null = null;
     // private searching = false;
@@ -60,7 +61,7 @@ export class CtrList implements OnInit, CompleterList {
     public set initialValue(value: any) {
         if (this._dataService && typeof this._dataService.convertToItem === "function") {
             setTimeout(() => {
-                const initialItem = this._dataService.convertToItem!(value);
+                const initialItem = this._dataService && this._dataService.convertToItem!(value);
                 if (initialItem) {
                     this.completer.onSelected(initialItem, false);
                 }
@@ -87,7 +88,7 @@ export class CtrList implements OnInit, CompleterList {
             if (this.clearTimer) {
                 this.clearTimer.unsubscribe();
             }
-            this.searchTimer = timer(this.ctrListPause).subscribe(() => {
+            this.searchTimer = timer(this.ctrListPause).pipe(take(1)).subscribe(() => {
                 this.searchTimerComplete(term);
             });
         } else if (!isNil(term) && term.length < this.ctrListMinSearchLength) {
@@ -100,7 +101,7 @@ export class CtrList implements OnInit, CompleterList {
         if (this.searchTimer) {
             this.searchTimer.unsubscribe();
         }
-        this.clearTimer = timer(CLEAR_TIMEOUT).subscribe(() => {
+        this.clearTimer = timer(CLEAR_TIMEOUT).pipe(take(1)).subscribe(() => {
             this._clear();
         });
     }
@@ -136,7 +137,10 @@ export class CtrList implements OnInit, CompleterList {
             return;
         }
         this.term = term;
-        this._dataService.search(term);
+
+        if (this._dataService) {
+            this._dataService.search(term);
+        }
     }
 
     private refreshTemplate() {
@@ -179,30 +183,18 @@ export class CtrList implements OnInit, CompleterList {
     private dataServiceSubscribe() {
         if (this._dataService) {
             this._dataService
-                .subscribe(
-                    (results: any) => {
-                        this.ctx.searchInitialized = true;
-                        this.ctx.searching = false;
-                        this.ctx.results = results;
+                .subscribe(results => {
+                    this.ctx.searchInitialized = true;
+                    this.ctx.searching = false;
+                    this.ctx.results = results;
 
-                        if (this.ctrListAutoMatch && results && results.length === 1 && results[0].title && !isNil(this.term) &&
-                            results[0].title.toLocaleLowerCase() === this.term!.toLocaleLowerCase()) {
-                            // Do automatch
-                            this.completer.onSelected(results[0]);
-                            return;
-                        }
-
-                        if (this._initialValue) {
-                            this.initialValue = this._initialValue;
-                            this._initialValue = null;
-                        }
-
-                        this.refreshTemplate();
-
-                        if (this.ctrListAutoHighlight) {
-                            this.completer.autoHighlightIndex = this.getBestMatchIndex();
-                        }
-                    },
+                    if (this.ctrListAutoMatch && results && results.length === 1 && results[0].title && !isNil(this.term) &&
+                        results[0].title.toLocaleLowerCase() === this.term!.toLocaleLowerCase()) {
+                        // Do automatch
+                        this.completer.onSelected(results[0]);
+                        return;
+                    }
+                },
                     (error: any) => {
                         console.error(error);
                         console.error("Unexpected error in dataService: errors should be handled by the dataService Observable");
