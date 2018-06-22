@@ -1,6 +1,24 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.0.7 (2018-06-22)
+Release Ver 2 final
+
+## 2.0.6 (2017-12-01)
+
+Library structure and build now uses [angular-library-starter](https://github.com/robisim74/angular-library-starter)
+
+### Breaking changes
+ - Angular version support changed to 5.x.x
+ - Use rxjs 5.5.x lettable operators
+
+## 2.0.0 (2017-09-24)
+
+### Breaking changes
+- Use Angular 4 `HttpClient`
+- Removed `RemoteData.headers` method. Use `RemoteData.requestOptions({headers: HttpHeaders})` instead.
+
+
 ## 1.6.3 (2017-09-01)
 
 ### Fixed bugs
