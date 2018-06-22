@@ -1,5 +1,5 @@
 import { EventEmitter } from "@angular/core";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 import { catchError } from "rxjs/operators";
 
 import { CompleterBaseData } from "./completer-base-data";
@@ -9,8 +9,8 @@ export class LocalData extends CompleterBaseData {
 
     public dataSourceChange: EventEmitter<void> = new EventEmitter<void>();
 
-    protected _data: any[];
-    protected savedTerm: string | null;
+    protected _data: any[] = [];
+    protected savedTerm: string | null = null;
 
     constructor() {
         super();

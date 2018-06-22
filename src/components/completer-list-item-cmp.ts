@@ -13,10 +13,14 @@ export interface MatchPart {
     </span>`
 })
 export class CompleterListItemCmp implements OnInit {
-    @Input() public text: string;
-    @Input() public searchStr: string;
-    @Input() public matchClass: string;
-    @Input() public type: string;
+    @Input()
+    public text: string = "";
+    @Input()
+    public searchStr: string = "";
+    @Input()
+    public matchClass: string = "";
+    @Input()
+    public type: string = "";
 
     public parts: MatchPart[] = [];
     public ngOnInit() {

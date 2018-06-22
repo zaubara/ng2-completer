@@ -1,7 +1,6 @@
 import { Directive, ElementRef, EventEmitter, Host, HostListener, Input, Output } from "@angular/core";
 import { NgModel } from "@angular/forms";
-import { Subscription } from "rxjs/Subscription";
-import { timer } from "rxjs/observable/timer";
+import { Subscription, timer } from "rxjs";
 import { take } from "rxjs/operators";
 
 import { CompleterItem } from "../components/completer-item";

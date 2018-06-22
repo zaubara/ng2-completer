@@ -8,7 +8,7 @@ import { isNil } from "../globals";
 export interface CtrRowElement {
     setHighlighted(selected: boolean): void;
     getNativeElement(): any;
-    getDataItem(): CompleterItem;
+    getDataItem(): CompleterItem | null;
 }
 
 export class CtrRowItem {
@@ -22,7 +22,7 @@ export class CtrDropdown implements CompleterDropdown, OnDestroy, AfterViewInit 
 
     private rows: CtrRowItem[] = [];
     private currHighlighted: CtrRowItem | undefined;
-    private isScrollOn: boolean;
+    private isScrollOn: boolean = false;
     private _rowMouseDown: boolean = false;
 
     constructor( @Host() private completer: CtrCompleter, private el: ElementRef) {
@@ -129,7 +129,7 @@ export class CtrDropdown implements CompleterDropdown, OnDestroy, AfterViewInit 
         this.rows = [];
     }
 
-    public onSelected(item: CompleterItem) {
+    public onSelected(item: CompleterItem | null) {
         this.completer.onSelected(item);
     }
 
@@ -138,7 +138,7 @@ export class CtrDropdown implements CompleterDropdown, OnDestroy, AfterViewInit 
     }
 
     public selectCurrent() {
-        if (this.currHighlighted) {
+        if (!!this.currHighlighted && !!this.currHighlighted.row) {
             this.onSelected(this.currHighlighted.row.getDataItem());
         } else if (this.rows.length > 0) {
             this.onSelected(this.rows[0].row.getDataItem());

@@ -6,7 +6,6 @@ import { CtrCompleter, CompleterData, CompleterItem } from "../src/ng2-completer
 import { MAX_CHARS, MIN_SEARCH_LENGTH, PAUSE, TEXT_SEARCHING, TEXT_NO_RESULTS } from "../src/globals";
 
 
-import "rxjs/add/operator/catch";
 
 
 const noop = () => { };
@@ -25,7 +24,7 @@ const COMPLETER_CONTROL_VALUE_ACCESSOR = {
     providers: [COMPLETER_CONTROL_VALUE_ACCESSOR]
 })
 export class CompleterCmpMd implements OnInit, ControlValueAccessor {
-    @Input() public dataService: CompleterData;
+    @Input() public dataService: CompleterData | undefined;
     @Input() public inputName = "";
     @Input() public pause = PAUSE;
     @Input() public minSearchLength = MIN_SEARCH_LENGTH;
@@ -34,10 +33,10 @@ export class CompleterCmpMd implements OnInit, ControlValueAccessor {
     @Input() public fillHighlighted = true;
     @Input() public clearSelected = false;
     @Input() public placeholder = "";
-    @Input() public matchClass: string;
+    @Input() public matchClass: string | undefined;
     @Input() public textSearching = TEXT_SEARCHING;
     @Input() public textNoResults = TEXT_NO_RESULTS;
-    @Input() public fieldTabindex: number;
+    @Input() public fieldTabindex: number | undefined;
     @Input() public autoMatch = false;
     @Input() public disableInput = false;
     @Output() public selected = new EventEmitter<CompleterItem>();
@@ -47,7 +46,7 @@ export class CompleterCmpMd implements OnInit, ControlValueAccessor {
     public displaySearching = true;
     public searchStr = "";
 
-    @ViewChild(CtrCompleter) private completer: CtrCompleter;
+    @ViewChild(CtrCompleter) private completer: CtrCompleter | undefined;
 
     private _onTouchedCallback: () => void = noop;
     private _onChangeCallback: (_: any) => void = noop;
@@ -80,6 +79,10 @@ export class CompleterCmpMd implements OnInit, ControlValueAccessor {
     }
 
     public ngOnInit() {
+        if (!this.completer) {
+            return;
+        }
+
         this.completer.selected.subscribe((item: CompleterItem) => {
             this.selected.emit(item);
             if (item) {

@@ -18,7 +18,7 @@ module.exports = {
     },
 
     module: {
-        loaders: [
+        rules: [
             {
                 test: /\.ts$/,
                 loaders: [
@@ -49,7 +49,9 @@ module.exports = {
     plugins: [
         // Workaround for angular/angular#11580
         new webpack.ContextReplacementPlugin(
-            /angular(\\|\/)core(\\|\/)(@angular|esm5)/,
+            // The (\\|\/) piece accounts for path separators in *nix and Windows
+            // /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
+            /(.+)?angular(\\|\/)core(.+)?/,
             helpers.root('./demo'), // location of your src
             {} // a map of your routes
         ),
@@ -58,9 +60,9 @@ module.exports = {
             ENV: JSON.stringify(process.env.NODE_ENV)
         }),
 
-        new webpack.optimize.CommonsChunkPlugin({
+        /*new webpack.optimize.CommonsChunkPlugin({
             name: ['app', 'vendor', 'polyfills']
-        }),
+        }),*/
 
         new HtmlWebpackPlugin({
             template: `demo/index.html`,

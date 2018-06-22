@@ -1,16 +1,17 @@
 import { EventEmitter } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { Subscription } from "rxjs/Subscription";
+import { Subscription } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 
 import { CompleterBaseData } from "./completer-base-data";
 import { CompleterItem } from "../components/completer-item";
+import { RequestOptions } from "@angular/http";
 
 export class RemoteData extends CompleterBaseData {
     public dataSourceChange: EventEmitter<void> = new EventEmitter<void>();
 
-    private _remoteUrl: string | null;
-    private remoteSearch: Subscription;
+    private _remoteUrl: string | null = null;
+    private remoteSearch: Subscription | null = null;
     private _urlFormater: ((term: string) => string) | null = null;
     private _dataField: string | null = null;
     private _requestOptions: any;

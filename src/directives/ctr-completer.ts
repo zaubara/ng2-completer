@@ -26,13 +26,13 @@ export class CtrCompleter {
     @Output() public opened = new EventEmitter<boolean>();
     @Output() public dataSourceChange = new EventEmitter<void>();
 
-    private list: CompleterList;
-    private dropdown: CompleterDropdown | null;
+    private list: CompleterList | null = null;
+    private dropdown: CompleterDropdown | null = null;
     private _hasHighlighted = false;
     private _hasSelected = false;
     private _cancelBlur = false;
     private _isOpen = false;
-    private _autoHighlightIndex: number | null;
+    private _autoHighlightIndex: number | null = null;
 
     public registerList(list: CompleterList) {
         this.list = list;
@@ -47,7 +47,7 @@ export class CtrCompleter {
         this._hasHighlighted = !!item;
     }
 
-    public onSelected(item: CompleterItem, clearList = true) {
+    public onSelected(item: CompleterItem | null, clearList = true) {
         this.selected.emit(item);
         if (item) {
             this._hasSelected = true;
@@ -119,7 +119,7 @@ export class CtrCompleter {
     }
 
     public open() {
-        if (!this._isOpen) {
+        if (!this._isOpen && !!this.list) {
             this.isOpen = true;
             this.list.open();
         }

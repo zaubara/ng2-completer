@@ -1,8 +1,7 @@
 "use strict";
 import { Component, ViewChild } from "@angular/core";
 
-import { Observable } from "rxjs/Observable";
-import { from } from "rxjs/observable/from";
+import { Observable, from } from "rxjs";
 
 import {
     CompleterCmp,
@@ -13,6 +12,7 @@ import {
 } from "../src/ng2-completer";
 import { CustomData } from "./custom-data";
 import { HttpClient } from "@angular/common/http";
+import { delay } from "rxjs/operators";
 
 let template = require("./native-cmp.html");
 let style = require("./native-cmp.css");
@@ -81,8 +81,8 @@ export class NativeCmp {
     public customData: CustomData;
     public isOpen: boolean = false;
 
-    @ViewChild("openCloseExample") private openCloseExample: CompleterCmp;
-    @ViewChild("remoteDataExample") private remoteDataExample: CompleterCmp;
+    @ViewChild("openCloseExample") private openCloseExample: CompleterCmp | undefined;
+    @ViewChild("remoteDataExample") private remoteDataExample: CompleterCmp | undefined;
 
     constructor(completerService: CompleterService, http: HttpClient) {
         this.dataService = completerService.local(this.countries, "name", "name").imageField("flag");
@@ -101,14 +101,14 @@ export class NativeCmp {
         this.dataRemote2.dataField("results");
         // For async local the source can also be HTTP request
         // let source = http.get("https://raw.githubusercontent.com/oferh/ng2-completer/master/demo/res/data/countries.json?").map((res: any) => res.json());
-        const source = from([this.countries]).delay(3000);
+        let source = from([this.countries]).pipe(delay(3000));
         this.dataService3 = completerService.local(source, "name", "name");
         this.customData = new CustomData(http);
         this.dataService4 = completerService.local(this.colors, null, null);
     }
 
     public onCountrySelected(selected: CompleterItem) {
-        if (selected) {
+        if (selected && !!this.remoteDataExample) {
             this.countryName2 = selected.title;
             this.remoteDataExample.blur();
         } else {
@@ -129,6 +129,10 @@ export class NativeCmp {
     }
 
     public onToggle() {
+        if (!this.openCloseExample) {
+            return;
+        }
+
         if (this.isOpen) {
             this.openCloseExample.close();
         } else {
@@ -138,6 +142,10 @@ export class NativeCmp {
     }
 
     public onFocus() {
+        if (!this.openCloseExample) {
+            return;
+        }
+
         this.openCloseExample.focus();
     }
 }

@@ -1,4 +1,4 @@
-import { Subject } from "rxjs/Subject";
+import { Subject } from "rxjs";
 
 import { CompleterItem } from "../components/completer-item";
 import { CompleterData } from "./completer-data";
@@ -6,10 +6,10 @@ import { isNil } from "../globals";
 
 export abstract class CompleterBaseData extends Subject<CompleterItem[] | null> implements CompleterData {
 
-    protected _searchFields: string | null;
-    protected _titleField: string | null;
-    protected _descriptionField: string;
-    protected _imageField: string;
+    protected _searchFields: string | null = null;
+    protected _titleField: string | null = null;
+    protected _descriptionField: string | undefined = undefined;
+    protected _imageField: string | undefined = undefined;
 
     constructor() {
         super();

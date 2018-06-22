@@ -9,8 +9,8 @@ import { CtrDropdown, CtrRowElement, CtrRowItem } from "./ctr-dropdown";
 export class CtrRow implements CtrRowElement, OnDestroy {
 
     private selected = false;
-    private _rowIndex: number;
-    private _item: CompleterItem;
+    private _rowIndex: number = 0;
+    private _item: CompleterItem | null = null;
 
     constructor(private el: ElementRef, private renderer: Renderer, @Host() private dropdown: CtrDropdown) { }
 

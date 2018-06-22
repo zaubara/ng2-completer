@@ -1,7 +1,6 @@
 import { ChangeDetectorRef, Directive, EmbeddedViewRef, Host, Input, OnInit, TemplateRef, ViewContainerRef } from "@angular/core";
-import { Subscription } from "rxjs/Subscription";
-import { timer } from "rxjs/observable/timer";
-import { catchError, take } from "rxjs/operators";
+import { Subscription, timer } from "rxjs";
+import { take } from "rxjs/operators";
 
 import { CtrCompleter, CompleterList } from "./ctr-completer";
 import { CompleterData } from "../services/completer-data";
@@ -28,7 +27,7 @@ export class CtrList implements OnInit, CompleterList {
     @Input() public ctrListAutoHighlight = false;
     @Input() public ctrListDisplaySearching = true;
 
-    private _dataService: CompleterData;
+    private _dataService: CompleterData | null = null;
     // private results: CompleterItem[] = [];
     private term: string | null = null;
     // private searching = false;
@@ -62,7 +61,7 @@ export class CtrList implements OnInit, CompleterList {
     public set initialValue(value: any) {
         if (this._dataService && typeof this._dataService.convertToItem === "function") {
             setTimeout(() => {
-                const initialItem = this._dataService.convertToItem!(value);
+                const initialItem = this._dataService && this._dataService.convertToItem!(value);
                 if (initialItem) {
                     this.completer.onSelected(initialItem, false);
                 }
@@ -138,7 +137,10 @@ export class CtrList implements OnInit, CompleterList {
             return;
         }
         this.term = term;
-        this._dataService.search(term);
+
+        if (this._dataService) {
+            this._dataService.search(term);
+        }
     }
 
     private refreshTemplate() {
@@ -180,13 +182,7 @@ export class CtrList implements OnInit, CompleterList {
 
     private dataServiceSubscribe() {
         if (this._dataService) {
-            this._dataService.pipe(
-                catchError(err => {
-                    console.error(err);
-                    console.error("Unexpected error in dataService: errors should be handled by the dataService Observable");
-                    return [];
-                })
-            )
+            this._dataService
                 .subscribe(results => {
                     this.ctx.searchInitialized = true;
                     this.ctx.searching = false;
@@ -198,18 +194,13 @@ export class CtrList implements OnInit, CompleterList {
                         this.completer.onSelected(results[0]);
                         return;
                     }
-
-                    if (this._initialValue) {
-                        this.initialValue = this._initialValue;
-                        this._initialValue = null;
+                },
+                    (error: any) => {
+                        console.error(error);
+                        console.error("Unexpected error in dataService: errors should be handled by the dataService Observable");
+                        return [];
                     }
-
-                    this.refreshTemplate();
-
-                    if (this.ctrListAutoHighlight) {
-                        this.completer.autoHighlightIndex = this.getBestMatchIndex();
-                    }
-                });
+                );
 
             if (this._dataService.dataSourceChange) {
                 this._dataService.dataSourceChange.subscribe(() => {
