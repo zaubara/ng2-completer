@@ -28,6 +28,7 @@ const globals = {
     'rxjs/Subject': 'Rx',
     'rxjs/operators': 'Rx.Observable.prototype',
     'rxjs/observable/timer': 'Rx.Observable',
+    'rxjs/add/operator/catch': 'Rx.Observable.prototype',
 };
 
 export default {

@@ -1,6 +1,9 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 2.0.8 (2018-06-22)
+Fix issue with Observable relative link in package
+
 ## 2.0.7 (2018-06-22)
 Release Ver 2 final
 
