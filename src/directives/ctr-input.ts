@@ -1,7 +1,6 @@
 import { Directive, ElementRef, EventEmitter, Host, HostListener, Input, Output } from "@angular/core";
 import { NgModel } from "@angular/forms";
-import { Subscription } from "rxjs/Subscription";
-import { timer } from "rxjs/observable/timer";
+import { Subscription, timer } from "rxjs";
 import { take } from "rxjs/operators";
 
 import { CompleterItem } from "../components/completer-item";
@@ -72,7 +71,7 @@ export class CtrInput {
         });
 
         if (this.ngModel.valueChanges) {
-            this.ngModel.valueChanges.subscribe(value => {
+            this.ngModel.valueChanges.subscribe((value: any) => {
                 if (!isNil(value) && this._displayStr !== value) {
                     if (this.searchStr !== value) {
                         this.completer.search(value);

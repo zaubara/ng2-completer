@@ -1,6 +1,5 @@
 import { ChangeDetectorRef, Directive, EmbeddedViewRef, Host, Input, OnInit, TemplateRef, ViewContainerRef } from "@angular/core";
-import { Subscription } from "rxjs/Subscription";
-import { timer } from "rxjs/observable/timer";
+import { Subscription, timer } from "rxjs";
 import { catchError, take } from "rxjs/operators";
 
 import { CtrCompleter, CompleterList } from "./ctr-completer";

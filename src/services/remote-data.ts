@@ -1,6 +1,6 @@
 import { EventEmitter } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { Subscription } from "rxjs/Subscription";
+import { Subscription } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 
 import { CompleterBaseData } from "./completer-base-data";

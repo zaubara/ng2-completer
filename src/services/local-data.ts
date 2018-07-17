@@ -1,5 +1,5 @@
 import { EventEmitter } from "@angular/core";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 import { catchError } from "rxjs/operators";
 
 import { CompleterBaseData } from "./completer-base-data";

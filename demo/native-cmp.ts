@@ -1,8 +1,8 @@
 "use strict";
 import { Component, ViewChild } from "@angular/core";
 
-import { Observable } from "rxjs/Observable";
-import { from } from "rxjs/observable/from";
+import { from } from "rxjs";
+import { delay } from "rxjs/operators";
 
 import {
     CompleterCmp,
@@ -101,7 +101,7 @@ export class NativeCmp {
         this.dataRemote2.dataField("results");
         // For async local the source can also be HTTP request
         // let source = http.get("https://raw.githubusercontent.com/oferh/ng2-completer/master/demo/res/data/countries.json?").map((res: any) => res.json());
-        const source = from([this.countries]).delay(3000);
+        const source = from([this.countries]).pipe(delay(3000));
         this.dataService3 = completerService.local(source, "name", "name");
         this.customData = new CustomData(http);
         this.dataService4 = completerService.local(this.colors, null, null);
