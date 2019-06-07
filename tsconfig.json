@@ -4,6 +4,7 @@
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "strict": true,
+        "strictPropertyInitialization": false,
         "module": "commonjs",
         "moduleResolution": "node",
         "rootDir": ".",
@@ -16,7 +17,7 @@
             "dom"
         ],
         "typeRoots": [
-            "./node_modules/@types/"
+            "node_modules/@types/"
         ]
     },
     "exclude": [

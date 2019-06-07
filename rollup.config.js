@@ -17,18 +17,14 @@ import sourcemaps from 'rollup-plugin-sourcemaps';
  *      or for lettable operators:
  *      e.g. import { map } from 'rxjs/operators'; => 'rxjs/operators': 'Rx.Observable.prototype'
  */
+
 const globals = {
     '@angular/core': 'ng.core',
     '@angular/common': 'ng.common',
     '@angular/common/http': 'ng.common.http',
     '@angular/forms': 'ng.forms',
-    'rxjs/Observable': 'Rx',
-    'rxjs/Rx': 'Rx',
-    'rxjs/Subject': 'Rx',
-    'rxjs/Subject': 'Rx',
-    'rxjs/operators': 'Rx.Observable.prototype',
-    'rxjs/observable/timer': 'Rx.Observable',
-    'rxjs/add/operator/catch': 'Rx.Observable.prototype',
+    'rxjs': 'rxjs',
+    'rxjs/operators': 'rxjs.operators'
 };
 
 export default {
@@ -40,6 +36,7 @@ export default {
         name: 'ng2.completer',
         globals: globals,
         sourcemap: true,
-        exports: 'named'
+        exports: 'named',
+        amd: { id: 'ng2.completer' }
     }
 }

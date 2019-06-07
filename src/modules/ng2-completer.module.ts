@@ -1,6 +1,7 @@
 import { NgModule, ModuleWithProviders } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
+import { HttpClientModule } from '@angular/common/http';
 
 import { CompleterCmp } from "../components/completer-cmp";
 import { CompleterListItemCmp } from "../components/completer-list-item-cmp";
@@ -41,7 +42,8 @@ const providers = [
     ],
     imports: [
         CommonModule,
-        FormsModule
+        FormsModule,
+        HttpClientModule
     ],
     providers
 })
