@@ -14,14 +14,12 @@ module.exports = webpackMerge(commonConfig, {
     chunkFilename: '[id].[hash].chunk.js'
   },
 
+  optimization: {
+    minimize: true
+  },
+
   plugins: [
     new webpack.NoEmitOnErrorsPlugin(),
-
-    new webpack.optimize.UglifyJsPlugin({ // https://github.com/angular/angular/issues/10618
-      mangle: {
-        keep_fnames: true
-      }
-    }),
 
     new ExtractTextPlugin('[name].[hash].css'),
 
