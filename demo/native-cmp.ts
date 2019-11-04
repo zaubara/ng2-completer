@@ -82,8 +82,8 @@ export class NativeCmp {
     public customData: CustomData;
     public isOpen: boolean = false;
 
-    @ViewChild("openCloseExample") private openCloseExample: CompleterCmp | undefined;
-    @ViewChild("remoteDataExample") private remoteDataExample: CompleterCmp | undefined;
+    @ViewChild("openCloseExample", { static: false }) private openCloseExample: CompleterCmp | undefined;
+    @ViewChild("remoteDataExample", { static: false }) private remoteDataExample: CompleterCmp | undefined;
 
     constructor(completerService: CompleterService, http: HttpClient) {
         this.dataService = completerService.local(this.countries, "name", "name").imageField("flag");

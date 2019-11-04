@@ -48,7 +48,7 @@ const COMPLETER_CONTROL_VALUE_ACCESSOR = {
                     let searchActive = searching;
                     let isInitialized = searchInitialized;
                     let isOpen = isOpen;">
-                <div class="completer-dropdown" ctrDropdown 
+                <div class="completer-dropdown" ctrDropdown
                     *ngIf="isInitialized && isOpen && (( items?.length > 0|| (displayNoResults && !searchActive)) || (searchActive && displaySearching))">
                     <div *ngIf="searchActive && displaySearching" class="completer-searching">{{ _textSearching }}</div>
                     <div *ngIf="!searchActive && (!items || items?.length === 0)"
@@ -159,8 +159,8 @@ export class CompleterCmp implements OnInit, ControlValueAccessor, AfterViewChec
     @Output() public keyup: EventEmitter<any> = new EventEmitter();
     @Output() public keydown: EventEmitter<any> = new EventEmitter();
 
-    @ViewChild(CtrCompleter) public completer: CtrCompleter | undefined;
-    @ViewChild("ctrInput") public ctrInput: ElementRef | undefined;
+    @ViewChild(CtrCompleter, { static: false }) public completer: CtrCompleter | undefined;
+    @ViewChild("ctrInput", { static: false }) public ctrInput: ElementRef | undefined;
 
     public control = new FormControl("");
     public displaySearching = true;
