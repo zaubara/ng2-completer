@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Host, HostListener, Input, Renderer, OnDestroy } from "@angular/core";
+import { Directive, ElementRef, Host, HostListener, Input, Renderer2, OnDestroy } from "@angular/core";
 
 import { CompleterItem } from "../components/completer-item";
 import { CtrDropdown, CtrRowElement, CtrRowItem } from "./ctr-dropdown";
@@ -12,7 +12,7 @@ export class CtrRow implements CtrRowElement, OnDestroy {
     private _rowIndex: number = 0;
     private _item: CompleterItem | null = null;
 
-    constructor(private el: ElementRef, private renderer: Renderer, @Host() private dropdown: CtrDropdown) { }
+    constructor(private el: ElementRef, private renderer: Renderer2, @Host() private dropdown: CtrDropdown) { }
 
     public ngOnDestroy() {
         if (this._rowIndex) {
@@ -45,7 +45,11 @@ export class CtrRow implements CtrRowElement, OnDestroy {
 
     public setHighlighted(selected: boolean) {
         this.selected = selected;
-        this.renderer.setElementClass(this.el.nativeElement, "completer-selected-row", this.selected);
+        if (this.selected) {
+          this.renderer.addClass(this.el.nativeElement, "completer-selected-row");
+        } else {
+          this.renderer.removeClass(this.el.nativeElement, "completer-selected-row");
+        }
     }
 
     public getNativeElement() {
