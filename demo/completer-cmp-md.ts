@@ -46,7 +46,7 @@ export class CompleterCmpMd implements OnInit, ControlValueAccessor {
     public displaySearching = true;
     public searchStr = "";
 
-    @ViewChild(CtrCompleter) private completer: CtrCompleter | undefined;
+    @ViewChild(CtrCompleter, { static: false }) private completer: CtrCompleter | undefined;
 
     private _onTouchedCallback: () => void = noop;
     private _onChangeCallback: (_: any) => void = noop;
