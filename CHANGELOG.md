@@ -1,6 +1,9 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 3.0.2 (2019-06-07)
+ - Angular 6 support
+
 ## 3.0.0-beta.2 (2018-09-10)
  - Merge PR #401 RxJS upgrade to v6, plus a few lint corrections.
  - Remove `HttpClientModule` from import list (fix issue #393) it should now be imported by the App module
