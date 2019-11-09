@@ -5,7 +5,6 @@ import { catchError, map } from "rxjs/operators";
 
 import { CompleterBaseData } from "./completer-base-data";
 import { CompleterItem } from "../components/completer-item";
-import { RequestOptions } from "@angular/http";
 
 export class RemoteData extends CompleterBaseData {
     public dataSourceChange: EventEmitter<void> = new EventEmitter<void>();
