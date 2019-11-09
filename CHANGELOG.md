@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## 3.0.3 (2019-11-09)
+ - Removed rxjs-compat dependency #435
+ - Remove deprecated @angular/http, and move to @angular/common/http #436
+ - Update to angular version 9 #439
+
 ## 3.0.2 (2019-06-07)
  - Angular 6 support
 
