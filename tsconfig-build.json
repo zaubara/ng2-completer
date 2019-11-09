@@ -30,7 +30,7 @@
     ],
     "angularCompilerOptions": {
         "skipTemplateCodegen": true,
-        "annotateForClosureCompiler": true,
+        "annotateForClosureCompiler": false,
         "strictMetadataEmit": true,
         "flatModuleOutFile": "ng2-completer.js",
         "flatModuleId": "ng2-completer"
