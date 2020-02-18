@@ -1,11 +1,10 @@
 "use strict";
 import { Component } from "@angular/core";
 
-let template = require("./app-cmp.html");
-
 @Component({
+    // tslint:disable-next-line: component-selector
     selector: "demo-app",
-    template: template
+    templateUrl: "./app-cmp.html"
 })
 export class AppComponent {
     public isCollapsed = false;

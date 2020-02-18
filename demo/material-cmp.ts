@@ -3,14 +3,13 @@ import { Component } from "@angular/core";
 
 import { CompleterService, CompleterData } from "../src/ng2-completer";
 
-let template = require("./material-cmp.html");
-let style = require("./material-cmp.css");
-
 @Component({
+    // tslint:disable-next-line: component-selector
     selector: "material-cmp",
-    template: template,
-    styles: [style]
+    templateUrl: "./material-cmp.html",
+    styleUrls: ["./material-cmp.css"]
 })
+// tslint:disable-next-line: component-class-suffix
 export class MaterialCmp {
     public countries = require("./res/data/countries.json");
 

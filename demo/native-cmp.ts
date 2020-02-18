@@ -14,14 +14,14 @@ import {
 import { CustomData } from "./custom-data";
 import { HttpClient } from "@angular/common/http";
 
-let template = require("./native-cmp.html");
-let style = require("./native-cmp.css");
 
 @Component({
+    // tslint:disable-next-line: component-selector
     selector: "native-cmp",
-    template: template,
-    styles: [style]
+    templateUrl: "./native-cmp.html",
+    styleUrls: ["./native-cmp.css"]
 })
+// tslint:disable-next-line: component-class-suffix
 export class NativeCmp {
     public countries = require("./res/data/countries.json");
     public colors = require("./res/data/colors.json");
